@@ -158,20 +158,98 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         Special support for the msg parameter -- Rules Report
         """
         return api_utils.server_log(request, jsonify)
+    @app.route("/getyaml", methods=["GET"])
+    def get_yaml():
+        # Write the JSON back to yaml
+        
+        entities = read(models.Entity)
+        attrs = read(models.EntityAttr)
+        tabs =  read(models.TabGroup)
+        settings = read(models.GlobalSetting)
+        
+        output = build_json(entities, attrs, tabs, settings)
+        yaml.safe_dump(output, sys.stdout, default_flow_style=False)
+
+        return jsonify(True)
     
-    @app.route("/loadyaml", methods=["GET","OPTIONS"])
+    def read(clz) -> list:
+        return rows_to_dict(session.query(clz).all())
+    
+    def build_json(entities: list, attrs:list, tabs:list, settings) -> any:
+        output = {}
+        
+        entity_list = []
+        for entity in entities:
+            entity_name = entity["name"]
+            this_entity = {}
+            if entity["exclude"]:
+                continue
+            e = {}
+            e["favorite"] = entity["favorite"]
+            e["type"] = entity["title"]
+            e["primary_key"] = convert_list(entity["pkey"]) #TODO fixup 
+            this_entity[entity_name] = e
+            
+            cols = []
+            for attr in attrs:
+                col ={}
+                if attr["entity_name"] == entity_name:
+                    if attr["exclude"] == False:
+                        col["name"] = attr["attr"]
+                        col["label"] = attr["label"]
+                        if attr["issort"]:
+                            col["sort"] = attr["issort"]
+                        if attr["issearch"]:
+                            col["search"] = attr["issearch"]
+                        if attr["isrequired"]:
+                            col["required"] = attr["isrequired"]
+                        if attr["isenabled"] == False:
+                            col["enabled"] = attr["isenabled"]
+                        cols.append(col)         
+            this_entity[entity_name]["columns"] = cols
+            tab_group = []
+            for tab in tabs:
+                tg = {}
+                if tab["entity_name"] == entity_name:
+                    #if tab["exclude"] == False:
+                    tg["direction"] = tab["direction"]
+                    tg["resource"] = tab["tab_entity"]
+                    tg["name"] = tab["label"]
+                    tg["fks"] = convert_list(tab["fkeys"])
+                    tab_group.append(tg)
+            if len(tab_group) > 0:
+                this_entity[entity_name]["tab_groups"] = tab_group
+        
+            entity_list.append(this_entity)
+        output["entities"] = entity_list
+        style_guide = []
+        
+        for s in settings:
+            sg = {}
+            sg[s["name"]] = s["value"]
+            style_guide.append(sg)
+        output["settings"] ={}
+        output["settings"]["style_guide"] = style_guide
+        return output
+    
+    @app.route("/loadyaml", methods=["GET","POST","OPTIONS"])
     def load_yaml():
         '''
-            curl "http://localhost:5656/loadyaml"
+            GET curl "http://localhost:5656/loadyaml"
+            POST  curl -X "POST" http://localhost:5656/loadyaml -H "Content-Type: text/x-yaml" -d @app_model.yaml 
         '''
-        with open(f'{_project_dir}/ui/yaml/app_model.yaml','rt') as f:  
-            valuesYaml=yaml.safe_load(f.read())
-            f.close()
+        if request.method == "GET":
+            with open(f'{_project_dir}/ui/yaml/app_model.yaml','rt') as f:  
+                valuesYaml=yaml.safe_load(f.read())
+                f.close()
+        elif request.method == "POST":
+            data = request.data.decode("utf-8")
+            valuesYaml =json.dumps(data) #TODO - not working yet
+            
         
-        #insert_styles(valuesYaml)
         insert_entities(valuesYaml)
-        # Write the JSON back to yaml
-        #yaml.safe_dump(valuesYaml, sys.stdout, default_flow_style=False)
+        insert_styles(valuesYaml)
+        
         return jsonify(valuesYaml)
 
     def insert_entities(valuesYaml):
@@ -187,20 +265,37 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
             m_entity.info_show = get_value(each_entity,"info_show")
             
             try:
-                #session.add(m_entity)
-                #session.commit()
-                #insert_entity_attrs(entity, each_entity)
-                insert_tab_groups(entity, each_entity)
-                pass
+                session.add(m_entity)
+                session.commit()
             except Exception as ex:
                 print(ex)
+            
+            # Attributes
+            for entity in valuesYaml["entities"]:
+                m_entity = models.Entity()
+                each_entity = valuesYaml['entities'][entity]
+                insert_entity_attrs(entity, each_entity)
+                
+            #Tab Groups
+            for entity in valuesYaml["entities"]:
+                m_entity = models.Entity()
+                each_entity = valuesYaml['entities'][entity]
+                insert_tab_groups(entity, each_entity)
 
     def get_value(obj:any, name:str, default:any = None):
         try:
             return obj[name] 
         except:
             return default
-
+    def convert_list(key:str) -> list:
+        k = key.replace("'","",20)
+        k =k.replace("[","")
+        k =k.replace("]","")
+        l = []
+        s = k.split(",")
+        for v in s:
+            l.append(v.strip())
+        return l
     def insert_tab_groups(entity, each_entity):
         try:    
             tab_groups = each_entity["tab_groups"]
