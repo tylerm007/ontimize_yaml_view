@@ -47,8 +47,6 @@ resources:
       required: true
       search: true
       sort: true
-    - name: entity_name
-      required: true
     - name: template_name
     - name: attr
       required: true
