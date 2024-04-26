@@ -1,0 +1,72 @@
+<o-form attr="TabGroup_form_insert" service="TabGroup" entity="TabGroup" 
+keys="entity_name" fxLayout="column" show-header="yes" header-actions="I"
+horizontal-scroll="yes"
+#oForm after-insert-mode="detail" class="standalone-form-container">
+
+<o-row attr="row1" layout-align="start stretch">
+  <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+    
+        <div fxLayout="row" fxLayoutAlign="start center" class="gap">
+        <o-list-picker 
+        attr="entity_name"
+        service="Entity" 
+        entity="EntityType"
+        fxFlex="30" 
+        query-on-init="no" 
+        query-on-bind="yes" 
+        required="yes" 
+        enabled="yes" 
+        filter="yes"
+        value-column="name" 
+        value-column-type="VARCHAR"  
+        keys="name" 
+        columns="name;entity_name;name;name" 
+        title=" Entity Name*"
+        visible-columns="name;name" 
+        separator=" - " width="680px">
+</o-list-picker>
+        </div>
+      
+        <div fxLayout="row" fxLayoutAlign="start center" class="gap">
+        <o-list-picker 
+        attr="tab_entity"
+        service="Entity" 
+        entity="EntityType"
+        fxFlex="30" 
+        query-on-init="no" 
+        query-on-bind="yes" 
+        required="yes" 
+        enabled="yes" 
+        filter="yes"
+        value-column="name" 
+        value-column-type="VARCHAR"  
+        keys="name" 
+        columns="name;tab_entity;name;name" 
+        title="Tab Entity"
+        visible-columns="name;name" 
+        separator=" - " width="680px">
+</o-list-picker>
+        </div>
+      
+        <div fxLayout="row" fxLayoutAlign="start center" class="gap">
+        <o-text-input attr="direction" label="direction" editable="yes" required="yes"></o-text-input>
+        </div>
+      
+        <div fxLayout="row" fxLayoutAlign="start center" class="gap">
+        <o-text-input attr="label" label="label" editable="yes" required="yes"></o-text-input>
+        </div>
+      
+        <div fxLayout="row" fxLayoutAlign="start center" class="gap">
+        <o-text-input attr="fkeys" label="fkeys" editable="yes" required="yes"></o-text-input>
+        </div>
+      
+        <div fxLayout="row" fxLayoutAlign="start center" class="gap">
+        <o-checkbox attr="exclude" label="exclude" read-only="no" enabled="yes"></o-checkbox>
+        </div>
+      
+</div>
+</o-row>
+
+<div layout-padding></div>
+
+</o-form>

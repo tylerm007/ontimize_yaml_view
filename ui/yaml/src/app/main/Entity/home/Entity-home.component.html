@@ -1,0 +1,39 @@
+<o-form-layout-manager attr="Entity" mode="dialog" title="{{ 'ENTITY' | oTranslate }}">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="EntityTable" 
+            service="Entity" 
+            entity="Entity" 
+            keys="name"
+            columns="name;title;pkey;favorite;info_list;info_show;exclude" 
+            header-actions="R;D"
+            visible-columns="name;title;pkey;favorite;info_list;info_show;exclude"  
+            sort-columns="name" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="small" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            virtual-scroll="yes" 
+            edition-mode="click" 
+            horizontal-scroll="yes">
+			
+				<o-table-column attr="name" label=" Entity Name*" editable="yes" required="yes" ></o-table-column>
+			
+				<o-table-column attr="title" label="Title" editable="yes" required="no" ></o-table-column>
+			
+				<o-table-column attr="pkey" label="Primary Key" editable="yes" required="no" ></o-table-column>
+			
+				<o-table-column attr="favorite" label="favorite" editable="yes" required="no" ></o-table-column>
+			
+				<o-textarea-input attr="info_list" label="info_list" rows="10"></o-textarea-input>
+			
+				<o-textarea-input attr="info_show" label="info_show" rows="10"></o-textarea-input>
+			
+				<o-table-column attr="exclude" label="exclude" editable="yes" required="no" ></o-table-column>
+			
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

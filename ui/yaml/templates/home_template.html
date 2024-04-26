@@ -1,0 +1,27 @@
+<o-form-layout-manager attr="{{ entity}}" mode="dialog" title="{{ title }}">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="{{ tableAttr }}" 
+            service="{{ service }}" 
+            entity="{{ entity }}" 
+            keys="{{ keys }}"
+            columns="{{ columns }}" 
+            header-actions="R;D"
+            visible-columns="{{ visibleColumns }}"  
+            sort-columns="{{ sortColumns }}" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="small" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            virtual-scroll="yes" 
+            edition-mode="click" 
+            horizontal-scroll="yes">
+			{% for table_row_column in row_columns %}
+				{{ table_row_column }}
+			{% endfor %}
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>
