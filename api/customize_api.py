@@ -197,6 +197,8 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
                     if attr["exclude"] == False:
                         col["name"] = attr["attr"]
                         col["label"] = attr["label"]
+                        col["template"] = attr["template_name"]
+                        col["type"] = attr["thistype"]
                         if attr["issort"]:
                             col["sort"] = attr["issort"]
                         if attr["issearch"]:
@@ -245,13 +247,28 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         elif request.method == "POST":
             data = request.data.decode("utf-8")
             valuesYaml =json.dumps(data) #TODO - not working yet
-            
+        
+        #Clean the database out - this is destructive 
+        tables = ["tab_group", "global_settings","entity_attr","entity"] 
+        delete_sql(models.TabGroup)
+        delete_sql(models.GlobalSetting)
+        delete_sql(models.EntityAttr)
+        delete_sql(models.Entity)
         
         insert_entities(valuesYaml)
         insert_styles(valuesYaml)
         
         return jsonify(valuesYaml)
 
+    def delete_sql(clz):
+        try:
+            num_rows_deleted = db.session.query(clz).delete()
+            print(clz,num_rows_deleted)
+            db.session.commit()
+        except:
+            db.session.rollback()
+
+        
     def insert_entities(valuesYaml):
         for entity in valuesYaml["entities"]:
             m_entity = models.Entity()
@@ -263,6 +280,7 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
             m_entity.pkey = str(get_value(each_entity,"primary_key"))
             m_entity.info_list =get_value(each_entity,"info_list")
             m_entity.info_show = get_value(each_entity,"info_show")
+            m_entity.exclude = get_value(each_entity,"exclude", False)
             
             try:
                 session.add(m_entity)

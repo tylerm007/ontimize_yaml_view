@@ -48,7 +48,7 @@ class Entity(SAFRSBase, Base):
     favorite = Column(String(100))
     info_list = Column(Text)
     info_show = Column(Text)
-    exclude = Column(Boolean, server_default=text("true"))
+    exclude = Column(Boolean, server_default=text("false"))
     allow_client_generated_ids = True
 
     # parent relationships (access parent)
