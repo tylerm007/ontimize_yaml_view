@@ -158,6 +158,21 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         Special support for the msg parameter -- Rules Report
         """
         return api_utils.server_log(request, jsonify)
+    
+        """
+        TODO - add to model
+            about:
+                date: 3/20/2024
+                    recent_changes: api_root, altered Customer/Order/Employee attribute ordering, tab
+                    captions, info, EmpType, dept emps, defaults, show_when, cascade add, toggles,
+                    images, security, login, virtual relns, global filters, no IsCommissioned
+            api_root: '{http_type}://{swagger_host}:{port}/{api}'
+            authentication:
+                endpoint: '{http_type}://{swagger_host}:{port}/api/auth/login'
+            settings:
+            
+            attribute -> show_when ??
+        """
     @app.route("/getyaml", methods=["GET"])
     def get_yaml():
         # Write the JSON back to yaml
@@ -168,9 +183,9 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         settings = read(models.GlobalSetting)
         
         output = build_json(entities, attrs, tabs, settings)
-        yaml.safe_dump(output, sys.stdout, default_flow_style=False)
-
-        return jsonify(True)
+        fn = "admin_model_merge.yaml"
+        write_file(output, file_name=fn)
+        return jsonify(f"Yaml file written to ui/{fn}")
     
     def read(clz) -> list:
         return rows_to_dict(session.query(clz).all())
@@ -181,14 +196,13 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         entity_list = []
         for entity in entities:
             entity_name = entity["name"]
-            this_entity = {}
             if entity["exclude"]:
                 continue
             e = {}
             e["favorite"] = entity["favorite"]
             e["type"] = entity["title"]
             e["primary_key"] = convert_list(entity["pkey"]) #TODO fixup 
-            this_entity[entity_name] = e
+            output[entity_name] = e
             
             cols = []
             for attr in attrs:
@@ -208,7 +222,7 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
                         if attr["isenabled"] == False:
                             col["enabled"] = attr["isenabled"]
                         cols.append(col)         
-            this_entity[entity_name]["columns"] = cols
+            output[entity_name]["columns"] = cols
             tab_group = []
             for tab in tabs:
                 tg = {}
@@ -220,20 +234,26 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
                     tg["fks"] = convert_list(tab["fkeys"])
                     tab_group.append(tg)
             if len(tab_group) > 0:
-                this_entity[entity_name]["tab_groups"] = tab_group
+                output[entity_name]["tab_groups"] = tab_group
         
-            entity_list.append(this_entity)
-        output["entities"] = entity_list
+            #entity_list.append(this_entity)
+        output_yaml = {}
+        output_yaml["entities"] = output
         style_guide = []
         
         for s in settings:
             sg = {}
             sg[s["name"]] = s["value"]
             style_guide.append(sg)
-        output["settings"] ={}
+        output["settings"] = {}
         output["settings"]["style_guide"] = style_guide
         return output
-    
+    def write_file(source: str,file_name:str):
+
+        with open(f"{_project_dir}/ui/{file_name}", "w") as file:
+            yaml.safe_dump(source, file, default_flow_style=False)
+            #file.write(source)
+        
     @app.route("/loadyaml", methods=["GET","POST","OPTIONS"])
     def load_yaml():
         '''
