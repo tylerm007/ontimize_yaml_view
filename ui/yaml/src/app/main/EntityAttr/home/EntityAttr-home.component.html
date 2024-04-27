@@ -4,7 +4,7 @@
             attr="EntityAttrTable" 
             service="EntityAttr" 
             entity="EntityAttr" 
-            keys="entity_name;attr"
+            keys="entity_name"
             columns="entity_name;attr;template_name;label;issearch;issort;thistype;tooltip;exclude;isrequired;isenabled" 
             header-actions="R;D"
             visible-columns="entity_name;attr;template_name;label;issearch;issort;thistype;tooltip;exclude;isrequired;isenabled"  
@@ -22,9 +22,9 @@
 			
 				<o-table-column attr="attr" label="Attribute" editable="yes" required="yes" ></o-table-column>
 			
-				<o-table-column attr="template_name" label="template_name" editable="yes" required="no" ></o-table-column>
+				<o-table-column attr="template_name" label="Template" editable="yes" required="no" ></o-table-column>
 			
-				<o-table-column attr="label" label="label" editable="yes" required="no" ></o-table-column>
+				<o-table-column attr="label" label="Label" editable="yes" required="no" ></o-table-column>
 			
 				<o-table-column attr="issearch" label="Search" editable="yes" required="no" ></o-table-column>
 			
@@ -32,7 +32,7 @@
 			
 				<o-table-column attr="thistype" label="DataType" editable="yes" required="yes" ></o-table-column>
 			
-				<o-textarea-input attr="tooltip" label="tooltip" rows="10"></o-textarea-input>
+				<o-textarea-input attr="tooltip" label="Tooltip" rows="10"></o-textarea-input>
 			
 				<o-table-column attr="exclude" label="exclude" editable="yes" required="no" ></o-table-column>
 			

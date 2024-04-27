@@ -24,24 +24,22 @@
               </div>
 
               <div fxLayout="row" fxLayoutAlign="start center" class="gap">
-                <o-text-input attr="favorite" label="favorite" editable="yes" required="no"></o-text-input>
+                <o-text-input attr="favorite" label="Favorite" editable="yes" required="no"></o-text-input>
               </div>
 
               <div fxLayout="row" fxLayoutAlign="start center" class="gap">
-                <o-checkbox attr="exclude" label="exclude" read-only="no" enabled="yes"></o-checkbox>
+                <o-checkbox attr="exclude" label="Exclude" read-only="no" enabled="yes"></o-checkbox>
               </div>
 
               <div fxLayout="row" fxLayoutAlign="start center" class="gap">
-                <o-textarea-input attr="info_list" label="info_list" enabled="true"
+                <o-textarea-input attr="info_list" label="InfoList" enabled="true"
                   read-only="false"></o-textarea-input>
               </div>
 
               <div fxLayout="row" fxLayoutAlign="start center" class="gap">
-                <o-textarea-input attr="info_show" label="info_show" enabled="true"
+                <o-textarea-input attr="info_show" label="InfoShow" enabled="true"
                   read-only="false"></o-textarea-input>
               </div>
-
-
 
             </div>
           </o-row>
@@ -55,7 +53,8 @@
       <mat-tab label="ENTITYATTR-entity_name">
         <div layout-padding>
           <o-table attr="EntityAttrTable" service="EntityAttr" entity="EntityAttr" 
-            keys="entity_name;attr" parent-keys="name"
+            keys="entity_name;attr" 
+            parent-keys="name"
             insert-button="no"
             refresh-button="no" detail-mode="none" delete-button="no"
             columns="entity_name;attr;template_name;label;issearch;issort;thistype;tooltip;exclude;isrequired;isenabled"
