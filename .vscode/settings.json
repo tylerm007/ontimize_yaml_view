@@ -1,13 +1,14 @@
 {
     "cSpell.words": [
         "APILOGICSERVER",
-        "sqlalchemy",
         "backref",
         "cascade_backrefs",
-        "proxied",
-        "redef",
         "jsonapi",
         "jsonify",
+        "Ontimize",
+        "proxied",
+        "redef",
+        "sqlalchemy",
         "sqltypes"
     ],
     "[Log]": {

@@ -1,3 +1,39 @@
+# Ontimize Yaml editor
+This is a proof of concept - a local SQLite database is used to store a yaml file and custom endpoints can read and write the yaml.  The model was created using ApiLogicServer (app-create and app-build) feature to generate the complete application from the yaml file. This editor is designed to help developers edit the templates and labels used in the Ontimize application.
+
+## Ontimize Seed
+The Ontimize application is loaded in ui/yaml directory. The react-admin is in the ui/admin directory.
+
+## Run the demo
+```
+git clone https://github.com/tylerm007/ontimize_yaml_view.git
+
+press F5 to start ApiLogicServer
+in a terminal window:
+cd ui/yaml
+npm install
+npm start
+
+in a browser:
+react-admin 
+http://localhost:5656 (user: admin password: p)
+
+Ontimize
+http://localhost:4299  
+```
+## Read the yaml and load into SQL
+```
+curl "http://localhost:5656/loadyaml"
+```
+
+## Dump yaml file back to disk (ui/admin_model_merge.yaml)
+```
+curl "http://localhost:5656/getyaml"
+```
+## Ontimze Issues
+1. The navigation between EntityAttr and TabGroup use multiple keys - this is not working
+2. Adding parent-keys to detail tab groups fails to retrieve anything
+
 # Quick Start
 
 For **VSCode** Users, you are ready to run:
