@@ -241,7 +241,7 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
             POST  curl -X "POST" http://localhost:5656/loadyaml -H "Content-Type: text/x-yaml" -d @app_model.yaml 
         '''
         if request.method == "GET":
-            with open(f'{_project_dir}/ui/yaml/app_model.yaml','rt') as f:  
+            with open(f'{_project_dir}/ui/app_model.yaml','rt') as f:  
                 valuesYaml=yaml.safe_load(f.read())
                 f.close()
         elif request.method == "POST":
