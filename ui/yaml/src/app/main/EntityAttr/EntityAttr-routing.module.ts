@@ -7,7 +7,7 @@ import { EntityAttrDetailComponent } from './detail/EntityAttr-detail.component'
 const routes: Routes = [
   {path: '', component: EntityAttrHomeComponent},
   { path: 'new', component: EntityAttrNewComponent },
-  { path: ':entity_name', component: EntityAttrDetailComponent,
+  { path: ':entity_name/:attr', component: EntityAttrDetailComponent,
     data: {
       oPermission: {
         permissionId: 'EntityAttr-detail-permissions'
