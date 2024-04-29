@@ -176,13 +176,15 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
     @app.route("/getyaml", methods=["GET"])
     def get_yaml():
         # Write the JSON back to yaml
+        #GET curl "http://localhost:5656/getyaml"
         
         entities = read(models.Entity)
         attrs = read(models.EntityAttr)
         tabs =  read(models.TabGroup)
         settings = read(models.GlobalSetting)
+        #root = read(models.Root)
         
-        output = build_json(entities, attrs, tabs, settings)
+        output = build_json(entities, attrs, tabs, settings) #root)
         fn = "admin_model_merge.yaml"
         write_file(output, file_name=fn)
         return jsonify(f"Yaml file written to ui/{fn}")
@@ -196,12 +198,18 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         entity_list = []
         for entity in entities:
             entity_name = entity["name"]
-            if entity["exclude"]:
-                continue
             e = {}
-            e["favorite"] = entity["favorite"]
+            
             e["type"] = entity["title"]
-            e["primary_key"] = convert_list(entity["pkey"]) #TODO fixup 
+            e["primary_key"] = convert_list(entity["pkey"]) 
+            if hasattr(entity,"new_template"):
+                e["new_template"] = entity["new_template"]
+            if hasattr(entity,"home_template"):
+                e["home_template"] = entity["home_template"]
+            if hasattr(entity,"detail_template"):
+                e["detail_template"] = entity["detail_template"]
+            if hasattr(entity,"favorite"):
+                e["favorite"] = entity["favorite"]
             output[entity_name] = e
             
             cols = []
@@ -236,7 +244,7 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
             if len(tab_group) > 0:
                 output[entity_name]["tab_groups"] = tab_group
         
-            #entity_list.append(this_entity)
+            
         output_yaml = {}
         output_yaml["entities"] = output
         style_guide = []
@@ -247,7 +255,11 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
             style_guide.append(sg)
         output["settings"] = {}
         output["settings"]["style_guide"] = style_guide
+        
+        #TODO root about api_root authentication
+        
         return output
+    
     def write_file(source: str,file_name:str):
 
         with open(f"{_project_dir}/ui/{file_name}", "w") as file:
@@ -269,14 +281,20 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
             valuesYaml =json.dumps(data) #TODO - not working yet
         
         #Clean the database out - this is destructive 
-        tables = ["tab_group", "global_settings","entity_attr","entity"] 
+        
         delete_sql(models.TabGroup)
         delete_sql(models.GlobalSetting)
         delete_sql(models.EntityAttr)
         delete_sql(models.Entity)
+        #delete_sql(models.Root)
         
         insert_entities(valuesYaml)
         insert_styles(valuesYaml)
+        
+        #TODO 
+        about = valuesYaml["about"]
+        api_root = valuesYaml["api_root"]
+        authentication = valuesYaml["authentication"]
         
         return jsonify(valuesYaml)
 
@@ -290,7 +308,8 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
 
         
     def insert_entities(valuesYaml):
-        for entity in valuesYaml["entities"]:
+        entities = valuesYaml["entities"]
+        for entity in entities:
             m_entity = models.Entity()
             each_entity = valuesYaml['entities'][entity]
             print(entity, each_entity)
@@ -301,6 +320,9 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
             m_entity.info_list =get_value(each_entity,"info_list")
             m_entity.info_show = get_value(each_entity,"info_show")
             m_entity.exclude = get_value(each_entity,"exclude", False)
+            m_entity.new_template = get_value(each_entity,"new_template","new_template.html")
+            m_entity.home_template = get_value(each_entity,"home_template","home_template.html")
+            m_entity.detail_template = get_value(each_entity,"detail_template","detail_template.html")
             
             try:
                 session.add(m_entity)
@@ -309,16 +331,17 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
                 print(ex)
             
             # Attributes
-            for entity in valuesYaml["entities"]:
+            for entity in entities:
                 m_entity = models.Entity()
                 each_entity = valuesYaml['entities'][entity]
                 insert_entity_attrs(entity, each_entity)
                 
             #Tab Groups
-            for entity in valuesYaml["entities"]:
+            for entity in entities:
                 m_entity = models.Entity()
                 each_entity = valuesYaml['entities'][entity]
                 insert_tab_groups(entity, each_entity)
+                
 
     def get_value(obj:any, name:str, default:any = None):
         try:
@@ -641,7 +664,7 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
                     rop  = f"{q}{value['rop']}{q}"
                     filter_result = f'"{lop}" {op} {rop}'
                     return filter_result
-            q = "" if sqltypes and sqltypes[f] != 12 else "'"
+            q = "" if sqltypes and hasattr(sqltypes,f) and sqltypes[f] != 12 else "'"
             if f == "CategoryName":
                 f = "CategoryName_ColumnName" #hack to use real column name
             filter_result += f'{a} "{f}" = {q}{value}{q}'

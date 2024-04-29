@@ -48,6 +48,9 @@ class Entity(SAFRSBase, Base):
     favorite = Column(String(100))
     info_list = Column(Text)
     info_show = Column(Text)
+    new_template = Column(VARCHAR(80))
+    home_template = Column(VARCHAR(80))
+    detail_template = Column(VARCHAR(80))
     exclude = Column(Boolean, server_default=text("false"))
     allow_client_generated_ids = True
 
