@@ -15,13 +15,14 @@
             select-all-checkbox="true" 
             pageable="yes"  
             virtual-scroll="yes" 
-            edition-mode="click" 
-            horizontal-scroll="yes">
-			
-				<o-table-column attr="name" label=" Name*" editable="yes" required="yes" ></o-table-column>
-			
-				<o-table-column attr="description" label="description" editable="yes" required="no" ></o-table-column>
-			
+            edition-mode="dblclick" 
+            horizontal-scroll="yes"
+            export-button="no">
+            
+            <o-table-column attr="name" label=" Name*" editable="yes" required="yes" content-align="left"></o-table-column>
+            
+            <o-table-column attr="description" label="description" editable="yes" required="no" content-align="left"></o-table-column>
+            
             <o-table-context-menu></o-table-context-menu>
             <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
         </o-table>

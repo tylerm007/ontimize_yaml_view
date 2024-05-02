@@ -15,31 +15,32 @@
             select-all-checkbox="true" 
             pageable="yes"  
             virtual-scroll="yes" 
-            edition-mode="click" 
-            horizontal-scroll="yes">
-			
-				<o-table-column attr="entity_name" label=" Entity Name*" editable="yes" required="yes" ></o-table-column>
-			
-				<o-table-column attr="attr" label="Attribute" editable="yes" required="yes" ></o-table-column>
-			
-				<o-table-column attr="template_name" label="Template" editable="yes" required="no" ></o-table-column>
-			
-				<o-table-column attr="label" label="Label" editable="yes" required="no" ></o-table-column>
-			
-				<o-table-column attr="issearch" label="Search" editable="yes" required="no" ></o-table-column>
-			
-				<o-table-column attr="issort" label="Sort" editable="yes" required="no" ></o-table-column>
-			
-				<o-table-column attr="thistype" label="DataType" editable="yes" required="yes" ></o-table-column>
-			
-				<o-textarea-input attr="tooltip" label="Tooltip" rows="10"></o-textarea-input>
-			
-				<o-table-column attr="exclude" label="exclude" editable="yes" required="no" ></o-table-column>
-			
-				<o-table-column attr="isrequired" label="Required" editable="yes" required="no" ></o-table-column>
-			
-				<o-table-column attr="isenabled" label="Enabled" editable="yes" required="no" ></o-table-column>
-			
+            edition-mode="dblclick" 
+            horizontal-scroll="yes"
+            export-button="no">
+            
+            <o-table-column attr="entity_name" label=" Entity Name*" editable="yes" required="yes" content-align="left"></o-table-column>
+            
+            <o-table-column attr="attr" label="Attribute" editable="yes" required="yes" content-align="left"></o-table-column>
+            
+            <o-table-column attr="template_name" label="template_name" editable="yes" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column attr="label" label="label" editable="yes" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column attr="issearch" label="Search" editable="yes" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column attr="issort" label="Sort" editable="yes" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column attr="thistype" label="DataType" editable="yes" required="yes" content-align="left"></o-table-column>
+            
+            <o-textarea-input attr="tooltip" label="tooltip" rows="10" content-align="center"></o-textarea-input>
+            
+            <o-table-column attr="exclude" label="exclude" editable="yes" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column attr="isrequired" label="Required" editable="yes" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column attr="isenabled" label="Enabled" editable="yes" required="no" content-align="left"></o-table-column>
+            
             <o-table-context-menu></o-table-context-menu>
             <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
         </o-table>

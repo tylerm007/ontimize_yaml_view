@@ -15,23 +15,24 @@
             select-all-checkbox="true" 
             pageable="yes"  
             virtual-scroll="yes" 
-            edition-mode="click" 
-            horizontal-scroll="yes">
-			
-				<o-table-column attr="name" label=" Entity Name*" editable="yes" required="yes" ></o-table-column>
-			
-				<o-table-column attr="title" label="Title" editable="yes" required="no" ></o-table-column>
-			
-				<o-table-column attr="pkey" label="Primary Key" editable="yes" required="no" ></o-table-column>
-			
-				<o-table-column attr="favorite" label="Favorite" editable="yes" required="no" ></o-table-column>
-			
-				<o-textarea-input attr="info_list" label="Info_list" rows="10"></o-textarea-input>
-			
-				<o-textarea-input attr="info_show" label="Info_Show" rows="10"></o-textarea-input>
-			
-				<o-table-column attr="exclude" label="Exclude" editable="yes" required="no" ></o-table-column>
-			
+            edition-mode="dblclick" 
+            horizontal-scroll="yes"
+            export-button="no">
+            
+            <o-table-column attr="name" label=" Entity Name*" editable="yes" required="yes" content-align="left"></o-table-column>
+            
+            <o-table-column attr="title" label="Title" editable="yes" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column attr="pkey" label="Primary Key" editable="yes" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column attr="favorite" label="favorite" editable="yes" required="no" content-align="left"></o-table-column>
+            
+            <o-textarea-input attr="info_list" label="info_list" rows="10" content-align="center"></o-textarea-input>
+            
+            <o-textarea-input attr="info_show" label="info_show" rows="10" content-align="center"></o-textarea-input>
+            
+            <o-table-column attr="exclude" label="exclude" editable="yes" required="no" content-align="left"></o-table-column>
+            
             <o-table-context-menu></o-table-context-menu>
             <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
         </o-table>

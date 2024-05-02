@@ -8,9 +8,8 @@
         fxLayout="column" 
         show-header="yes" 
         header-actions="R;I;U;D"
-        #oDetailForm 
-        keys="entity_name;attr" 
-        keys-sql-types="VARCHAR" 
+        #oDetailForm keys="entity_name;attr" 
+        keys-sql-types="VARCHAR;VARCHAR" 
         show-header-navigation="yes"
         (onDataLoaded)="onDataLoaded($event)">
 
@@ -57,15 +56,15 @@
         value-column="name" 
         value-column-type="VARCHAR"  
         keys="name" 
-        columns="name" 
+        columns="name;template_name;name;name" 
         title="template_name"
-        visible-columns="name" 
+        visible-columns="name;name" 
         separator=" - " width="680px">
 </o-list-picker>
       </div>
       
       <div fxLayout="row" fxLayoutAlign="start center" class="gap">
-        <o-text-input attr="label" label="Label" editable="yes" required="no"></o-text-input>
+        <o-text-input attr="label" label="label" editable="yes" required="no"></o-text-input>
       </div>
       
       <div fxLayout="row" fxLayoutAlign="start center" class="gap">
@@ -81,7 +80,7 @@
       </div>
       
       <div fxLayout="row" fxLayoutAlign="start center" class="gap">
-        <o-textarea-input attr="tooltip"  label="Tooltip" enabled="true" read-only="false"></o-textarea-input>
+        <o-textarea-input attr="tooltip"  label="tooltip" enabled="true" read-only="false"></o-textarea-input>
       </div>
       
       <div fxLayout="row" fxLayoutAlign="start center" class="gap">
