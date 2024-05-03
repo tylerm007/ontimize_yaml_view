@@ -255,8 +255,5 @@
                 "NODE_ENV": "development"
             }
         }
-            
-        }
-
     ]
 }
