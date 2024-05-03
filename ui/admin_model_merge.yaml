@@ -18,7 +18,6 @@ Category:
     name: Id
     template: text
     type: INTEGER
-  favorite: CategoryName
   primary_key:
   - Id
   type: Category
@@ -84,13 +83,21 @@ Customer:
     name: Country
     template: text
     type: VARCHAR(8000)
-  favorite: CompanyName
+  - label: Phone
+    name: Phone
+    template: phone
+    type: VARCHAR(8000)
+  - label: Fax
+    name: Fax
+    template: phone
+    type: VARCHAR(8000)
   primary_key:
   - Id
   tab_groups:
   - direction: tomany
     fks:
     - CustomerId
+    label: Placed Order List
     name: OrderList
     resource: Order
   type: Customer
@@ -106,7 +113,6 @@ CustomerDemographic:
     name: CustomerDesc
     template: text
     type: VARCHAR(8000)
-  favorite: Id
   primary_key:
   - Id
   type: CustomerDemographic
@@ -130,28 +136,31 @@ Department:
     name: SecurityLevel
     template: text
     type: INTEGER
-  favorite: DepartmentName
   primary_key:
   - Id
   tab_groups:
   - direction: tomany
     fks:
     - DepartmentId
+    label: DepartmentList
     name: DepartmentList
     resource: Department
   - direction: toone
     fks:
     - DepartmentId
+    label: Department
     name: Department
     resource: Department
   - direction: tomany
     fks:
     - OnLoanDepartmentId
+    label: Employees On Loan
     name: EmployeeList
     resource: Employee
   - direction: tomany
     fks:
     - WorksForDepartmentId
+    label: Employees
     name: EmployeeList1
     resource: Employee
   type: Department
@@ -251,48 +260,55 @@ Employee:
     name: PhotoPath
     template: text
     type: Image
-  favorite: LastName
   primary_key:
   - Id
   tab_groups:
   - direction: toone
     fks:
     - OnLoanDepartmentId
+    label: Department
     name: Department
     resource: Department
   - direction: toone
     fks:
     - WorksForDepartmentId
+    label: Department1
     name: Department1
     resource: Department
   - direction: tomany
     fks:
     - ReportsTo
+    label: Manages
     name: Manages
     resource: Employee
   - direction: toone
     fks:
     - ReportsTo
+    label: Manager
     name: Manager
     resource: Employee
   - direction: tomany
     fks:
     - EmployeeId
+    label: EmployeeAuditList
     name: EmployeeAuditList
     resource: EmployeeAudit
   - direction: tomany
     fks:
     - EmployeeId
+    label: EmployeeTerritoryList
     name: EmployeeTerritoryList
     resource: EmployeeTerritory
   - direction: tomany
     fks:
     - EmployeeId
+    label: OrderList
     name: OrderList
     resource: Order
   - direction: toone
     fks:
     - UnionId
+    label: Union
     name: Union
     resource: Union
   type: Employee
@@ -328,13 +344,13 @@ EmployeeAudit:
     name: Id
     template: text
     type: INTEGER
-  favorite: LastName
   primary_key:
   - Id
   tab_groups:
   - direction: toone
     fks:
     - EmployeeId
+    label: Employee
     name: Employee
     resource: Employee
   type: EmployeeAudit
@@ -355,18 +371,19 @@ EmployeeTerritory:
     required: true
     template: text
     type: INTEGER
-  favorite: Id
   primary_key:
   - Id
   tab_groups:
   - direction: toone
     fks:
     - EmployeeId
+    label: Employee
     name: Employee
     resource: Employee
   - direction: toone
     fks:
     - TerritoryId
+    label: Territory
     name: Territory
     resource: Territory
   type: EmployeeTerritory
@@ -388,7 +405,6 @@ Location:
     name: notes
     template: text
     type: VARCHAR(256)
-  favorite: country
   primary_key:
   - country
   - city
@@ -397,6 +413,7 @@ Location:
     fks:
     - Country
     - City
+    label: OrderList
     name: OrderList
     resource: Order
   type: Location
@@ -446,6 +463,10 @@ Order:
     name: City
     template: text
     type: VARCHAR(50)
+  - label: RequiredDate
+    name: RequiredDate
+    template: date
+    type: DATE
   - label: CustomerId
     name: CustomerId
     required: true
@@ -481,29 +502,32 @@ Order:
     name: ShipCountry
     template: text
     type: VARCHAR(8000)
-  favorite: Id
   primary_key:
   - Id
   tab_groups:
   - direction: toone
     fks:
     - CustomerId
+    label: Customer
     name: Customer
     resource: Customer
   - direction: toone
     fks:
     - Country
     - City
+    label: Location
     name: Location
     resource: Location
   - direction: toone
     fks:
     - EmployeeId
+    label: Employee
     name: Employee
     resource: Employee
   - direction: tomany
     fks:
     - OrderId
+    label: Order Detail List
     name: OrderDetailList
     resource: OrderDetail
   type: Order
@@ -545,18 +569,19 @@ OrderDetail:
     name: ShippedDate
     template: text
     type: VARCHAR(8000)
-  favorite: Id
   primary_key:
   - Id
   tab_groups:
   - direction: toone
     fks:
     - OrderId
+    label: Order
     name: Order
     resource: Order
   - direction: toone
     fks:
     - ProductId
+    label: Product
     name: Product
     resource: Product
   type: OrderDetail
@@ -615,13 +640,13 @@ Product:
     required: true
     template: text
     type: INTEGER
-  favorite: ProductName
   primary_key:
   - Id
   tab_groups:
   - direction: tomany
     fks:
     - ProductId
+    label: OrderDetailList
     name: OrderDetailList
     resource: OrderDetail
   type: Product
@@ -637,7 +662,6 @@ Region:
     name: Id
     template: text
     type: INTEGER
-  favorite: RegionDescription
   primary_key:
   - Id
   type: Region
@@ -657,7 +681,6 @@ Shipper:
     name: Id
     template: text
     type: INTEGER
-  favorite: CompanyName
   primary_key:
   - Id
   type: Shipper
@@ -713,7 +736,6 @@ Supplier:
     name: Id
     template: text
     type: INTEGER
-  favorite: CompanyName
   primary_key:
   - Id
   type: Supplier
@@ -734,13 +756,13 @@ Territory:
     required: true
     template: text
     type: INTEGER
-  favorite: TerritoryDescription
   primary_key:
   - Id
   tab_groups:
   - direction: tomany
     fks:
     - TerritoryId
+    label: EmployeeTerritoryList
     name: EmployeeTerritoryList
     resource: EmployeeTerritory
   type: Territory
@@ -756,13 +778,13 @@ Union:
     name: Id
     template: text
     type: INTEGER
-  favorite: Name
   primary_key:
   - Id
   tab_groups:
   - direction: tomany
     fks:
     - UnionId
+    label: EmployeeList
     name: EmployeeList
     resource: Employee
   type: Union

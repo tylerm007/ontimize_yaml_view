@@ -7,7 +7,7 @@ import { TabGroupDetailComponent } from './detail/TabGroup-detail.component';
 const routes: Routes = [
   {path: '', component: TabGroupHomeComponent},
   { path: 'new', component: TabGroupNewComponent },
-  { path: ':entity_name/:tab_entity/:direction/:label', component: TabGroupDetailComponent,
+  { path: ':entity_name/:tab_entity/:direction/:name', component: TabGroupDetailComponent,
     data: {
       oPermission: {
         permissionId: 'TabGroup-detail-permissions'

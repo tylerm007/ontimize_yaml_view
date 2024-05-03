@@ -173,8 +173,9 @@ class TabGroup(SAFRSBase, Base):
     entity_name = Column(ForeignKey('entity.name'), primary_key=True, nullable=False)
     tab_entity = Column(ForeignKey('entity.name'), primary_key=True, nullable=False)
     direction = Column(String(6), primary_key=True, nullable=False)
-    label = Column(String(80), primary_key=True, nullable=False)
+    name = Column(String(80), primary_key=True, nullable=False)
     fkeys = Column(String(80), nullable=False)
+    label = Column(String(80))
     exclude = Column(Boolean, server_default=text("true"))
     allow_client_generated_ids = True
 

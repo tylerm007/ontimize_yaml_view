@@ -235,11 +235,13 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
             for tab in tabs:
                 tg = {}
                 if tab["entity_name"] == entity_name:
-                    #if tab["exclude"] == False:
                     tg["direction"] = tab["direction"]
                     tg["resource"] = tab["tab_entity"]
-                    tg["name"] = tab["label"]
+                    tg["label"] = tab["label"] if tab.get("label") != None else tab.get("name")
+                    tg["name"] = tab.get("name")
                     tg["fks"] = convert_list(tab["fkeys"])
+                    if tab["exclude"]:
+                        tg["exclude"] = tab["exclude"] 
                     tab_group.append(tg)
             if len(tab_group) > 0:
                 output[entity_name]["tab_groups"] = tab_group
@@ -367,7 +369,8 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
                 m_tab_group.direction = tab_group["direction"]
                 m_tab_group.tab_entity = tab_group["resource"]
                 m_tab_group.fkeys = str(tab_group["fks"])
-                m_tab_group.label = tab_group["name"]
+                m_tab_group.name = tab_group.get("name")
+                m_tab_group.label = tab_group.get("label")
                 m_tab_group.exclude = get_value(tab_group,"exclude", False)
                 
                 try:
