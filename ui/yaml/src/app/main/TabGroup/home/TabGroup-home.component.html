@@ -29,8 +29,11 @@
             
             <o-table-column attr="fkeys" label="fkeys" editable="yes" required="yes" content-align="left"></o-table-column>
             
-            <o-table-column attr="exclude" label="exclude" editable="yes" required="no" content-align="left"></o-table-column>
-            
+            <o-table-column attr="exclude" title="Excluded">
+                <!-- auto-commit="false" -->
+                <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
+                render-type="icon" boolean-type="boolean" true-value="true" false-value="false"></o-table-cell-renderer-boolean>
+            </o-table-column>
             <o-table-context-menu></o-table-context-menu>
             <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
         </o-table>

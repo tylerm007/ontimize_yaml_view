@@ -368,6 +368,7 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
                 m_tab_group.tab_entity = tab_group["resource"]
                 m_tab_group.fkeys = str(tab_group["fks"])
                 m_tab_group.label = tab_group["name"]
+                m_tab_group.exclude = get_value(tab_group,"exclude", False)
                 
                 try:
                     session.add(m_tab_group)

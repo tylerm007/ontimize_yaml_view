@@ -7,7 +7,7 @@
             keys="entity_name;attr"
             columns="entity_name;attr;template_name;label;issearch;issort;thistype;tooltip;exclude;isrequired;isenabled" 
             header-actions="R;D"
-            visible-columns="entity_name;attr;template_name;label;issearch;issort;thistype;tooltip;exclude;isrequired;isenabled"  
+            visible-columns="entity_name;attr;template_name;label;thistype;issearch;issort;exclude;isrequired;isenabled"  
             sort-columns="entity_name" 
             query-rows="20" 
             quick-filter="yes"
@@ -27,19 +27,34 @@
             
             <o-table-column attr="label" label="label" editable="yes" required="no" content-align="left"></o-table-column>
             
-            <o-table-column attr="issearch" label="Search" editable="yes" required="no" content-align="left"></o-table-column>
-            
-            <o-table-column attr="issort" label="Sort" editable="yes" required="no" content-align="left"></o-table-column>
-            
             <o-table-column attr="thistype" label="DataType" editable="yes" required="yes" content-align="left"></o-table-column>
+            
+            <o-table-column attr="issearch" label="Search" editable="yes" required="no" content-align="left">
+                <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
+                render-type="icon" boolean-type="boolean" true-value="true" false-value="false"></o-table-cell-renderer-boolean>
+            </o-table-column>
+            
+            <o-table-column attr="issort" label="Sort" editable="yes" required="no" content-align="left">
+                <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
+                render-type="icon" boolean-type="boolean" true-value="true" false-value="false"></o-table-cell-renderer-boolean>
+            </o-table-column>
             
             <o-textarea-input attr="tooltip" label="tooltip" rows="10" content-align="center"></o-textarea-input>
             
-            <o-table-column attr="exclude" label="exclude" editable="yes" required="no" content-align="left"></o-table-column>
+            <o-table-column attr="exclude" title="Excluded">
+                <!-- auto-commit="false" -->
+                <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
+                render-type="icon" boolean-type="boolean" true-value="true" false-value="false"></o-table-cell-renderer-boolean>
+            </o-table-column>
+            <o-table-column attr="isrequired" label="Required" editable="yes" required="no" content-align="left">
+                <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
+                render-type="icon" boolean-type="boolean" true-value="true" false-value="false"></o-table-cell-renderer-boolean>
+            </o-table-column>
             
-            <o-table-column attr="isrequired" label="Required" editable="yes" required="no" content-align="left"></o-table-column>
-            
-            <o-table-column attr="isenabled" label="Enabled" editable="yes" required="no" content-align="left"></o-table-column>
+            <o-table-column attr="isenabled" label="Enabled" editable="yes" required="no" content-align="left">
+                <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
+                render-type="icon" boolean-type="boolean" true-value="true" false-value="false"></o-table-cell-renderer-boolean>
+            </o-table-column>
             
             <o-table-context-menu></o-table-context-menu>
             <o-table-paginator page-size-options="24;48;96"></o-table-paginator>

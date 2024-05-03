@@ -16,10 +16,25 @@ export class EntityHomeComponent implements AfterViewInit {
   protected button: OTableButtonComponent;
 
   ngAfterViewInit() {
-    //this.button.onClick.subscribe(event => {
-   //   this.reportStoreService.openFillReport("94fa9d2a-e9cc-458a-a680-9bc576e14a38");
-   // });
+    this.button.onClick.subscribe(event => {
+      this.reportStoreService.openFillReport("94fa9d2a-e9cc-458a-a680-9bc576e14a38");
+    });
   }
 
-  //constructor(private reportStoreService: OReportStoreService) { }
+  constructor(private reportStoreService: OReportStoreService) { }
+
+  editionStarted(arg: any) {
+    console.log('editionStarted');
+    console.log(arg);
+  }
+
+  editionCancelled(arg: any) {
+    console.log('editionCancelled');
+    console.log(arg);
+  }
+
+  editionCommitted(arg: any) {
+    console.log('editionCommitted');
+    console.log(arg);
+  }
 }

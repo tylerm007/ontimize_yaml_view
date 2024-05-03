@@ -7,15 +7,15 @@
             keys="name"
             columns="name;title;pkey;favorite;info_list;info_show;exclude" 
             header-actions="R;D"
-            visible-columns="name;title;pkey;favorite;info_list;info_show;exclude"  
+            visible-columns="name;title;pkey;favorite;exclude"  
             sort-columns="name" 
             query-rows="20" 
             quick-filter="yes"
             row-height="small" 
-            select-all-checkbox="true" 
+            select-all-checkbox="false" 
             pageable="yes"  
             virtual-scroll="yes" 
-            edition-mode="dblclick" 
+            edition-mode="dblClick" 
             horizontal-scroll="yes"
             export-button="no">
             
@@ -27,11 +27,14 @@
             
             <o-table-column attr="favorite" label="favorite" editable="yes" required="no" content-align="left"></o-table-column>
             
+            <o-table-column attr="exclude" title="Excluded">
+                <!-- auto-commit="false" -->
+                <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
+                    render-type="icon" boolean-type="boolean" true-value="true" false-value="false"></o-table-cell-renderer-boolean>
+            </o-table-column>
             <o-textarea-input attr="info_list" label="info_list" rows="10" content-align="center"></o-textarea-input>
             
             <o-textarea-input attr="info_show" label="info_show" rows="10" content-align="center"></o-textarea-input>
-            
-            <o-table-column attr="exclude" label="exclude" editable="yes" required="no" content-align="left"></o-table-column>
             
             <o-table-context-menu></o-table-context-menu>
             <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
