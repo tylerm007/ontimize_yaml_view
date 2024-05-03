@@ -3,19 +3,20 @@
         <o-table attr="TabGroupTable" service="TabGroup" entity="TabGroup" keys="entity_name;tab_entity;direction;name"
             columns="entity_name;tab_entity;direction;name;label;fkeys;exclude" header-actions="R;D"
             visible-columns="entity_name;tab_entity;direction;name;label;fkeys;exclude" sort-columns="entity_name"
-            query-rows="20" quick-filter="yes" row-height="small" select-all-checkbox="true" pageable="yes"
+            query-rows="100" quick-filter="yes" row-height="small" select-all-checkbox="true" pageable="yes"
             virtual-scroll="yes" edition-mode="dblclick" horizontal-scroll="yes" export-button="no">
 
             <o-table-column attr="entity_name" label=" Entity Name*" editable="no" required="yes"
                 content-align="left"></o-table-column>
 
-            <o-table-column attr="tab_entity" label="Tab Entity" editable="no" required="yes"
+            <o-table-column attr="tab_entity" label="Tab Entity*" editable="no" required="yes"
                 content-align="left"></o-table-column>
 
-            <o-table-column attr="direction" label="direction" editable="no" required="yes"
+            <o-table-column attr="direction" label="Direction*" editable="no" required="yes"
                 content-align="left"></o-table-column>
 
-            <o-table-column attr="name" label="name" editable="no" required="yes" content-align="left"></o-table-column>
+            <o-table-column attr="name" label="Name*" editable="no" required="yes" 
+                content-align="left"></o-table-column>
 
             <o-table-column attr="label" label="label" editable="no" required="no"
                 content-align="left"></o-table-column>
@@ -30,7 +31,7 @@
                     false-value="false"></o-table-cell-renderer-boolean>
             </o-table-column>
             <o-table-context-menu></o-table-context-menu>
-            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+            <o-table-paginator page-size-options="100;200"></o-table-paginator>
         </o-table>
     </div>
 </o-form-layout-manager>
