@@ -173,10 +173,10 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
             
             attribute -> show_when ??
         """
-    @app.route("/getyaml", methods=["GET"])
-    def get_yaml():
+    @app.route("/dumpyaml", methods=["GET"])
+    def dump_yaml():
         # Write the JSON back to yaml
-        #GET curl "http://localhost:5656/getyaml"
+        #GET curl "http://localhost:5656/dumpyaml"
         
         entities = read(models.Entity)
         attrs = read(models.EntityAttr)
@@ -285,7 +285,7 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         delete_sql(models.GlobalSetting)
         delete_sql(models.EntityAttr)
         delete_sql(models.Entity)
-        #delete_sql(models.Root)
+        delete_sql(models.Root)
         
         insert_entities(valuesYaml)
         insert_styles(valuesYaml)

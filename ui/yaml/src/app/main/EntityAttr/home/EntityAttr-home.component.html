@@ -7,7 +7,7 @@
             keys="entity_name;attr"
             columns="entity_name;attr;template_name;label;issearch;issort;thistype;tooltip;exclude;isrequired;isenabled" 
             header-actions="R;D"
-            visible-columns="entity_name;attr;template_name;label;thistype;issearch;issort;exclude;isrequired;isenabled"  
+            visible-columns="entity_name;attr;template_name;label;thistype;issearch;issort;isrequired;isenabled;exclude"  
             sort-columns="entity_name" 
             query-rows="200" 
             quick-filter="yes"
@@ -39,11 +39,6 @@
                 render-type="icon" boolean-type="boolean" true-value="true" false-value="false"></o-table-cell-renderer-boolean>
             </o-table-column>
             
-            <o-table-column attr="exclude" title="Excluded">
-                <!-- auto-commit="false" -->
-                <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
-                render-type="icon" boolean-type="boolean" true-value="true" false-value="false"></o-table-cell-renderer-boolean>
-            </o-table-column>
             <o-table-column attr="isrequired" label="Required" editable="yes" required="no" content-align="left">
                 <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
                 render-type="icon" boolean-type="boolean" true-value="true" false-value="false"></o-table-cell-renderer-boolean>
@@ -53,7 +48,12 @@
                 <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
                 render-type="icon" boolean-type="boolean" true-value="true" false-value="false"></o-table-cell-renderer-boolean>
             </o-table-column>
-            
+
+            <o-table-column attr="exclude" title="Excluded">
+                <!-- auto-commit="false" -->
+                <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
+                render-type="icon" boolean-type="boolean" true-value="true" false-value="false"></o-table-cell-renderer-boolean>
+            </o-table-column>
             <o-table-context-menu></o-table-context-menu>
             <o-table-paginator page-size-options="100;200;300"></o-table-paginator>
         </o-table>
