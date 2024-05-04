@@ -24,7 +24,10 @@ entities:
     - name: Id
       template: text
       type: INTEGER
+    detail_template: detail_template.html
+    exclude: 'false'
     favorite: CategoryName
+    home_template: home_template.html
     info_list: <h1>Tour - Application Information, Authorization</h1> <h2>Application
       Information</h2> Info is set in the <span style="font-family:'Courier New'">ui/admin/admin.yaml</span>
       file with <span style="font-family:'Courier New'">info_list</span> and <span
@@ -37,6 +40,7 @@ entities:
       'p', upper right).<br><br> But, logout and login as 'u1' -- only 1 is shown,
       per <a target="_blank" href="https://apilogicserver.github.io/Docs/Security-Authorization/">authorization</a>.
       <br><br>
+    new_template: new_template.html
     primary_key:
     - Id
     type: Category
@@ -56,11 +60,9 @@ entities:
     - info: derived as sum(Order.AmountTotal where ShippedDate is None)
       name: Balance
       type: DECIMAL
-      template: currency
     - info: Balance may not exceed this value
       name: CreditLimit
       type: DECIMAL
-      template: currency
     - info: derived as sum(Order)
       name: OrderCount
       template: text
@@ -94,12 +96,15 @@ entities:
       template: text
       type: VARCHAR(8000)
     - name: Phone
-      template: phone
+      template: text
       type: VARCHAR(8000)
     - name: Fax
-      template: phone
+      template: text
       type: VARCHAR(8000)
+    detail_template: detail_template.html
+    exclude: 'false'
     favorite: CompanyName
+    home_template: home_template.html
     info_list: <h1>List Pages</h1> In this <a target="_blank" href="https://apilogicserver.github.io/Docs/Sample-Database/">Northwind
       demo,</a> Info provides Tour suggestions (see Category for instructions).  On
       this page... <ul> <li> <strong>Search</strong> on multiple fields (Company,
@@ -123,6 +128,7 @@ entities:
       not shown ("Show_when")</li> <li>Lookup a Product</li> <li>Click <strong>Save
       and Add Another</strong> </li> <li>Lookup another Product, and click <strong>Add</strong>
       to see the added Order </li> </ul> </li> </ul>
+    new_template: new_template.html
     primary_key:
     - Id
     tab_groups:
@@ -144,7 +150,11 @@ entities:
     - name: CustomerDesc
       template: text
       type: VARCHAR(8000)
+    detail_template: detail_template.html
+    exclude: 'false'
     favorite: Id
+    home_template: home_template.html
+    new_template: new_template.html
     primary_key:
     - Id
     type: CustomerDemographic
@@ -165,10 +175,14 @@ entities:
     - name: SecurityLevel
       template: text
       type: INTEGER
+    detail_template: detail_template.html
+    exclude: 'false'
     favorite: DepartmentName
+    home_template: home_template.html
     info_list: <h1>Tour - Authorization</h1> <h2>Global Security Filters</h2> Only
       role sa & manager can view SecurityLevel > 0 - see security/declare_security.py
       <br><br>
+    new_template: new_template.html
     primary_key:
     - Id
     tab_groups:
@@ -266,7 +280,10 @@ entities:
       type: INTEGER
     - name: PhotoPath
       type: Image
+    detail_template: detail_template.html
+    exclude: 'false'
     favorite: LastName
+    home_template: home_template.html
     info_list: <h1>Show When</h1> Support for <a target="_blank" href="https://apilogicserver.github.io/Docs/Admin-Customization/#show_when">Show
       When</a> means you can define expressions that determine when a field is shown
       or hidden.  On this page... <ul> <li> Click <strong>Suyama</strong> and note
@@ -282,6 +299,7 @@ entities:
       database, but in <span style="font-family:'Courier New'">database/customize_models.py</span>.<br>
       <h1>Derived Attributes</h1> <span style="font-family:'Courier New'">ProperSalary</span>
       is not defined in the database.<br> See <span style="font-family:'Courier New'">database/customize_models.py</span>.<br>
+    new_template: new_template.html
     primary_key:
     - Id
     tab_groups:
@@ -351,7 +369,11 @@ entities:
     - name: Id
       template: text
       type: INTEGER
+    detail_template: detail_template.html
+    exclude: 'false'
     favorite: LastName
+    home_template: home_template.html
+    new_template: new_template.html
     primary_key:
     - Id
     tab_groups:
@@ -376,7 +398,11 @@ entities:
       required: true
       template: text
       type: INTEGER
+    detail_template: detail_template.html
+    exclude: 'false'
     favorite: Id
+    home_template: home_template.html
+    new_template: new_template.html
     primary_key:
     - Id
     tab_groups:
@@ -407,7 +433,11 @@ entities:
     - name: notes
       template: text
       type: VARCHAR(256)
+    detail_template: detail_template.html
+    exclude: 'false'
     favorite: country
+    home_template: home_template.html
+    new_template: new_template.html
     primary_key:
     - country
     - city
@@ -489,7 +519,10 @@ entities:
     - name: ShipCountry
       template: text
       type: VARCHAR(8000)
+    detail_template: detail_template.html
+    exclude: 'false'
     favorite: Id
+    home_template: home_template.html
     info_show: <h1>Tour</h1> <h3>Automatic Joins</h3> <ul> <li> Observe the Product
       Name in the Order Detail list.</li> <li> In the <a target="_blank" href="https://apilogicserver.github.io/Docs/Sample-Database/">sample
       database,</a> the Order Detail is related to the Product by <span style="font-family:'Courier
@@ -502,6 +535,7 @@ entities:
       <span style="font-family:'Courier New'">Amount Total.</span> <ul> <li> This
       is not from code, but from <a target="_blank" href="https://apilogicserver.github.io/Docs/Tutorial/#logic">this
       logic.</a> </li> </ul> </li> </ul>
+    new_template: new_template.html
     primary_key:
     - Id
     tab_groups:
@@ -565,7 +599,11 @@ entities:
       show_when: isInserting == false
       template: text
       type: VARCHAR(8000)
+    detail_template: detail_template.html
+    exclude: 'false'
     favorite: Id
+    home_template: home_template.html
+    new_template: new_template.html
     primary_key:
     - Id
     tab_groups:
@@ -626,7 +664,11 @@ entities:
       required: true
       template: text
       type: INTEGER
+    detail_template: detail_template.html
+    exclude: 'false'
     favorite: ProductName
+    home_template: home_template.html
+    new_template: new_template.html
     primary_key:
     - Id
     tab_groups:
@@ -647,7 +689,11 @@ entities:
     - name: Id
       template: text
       type: INTEGER
+    detail_template: detail_template.html
+    exclude: 'false'
     favorite: RegionDescription
+    home_template: home_template.html
+    new_template: new_template.html
     primary_key:
     - Id
     type: Region
@@ -665,7 +711,11 @@ entities:
     - name: Id
       template: text
       type: INTEGER
+    detail_template: detail_template.html
+    exclude: 'false'
     favorite: CompanyName
+    home_template: home_template.html
+    new_template: new_template.html
     primary_key:
     - Id
     type: Shipper
@@ -710,7 +760,11 @@ entities:
     - name: Id
       template: text
       type: INTEGER
+    detail_template: detail_template.html
+    exclude: 'false'
     favorite: CompanyName
+    home_template: home_template.html
+    new_template: new_template.html
     primary_key:
     - Id
     type: Supplier
@@ -729,7 +783,11 @@ entities:
       required: true
       template: text
       type: INTEGER
+    detail_template: detail_template.html
+    exclude: 'true'
     favorite: TerritoryDescription
+    home_template: home_template.html
+    new_template: new_template.html
     primary_key:
     - Id
     tab_groups:
@@ -750,7 +808,11 @@ entities:
     - name: Id
       template: text
       type: INTEGER
+    detail_template: detail_template.html
+    exclude: 'true'
     favorite: Name
+    home_template: home_template.html
+    new_template: new_template.html
     primary_key:
     - Id
     tab_groups:
@@ -771,6 +833,7 @@ settings:
     decimal_min: '0'
     decimal_separator: .
     edit_on_mode: dblclick
+    include_translation: false
     max_decimal_digits: '4'
     min_decimal_digits: '2'
     mode: tab

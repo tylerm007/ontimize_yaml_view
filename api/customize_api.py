@@ -208,28 +208,26 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
                 e["home_template"] = entity["home_template"]
             if hasattr(entity,"detail_template"):
                 e["detail_template"] = entity["detail_template"]
-            if hasattr(entity,"favorite"):
-                e["favorite"] = entity["favorite"]
+            if entity.get("favorite"):
+                e["favorite"] = entity.get("favorite")
+            if entity.get("exclude"):
+                e["exclude"] = entity["exclude"]
             output[entity_name] = e
             
             cols = []
             for attr in attrs:
                 col ={}
                 if attr["entity_name"] == entity_name:
-                    if attr["exclude"] == False:
-                        col["name"] = attr["attr"]
-                        col["label"] = attr["label"]
-                        col["template"] = attr["template_name"]
-                        col["type"] = attr["thistype"]
-                        if attr["issort"]:
-                            col["sort"] = attr["issort"]
-                        if attr["issearch"]:
-                            col["search"] = attr["issearch"]
-                        if attr["isrequired"]:
-                            col["required"] = attr["isrequired"]
-                        if attr["isenabled"] == False:
-                            col["enabled"] = attr["isenabled"]
-                        cols.append(col)         
+                    col["name"] = attr["attr"]
+                    col["label"] = attr["label"]
+                    col["template"] = attr["template_name"]
+                    col["type"] = attr["thistype"]
+                    col["sort"] = attr.get("issort",False)
+                    col["search"] = attr.get("issearch", False)
+                    col["required"] = attr.get("isrequired", False)
+                    col["enabled"] = attr.get("isenabled", False)
+                    col["exclude"] = attr.get("exclude", False)
+                    cols.append(col)         
             output[entity_name]["columns"] = cols
             tab_group = []
             for tab in tabs:
@@ -240,8 +238,7 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
                     tg["label"] = tab["label"] if tab.get("label") != None else tab.get("name")
                     tg["name"] = tab.get("name")
                     tg["fks"] = convert_list(tab["fkeys"])
-                    if tab["exclude"]:
-                        tg["exclude"] = tab["exclude"] 
+                    tg["exclude"] = tab.get("exclude", False)
                     tab_group.append(tg)
             if len(tab_group) > 0:
                 output[entity_name]["tab_groups"] = tab_group
@@ -321,7 +318,7 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
             m_entity.pkey = str(get_value(each_entity,"primary_key"))
             m_entity.info_list =get_value(each_entity,"info_list")
             m_entity.info_show = get_value(each_entity,"info_show")
-            m_entity.exclude = get_value(each_entity,"exclude", False)
+            m_entity.exclude = get_boolean(each_entity,"exclude", False)
             m_entity.new_template = get_value(each_entity,"new_template","new_template.html")
             m_entity.home_template = get_value(each_entity,"home_template","home_template.html")
             m_entity.detail_template = get_value(each_entity,"detail_template","detail_template.html")
@@ -350,6 +347,15 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
             return obj[name] 
         except:
             return default
+    
+    def get_boolean(obj:any, name:str, default:bool = True):
+        try:
+            if isinstance(obj[name], bool):
+                return obj[name]
+            else:
+                return obj[name] in ["true", "True", "1"]
+        except:
+            return default
     def convert_list(key:str) -> list:
         k = key.replace("'","",20)
         k =k.replace("[","")
@@ -371,7 +377,7 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
                 m_tab_group.fkeys = str(tab_group["fks"])
                 m_tab_group.name = tab_group.get("name")
                 m_tab_group.label = tab_group.get("label")
-                m_tab_group.exclude = get_value(tab_group,"exclude", False)
+                m_tab_group.exclude = get_boolean(tab_group,"exclude", False)
                 
                 try:
                     session.add(m_tab_group)
@@ -391,11 +397,11 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
             m_entity_attr.label = get_value(attr, "label", attr["name"])
             m_entity_attr.template_name = get_value(attr, "template" , "text")
             m_entity_attr.thistype = attr["type"]
-            m_entity_attr.isrequired = get_value(attr, "required", False)
-            m_entity_attr.issearch = get_value(attr, "search", False)
-            m_entity_attr.issort = get_value(attr, "sort" , False)
-            m_entity_attr.isenabled = get_value(attr, "enabled", True)
-            m_entity_attr.exclude = get_value(attr, "exclude", False)
+            m_entity_attr.isrequired = get_boolean(attr, "required", False)
+            m_entity_attr.issearch = get_boolean(attr, "search", False)
+            m_entity_attr.issort = get_boolean(attr, "sort" , False)
+            m_entity_attr.isenabled = get_boolean(attr, "enabled", True)
+            m_entity_attr.exclude = get_boolean(attr, "exclude", False)
             m_entity_attr.tooltip = get_value(attr, "tooltip", None)
             
             try:
