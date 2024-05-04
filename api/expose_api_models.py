@@ -28,4 +28,5 @@ def expose_models(api, method_decorators = []):
     api.expose_object(database.models.Template, method_decorators= method_decorators)
     api.expose_object(database.models.GlobalSetting, method_decorators= method_decorators)
     api.expose_object(database.models.TabGroup, method_decorators= method_decorators)
+    api.expose_object(database.models.Root, method_decorators= method_decorators)
     return api

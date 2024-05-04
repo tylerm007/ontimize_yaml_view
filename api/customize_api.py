@@ -285,15 +285,10 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         delete_sql(models.GlobalSetting)
         delete_sql(models.EntityAttr)
         delete_sql(models.Entity)
-        delete_sql(models.Root)
         
         insert_entities(valuesYaml)
         insert_styles(valuesYaml)
-        
-        #TODO 
-        about = valuesYaml["about"]
-        api_root = valuesYaml["api_root"]
-        authentication = valuesYaml["authentication"]
+        insert_root(valuesYaml)
         
         return jsonify(valuesYaml)
 
@@ -341,7 +336,24 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
                 each_entity = valuesYaml['entities'][entity]
                 insert_tab_groups(entity, each_entity)
                 
-
+    def insert_root(valuesYaml):
+        about = valuesYaml["about"]
+        api_root = valuesYaml["api_root"]
+        authentication = valuesYaml["authentication"]
+        root = session.query(models.Root).one()
+        #root.Id = 1
+        root.AboutDate = about["date"]
+        root.AboutChange = about["recent_changes"]
+        root.ApiRoot = api_root
+        root.ApiAuthType= "endpoint"
+        root.ApiAuth = authentication["endpoint"]
+        try:
+            session.add(root)
+            session.commit()
+        except Exception as ex:
+            print(ex)
+            session.rollback()
+        
     def get_value(obj:any, name:str, default:any = None):
         try:
             return obj[name] 

@@ -196,3 +196,27 @@ class TabGroup(SAFRSBase, Base):
         self._check_sum_property = value
 
     S_CheckSum = _check_sum_
+
+class Root(SAFRSBase, Base):
+    __tablename__ = 'root'
+    _s_collection_name = 'Root'  # type: ignore
+    __bind_key__ = 'None'
+    
+    Id = Column("id", INTEGER, primary_key=True, nullable=False)
+    AboutDate = Column("about_date",String(100))
+    AboutChange = Column("about_changes", Text)
+    ApiRoot = Column("api_root",String(1000))
+    ApiAuthType = Column("api_auth_type", String(100))
+    ApiAuth = Column("api_auth", String(1000))
+
+    @jsonapi_attr
+    def _check_sum_(self):  # type: ignore [no-redef]
+        return None if isinstance(self, flask_sqlalchemy.model.DefaultMeta) \
+            else self._check_sum_property if hasattr(self,"_check_sum_property") \
+                else None  # property does not exist during initialization
+
+    @_check_sum_.setter
+    def _check_sum_(self, value):  # type: ignore [no-redef]
+        self._check_sum_property = value
+
+    S_CheckSum = _check_sum_
