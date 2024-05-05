@@ -259,7 +259,7 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         for s in settings:
             sg = {}
             if s["name"] in ["use_keycloak","include_translation"]:
-                sg[s["name"]] = s["value"] == "0"
+                sg[s["name"]] = s["value"] == "1"
             else:
                 sg[s["name"]] = s["value"]
             style_guide.append(sg)
