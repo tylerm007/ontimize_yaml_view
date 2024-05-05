@@ -1,1404 +1,1413 @@
-Category:
-  columns:
-  - enabled: true
-    exclude: false
-    label: ' Category Name*'
-    name: CategoryName
-    required: false
-    search: true
-    sort: true
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: Description
-    name: Description
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: Client_id
-    name: Client_id
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  - enabled: true
-    exclude: false
-    label: Id
-    name: Id
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  favorite: CategoryName
-  primary_key:
-  - Id
-  type: Category
-Customer:
-  columns:
-  - enabled: true
-    exclude: false
-    label: Id
-    name: Id
-    required: false
-    search: true
-    sort: true
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: ' Company Name*'
-    name: CompanyName
-    required: false
-    search: true
-    sort: true
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: Balance
-    name: Balance
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: DECIMAL
-  - enabled: true
-    exclude: false
-    label: CreditLimit
-    name: CreditLimit
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: DECIMAL
-  - enabled: true
-    exclude: false
-    label: OrderCount
-    name: OrderCount
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  - enabled: true
-    exclude: false
-    label: UnpaidOrderCount
-    name: UnpaidOrderCount
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  - enabled: true
-    exclude: false
-    label: Client_id
-    name: Client_id
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  - enabled: true
-    exclude: false
-    label: ContactName
-    name: ContactName
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: ContactTitle
-    name: ContactTitle
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: Address
-    name: Address
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: City
-    name: City
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: Region
-    name: Region
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: PostalCode
-    name: PostalCode
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: Country
-    name: Country
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: Phone
-    name: Phone
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: Fax
-    name: Fax
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  favorite: CompanyName
-  primary_key:
-  - Id
-  tab_groups:
-  - direction: tomany
-    exclude: false
-    fks:
-    - CustomerId
-    label: Placed Order List
-    name: OrderList
-    resource: Order
-  type: Customer
-CustomerDemographic:
-  columns:
-  - enabled: true
-    exclude: false
-    label: ' Id*'
-    name: Id
-    required: false
-    search: true
-    sort: true
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: CustomerDesc
-    name: CustomerDesc
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  favorite: Id
-  primary_key:
-  - Id
-  type: CustomerDemographic
-Department:
-  columns:
-  - enabled: true
-    exclude: false
-    label: ' Department Name*'
-    name: DepartmentName
-    required: false
-    search: true
-    sort: true
-    template: text
-    type: VARCHAR(100)
-  - enabled: true
-    exclude: false
-    label: DepartmentId
-    name: DepartmentId
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  - enabled: true
-    exclude: false
-    label: Id
-    name: Id
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  - enabled: true
-    exclude: false
-    label: SecurityLevel
-    name: SecurityLevel
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  favorite: DepartmentName
-  primary_key:
-  - Id
-  tab_groups:
-  - direction: tomany
-    exclude: false
-    fks:
-    - DepartmentId
-    label: DepartmentList
-    name: DepartmentList
-    resource: Department
-  - direction: toone
-    exclude: false
-    fks:
-    - DepartmentId
-    label: Department
-    name: Department
-    resource: Department
-  - direction: tomany
-    exclude: false
-    fks:
-    - OnLoanDepartmentId
-    label: Employees On Loan
-    name: EmployeeList
-    resource: Employee
-  - direction: tomany
-    exclude: false
-    fks:
-    - WorksForDepartmentId
-    label: Employees
-    name: EmployeeList1
-    resource: Employee
-  type: Department
-Employee:
-  columns:
-  - enabled: true
-    exclude: false
-    label: ' Last Name*'
-    name: LastName
-    required: false
-    search: true
-    sort: true
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: OnLoanDepartmentId
-    name: OnLoanDepartmentId
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  - enabled: true
-    exclude: false
-    label: WorksForDepartmentId
-    name: WorksForDepartmentId
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  - enabled: true
-    exclude: false
-    label: Salary
-    name: Salary
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: DECIMAL
-  - enabled: true
-    exclude: false
-    label: ProperSalary
-    name: ProperSalary
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: DECIMAL
-  - enabled: true
-    exclude: false
-    label: EmployeeType
-    name: EmployeeType
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(16)
-  - enabled: true
-    exclude: false
-    label: Dues
-    name: Dues
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: DECIMAL
-  - enabled: true
-    exclude: false
-    label: FirstName
-    name: FirstName
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: Id
-    name: Id
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  - enabled: true
-    exclude: false
-    label: Title
-    name: Title
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: TitleOfCourtesy
-    name: TitleOfCourtesy
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: BirthDate
-    name: BirthDate
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: HireDate
-    name: HireDate
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: Address
-    name: Address
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: City
-    name: City
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: Region
-    name: Region
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: PostalCode
-    name: PostalCode
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: Country
-    name: Country
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: HomePhone
-    name: HomePhone
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: Extension
-    name: Extension
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: Notes
-    name: Notes
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: ReportsTo
-    name: ReportsTo
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  - enabled: true
-    exclude: false
-    label: PhotoPath
-    name: PhotoPath
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: Image
-  favorite: LastName
-  primary_key:
-  - Id
-  tab_groups:
-  - direction: toone
-    exclude: false
-    fks:
-    - OnLoanDepartmentId
-    label: Department
-    name: Department
-    resource: Department
-  - direction: toone
-    exclude: false
-    fks:
-    - WorksForDepartmentId
-    label: Department1
-    name: Department1
-    resource: Department
-  - direction: tomany
-    exclude: false
-    fks:
-    - ReportsTo
-    label: Manages
-    name: Manages
-    resource: Employee
-  - direction: toone
-    exclude: false
-    fks:
-    - ReportsTo
-    label: Manager
-    name: Manager
-    resource: Employee
-  - direction: tomany
-    exclude: false
-    fks:
-    - EmployeeId
-    label: EmployeeAuditList
-    name: EmployeeAuditList
-    resource: EmployeeAudit
-  - direction: tomany
-    exclude: false
-    fks:
-    - EmployeeId
-    label: EmployeeTerritoryList
-    name: EmployeeTerritoryList
-    resource: EmployeeTerritory
-  - direction: tomany
-    exclude: false
-    fks:
-    - EmployeeId
-    label: OrderList
-    name: OrderList
-    resource: Order
-  - direction: toone
-    exclude: false
-    fks:
-    - UnionId
-    label: Union
-    name: Union
-    resource: Union
-  type: Employee
-EmployeeAudit:
-  columns:
-  - enabled: true
-    exclude: false
-    label: ' Last Name*'
-    name: LastName
-    required: false
-    search: true
-    sort: true
-    template: text
-    type: VARCHAR
-  - enabled: true
-    exclude: false
-    label: EmployeeId
-    name: EmployeeId
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  - enabled: true
-    exclude: false
-    label: Title
-    name: Title
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR
-  - enabled: true
-    exclude: false
-    label: Salary
-    name: Salary
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: DECIMAL
-  - enabled: true
-    exclude: false
-    label: FirstName
-    name: FirstName
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR
-  - enabled: true
-    exclude: false
-    label: CreatedOn
-    name: CreatedOn
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: TEXT
-  - enabled: true
-    exclude: false
-    label: Id
-    name: Id
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  favorite: LastName
-  primary_key:
-  - Id
-  tab_groups:
-  - direction: toone
-    exclude: false
-    fks:
-    - EmployeeId
-    label: Employee
-    name: Employee
-    resource: Employee
-  type: EmployeeAudit
-EmployeeTerritory:
-  columns:
-  - enabled: true
-    exclude: false
-    label: ' Id*'
-    name: Id
-    required: false
-    search: true
-    sort: true
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: TerritoryId
-    name: TerritoryId
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: EmployeeId
-    name: EmployeeId
-    required: true
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  favorite: Id
-  primary_key:
-  - Id
-  tab_groups:
-  - direction: toone
-    exclude: false
-    fks:
-    - EmployeeId
-    label: Employee
-    name: Employee
-    resource: Employee
-  - direction: toone
-    exclude: false
-    fks:
-    - TerritoryId
-    label: Territory
-    name: Territory
-    resource: Territory
-  type: EmployeeTerritory
-Location:
-  columns:
-  - enabled: true
-    exclude: false
-    label: ' country*'
-    name: country
-    required: true
-    search: true
-    sort: true
-    template: text
-    type: VARCHAR(50)
-  - enabled: true
-    exclude: false
-    label: city
-    name: city
-    required: true
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(50)
-  - enabled: true
-    exclude: false
-    label: notes
-    name: notes
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(256)
-  favorite: country
-  primary_key:
-  - country
-  - city
-  tab_groups:
-  - direction: tomany
-    exclude: false
-    fks:
-    - Country
-    - City
-    label: OrderList
-    name: OrderList
-    resource: Order
-  type: Location
-Order:
-  columns:
-  - enabled: true
-    exclude: false
-    label: Id
-    name: Id
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  - enabled: true
-    exclude: false
-    label: EmployeeId
-    name: EmployeeId
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  - enabled: true
-    exclude: false
-    label: ShippedDate
-    name: ShippedDate
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: OrderDate
-    name: OrderDate
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: DATE
-  - enabled: true
-    exclude: false
-    label: AmountTotal
-    name: AmountTotal
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: DECIMAL
-  - enabled: true
-    exclude: false
-    label: Ready
-    name: Ready
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: Boolean
-  - enabled: true
-    exclude: false
-    label: CloneFromOrder
-    name: CloneFromOrder
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  - enabled: true
-    exclude: false
-    label: OrderDetailCount
-    name: OrderDetailCount
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  - enabled: true
-    exclude: false
-    label: Freight
-    name: Freight
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: DECIMAL
-  - enabled: true
-    exclude: false
-    label: Country
-    name: Country
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(50)
-  - enabled: true
-    exclude: false
-    label: City
-    name: City
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(50)
-  - enabled: true
-    exclude: false
-    label: RequiredDate
-    name: RequiredDate
-    required: false
-    search: false
-    sort: false
-    template: date
-    type: DATE
-  - enabled: true
-    exclude: false
-    label: CustomerId
-    name: CustomerId
-    required: true
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: ' Ship Name*'
-    name: ShipName
-    required: false
-    search: true
-    sort: true
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: ShipVia
-    name: ShipVia
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  - enabled: true
-    exclude: false
-    label: ShipAddress
-    name: ShipAddress
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: ShipCity
-    name: ShipCity
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: ShipRegion
-    name: ShipRegion
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: ShipZip
-    name: ShipZip
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: ShipCountry
-    name: ShipCountry
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  favorite: Id
-  primary_key:
-  - Id
-  tab_groups:
-  - direction: toone
-    exclude: false
-    fks:
-    - CustomerId
-    label: Customer
-    name: Customer
-    resource: Customer
-  - direction: toone
-    exclude: false
-    fks:
-    - Country
-    - City
-    label: Location
-    name: Location
-    resource: Location
-  - direction: toone
-    exclude: false
-    fks:
-    - EmployeeId
-    label: Employee
-    name: Employee
-    resource: Employee
-  - direction: tomany
-    exclude: false
-    fks:
-    - OrderId
-    label: Order Detail List
-    name: OrderDetailList
-    resource: OrderDetail
-  type: Order
-OrderDetail:
-  columns:
-  - enabled: true
-    exclude: false
-    label: ' Id*'
-    name: Id
-    required: false
-    search: true
-    sort: true
-    template: text
-    type: INTEGER
-  - enabled: true
-    exclude: false
-    label: ProductId
-    name: ProductId
-    required: true
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  - enabled: true
-    exclude: false
-    label: OrderId
-    name: OrderId
-    required: true
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  - enabled: true
-    exclude: false
-    label: UnitPrice
-    name: UnitPrice
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: DECIMAL
-  - enabled: true
-    exclude: false
-    label: Quantity
-    name: Quantity
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  - enabled: true
-    exclude: false
-    label: Discount
-    name: Discount
-    required: false
-    search: false
-    sort: false
-    template: real
-    type: DOUBLE
-  - enabled: true
-    exclude: false
-    label: Amount
-    name: Amount
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: DECIMAL
-  - enabled: true
-    exclude: false
-    label: ShippedDate
-    name: ShippedDate
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  favorite: Id
-  primary_key:
-  - Id
-  tab_groups:
-  - direction: toone
-    exclude: false
-    fks:
-    - OrderId
-    label: Order
-    name: Order
-    resource: Order
-  - direction: toone
-    exclude: false
-    fks:
-    - ProductId
-    label: Product
-    name: Product
-    resource: Product
-  type: OrderDetail
-Product:
-  columns:
-  - enabled: true
-    exclude: false
-    label: ' Product Name*'
-    name: ProductName
-    required: false
-    search: true
-    sort: true
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: QuantityPerUnit
-    name: QuantityPerUnit
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: UnitPrice
-    name: UnitPrice
-    required: true
-    search: false
-    sort: false
-    template: text
-    type: DECIMAL
-  - enabled: true
-    exclude: false
-    label: UnitsInStock
-    name: UnitsInStock
-    required: true
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  - enabled: true
-    exclude: false
-    label: UnitsOnOrder
-    name: UnitsOnOrder
-    required: true
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  - enabled: true
-    exclude: false
-    label: ReorderLevel
-    name: ReorderLevel
-    required: true
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  - enabled: true
-    exclude: false
-    label: Discontinued
-    name: Discontinued
-    required: true
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  - enabled: true
-    exclude: false
-    label: UnitsShipped
-    name: UnitsShipped
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  - enabled: true
-    exclude: false
-    label: Id
-    name: Id
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  - enabled: true
-    exclude: false
-    label: SupplierId
-    name: SupplierId
-    required: true
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  - enabled: true
-    exclude: false
-    label: CategoryId
-    name: CategoryId
-    required: true
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  favorite: ProductName
-  primary_key:
-  - Id
-  tab_groups:
-  - direction: tomany
-    exclude: false
-    fks:
-    - ProductId
-    label: OrderDetailList
-    name: OrderDetailList
-    resource: OrderDetail
-  type: Product
-Region:
-  columns:
-  - enabled: true
-    exclude: false
-    label: ' Region Description*'
-    name: RegionDescription
-    required: false
-    search: true
-    sort: true
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: Id
-    name: Id
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  favorite: RegionDescription
-  primary_key:
-  - Id
-  type: Region
-Shipper:
-  columns:
-  - enabled: true
-    exclude: false
-    label: ' Company Name*'
-    name: CompanyName
-    required: false
-    search: true
-    sort: true
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: Phone
-    name: Phone
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: Id
-    name: Id
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  favorite: CompanyName
-  primary_key:
-  - Id
-  type: Shipper
-Supplier:
-  columns:
-  - enabled: true
-    exclude: false
-    label: ' Company Name*'
-    name: CompanyName
-    required: false
-    search: true
-    sort: true
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: ContactName
-    name: ContactName
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: ContactTitle
-    name: ContactTitle
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: Address
-    name: Address
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: City
-    name: City
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: Region
-    name: Region
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: PostalCode
-    name: PostalCode
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: Country
-    name: Country
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: Phone
-    name: Phone
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: Fax
-    name: Fax
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: HomePage
-    name: HomePage
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: Id
-    name: Id
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  favorite: CompanyName
-  primary_key:
-  - Id
-  type: Supplier
-Territory:
-  columns:
-  - enabled: true
-    exclude: false
-    label: ' Territory Description*'
-    name: TerritoryDescription
-    required: false
-    search: true
-    sort: true
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: Id
-    name: Id
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: VARCHAR(8000)
-  - enabled: true
-    exclude: false
-    label: RegionId
-    name: RegionId
-    required: true
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  exclude: true
-  favorite: TerritoryDescription
-  primary_key:
-  - Id
-  tab_groups:
-  - direction: tomany
-    exclude: false
-    fks:
-    - TerritoryId
-    label: EmployeeTerritoryList
-    name: EmployeeTerritoryList
-    resource: EmployeeTerritory
-  type: Territory
-Union:
-  columns:
-  - enabled: true
-    exclude: false
-    label: ' Name*'
-    name: Name
-    required: false
-    search: true
-    sort: true
-    template: text
-    type: VARCHAR(80)
-  - enabled: true
-    exclude: false
-    label: Id
-    name: Id
-    required: false
-    search: false
-    sort: false
-    template: text
-    type: INTEGER
-  exclude: true
-  favorite: Name
-  primary_key:
-  - Id
-  tab_groups:
-  - direction: tomany
-    exclude: false
-    fks:
-    - UnionId
-    label: EmployeeList
-    name: EmployeeList
-    resource: Employee
-  type: Union
+about:
+  date: 3/20/2024
+  recent_changes: api_root, altered Customer/Order/Employee attribute ordering, tab
+    captions, info, EmpType, dept emps, defaults, show_when, cascade add, toggles,
+    images, security, login, virtual relns, global filters, no IsCommissioned
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication:
+  endpoint: '{http_type}://{swagger_host}:{port}/api/auth/login'
+entities:
+  Category:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' Category Name*'
+      name: CategoryName
+      required: false
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: Description
+      name: Description
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: Client_id
+      name: Client_id
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    - enabled: true
+      exclude: false
+      label: Id
+      name: Id
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    favorite: CategoryName
+    primary_key:
+    - Id
+    type: Category
+  Customer:
+    columns:
+    - enabled: true
+      exclude: false
+      label: Id
+      name: Id
+      required: false
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: ' Company Name*'
+      name: CompanyName
+      required: false
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: Balance
+      name: Balance
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DECIMAL
+    - enabled: true
+      exclude: false
+      label: CreditLimit
+      name: CreditLimit
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DECIMAL
+    - enabled: true
+      exclude: false
+      label: OrderCount
+      name: OrderCount
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    - enabled: true
+      exclude: false
+      label: UnpaidOrderCount
+      name: UnpaidOrderCount
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    - enabled: true
+      exclude: false
+      label: Client_id
+      name: Client_id
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    - enabled: true
+      exclude: false
+      label: ContactName
+      name: ContactName
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: ContactTitle
+      name: ContactTitle
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: Address
+      name: Address
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: City
+      name: City
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: Region
+      name: Region
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: PostalCode
+      name: PostalCode
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: Country
+      name: Country
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: Phone
+      name: Phone
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: Fax
+      name: Fax
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    favorite: CompanyName
+    primary_key:
+    - Id
+    tab_groups:
+    - direction: tomany
+      exclude: false
+      fks:
+      - CustomerId
+      label: Placed Order List
+      name: OrderList
+      resource: Order
+    type: Customer
+  CustomerDemographic:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' Id*'
+      name: Id
+      required: false
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: CustomerDesc
+      name: CustomerDesc
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    favorite: Id
+    primary_key:
+    - Id
+    type: CustomerDemographic
+  Department:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' Department Name*'
+      name: DepartmentName
+      required: false
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(100)
+    - enabled: true
+      exclude: false
+      label: DepartmentId
+      name: DepartmentId
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    - enabled: true
+      exclude: false
+      label: Id
+      name: Id
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    - enabled: true
+      exclude: false
+      label: SecurityLevel
+      name: SecurityLevel
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    favorite: DepartmentName
+    primary_key:
+    - Id
+    tab_groups:
+    - direction: tomany
+      exclude: false
+      fks:
+      - DepartmentId
+      label: DepartmentList
+      name: DepartmentList
+      resource: Department
+    - direction: toone
+      exclude: false
+      fks:
+      - DepartmentId
+      label: Department
+      name: Department
+      resource: Department
+    - direction: tomany
+      exclude: false
+      fks:
+      - OnLoanDepartmentId
+      label: Employees On Loan
+      name: EmployeeList
+      resource: Employee
+    - direction: tomany
+      exclude: false
+      fks:
+      - WorksForDepartmentId
+      label: Employees
+      name: EmployeeList1
+      resource: Employee
+    type: Department
+  Employee:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' Last Name*'
+      name: LastName
+      required: false
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: OnLoanDepartmentId
+      name: OnLoanDepartmentId
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    - enabled: true
+      exclude: false
+      label: WorksForDepartmentId
+      name: WorksForDepartmentId
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    - enabled: true
+      exclude: false
+      label: Salary
+      name: Salary
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DECIMAL
+    - enabled: true
+      exclude: false
+      label: ProperSalary
+      name: ProperSalary
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DECIMAL
+    - enabled: true
+      exclude: false
+      label: EmployeeType
+      name: EmployeeType
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(16)
+    - enabled: true
+      exclude: false
+      label: Dues
+      name: Dues
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DECIMAL
+    - enabled: true
+      exclude: false
+      label: FirstName
+      name: FirstName
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: Id
+      name: Id
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    - enabled: true
+      exclude: false
+      label: Title
+      name: Title
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: TitleOfCourtesy
+      name: TitleOfCourtesy
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: BirthDate
+      name: BirthDate
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: HireDate
+      name: HireDate
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: Address
+      name: Address
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: City
+      name: City
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: Region
+      name: Region
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: PostalCode
+      name: PostalCode
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: Country
+      name: Country
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: HomePhone
+      name: HomePhone
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: Extension
+      name: Extension
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: Notes
+      name: Notes
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: ReportsTo
+      name: ReportsTo
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    - enabled: true
+      exclude: false
+      label: PhotoPath
+      name: PhotoPath
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: Image
+    favorite: LastName
+    primary_key:
+    - Id
+    tab_groups:
+    - direction: toone
+      exclude: false
+      fks:
+      - OnLoanDepartmentId
+      label: Department
+      name: Department
+      resource: Department
+    - direction: toone
+      exclude: false
+      fks:
+      - WorksForDepartmentId
+      label: Department1
+      name: Department1
+      resource: Department
+    - direction: tomany
+      exclude: false
+      fks:
+      - ReportsTo
+      label: Manages
+      name: Manages
+      resource: Employee
+    - direction: toone
+      exclude: false
+      fks:
+      - ReportsTo
+      label: Manager
+      name: Manager
+      resource: Employee
+    - direction: tomany
+      exclude: false
+      fks:
+      - EmployeeId
+      label: EmployeeAuditList
+      name: EmployeeAuditList
+      resource: EmployeeAudit
+    - direction: tomany
+      exclude: false
+      fks:
+      - EmployeeId
+      label: EmployeeTerritoryList
+      name: EmployeeTerritoryList
+      resource: EmployeeTerritory
+    - direction: tomany
+      exclude: false
+      fks:
+      - EmployeeId
+      label: OrderList
+      name: OrderList
+      resource: Order
+    - direction: toone
+      exclude: false
+      fks:
+      - UnionId
+      label: Union
+      name: Union
+      resource: Union
+    type: Employee
+  EmployeeAudit:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' Last Name*'
+      name: LastName
+      required: false
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - enabled: true
+      exclude: false
+      label: EmployeeId
+      name: EmployeeId
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    - enabled: true
+      exclude: false
+      label: Title
+      name: Title
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR
+    - enabled: true
+      exclude: false
+      label: Salary
+      name: Salary
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DECIMAL
+    - enabled: true
+      exclude: false
+      label: FirstName
+      name: FirstName
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR
+    - enabled: true
+      exclude: false
+      label: CreatedOn
+      name: CreatedOn
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: TEXT
+    - enabled: true
+      exclude: false
+      label: Id
+      name: Id
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    favorite: LastName
+    primary_key:
+    - Id
+    tab_groups:
+    - direction: toone
+      exclude: false
+      fks:
+      - EmployeeId
+      label: Employee
+      name: Employee
+      resource: Employee
+    type: EmployeeAudit
+  EmployeeTerritory:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' Id*'
+      name: Id
+      required: false
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: TerritoryId
+      name: TerritoryId
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: EmployeeId
+      name: EmployeeId
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    favorite: Id
+    primary_key:
+    - Id
+    tab_groups:
+    - direction: toone
+      exclude: false
+      fks:
+      - EmployeeId
+      label: Employee
+      name: Employee
+      resource: Employee
+    - direction: toone
+      exclude: false
+      fks:
+      - TerritoryId
+      label: Territory
+      name: Territory
+      resource: Territory
+    type: EmployeeTerritory
+  Location:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' country*'
+      name: country
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(50)
+    - enabled: true
+      exclude: false
+      label: city
+      name: city
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(50)
+    - enabled: true
+      exclude: false
+      label: notes
+      name: notes
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(256)
+    favorite: country
+    primary_key:
+    - country
+    - city
+    tab_groups:
+    - direction: tomany
+      exclude: false
+      fks:
+      - Country
+      - City
+      label: OrderList
+      name: OrderList
+      resource: Order
+    type: Location
+  Order:
+    columns:
+    - enabled: true
+      exclude: false
+      label: Id
+      name: Id
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    - enabled: true
+      exclude: false
+      label: EmployeeId
+      name: EmployeeId
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    - enabled: true
+      exclude: false
+      label: ShippedDate
+      name: ShippedDate
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: OrderDate
+      name: OrderDate
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DATE
+    - enabled: true
+      exclude: false
+      label: AmountTotal
+      name: AmountTotal
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DECIMAL
+    - enabled: true
+      exclude: false
+      label: Ready
+      name: Ready
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: Boolean
+    - enabled: true
+      exclude: false
+      label: CloneFromOrder
+      name: CloneFromOrder
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    - enabled: true
+      exclude: false
+      label: OrderDetailCount
+      name: OrderDetailCount
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    - enabled: true
+      exclude: false
+      label: Freight
+      name: Freight
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DECIMAL
+    - enabled: true
+      exclude: false
+      label: Country
+      name: Country
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(50)
+    - enabled: true
+      exclude: false
+      label: City
+      name: City
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(50)
+    - enabled: true
+      exclude: false
+      label: RequiredDate
+      name: RequiredDate
+      required: false
+      search: false
+      sort: false
+      template: date
+      type: DATE
+    - enabled: true
+      exclude: false
+      label: CustomerId
+      name: CustomerId
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: ' Ship Name*'
+      name: ShipName
+      required: false
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: ShipVia
+      name: ShipVia
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    - enabled: true
+      exclude: false
+      label: ShipAddress
+      name: ShipAddress
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: ShipCity
+      name: ShipCity
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: ShipRegion
+      name: ShipRegion
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: ShipZip
+      name: ShipZip
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: ShipCountry
+      name: ShipCountry
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    favorite: Id
+    primary_key:
+    - Id
+    tab_groups:
+    - direction: toone
+      exclude: false
+      fks:
+      - CustomerId
+      label: Customer
+      name: Customer
+      resource: Customer
+    - direction: toone
+      exclude: false
+      fks:
+      - Country
+      - City
+      label: Location
+      name: Location
+      resource: Location
+    - direction: toone
+      exclude: false
+      fks:
+      - EmployeeId
+      label: Employee
+      name: Employee
+      resource: Employee
+    - direction: tomany
+      exclude: false
+      fks:
+      - OrderId
+      label: Order Detail List
+      name: OrderDetailList
+      resource: OrderDetail
+    type: Order
+  OrderDetail:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' Id*'
+      name: Id
+      required: false
+      search: true
+      sort: true
+      template: text
+      type: INTEGER
+    - enabled: true
+      exclude: false
+      label: ProductId
+      name: ProductId
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    - enabled: true
+      exclude: false
+      label: OrderId
+      name: OrderId
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    - enabled: true
+      exclude: false
+      label: UnitPrice
+      name: UnitPrice
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DECIMAL
+    - enabled: true
+      exclude: false
+      label: Quantity
+      name: Quantity
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    - enabled: true
+      exclude: false
+      label: Discount
+      name: Discount
+      required: false
+      search: false
+      sort: false
+      template: real
+      type: DOUBLE
+    - enabled: true
+      exclude: false
+      label: Amount
+      name: Amount
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DECIMAL
+    - enabled: true
+      exclude: false
+      label: ShippedDate
+      name: ShippedDate
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    favorite: Id
+    primary_key:
+    - Id
+    tab_groups:
+    - direction: toone
+      exclude: false
+      fks:
+      - OrderId
+      label: Order
+      name: Order
+      resource: Order
+    - direction: toone
+      exclude: false
+      fks:
+      - ProductId
+      label: Product
+      name: Product
+      resource: Product
+    type: OrderDetail
+  Product:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' Product Name*'
+      name: ProductName
+      required: false
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: QuantityPerUnit
+      name: QuantityPerUnit
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: UnitPrice
+      name: UnitPrice
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: DECIMAL
+    - enabled: true
+      exclude: false
+      label: UnitsInStock
+      name: UnitsInStock
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    - enabled: true
+      exclude: false
+      label: UnitsOnOrder
+      name: UnitsOnOrder
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    - enabled: true
+      exclude: false
+      label: ReorderLevel
+      name: ReorderLevel
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    - enabled: true
+      exclude: false
+      label: Discontinued
+      name: Discontinued
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    - enabled: true
+      exclude: false
+      label: UnitsShipped
+      name: UnitsShipped
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    - enabled: true
+      exclude: false
+      label: Id
+      name: Id
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    - enabled: true
+      exclude: false
+      label: SupplierId
+      name: SupplierId
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    - enabled: true
+      exclude: false
+      label: CategoryId
+      name: CategoryId
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    favorite: ProductName
+    primary_key:
+    - Id
+    tab_groups:
+    - direction: tomany
+      exclude: false
+      fks:
+      - ProductId
+      label: OrderDetailList
+      name: OrderDetailList
+      resource: OrderDetail
+    type: Product
+  Region:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' Region Description*'
+      name: RegionDescription
+      required: false
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: Id
+      name: Id
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    favorite: RegionDescription
+    primary_key:
+    - Id
+    type: Region
+  Shipper:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' Company Name*'
+      name: CompanyName
+      required: false
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: Phone
+      name: Phone
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: Id
+      name: Id
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    favorite: CompanyName
+    primary_key:
+    - Id
+    type: Shipper
+  Supplier:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' Company Name*'
+      name: CompanyName
+      required: false
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: ContactName
+      name: ContactName
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: ContactTitle
+      name: ContactTitle
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: Address
+      name: Address
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: City
+      name: City
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: Region
+      name: Region
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: PostalCode
+      name: PostalCode
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: Country
+      name: Country
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: Phone
+      name: Phone
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: Fax
+      name: Fax
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: HomePage
+      name: HomePage
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: Id
+      name: Id
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    favorite: CompanyName
+    primary_key:
+    - Id
+    type: Supplier
+  Territory:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' Territory Description*'
+      name: TerritoryDescription
+      required: false
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: Id
+      name: Id
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+    - enabled: true
+      exclude: false
+      label: RegionId
+      name: RegionId
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    exclude: true
+    favorite: TerritoryDescription
+    primary_key:
+    - Id
+    tab_groups:
+    - direction: tomany
+      exclude: false
+      fks:
+      - TerritoryId
+      label: EmployeeTerritoryList
+      name: EmployeeTerritoryList
+      resource: EmployeeTerritory
+    type: Territory
+  Union:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' Name*'
+      name: Name
+      required: false
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(80)
+    - enabled: true
+      exclude: false
+      label: Id
+      name: Id
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: INTEGER
+    exclude: true
+    favorite: Name
+    primary_key:
+    - Id
+    tab_groups:
+    - direction: tomany
+      exclude: false
+      fks:
+      - UnionId
+      label: EmployeeList
+      name: EmployeeList
+      resource: Employee
+    type: Union
 settings:
   style_guide:
   - currency_symbol: $

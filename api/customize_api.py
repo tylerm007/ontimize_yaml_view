@@ -182,9 +182,9 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         attrs = read(models.EntityAttr)
         tabs =  read(models.TabGroup)
         settings = read(models.GlobalSetting)
-        #root = read(models.Root)
+        root = read(models.Root)
         
-        output = build_json(entities, attrs, tabs, settings) #root)
+        output = build_json(entities, attrs, tabs, settings, root)
         fn = "admin_model_merge.yaml"
         write_file(output, file_name=fn)
         return jsonify(f"Yaml file written to ui/{fn}")
@@ -192,14 +192,17 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
     def read(clz) -> list:
         return rows_to_dict(session.query(clz).all())
     
-    def build_json(entities: list, attrs:list, tabs:list, settings) -> any:
+    def build_json(entities: list, attrs:list, tabs:list, settings:list, root: list) -> any:
         output = {}
-        
-        entity_list = []
+        for r in root:
+            output['about']= {"date":r["AboutDate"],"recent_changes": r["AboutChange"]}
+            output['api_root'] = r["ApiRoot"]
+            output['authentication'] = {r["ApiAuthType"]:r["ApiAuth"]}
+            
+        entity_list = {}
         for entity in entities:
             entity_name = entity["name"]
             e = {}
-            
             e["type"] = entity["title"]
             e["primary_key"] = convert_list(entity["pkey"]) 
             if hasattr(entity,"new_template"):
@@ -212,8 +215,8 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
                 e["favorite"] = entity.get("favorite")
             if entity.get("exclude"):
                 e["exclude"] = entity["exclude"]
-            output[entity_name] = e
-            
+            entity_list[entity_name] = e
+        
             cols = []
             for attr in attrs:
                 col ={}
@@ -228,7 +231,7 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
                     col["enabled"] = attr.get("isenabled", False)
                     col["exclude"] = attr.get("exclude", False)
                     cols.append(col)         
-            output[entity_name]["columns"] = cols
+            entity_list[entity_name]["columns"] = cols
             tab_group = []
             for tab in tabs:
                 tg = {}
@@ -241,9 +244,10 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
                     tg["exclude"] = tab.get("exclude", False)
                     tab_group.append(tg)
             if len(tab_group) > 0:
-                output[entity_name]["tab_groups"] = tab_group
+                entity_list[entity_name]["tab_groups"] = tab_group
         
-            
+        output["entities"] = entity_list
+        
         output_yaml = {}
         output_yaml["entities"] = output
         style_guide = []
@@ -255,8 +259,7 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         output["settings"] = {}
         output["settings"]["style_guide"] = style_guide
         
-        #TODO root about api_root authentication
-        
+                
         return output
     
     def write_file(source: str,file_name:str):

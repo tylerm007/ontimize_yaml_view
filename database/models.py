@@ -202,7 +202,7 @@ class Root(SAFRSBase, Base):
     _s_collection_name = 'Root'  # type: ignore
     __bind_key__ = 'None'
     
-    Id = Column("id", INTEGER, primary_key=True, nullable=False)
+    id = Column(INTEGER, primary_key=True, nullable=False)
     AboutDate = Column("about_date",String(100))
     AboutChange = Column("about_changes", Text)
     ApiRoot = Column("api_root",String(1000))
