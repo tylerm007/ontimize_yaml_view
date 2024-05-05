@@ -28,11 +28,10 @@ curl "http://localhost:5656/loadyaml"
 
 ## Dump yaml file back to disk (ui/admin_model_merge.yaml)
 ```
-curl "http://localhost:5656/getyaml"
+curl "http://localhost:5656/dumpyaml"
 ```
 ## Ontimze Issues
-1. The navigation between EntityAttr and TabGroup use multiple keys - this is not working
-2. Adding parent-keys to detail tab groups fails to retrieve anything
+1. Adding parent-keys to detail in all tab groups fails to retrieve or filter data
 
 # Quick Start
 
