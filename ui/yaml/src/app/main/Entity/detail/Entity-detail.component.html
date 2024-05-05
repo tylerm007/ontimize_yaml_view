@@ -3,7 +3,7 @@
     <mat-tab-group fxFill>
       <mat-tab label="{{ 'ENTITY' | oTranslate }}">
         <o-form #form attr="Entity_form_edit" service="Entity" entity="Entity" fxLayout="column" show-header="yes"
-          header-actions="R;I;U;D" #oDetailForm keys="name" keys-sql-types="VARCHAR" show-header-navigation="yes"
+          header-actions="R;U;D" #oDetailForm keys="name" keys-sql-types="VARCHAR" show-header-navigation="yes"
           (onDataLoaded)="onDataLoaded($event)">
 
 
@@ -11,7 +11,7 @@
             <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
 
               <div fxLayout="row" fxLayoutAlign="start center" class="gap">
-                <o-text-input attr="name" label=" Entity Name*" editable="yes" required="yes"></o-text-input>
+                <o-text-input attr="name" label=" Entity Name*" enabled="no" required="yes"></o-text-input>
               </div>
 
               <div fxLayout="row" fxLayoutAlign="start center" class="gap">
@@ -19,7 +19,7 @@
               </div>
 
               <div fxLayout="row" fxLayoutAlign="start center" class="gap">
-                <o-text-input attr="pkey" label="Primary Key" editable="yes" required="no"></o-text-input>
+                <o-text-input attr="pkey" label="Primary Key" enabled="no" required="no"></o-text-input>
               </div>
 
               <div fxLayout="row" fxLayoutAlign="start center" class="gap">
@@ -60,10 +60,10 @@
             class="vertical-padding-8" edition-mode="click" horizontal-scroll="yes">
             <!-- parent-keys="entity_name;entity_name" -->
 
-            <o-table-column attr="entity_name" label=" Entity Name*" editable="yes" required="yes"
+            <o-table-column attr="entity_name" label=" Entity Name*" editable="no" required="yes"
               content-align="left"></o-table-column>
 
-            <o-table-column attr="attr" label="Attribute" editable="yes" required="yes"
+            <o-table-column attr="attr" label="Attribute" editable="no" required="yes"
               content-align="left"></o-table-column>
 
             <o-table-column attr="template_name" label="template_name" editable="yes" required="no"

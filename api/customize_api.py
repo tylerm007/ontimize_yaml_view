@@ -274,7 +274,7 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         with open(f"{_project_dir}/ui/{file_name}", "w") as file:
             yaml.safe_dump(source, file, default_flow_style=False)
             #file.write(source)
-        
+    
     @app.route("/loadyaml", methods=["GET","POST","OPTIONS"])
     def load_yaml():
         '''
@@ -288,9 +288,14 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         elif request.method == "POST":
             data = request.data.decode("utf-8")
             valuesYaml =json.dumps(data) #TODO - not working yet
-        
+            
+        return _process_yaml(request)
+    
+    def _process_yaml(request):
         #Clean the database out - this is destructive 
-        
+        with open(f'{_project_dir}/ui/app_model.yaml','rt') as f:  
+                valuesYaml=yaml.safe_load(f.read())
+                f.close()
         delete_sql(models.TabGroup)
         delete_sql(models.GlobalSetting)
         delete_sql(models.EntityAttr)
@@ -596,6 +601,9 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         
         if clz_name == "export":
             return gen_export(request)
+        
+        if clz_name == "Entity" and clz_type == "insertFile":
+            return _process_yaml(request)
         
         #api_clz = api_map.get(clz_name)
         resource = find_model(clz_name)

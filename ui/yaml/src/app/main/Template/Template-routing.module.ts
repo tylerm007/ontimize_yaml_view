@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { TemplateHomeComponent } from './home/Template-home.component';
 import { TemplateNewComponent } from './new/Template-new.component';
 import { TemplateDetailComponent } from './detail/Template-detail.component';
+import { EntityAttrDetailComponent } from '../EntityAttr/detail/EntityAttr-detail.component';
 
 const routes: Routes = [
   {path: '', component: TemplateHomeComponent},
@@ -13,7 +14,8 @@ const routes: Routes = [
         permissionId: 'Template-detail-permissions'
       }
     }
-  }
+  },
+  { path: ':/entity_name/:attr', component: EntityAttrDetailComponent}
 ];
 
 export const TEMPLATE_MODULE_DECLARATIONS = [

@@ -3,7 +3,7 @@
     <mat-tab-group fxFill>
       <mat-tab label="{{ 'TABGROUP' | oTranslate }}">
         <o-form #form attr="TabGroup_form_edit" service="TabGroup" entity="TabGroup" fxLayout="column" show-header="yes"
-          header-actions="R;I;U;D" #oDetailForm keys="entity_name;tab_entity;direction;name"
+          header-actions="R;U;D" #oDetailForm keys="entity_name;tab_entity;direction;name"
           keys-sql-types="VARCHAR;VARCHAR;VARCHAR;VARCHAR" show-header-navigation="yes"
           (onDataLoaded)="onDataLoaded($event)">
 
@@ -13,7 +13,7 @@
 
               <div fxLayout="row" fxLayoutAlign="start center" class="gap">
                 <o-list-picker attr="entity_name" service="Entity" entity="EntityType" fxFlex="30" query-on-init="no"
-                  query-on-bind="yes" required="yes" enabled="yes" filter="yes" value-column="name"
+                  query-on-bind="yes" required="yes" enabled="no" filter="yes" value-column="name"
                   value-column-type="VARCHAR" keys="name" columns="name" title=" Entity Name*" visible-columns="name"
                   separator=" - " width="680px">
                 </o-list-picker>
@@ -21,14 +21,14 @@
 
               <div fxLayout="row" fxLayoutAlign="start center" class="gap">
                 <o-list-picker attr="tab_entity" service="Entity" entity="EntityType" fxFlex="30" query-on-init="no"
-                  query-on-bind="yes" required="yes" enabled="yes" filter="yes" value-column="name"
+                  query-on-bind="yes" required="yes" enabled="no" filter="yes" value-column="name"
                   value-column-type="VARCHAR" keys="name" columns="name" title="Tab Entity" visible-columns="name"
                   separator=" - " width="680px">
                 </o-list-picker>
               </div>
 
               <div fxLayout="row" fxLayoutAlign="start center" class="gap">
-                <o-text-input attr="direction" label="direction" editable="yes" required="yes"></o-text-input>
+                <o-text-input attr="direction" label="direction" enabled="no" required="yes"></o-text-input>
               </div>
 
               <div fxLayout="row" fxLayoutAlign="start center" class="gap">
@@ -40,7 +40,7 @@
               </div>
 
               <div fxLayout="row" fxLayoutAlign="start center" class="gap">
-                <o-text-input attr="fkeys" label="fkeys" editable="yes" required="yes"></o-text-input>
+                <o-text-input attr="fkeys" label="fkeys" enabled="no" required="yes"></o-text-input>
               </div>
 
               <div fxLayout="row" fxLayoutAlign="start center" class="gap">
