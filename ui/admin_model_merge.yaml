@@ -1530,11 +1530,11 @@ settings:
   - decimal_min: '0'
   - decimal_separator: .
   - edit_on_mode: dblclick
-  - include_translation: '0'
+  - include_translation: true
   - max_decimal_digits: '4'
   - min_decimal_digits: '2'
   - mode: tab
   - pick_style: list
   - style: light
   - thousand_separator: ','
-  - use_keycloak: '0'
+  - use_keycloak: true
