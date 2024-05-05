@@ -205,16 +205,20 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
             e = {}
             e["type"] = entity["title"]
             e["primary_key"] = convert_list(entity["pkey"]) 
-            if hasattr(entity,"new_template"):
+            if entity.get("new_template"):
                 e["new_template"] = entity["new_template"]
-            if hasattr(entity,"home_template"):
+            if entity.get("home_template"):
                 e["home_template"] = entity["home_template"]
-            if hasattr(entity,"detail_template"):
+            if entity.get("detail_template"):
                 e["detail_template"] = entity["detail_template"]
             if entity.get("favorite"):
                 e["favorite"] = entity.get("favorite")
             if entity.get("exclude"):
                 e["exclude"] = entity["exclude"]
+            if entity.get("info_list"):
+                e["info_list"] =entity["info_list"]
+            if entity.get("info_show"):
+                e["info_show"] =entity["info_show"]
             entity_list[entity_name] = e
         
             cols = []

@@ -45,7 +45,22 @@ entities:
       sort: false
       template: text
       type: INTEGER
+    detail_template: detail_template.html
     favorite: CategoryName
+    home_template: home_template.html
+    info_list: <h1>Tour - Application Information, Authorization</h1> <h2>Application
+      Information</h2> Info is set in the <span style="font-family:'Courier New'">ui/admin/admin.yaml</span>
+      file with <span style="font-family:'Courier New'">info_list</span> and <span
+      style="font-family:'Courier New'">info_show</span>.  To show info... <ul> <li>On
+      the page, click (?) to see the info dialog box</li> <li>On the personalization
+      icon (upper right), click the (?) toggle to see info on the page</li> <li>In
+      the admin.yaml, set <span style="font-family:'Courier New'">info_toggle_checked</span></li>
+      </ul> Suggestion - visit the Customer, Department and Employee pages.<br><br>
+      <h2>Authorization</h2> The table includes 8 rows (login as 'admin' with password
+      'p', upper right).<br><br> But, logout and login as 'u1' -- only 1 is shown,
+      per <a target="_blank" href="https://apilogicserver.github.io/Docs/Security-Authorization/">authorization</a>.
+      <br><br>
+    new_template: new_template.html
     primary_key:
     - Id
     type: Category
@@ -195,7 +210,33 @@ entities:
       sort: false
       template: text
       type: VARCHAR(8000)
+    detail_template: detail_template.html
     favorite: CompanyName
+    home_template: home_template.html
+    info_list: <h1>List Pages</h1> In this <a target="_blank" href="https://apilogicserver.github.io/Docs/Sample-Database/">Northwind
+      demo,</a> Info provides Tour suggestions (see Category for instructions).  On
+      this page... <ul> <li> <strong>Search</strong> on multiple fields (Company,
+      Contact Name) -- try z</li> <li> <strong>Sort</strong> by column headers</li>
+      <li> <strong>Pagination</strong> (at bottom) to handle large result sets</li>
+      <li> <strong>Multi-page</strong> <ul> <li>Reset your search / sort so that <span
+      style="font-family:'Courier New'">Alfreds</span> is at the top </li> <li>Click
+      <span style="font-family:'Courier New'">Alfreds,</span> to "zoom in" to the
+      <i>show</i> page <ul><li>More info there</li></ul></li> </ul> </li> </ul> <br><br>
+      <h2>Authorization</h2> The table includes many rows (login as 'admin' with password
+      'p', upper right).<br><br> But, logout and login as 's1' -- only 1 is shown,
+      per <a target="_blank" href="https://apilogicserver.github.io/Docs/Security-Authorization/">authorization</a>.
+      See `security/declare_logic.py`. <br><br>
+    info_show: <h1>Multi-table</h1> <ul> <li><strong>Multi-Table Browsing - </strong>Note
+      the list of related orders <ul> <li><strong>Navigations - </strong> Click first
+      Order</li> </ul> </li> <li> <strong>Multi-Table Add - </strong> Add a New Order
+      <ul> <li>Observe several fields are not shown when inserting (e.g., Order.Id)</li>
+      <li>Observe that the Customer is filled in ("Cascade Add")</li> <li>Lookup an
+      Employee</li> <li><strong>Click Save and Show</strong></li> <li>Insert several
+      OrderDetails <ul> <li>Observe OrderId value is defaulted ("Cascade Add") and
+      not shown ("Show_when")</li> <li>Lookup a Product</li> <li>Click <strong>Save
+      and Add Another</strong> </li> <li>Lookup another Product, and click <strong>Add</strong>
+      to see the added Order </li> </ul> </li> </ul>
+    new_template: new_template.html
     primary_key:
     - Id
     tab_groups:
@@ -227,7 +268,10 @@ entities:
       sort: false
       template: text
       type: VARCHAR(8000)
+    detail_template: detail_template.html
     favorite: Id
+    home_template: home_template.html
+    new_template: new_template.html
     primary_key:
     - Id
     type: CustomerDemographic
@@ -269,7 +313,13 @@ entities:
       sort: false
       template: text
       type: INTEGER
+    detail_template: detail_template.html
     favorite: DepartmentName
+    home_template: home_template.html
+    info_list: <h1>Tour - Authorization</h1> <h2>Global Security Filters</h2> Only
+      role sa & manager can view SecurityLevel > 0 - see security/declare_security.py
+      <br><br>
+    new_template: new_template.html
     primary_key:
     - Id
     tab_groups:
@@ -511,7 +561,25 @@ entities:
       sort: false
       template: text
       type: Image
+    detail_template: detail_template.html
     favorite: LastName
+    home_template: home_template.html
+    info_list: <h1>Show When</h1> Support for <a target="_blank" href="https://apilogicserver.github.io/Docs/Admin-Customization/#show_when">Show
+      When</a> means you can define expressions that determine when a field is shown
+      or hidden.  On this page... <ul> <li> Click <strong>Suyama</strong> and note
+      <span style="font-family:'Courier New'">Dues</span> is hidden, but visible if
+      you click <strong>Steele</strong> <ul> <li> That is because <span style="font-family:'Courier
+      New'">Admin.yaml</span> has a expression for the <span style="font-family:'Courier
+      New'">show_when expression</span> for the <span style="font-family:'Courier
+      New'">Dues</span> field </li> </ul> </li> <li> Observe the same effect on Update
+      / Insert screens as you alter the value of <span style="font-family:'Courier
+      New'">EmployeeType</span></li> </ul> <h1>Images</h1> Observe that "show" pages
+      support images. <h1>Virtual Relationships</h1> Observe that "show" pages have
+      tabs for Manages and Manager.<br> These foreign keys are *not* defined in the
+      database, but in <span style="font-family:'Courier New'">database/customize_models.py</span>.<br>
+      <h1>Derived Attributes</h1> <span style="font-family:'Courier New'">ProperSalary</span>
+      is not defined in the database.<br> See <span style="font-family:'Courier New'">database/customize_models.py</span>.<br>
+    new_template: new_template.html
     primary_key:
     - Id
     tab_groups:
@@ -637,7 +705,10 @@ entities:
       sort: false
       template: text
       type: INTEGER
+    detail_template: detail_template.html
     favorite: LastName
+    home_template: home_template.html
+    new_template: new_template.html
     primary_key:
     - Id
     tab_groups:
@@ -678,7 +749,10 @@ entities:
       sort: false
       template: text
       type: INTEGER
+    detail_template: detail_template.html
     favorite: Id
+    home_template: home_template.html
+    new_template: new_template.html
     primary_key:
     - Id
     tab_groups:
@@ -726,7 +800,10 @@ entities:
       sort: false
       template: text
       type: VARCHAR(256)
+    detail_template: detail_template.html
     favorite: country
+    home_template: home_template.html
+    new_template: new_template.html
     primary_key:
     - country
     - city
@@ -922,7 +999,22 @@ entities:
       sort: false
       template: text
       type: VARCHAR(8000)
+    detail_template: detail_template.html
     favorite: Id
+    home_template: home_template.html
+    info_show: <h1>Tour</h1> <h3>Automatic Joins</h3> <ul> <li> Observe the Product
+      Name in the Order Detail list.</li> <li> In the <a target="_blank" href="https://apilogicserver.github.io/Docs/Sample-Database/">sample
+      database,</a> the Order Detail is related to the Product by <span style="font-family:'Courier
+      New'">ProductId.</span> which makes no sense to End Users.<br> So, the system
+      joins a suitable field, automatically. </li> <li> Automatic joins are configurable
+      <a target="_blank" href="https://apilogicserver.github.io/Docs/Admin-Customization/">configurable.</a>
+      </li> </ul> <h3>Update Support - Lookups, Logic</h3> <ul> <li> <strong>Edit</strong>
+      the first Order Detail, and.... <ul> <li> Use <strong>Lookup</strong> to select
+      a different product. </li> </ul> </li> <li> After save, observe the altered
+      <span style="font-family:'Courier New'">Amount Total.</span> <ul> <li> This
+      is not from code, but from <a target="_blank" href="https://apilogicserver.github.io/Docs/Tutorial/#logic">this
+      logic.</a> </li> </ul> </li> </ul>
+    new_template: new_template.html
     primary_key:
     - Id
     tab_groups:
@@ -1030,7 +1122,10 @@ entities:
       sort: false
       template: text
       type: VARCHAR(8000)
+    detail_template: detail_template.html
     favorite: Id
+    home_template: home_template.html
+    new_template: new_template.html
     primary_key:
     - Id
     tab_groups:
@@ -1150,7 +1245,10 @@ entities:
       sort: false
       template: text
       type: INTEGER
+    detail_template: detail_template.html
     favorite: ProductName
+    home_template: home_template.html
+    new_template: new_template.html
     primary_key:
     - Id
     tab_groups:
@@ -1182,7 +1280,10 @@ entities:
       sort: false
       template: text
       type: INTEGER
+    detail_template: detail_template.html
     favorite: RegionDescription
+    home_template: home_template.html
+    new_template: new_template.html
     primary_key:
     - Id
     type: Region
@@ -1215,7 +1316,10 @@ entities:
       sort: false
       template: text
       type: INTEGER
+    detail_template: detail_template.html
     favorite: CompanyName
+    home_template: home_template.html
+    new_template: new_template.html
     primary_key:
     - Id
     type: Shipper
@@ -1329,7 +1433,10 @@ entities:
       sort: false
       template: text
       type: INTEGER
+    detail_template: detail_template.html
     favorite: CompanyName
+    home_template: home_template.html
+    new_template: new_template.html
     primary_key:
     - Id
     type: Supplier
@@ -1362,8 +1469,11 @@ entities:
       sort: false
       template: text
       type: INTEGER
+    detail_template: detail_template.html
     exclude: true
     favorite: TerritoryDescription
+    home_template: home_template.html
+    new_template: new_template.html
     primary_key:
     - Id
     tab_groups:
@@ -1395,8 +1505,11 @@ entities:
       sort: false
       template: text
       type: INTEGER
+    detail_template: detail_template.html
     exclude: true
     favorite: Name
+    home_template: home_template.html
+    new_template: new_template.html
     primary_key:
     - Id
     tab_groups:
