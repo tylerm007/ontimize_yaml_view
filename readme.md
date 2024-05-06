@@ -6,27 +6,35 @@ The Ontimize application is loaded in ui/yaml directory. The react-admin is in t
 
 ## Run the demo
 ```
-git clone https://github.com/tylerm007/ontimize_yaml_view.git
+python -m venv venv
+source venv/bin/activate (Windows venv/Scripts/activate)
+pip install ApiLogicServer
 
-press F5 to start ApiLogicServer
-in a terminal window:
+git clone https://github.com/tylerm007/ontimize_yaml_view.git
+cd /ontimize_yaml_view
+code .
+
+-- press F5 to start ApiLogicServer
+-- in a terminal window or use run menu to Install Ontimize and Launch Ontimize
 cd ui/yaml
 npm install
 npm start
 
 in a browser:
-react-admin 
+react-admin backend application
 http://localhost:5656 (user: admin password: p)
 
 Ontimize
-http://localhost:4299  
+http://localhost:4299 (user: admin password: p)
 ```
-## Read the yaml and load into SQL
+## Read the admin_model.yaml and load into SQL
+This will read the yaml file from the ui directory.
 ```
 curl "http://localhost:5656/loadyaml"
 ```
 
 ## Dump yaml file back to disk (ui/admin_model_merge.yaml)
+This will write back the modified SQL back to disk.  Use compare files to merge or replace the merge file for the new yaml.
 ```
 curl "http://localhost:5656/dumpyaml"
 ```
