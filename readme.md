@@ -5,21 +5,31 @@ This is a proof of concept - a local SQLite database is used to store a yaml fil
 The Ontimize application is loaded in ui/yaml directory. The react-admin is in the ui/admin directory.
 
 ## Run the demo
-```
-python -m venv venv
-source venv/bin/activate (Windows venv/Scripts/activate)
-pip install ApiLogicServer
 
+## 1.1 Establish Your Python Environment 
+
+
+```bash title="Install API Logic Server in a Virtual Environment"
+python -m venv venv                        # may require python3 -m venv venv
+venv\Scripts\activate                      # mac/linux: source venv/bin/activate
+pip install ApiLogicServer
+```
+
+```bash title="Install the Ontimize Yaml project and launch VSCode"
 git clone https://github.com/tylerm007/ontimize_yaml_view.git
 cd /ontimize_yaml_view
 code .
+```
 
+```bash title="start ApiLogicServer"
 -- press F5 to start ApiLogicServer
--- in a terminal window or use run menu to Install Ontimize and Launch Ontimize
-cd ui/yaml
+-- in a terminal window or 
+-- use run menu to Install Ontimize and Launch Ontimize
+# cd ontimize_yaml_view/ui/yaml
 npm install
 npm start
-
+```
+```
 in a browser:
 react-admin backend application
 http://localhost:5656 (user: admin password: p)
@@ -41,6 +51,15 @@ curl "http://localhost:5656/dumpyaml"
 ## Ontimze Issues
 1. Adding parent-keys to detail in all tab groups fails to retrieve or filter data
 
+## Entity
+Use the Ontimize editor to exclude entities or change the titles.
+![](ui/templates/Entity.png)
+## EntityAttr
+Use the Ontimize editor to exclude attributes, include search or sort, enable or mark fields as required.
+![](ui/templates/EntityAttr.png)
+## TabGroup
+Use the Ontimize editor to exclude attributes, include search or sort, enable or mark fields as required.
+![](ui/templates/TabGroup.png)
 # Quick Start
 
 For **VSCode** Users, you are ready to run:
