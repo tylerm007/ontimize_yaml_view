@@ -596,14 +596,18 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         if clz_name == "dynamicjasper":
             return gen_report(request)
         
-        if clz_name in ["listReports", "bundle"]:
-            return {}
+        if clz_name in ["listReports", "bundle", "reportstore"]:
+            return jsonify({"code":0,"data":{},"message": None})
         
         if clz_name == "export":
             return gen_export(request)
         
-        if clz_name == "Entity" and clz_type == "insertFile":
-            return _process_yaml(request)
+        if clz_type == "loadyaml":
+            return load_yaml()
+        
+        if clz_type == "dumpyaml":
+            return dump_yaml()
+        
         
         #api_clz = api_map.get(clz_name)
         resource = find_model(clz_name)
