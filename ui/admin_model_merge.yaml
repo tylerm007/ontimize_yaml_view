@@ -34,7 +34,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: integer
       type: INTEGER
     - enabled: true
       exclude: false
@@ -43,7 +43,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: integer
       type: INTEGER
     detail_template: detail_template.html
     favorite: CategoryName
@@ -91,7 +91,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: currency
       type: DECIMAL
     - enabled: true
       exclude: false
@@ -109,7 +109,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: integer
       type: INTEGER
     - enabled: true
       exclude: false
@@ -1523,18 +1523,19 @@ entities:
     type: Union
 settings:
   style_guide:
-  - currency_symbol: $
-  - currency_symbol_position: left
-  - date_format: LL
-  - decimal_max: '1000000'
-  - decimal_min: '0'
-  - decimal_separator: .
-  - edit_on_mode: dblclick
-  - include_translation: false
-  - max_decimal_digits: '4'
-  - min_decimal_digits: '2'
-  - mode: tab
-  - pick_style: list
-  - style: light
-  - thousand_separator: ','
-  - use_keycloak: false
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000'
+    decimal_min: '0'
+    decimal_separator: .
+    edit_on_mode: dblclick
+    include_translation: false
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    mode: tab
+    pick_style: list
+    row-height: small
+    style: light
+    thousand_separator: ','
+    use_keycloak: false
