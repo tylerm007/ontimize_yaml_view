@@ -1,57 +1,50 @@
 <div class="container">
   <o-form-container breadcrumb="yes" breadcrumb-label-columns="name" breadcrumb-separator=", ">
-    <mat-tab-group fxFill>
-      <mat-tab label="{{ 'ENTITY' | oTranslate }}">
-        <o-form #form attr="Entity_form_edit" service="Entity" entity="Entity" fxLayout="column" show-header="yes"
-          header-actions="R;U;D" #oDetailForm keys="name" keys-sql-types="VARCHAR" show-header-navigation="yes"
-          (onDataLoaded)="onDataLoaded($event)">
+    <o-form #form attr="Entity_form_edit" service="Entity" entity="Entity" fxLayout="column" show-header="yes"
+      header-actions="R;U;D" #oDetailForm keys="name" keys-sql-types="VARCHAR" show-header-navigation="yes"
+      (onDataLoaded)="onDataLoaded($event)">
 
 
-          <o-row attr="row1" layout-align="start stretch">
-            <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+      <o-row attr="row1" layout-align="start stretch">
+        <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
 
-              <div fxLayout="row" fxLayoutAlign="start center" class="gap">
-                <o-text-input attr="name" label=" Entity Name*" enabled="no" required="yes"></o-text-input>
-              </div>
+          <div fxLayout="row" fxLayoutAlign="start center" class="gap">
+            <o-text-input attr="name" label=" Entity Name*" enabled="no" required="yes"></o-text-input>
+          </div>
 
-              <div fxLayout="row" fxLayoutAlign="start center" class="gap">
-                <o-text-input attr="title" label="Title" editable="yes" required="no"></o-text-input>
-              </div>
+          <div fxLayout="row" fxLayoutAlign="start center" class="gap">
+            <o-text-input attr="title" label="Title" editable="yes" required="no"></o-text-input>
+          </div>
 
-              <div fxLayout="row" fxLayoutAlign="start center" class="gap">
-                <o-text-input attr="pkey" label="Primary Key" enabled="no" required="no"></o-text-input>
-              </div>
+          <div fxLayout="row" fxLayoutAlign="start center" class="gap">
+            <o-text-input attr="pkey" label="Primary Key" enabled="no" required="no"></o-text-input>
+          </div>
 
-              <div fxLayout="row" fxLayoutAlign="start center" class="gap">
-                <o-text-input attr="favorite" label="favorite" editable="yes" required="no"></o-text-input>
-              </div>
+          <div fxLayout="row" fxLayoutAlign="start center" class="gap">
+            <o-text-input attr="favorite" label="favorite" editable="yes" required="no"></o-text-input>
+          </div>
 
-              <div fxLayout="row" fxLayoutAlign="start center" class="gap">
-                <o-textarea-input attr="info_list" label="info_list" enabled="true"
-                  read-only="false"></o-textarea-input>
-              </div>
+          <div fxLayout="row" fxLayoutAlign="start center" class="gap">
+            <o-textarea-input attr="info_list" label="info_list" enabled="true" read-only="false"></o-textarea-input>
+          </div>
 
-              <div fxLayout="row" fxLayoutAlign="start center" class="gap">
-                <o-textarea-input attr="info_show" label="info_show" enabled="true"
-                  read-only="false"></o-textarea-input>
-              </div>
+          <div fxLayout="row" fxLayoutAlign="start center" class="gap">
+            <o-textarea-input attr="info_show" label="info_show" enabled="true" read-only="false"></o-textarea-input>
+          </div>
 
-              <div fxLayout="row" fxLayoutAlign="start center" class="gap">
-                <o-checkbox attr="exclude" label="exclude" read-only="no" enabled="yes"></o-checkbox>
-              </div>
+          <div fxLayout="row" fxLayoutAlign="start center" class="gap">
+            <o-checkbox attr="exclude" label="exclude" read-only="no" enabled="yes"></o-checkbox>
+          </div>
 
-            </div>
-          </o-row>
-        </o-form>
-      </mat-tab>
-    </mat-tab-group>
-
+        </div>
+      </o-row>
 
     <mat-tab-group fxFill>
 
       <mat-tab label="ENTITYATTR-entity_name">
         <div layout-padding>
-          <o-table attr="EntityAttrTable" service="EntityAttr" entity="EntityAttr" keys="entity_name;attr"
+          <o-table attr="EntityAttrTable" service="EntityAttr" entity="EntityAttr" keys="name;attr"
+            parent-keys="entity_name:name"
             columns="entity_name;attr;template_name;label;issearch;issort;thistype;exclude;isrequired;isenabled"
             horizontal-scroll="yes" detail-form-route="EntityAttr" edit-form-route="EntityAttr"
             visible-columns="entity_name;attr;template_name;label;thistype;issearch;issort;exclude;isrequired;isenabled"
@@ -110,7 +103,9 @@
       <mat-tab label="TABGROUP-entity_name">
         <div layout-padding>
           <o-table attr="TabGroupTable" service="TabGroup" entity="TabGroup"
-            keys="entity_name;tab_entity;direction;label" columns="entity_name;tab_entity;direction;label;fkeys;exclude"
+            keys="entity_name;tab_entity;direction;label" 
+            parent-keys="entity_name:entity_name"
+            columns="entity_name;tab_entity;direction;label;fkeys;exclude"
             horizontal-scroll="yes" detail-form-route="TabGroup" edit-form-route="TabGroup"
             visible-columns="entity_name;tab_entity;direction;label;fkeys;exclude" sort-columns="entity_name"
             query-rows="8" quick-filter="yes" row-height="small" select-all-checkbox="true" pageable="yes"
@@ -147,7 +142,9 @@
       <mat-tab label="TABGROUP-tab_entity">
         <div layout-padding>
           <o-table attr="TabGroupTable" service="TabGroup" entity="TabGroup"
-            keys="entity_name;tab_entity;direction;label" columns="entity_name;tab_entity;direction;label;fkeys;exclude"
+            keys="entity_name;tab_entity;direction;label" 
+            parent-keys="tab_entity:name"
+            columns="entity_name;tab_entity;direction;label;fkeys;exclude"
             horizontal-scroll="yes" detail-form-route="TabGroup" edit-form-route="TabGroup"
             visible-columns="entity_name;tab_entity;direction;label;fkeys;exclude" sort-columns="entity_name"
             query-rows="8" quick-filter="yes" row-height="small" select-all-checkbox="true" pageable="yes"
@@ -180,6 +177,6 @@
       </mat-tab>
 
     </mat-tab-group>
-
+  </o-form>
   </o-form-container>
 </div>

@@ -225,3 +225,4 @@ settings:
     style: light
     thousand_separator: ','
     use_keycloak: false
+    row_height: medium

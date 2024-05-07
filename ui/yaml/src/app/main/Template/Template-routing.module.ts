@@ -15,7 +15,7 @@ const routes: Routes = [
       }
     }
   },
-  { path: ':/entity_name/:attr', component: EntityAttrDetailComponent}
+  { path: ':entity_name/:attr', component: EntityAttrDetailComponent}
 ];
 
 export const TEMPLATE_MODULE_DECLARATIONS = [
