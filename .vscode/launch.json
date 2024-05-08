@@ -215,6 +215,16 @@
             "console": "integratedTerminal"
         },
         {
+            "name": "Expression Parser",
+            "type": "debugpy",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "program": "api/exression_parser.py",
+            "redirectOutput": true,
+            "justMyCode": false,
+            "console": "integratedTerminal"
+        },
+        {
             "name": "Create DB",
             "type": "debugpy",
             "request": "launch",
