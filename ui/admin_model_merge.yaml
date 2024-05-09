@@ -23,8 +23,8 @@ entities:
       label: Description
       name: Description
       required: false
-      search: false
-      sort: false
+      search: true
+      sort: true
       template: text
       type: VARCHAR(8000)
     - enabled: true
@@ -43,7 +43,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     detail_template: detail_template.html
     favorite: CategoryName
@@ -100,7 +100,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: currency
       type: DECIMAL
     - enabled: true
       exclude: false
@@ -199,7 +199,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: phone
       type: VARCHAR(8000)
     - enabled: true
       exclude: false
@@ -208,7 +208,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: phone
       type: VARCHAR(8000)
     detail_template: detail_template.html
     favorite: CompanyName
@@ -388,7 +388,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: currency
       type: DECIMAL
     - enabled: true
       exclude: false
@@ -397,7 +397,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: currency
       type: DECIMAL
     - enabled: true
       exclude: false
@@ -415,7 +415,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: currency
       type: DECIMAL
     - enabled: true
       exclude: false
@@ -460,7 +460,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: date
       type: VARCHAR(8000)
     - enabled: true
       exclude: false
@@ -469,7 +469,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: date
       type: VARCHAR(8000)
     - enabled: true
       exclude: false
@@ -523,7 +523,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: phone
       type: VARCHAR(8000)
     - enabled: true
       exclude: false
@@ -676,7 +676,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: currency
       type: DECIMAL
     - enabled: true
       exclude: false
@@ -844,7 +844,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: date
       type: VARCHAR(8000)
     - enabled: true
       exclude: false
@@ -853,7 +853,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: date
       type: DATE
     - enabled: true
       exclude: false
@@ -862,7 +862,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: currency
       type: DECIMAL
     - enabled: true
       exclude: false
@@ -871,7 +871,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: checkbox
       type: Boolean
     - enabled: true
       exclude: false
@@ -1093,7 +1093,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: integer
       type: INTEGER
     - enabled: true
       exclude: false
@@ -1111,7 +1111,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: currency
       type: DECIMAL
     - enabled: true
       exclude: false
@@ -1120,7 +1120,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: date
       type: VARCHAR(8000)
     detail_template: detail_template.html
     favorite: Id
@@ -1180,7 +1180,7 @@ entities:
       required: true
       search: false
       sort: false
-      template: text
+      template: integer
       type: INTEGER
     - enabled: true
       exclude: false
@@ -1404,7 +1404,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: phone
       type: VARCHAR(8000)
     - enabled: true
       exclude: false
@@ -1413,7 +1413,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: phone
       type: VARCHAR(8000)
     - enabled: true
       exclude: false
@@ -1522,6 +1522,8 @@ entities:
       resource: Employee
     type: Union
 settings:
+  HomeJS: http://localhost:5656/admin-app/home.js
+  max_list_columns: 8
   style_guide:
     currency_symbol: $
     currency_symbol_position: left
@@ -1535,7 +1537,6 @@ settings:
     min_decimal_digits: '2'
     mode: tab
     pick_style: list
-    row-height: small
     style: light
     thousand_separator: ','
     use_keycloak: false
