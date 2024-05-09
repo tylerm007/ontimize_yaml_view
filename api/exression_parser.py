@@ -52,6 +52,16 @@ def parsePayload(payload: str):
 
 
 def parseFilter(filter: dict, sqltypes: any):
+    sql_where = ""
+    join = ""
+    for f in filter:
+        expr = ExpressionParser(filter, sqltypes)
+        sql_where += join + expr.get_sql_where()
+        join = " AND "
+    return sql_where
+
+
+def _parseFilter(filter: dict, sqltypes: any):
     # {filter":{"@basic_expression":{"lop":"BALANCE","op":"<=","rop":35000}}
     filter_result = ""
     a = ""
@@ -78,11 +88,12 @@ def parseFilter(filter: dict, sqltypes: any):
 
 
 class BasicExpression:
-    def __init__(self, lop: any = None, op: str = None, rop: any = None):
+    def __init__(self, lop: any = None, op: str = None, rop: any = None, sqltypes = None):
         self.lop_ext = []
         self.rop_ext = []
         self.sql_where = ""
         self.join_condition = ""
+        self.sqltypes = sqltypes
 
         if isinstance(lop, dict):
             _lop = lop["lop"]
@@ -114,7 +125,7 @@ class BasicExpression:
                 self.where(row)
             for row in expr.rop_ext:
                 self.where(row)
-        
+
         if isinstance(expr.lop, str) and not isinstance(expr.rop, dict):
             self.sql_where += self._parseExpression(expr=expr)
             print(expr.join_condition)
@@ -122,8 +133,16 @@ class BasicExpression:
 
     def _parseExpression(self, expr) -> str:
         if expr.op != None and expr.rop != None:
-            q = "" if expr.is_numeric(expr.rop) else "'"
-            return f'{self.join_condition} "{expr.lop}" {expr.op} {q}{expr.rop}{q}'
+            value = expr.rop
+            
+            if self.sqltypes and expr.lop in self.sqltypes and self.sqltypes[expr.lop] in [91,93]:
+                from datetime import datetime
+                if self.sqltypes[expr.lop] == 93:
+                    value = datetime.fromtimestamp(value / 1000).strftime("%Y-%m-%d %H:%M:%S")
+                else:
+                    value = datetime.fromtimestamp(value / 1000).strftime("%Y-%m-%d")
+            q = "" if expr.is_numeric(value) else "'"
+            return f'{self.join_condition} "{expr.lop}" {expr.op} {q}{value}{q}'
         return ""
 
     def is_numeric(self, value):
@@ -132,27 +151,30 @@ class BasicExpression:
 
 class ExpressionParser:
 
-    def __init__(self, filter):
+    def __init__(self, filter, sqltypes=None):
         self.basic_expr = None
         self.filter = self.parse(filter)
-        self.build_sql_where()
+        self.build_sql_where(sqltypes)
 
     def get_expr(self):
         # return self.build_sql_where(self.basic_expr) if self.basic_expr else "1=1"
         self.build_sql_where(self.basic_expr)
 
     def parse(self, filter):
-        return next((filter[f] for f in filter if f == BASIC_EXPRESSION), None)
+        return next(
+            (filter[f] for f in filter if f in [BASIC_EXPRESSION, FILTER_EXPRESSION]),
+            None,
+        )
 
     def get_sql_where(self):
         return self.basic_expr.get_sql_where()
 
-    def build_sql_where(self):
+    def build_sql_where(self, sqltypes=None):
         expr = self.filter
         lop = expr["lop"]
         op = expr["op"]
         rop = expr["rop"]
-        self.basic_expr = BasicExpression(lop, op, rop)
+        self.basic_expr = BasicExpression(lop, op, rop, sqltypes)
 
 
 if __name__ == "__main__":
@@ -198,8 +220,109 @@ if __name__ == "__main__":
     simple = {
         "filter": {"@basic_expression": {"lop": "BALANCE", "op": "<=", "rop": 35000}}
     }
+    filter_expr = {
+        "filter": {
+            "@filter_expression": {
+                "lop": {
+                    "lop": {
+                        "lop": {
+                            "lop": {
+                                "lop": "SURNAME",
+                                "op": "=",
+                                "rop": "Christopoulos",
+                            },
+                            "op": "OR",
+                            "rop": {
+                                "lop": "SURNAME",
+                                "op": "=",
+                                "rop": "Vazquez Santos",
+                            },
+                        },
+                        "op": "OR",
+                        "rop": {"lop": "SURNAME", "op": "=", "rop": "Santos Rodríguez"},
+                    },
+                    "op": "OR",
+                    "rop": {"lop": "SURNAME", "op": "=", "rop": "Dominguez "},
+                },
+                "op": "AND",
+                "rop": {
+                    "lop": {"lop": "STARTDATE", "op": "=", "rop": 1279152000000},
+                    "op": "OR",
+                    "rop": {"lop": "STARTDATE", "op": "=", "rop": 1278460800000},
+                },
+            }
+        }
+    }
+    full_expr = {
+        "filter": {
+            "@filter_expression": {
+                "lop": {
+                    "lop": {
+                        "lop": {
+                            "lop": {
+                                "lop": "SURNAME",
+                                "op": "=",
+                                "rop": "Christopoulos",
+                            },
+                            "op": "OR",
+                            "rop": {
+                                "lop": "SURNAME",
+                                "op": "=",
+                                "rop": "Vazquez Santos",
+                            },
+                        },
+                        "op": "OR",
+                        "rop": {"lop": "SURNAME", "op": "=", "rop": "Santos Rodríguez"},
+                    },
+                    "op": "OR",
+                    "rop": {"lop": "SURNAME", "op": "=", "rop": "Dominguez "},
+                },
+                "op": "AND",
+                "rop": {
+                    "lop": {"lop": "STARTDATE", "op": "=", "rop": 1279152000000},
+                    "op": "OR",
+                    "rop": {"lop": "STARTDATE", "op": "=", "rop": 1278460800000},
+                },
+            },
+            "@basic_expression": {
+                "lop": {
+                    "lop": {
+                        "lop": {"lop": "NAME", "op": "LIKE", "rop": "%pa%"},
+                        "op": "OR",
+                        "rop": {"lop": "SURNAME", "op": "LIKE", "rop": "%pa%"},
+                    },
+                    "op": "OR",
+                    "rop": {"lop": "EMAIL", "op": "LIKE", "rop": "%pa%"},
+                },
+                "op": "OR",
+                "rop": {"lop": "ADDRESS", "op": "LIKE", "rop": "%pa%"},
+            },
+        },
+        "columns": [
+            "CUSTOMERID",
+            "NAME",
+            "SURNAME",
+            "ADDRESS",
+            "STARTDATE",
+            "EMAIL",
+            "CUSTOMERTYPEID",
+        ],
+        "sqltypes": {
+            "SURNAME": 12,
+            "CUSTOMERID": 4,
+            "STARTDATE": 93,
+            "ADDRESS": 12,
+            "EMAIL": 12,
+        },
+        "offset": 0,
+        "pageSize": 24,
+        "orderBy": [{"columnName": "SURNAME", "ascendent": False}],
+    }
     # fltr = json.loads(filter)
     ep = ExpressionParser(simple["filter"])
     ep = ExpressionParser(filter["filter"])
     # print(ep.generate_sql_where(filter))
-    print(ep.get_sql_where())
+    # print(ep.get_sql_where())
+    # ep = ExpressionParser(filter_expr["filter"])
+    # print(ep.get_sql_where())
+    parsePayload(full_expr)
