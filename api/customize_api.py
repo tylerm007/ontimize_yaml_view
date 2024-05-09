@@ -185,7 +185,7 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         root = read(models.Root)
         
         output = build_json(entities, attrs, tabs, settings, root)
-        fn = "admin_model_merge.yaml"
+        fn = "app_model_merge.yaml"
         write_file(output, file_name=fn)
         return jsonify(f"Yaml file written to ui/{fn}")
     
