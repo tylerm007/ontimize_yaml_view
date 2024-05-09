@@ -20,6 +20,7 @@ from datetime import date
 from config.config import Args
 import os
 from pathlib import Path
+from api.exression_parser import parsePayload
 
 # called by api_logic_server_run.py, to customize api (new end points, services).
 # separate from expose_api_models.py, to simplify merge if project recreated
@@ -159,20 +160,6 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         """
         return api_utils.server_log(request, jsonify)
     
-        """
-        TODO - add to model
-            about:
-                date: 3/20/2024
-                    recent_changes: api_root, altered Customer/Order/Employee attribute ordering, tab
-                    captions, info, EmpType, dept emps, defaults, show_when, cascade add, toggles,
-                    images, security, login, virtual relns, global filters, no IsCommissioned
-            api_root: '{http_type}://{swagger_host}:{port}/{api}'
-            authentication:
-                endpoint: '{http_type}://{swagger_host}:{port}/api/auth/login'
-            settings:
-            
-            attribute -> show_when ??
-        """
     @app.route("/dumpyaml", methods=["GET"])
     def dump_yaml():
         # Write the JSON back to yaml
@@ -478,7 +465,20 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         
         return {}
     
-    def gen_report(request) -> any:
+    def _gen_report(request) -> any:
+        payload = json.loads(request.data)
+
+        print(payload)
+        if len(payload) == 3:
+            return jsonify({})
+        
+        entity = payload["entity"]
+        resource = find_model(entity)
+        api_clz = resource["model"]
+        
+        return gen_report(api_clz, project_dir, payload)
+        
+    def _gen_report(request) -> any:
         ''' Report PDF POC https://docs.reportlab.com/
         pip install reportlab 
         Ontimize Payload:
@@ -500,6 +500,7 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         "pageSize":20},
         "advQuery":true}
         '''
+    
         payload = json.loads(request.data)
         filter, columns, sqltypes, offset, pagesize, orderBy, data = parsePayload(payload)
         print(payload)
@@ -595,7 +596,7 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
             return jsonify(success=True)
         
         if clz_name == "dynamicjasper":
-            return gen_report(request)
+            return _gen_report(request)
         
         if clz_name in ["listReports", "bundle", "reportstore"]:
             return jsonify({"code":0,"data":{},"message": None})
@@ -615,7 +616,6 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         api_attributes = resource["attributes"]
         api_clz = resource["model"]
         
-            
         payload = json.loads(request.data)
         filter, columns, sqltypes, offset, pagesize, orderBy, data = parsePayload(payload)
         result = {}
@@ -788,7 +788,7 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         
         return rows
                     
-    def parsePayload(payload:str):
+    def _parsePayload(payload:str):
         """
             employee/advancedSearch
             {"filter":{},"columns":["EMPLOYEEID","EMPLOYEETYPEID","EMPLOYEENAME","EMPLOYEESURNAME","EMPLOYEEADDRESS","EMPLOYEESTARTDATE","EMPLOYEEEMAIL","OFFICEID","EMPLOYEEPHOTO","EMPLOYEEPHONE"],"sqltypes":{},"offset":0,"pageSize":16,"orderBy":[]}

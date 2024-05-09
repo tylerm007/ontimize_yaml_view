@@ -47,17 +47,27 @@ def parsePayload(payload: str):
     orderBy: list = payload.get("orderBy") or []
     data = payload.get("data", None)
 
-    print(_filter, columns, sqltypes, offset, pagesize, orderBy, data)
+    #print(_filter, columns, sqltypes, offset, pagesize, orderBy, data)
     return _filter, columns, sqltypes, offset, pagesize, orderBy, data
 
 
 def parseFilter(filter: dict, sqltypes: any):
+    # sourcery skip: merge-duplicate-blocks, remove-pass-elif
     sql_where = ""
     join = ""
-    for f in filter:
-        expr = ExpressionParser(filter, sqltypes)
-        sql_where += join + expr.get_sql_where()
-        join = " AND "
+    for f, value in filter.items():  
+        if f in [BASIC_EXPRESSION]:
+            if expr := ExpressionParser(filter, BASIC_EXPRESSION, sqltypes):
+                sql_where += join + expr.get_sql_where()
+                join = " AND "
+        elif f in [FILTER_EXPRESSION]:
+            if expr := ExpressionParser(filter, FILTER_EXPRESSION, sqltypes):
+                sql_where += join + expr.get_sql_where()
+                join = " AND "
+        else:
+            q = "" if isinstance(value, int) else "'"
+            sql_where += f'{join} "{f}" = {q}{value}{q}'
+            join = " AND "
     return sql_where
 
 
@@ -151,26 +161,30 @@ class BasicExpression:
 
 class ExpressionParser:
 
-    def __init__(self, filter, sqltypes=None):
+    def __init__(self, filter, expression_type, sqltypes=None):
         self.basic_expr = None
-        self.filter = self.parse(filter)
+        self.filter = self.parse(filter, expression_type)
         self.build_sql_where(sqltypes)
 
     def get_expr(self):
         # return self.build_sql_where(self.basic_expr) if self.basic_expr else "1=1"
         self.build_sql_where(self.basic_expr)
 
-    def parse(self, filter):
-        return next(
-            (filter[f] for f in filter if f in [BASIC_EXPRESSION, FILTER_EXPRESSION]),
-            None,
-        )
+    def parse(self, filter, expression_type):
+        if isinstance(filter, dict):
+            return next(
+                (filter[f] for f in filter if f in [expression_type]),
+                None,
+            )
+        return filter
 
     def get_sql_where(self):
-        return self.basic_expr.get_sql_where()
+        return self.basic_expr.get_sql_where() if self.basic_expr else "1=1"
 
     def build_sql_where(self, sqltypes=None):
         expr = self.filter
+        if expr is None:
+            return
         lop = expr["lop"]
         op = expr["op"]
         rop = expr["rop"]
@@ -275,7 +289,7 @@ if __name__ == "__main__":
                         "rop": {"lop": "SURNAME", "op": "=", "rop": "Santos Rodríguez"},
                     },
                     "op": "OR",
-                    "rop": {"lop": "SURNAME", "op": "=", "rop": "Dominguez "},
+                    "rop": {"lop": "SURNAME", "op": "=", "rop": "Dominguez"},
                 },
                 "op": "AND",
                 "rop": {
@@ -287,15 +301,15 @@ if __name__ == "__main__":
             "@basic_expression": {
                 "lop": {
                     "lop": {
-                        "lop": {"lop": "NAME", "op": "LIKE", "rop": "%pa%"},
+                        "lop": {"lop": "NAME", "op": "LIKE", "rop": "%name%"},
                         "op": "OR",
-                        "rop": {"lop": "SURNAME", "op": "LIKE", "rop": "%pa%"},
+                        "rop": {"lop": "SURNAME", "op": "LIKE", "rop": "%surname%"},
                     },
                     "op": "OR",
-                    "rop": {"lop": "EMAIL", "op": "LIKE", "rop": "%pa%"},
+                    "rop": {"lop": "EMAIL", "op": "LIKE", "rop": "%email%"},
                 },
                 "op": "OR",
-                "rop": {"lop": "ADDRESS", "op": "LIKE", "rop": "%pa%"},
+                "rop": {"lop": "ADDRESS", "op": "LIKE", "rop": "%address%"},
             },
         },
         "columns": [
@@ -319,10 +333,11 @@ if __name__ == "__main__":
         "orderBy": [{"columnName": "SURNAME", "ascendent": False}],
     }
     # fltr = json.loads(filter)
-    ep = ExpressionParser(simple["filter"])
-    ep = ExpressionParser(filter["filter"])
+    #ep = ExpressionParser(simple["filter"])
+    #ep = ExpressionParser(filter["filter"])
     # print(ep.generate_sql_where(filter))
     # print(ep.get_sql_where())
     # ep = ExpressionParser(filter_expr["filter"])
     # print(ep.get_sql_where())
-    parsePayload(full_expr)
+    filter, columns, sqltypes, offset, pagesize, orderBy, data =  parsePayload(full_expr)
+    print(filter)
