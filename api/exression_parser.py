@@ -70,33 +70,6 @@ def parseFilter(filter: dict, sqltypes: any):
             join = " AND "
     return sql_where
 
-
-def _parseFilter(filter: dict, sqltypes: any):
-    # {filter":{"@basic_expression":{"lop":"BALANCE","op":"<=","rop":35000}}
-    filter_result = ""
-    a = ""
-    for f in filter:
-        value = filter[f]
-        q = "'"
-        if f == BASIC_EXPRESSION:
-            # {'lop': 'CustomerId', 'op': 'LIKE', 'rop': '%A%'}}
-            if "lop" in value.keys() and "rop" in value.keys():
-                lop = value["lop"]
-                op = value["op"]
-                rop = f"{q}{value['rop']}{q}"
-                filter_result = f'"{lop}" {op} {rop}'
-                return filter_result
-        if sqltypes == None:
-            q = "'"
-        else:
-            q = "" if hasattr(sqltypes, f) and sqltypes[f] != 12 else "'"
-        if f == "CategoryName":
-            f = "CategoryName_ColumnName"  # hack to use real column name
-        filter_result += f'{a} "{f}" = {q}{value}{q}'
-        a = " and "
-    return None if filter_result == "" else filter_result
-
-
 class BasicExpression:
     def __init__(self, lop: any = None, op: str = None, rop: any = None, sqltypes = None):
         self.lop_ext = []
@@ -138,7 +111,6 @@ class BasicExpression:
 
         if isinstance(expr.lop, str) and not isinstance(expr.rop, dict):
             self.sql_where += self._parseExpression(expr=expr)
-            print(expr.join_condition)
             self.join_condition = " OR "
 
     def _parseExpression(self, expr) -> str:
@@ -156,8 +128,7 @@ class BasicExpression:
         return ""
 
     def is_numeric(self, value):
-        return False
-
+        return not value or not isinstance(value, str)
 
 class ExpressionParser:
 
@@ -193,7 +164,7 @@ class ExpressionParser:
 
 if __name__ == "__main__":
 
-    filter = {
+    basic_filter = {
         "filter": {
             "@basic_expression": {
                 "lop": {
@@ -332,10 +303,10 @@ if __name__ == "__main__":
         "pageSize": 24,
         "orderBy": [{"columnName": "SURNAME", "ascendent": False}],
     }
-    # fltr = json.loads(filter)
+    # fltr = json.loads(basic_filter)
     #ep = ExpressionParser(simple["filter"])
-    #ep = ExpressionParser(filter["filter"])
-    # print(ep.generate_sql_where(filter))
+    #ep = ExpressionParser(basic_filter["filter"])
+    # print(ep.generate_sql_where(basic_filter))
     # print(ep.get_sql_where())
     # ep = ExpressionParser(filter_expr["filter"])
     # print(ep.get_sql_where())
