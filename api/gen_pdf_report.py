@@ -18,10 +18,12 @@ app_logger = logging.getLogger(__name__)
 
 db = safrs.DB 
 session = db.session 
-def gen_report(api_clz, project_dir, payload) -> any:
+def gen_report(api_clz, request, project_dir, payload, attributes) -> any:
         ''' Report PDF POC https://docs.reportlab.com/
         pip install reportlab 
+        
         Ontimize Payload:
+        
         {"title":"","groups":[],
         "entity":"Customer",
         "path":"/Customer",
@@ -46,8 +48,8 @@ def gen_report(api_clz, project_dir, payload) -> any:
             return jsonify({})
         
         entity = payload["entity"]
-        columns = "*"
-        rows = get_rows(api_clz, entity, columns)
+        columns = payload["columns"]
+        rows = get_rows(api_clz,request, columns, filter, attributes)
         
         buffer = BytesIO()
         doc = SimpleDocTemplate(buffer, pagesize=letter)
@@ -65,7 +67,7 @@ def gen_report(api_clz, project_dir, payload) -> any:
         # Add title
         styles = getSampleStyleSheet()
         title_style = styles["Title"]
-        title = payload["title"] if payload["title"] != '' else f"{entity.upper()} Report"
+        title = payload["title"] if 'title' in payload and payload["title"] != '' else f"{entity.upper()} Report"
         content.append(Paragraph(title, title_style))
         content.append(Spacer(1, 0.2 * inch)) 
         # Column Header
@@ -77,20 +79,21 @@ def gen_report(api_clz, project_dir, payload) -> any:
         # Define table data (entity)
         data.append(col_data)
         
+        table_data = []
         for row in rows['data']:
-            r = []
+            data = []
             for col in columns:
-                r.append(row[col["id"]])
-            data.append(r)
+                data.append(row[col["id"]])
+            table_data.append(data)
 
         # Create table
-        table = Table(data)
+        table = Table(table_data)
         table.setStyle(TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.grey),
                                 ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
                                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
                                 ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
                                 ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-                                ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                                ('BACKGROUND', (0, 1), (-1, -1), colors.white),
                                 ('GRID', (0, 0), (-1, -1), 1, colors.black)]))
 
         content.append(table)
@@ -105,6 +108,19 @@ def gen_report(api_clz, project_dir, payload) -> any:
         
         return {"code": 0,"message": "","data": [{"file":str(output)[2:-1] }],"sqlTypes": None}
     
-def get_rows(clz, entity, columns) -> any:
-    sql = f"SELECT {columns} FROM {entity}"
-    return session.query(text(sql)).all()
+def get_rows(api_clz, request, columns, filter, attributes) -> any:
+    #sql = f"{columns} FROM {entity}"
+    #return session.query(clz).all()
+    key = api_clz.__name__.lower()
+    list_of_columns = []
+    for col in columns:
+        print(col)
+        for attr in attributes:
+            print(" ", attr)
+            if col['id'] == attr["name"]:
+                list_of_columns.append(attr['name'])
+    request.method = 'GET'
+    from api.system.custom_endpoint import CustomEndpoint
+    custom_endpoint = CustomEndpoint(model_class=api_clz, fields=list_of_columns, filter_by=filter)
+    result = custom_endpoint.execute(request=request)
+    return custom_endpoint.transform("IMATIA",key, result)
