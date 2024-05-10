@@ -105,13 +105,16 @@ class BasicExpression:
     def where(self, expr):
         if isinstance(expr, BasicExpression):
             for row in expr.lop_ext:
+                self.join_condition = expr.op
                 self.where(row)
             for row in expr.rop_ext:
+                self.join_condition = expr.op
                 self.where(row)
 
         if isinstance(expr.lop, str) and not isinstance(expr.rop, dict):
-            self.sql_where += self._parseExpression(expr=expr)
-            self.join_condition = " OR "
+            join_condition = "" if self.sql_where == "" else self.join_condition
+            self.sql_where += f' {join_condition} {self._parseExpression(expr=expr)}'
+            self.join_condition = " AND " if self.join_condition == AND else " OR "
 
     def _parseExpression(self, expr) -> str:
         if expr.op != None and expr.rop != None:
@@ -124,7 +127,7 @@ class BasicExpression:
                 else:
                     value = datetime.fromtimestamp(value / 1000).strftime("%Y-%m-%d")
             q = "" if expr.is_numeric(value) else "'"
-            return f'{self.join_condition} "{expr.lop}" {expr.op} {q}{value}{q}'
+            return f'"{expr.lop}" {expr.op} {q}{value}{q}'
         return ""
 
     def is_numeric(self, value):
