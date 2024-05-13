@@ -18,8 +18,8 @@
             edition-mode="dblClick" 
             horizontal-scroll="yes"
             export-button="no">
-            <o-table-button #button attr="button" label="IMPORT" icon="description" (onClick)="loadyaml('')"></o-table-button>
-            <o-table-button #button attr="button" label="EXPORT" icon="description" (onClick)="dumpyaml('')"></o-table-button>
+            <o-table-button #button attr="button" label="IMPORT" icon="description" (onClick)="importyaml('')"></o-table-button>
+            <o-table-button #button attr="button" label="EXPORT" icon="description" (onClick)="exportyaml('')"></o-table-button>
             <o-table-column attr="name" label=" Entity Name*" editable="yes" required="yes" content-align="left"></o-table-column>
             
             <o-table-column attr="title" label="Title" editable="yes" required="no" content-align="left"></o-table-column>

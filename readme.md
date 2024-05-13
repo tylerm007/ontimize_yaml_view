@@ -37,16 +37,16 @@ http://localhost:5656 (user: admin password: p)
 Ontimize
 http://localhost:4299 (user: admin password: p)
 ```
-## Read the admin_model.yaml and load into SQL
-This will read the yaml file from the ui directory.
+## IMPORT the admin_model.yaml and load into SQL
+Copy your admin_model.yaml file from your application to the ui directory. This endpoint will read the admin_model.yaml file from the ui directory. It will populate the in-memory SQLite database that the UI developers can edit.
 ```
-curl "http://localhost:5656/loadyaml"
+curl "http://localhost:5656/importyaml"
 ```
 
-## Dump yaml file back to disk (ui/admin_model_merge.yaml)
-This will write back the modified SQL back to disk.  Use compare files to merge or replace the merge file for the new yaml.
+## EXPORT yaml file back to disk (ui/admin_model_merge.yaml)
+This will write back the modified SQL back to disk as yaml.  Use compare files to merge or replace the merge file for the new admin_model_merge.yaml in your application.
 ```
-curl "http://localhost:5656/dumpyaml"
+curl "http://localhost:5656/exportyaml"
 ```
 ## Ontimze Issues
 1. Adding parent-keys to detail in all tab groups fails to retrieve or filter data

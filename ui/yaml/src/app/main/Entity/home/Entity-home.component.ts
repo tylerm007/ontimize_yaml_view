@@ -47,11 +47,11 @@ export class EntityHomeComponent implements AfterViewInit {
     console.log('editionCommitted');
     console.log(arg);
   }
-  loadyaml(arg: any){
-    console.log(environment.apiEndpoint +"/loadyaml" );
+  importyaml(arg: any){
+    console.log(environment.apiEndpoint +"/importyaml" );
     this.service.query({},
       [],
-      'loadyaml').subscribe((resp) => {
+      'importyaml').subscribe((resp) => {
         console.log(JSON.stringify(resp));
         if (resp.code === 0) {
           console.log(resp.data);
@@ -59,11 +59,11 @@ export class EntityHomeComponent implements AfterViewInit {
         }
       });
   }
-  dumpyaml(arg: any){
-    console.log(environment.apiEndpoint +"/dumpyaml");
+  exportyaml(arg: any){
+    console.log(environment.apiEndpoint +"/exportyaml");
     this.service.query({},
       [],
-      'dumpyaml').subscribe((resp) => {
+      'exportyaml').subscribe((resp) => {
         console.log(JSON.stringify(resp));
         if (resp.code === 0) {
           console.log(resp.data);

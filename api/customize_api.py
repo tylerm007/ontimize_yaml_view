@@ -161,10 +161,10 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         """
         return api_utils.server_log(request, jsonify)
     
-    @app.route("/dumpyaml", methods=["GET"])
+    @app.route("/exportyaml", methods=["GET"])
     def dump_yaml():
         # Write the JSON back to yaml
-        #GET curl "http://localhost:5656/dumpyaml"
+        #GET curl "http://localhost:5656/exportyaml"
         
         entities = read(models.Entity)
         attrs = read(models.EntityAttr)
@@ -264,11 +264,11 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
             yaml.safe_dump(source, file, default_flow_style=False)
             #file.write(source)
     
-    @app.route("/loadyaml", methods=["GET","POST","OPTIONS"])
+    @app.route("/importyaml", methods=["GET","POST","OPTIONS"])
     def load_yaml():
         '''
-            GET curl "http://localhost:5656/loadyaml"
-            POST  curl -X "POST" http://localhost:5656/loadyaml -H "Content-Type: text/x-yaml" -d @app_model.yaml 
+            GET curl "http://localhost:5656/importyaml"
+            POST  curl -X "POST" http://localhost:5656/importyaml -H "Content-Type: text/x-yaml" -d @app_model.yaml 
         '''
         if request.method == "GET":
             with open(f'{_project_dir}/ui/app_model.yaml','rt') as f:  
@@ -508,10 +508,10 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         if clz_name == "export":
             return gen_export(request)
         
-        if clz_type == "loadyaml":
+        if clz_type == "importyaml":
             return load_yaml()
         
-        if clz_type == "dumpyaml":
+        if clz_type == "exportyaml":
             return dump_yaml()
         
         
