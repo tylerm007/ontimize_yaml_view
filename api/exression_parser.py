@@ -42,9 +42,9 @@ def parsePayload(payload: str):
     sqltypes = payload.get("sqltypes") or None
     _filter = parseFilter(payload.get("filter", {}), sqltypes)
     columns: list = payload.get("columns") or []
-    offset: int = payload.get("offset") or 0
-    pagesize: int = payload.get("pageSize") or 75
-    orderBy: list = payload.get("orderBy") or []
+    offset: int = payload.get("offset") or 0 # page[offset]
+    pagesize: int = payload.get("pageSize") or 75 # page[limit]
+    orderBy: list = payload.get("orderBy") or [] # sort TODO needs parsing [{"columnName": "SURNAME", "ascendent": False}],
     data = payload.get("data", None)
 
     #print(_filter, columns, sqltypes, offset, pagesize, orderBy, data)
@@ -65,9 +65,10 @@ def parseFilter(filter: dict, sqltypes: any):
                 sql_where += join + expr.get_sql_where()
                 join = " AND "
         else:
-            q = "" if isinstance(value, int) else "'"
-            sql_where += f'{join} "{f}" = {q}{value}{q}'
-            join = " AND "
+            if isinstance(f, str):
+                q = "" if isinstance(value, int) else "'"
+                sql_where += f'{join} "{f}" = {q}{value}{q}'
+                join = " AND "
     return sql_where
 
 class BasicExpression:
