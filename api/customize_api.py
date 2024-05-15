@@ -199,6 +199,8 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
                 e["home_template"] = entity["home_template"]
             if entity.get("detail_template"):
                 e["detail_template"] = entity["detail_template"]
+            if entity.get("mode"):
+                e["mode"] = entity["mode"]
             if entity.get("favorite"):
                 e["favorite"] = entity.get("favorite")
             if entity.get("exclude"):
@@ -321,6 +323,7 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
             m_entity.new_template = get_value(each_entity,"new_template","new_template.html")
             m_entity.home_template = get_value(each_entity,"home_template","home_template.html")
             m_entity.detail_template = get_value(each_entity,"detail_template","detail_template.html")
+            m_entity.mode = get_value(each_entity,"mode","tab")
             
             try:
                 session.add(m_entity)

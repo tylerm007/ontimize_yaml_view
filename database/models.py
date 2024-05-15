@@ -46,6 +46,7 @@ class Entity(SAFRSBase, Base):
     title = Column(String(100))
     pkey = Column(String(100))
     favorite = Column(String(100))
+    mode = Column(String(10))
     info_list = Column(Text)
     info_show = Column(Text)
     new_template = Column(VARCHAR(80))

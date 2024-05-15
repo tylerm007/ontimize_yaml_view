@@ -43,7 +43,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     detail_template: detail_template.html
     favorite: CategoryName
@@ -60,6 +60,7 @@ entities:
       'p', upper right).<br><br> But, logout and login as 'u1' -- only 1 is shown,
       per <a target="_blank" href="https://apilogicserver.github.io/Docs/Security-Authorization/">authorization</a>.
       <br><br>
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
@@ -111,14 +112,14 @@ entities:
       sort: false
       template: integer
       type: INTEGER
-    - enabled: false
+    - enabled: true
       exclude: false
       label: UnpaidOrderCount
       name: UnpaidOrderCount
       required: false
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     - enabled: true
       exclude: false
@@ -127,7 +128,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     - enabled: true
       exclude: false
@@ -236,6 +237,7 @@ entities:
       not shown ("Show_when")</li> <li>Lookup a Product</li> <li>Click <strong>Save
       and Add Another</strong> </li> <li>Lookup another Product, and click <strong>Add</strong>
       to see the added Order </li> </ul> </li> </ul>
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
@@ -271,6 +273,7 @@ entities:
     detail_template: detail_template.html
     favorite: Id
     home_template: home_template.html
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
@@ -293,7 +296,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     - enabled: true
       exclude: false
@@ -302,7 +305,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     - enabled: true
       exclude: false
@@ -311,7 +314,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     detail_template: detail_template.html
     favorite: DepartmentName
@@ -319,6 +322,7 @@ entities:
     info_list: <h1>Tour - Authorization</h1> <h2>Global Security Filters</h2> Only
       role sa & manager can view SecurityLevel > 0 - see security/declare_security.py
       <br><br>
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
@@ -370,7 +374,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     - enabled: true
       exclude: false
@@ -379,7 +383,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     - enabled: true
       exclude: false
@@ -433,7 +437,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     - enabled: true
       exclude: false
@@ -550,7 +554,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     - enabled: true
       exclude: false
@@ -579,6 +583,7 @@ entities:
       database, but in <span style="font-family:'Courier New'">database/customize_models.py</span>.<br>
       <h1>Derived Attributes</h1> <span style="font-family:'Courier New'">ProperSalary</span>
       is not defined in the database.<br> See <span style="font-family:'Courier New'">database/customize_models.py</span>.<br>
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
@@ -658,7 +663,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     - enabled: true
       exclude: false
@@ -703,11 +708,12 @@ entities:
       required: false
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     detail_template: detail_template.html
     favorite: LastName
     home_template: home_template.html
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
@@ -747,11 +753,12 @@ entities:
       required: true
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     detail_template: detail_template.html
     favorite: Id
     home_template: home_template.html
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
@@ -803,6 +810,7 @@ entities:
     detail_template: detail_template.html
     favorite: country
     home_template: home_template.html
+    mode: tab
     new_template: new_template.html
     primary_key:
     - country
@@ -826,7 +834,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     - enabled: true
       exclude: false
@@ -835,7 +843,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     - enabled: true
       exclude: false
@@ -880,16 +888,16 @@ entities:
       required: false
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
-    - enabled: false
+    - enabled: true
       exclude: false
       label: OrderDetailCount
       name: OrderDetailCount
       required: false
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     - enabled: true
       exclude: false
@@ -898,7 +906,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: currency
+      template: text
       type: DECIMAL
     - enabled: true
       exclude: false
@@ -952,7 +960,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     - enabled: true
       exclude: false
@@ -1014,6 +1022,7 @@ entities:
       <span style="font-family:'Courier New'">Amount Total.</span> <ul> <li> This
       is not from code, but from <a target="_blank" href="https://apilogicserver.github.io/Docs/Tutorial/#logic">this
       logic.</a> </li> </ul> </li> </ul>
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
@@ -1057,7 +1066,7 @@ entities:
       required: false
       search: true
       sort: true
-      template: integer
+      template: text
       type: INTEGER
     - enabled: true
       exclude: false
@@ -1066,7 +1075,7 @@ entities:
       required: true
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     - enabled: true
       exclude: false
@@ -1075,7 +1084,7 @@ entities:
       required: true
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     - enabled: true
       exclude: false
@@ -1084,7 +1093,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: currency
+      template: text
       type: DECIMAL
     - enabled: true
       exclude: false
@@ -1125,6 +1134,7 @@ entities:
     detail_template: detail_template.html
     favorite: Id
     home_template: home_template.html
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
@@ -1171,7 +1181,7 @@ entities:
       required: true
       search: false
       sort: false
-      template: currency
+      template: text
       type: DECIMAL
     - enabled: true
       exclude: false
@@ -1189,7 +1199,7 @@ entities:
       required: true
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     - enabled: true
       exclude: false
@@ -1198,7 +1208,7 @@ entities:
       required: true
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     - enabled: true
       exclude: false
@@ -1216,7 +1226,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     - enabled: true
       exclude: false
@@ -1225,7 +1235,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     - enabled: true
       exclude: false
@@ -1234,7 +1244,7 @@ entities:
       required: true
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     - enabled: true
       exclude: false
@@ -1243,11 +1253,12 @@ entities:
       required: true
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     detail_template: detail_template.html
     favorite: ProductName
     home_template: home_template.html
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
@@ -1278,11 +1289,12 @@ entities:
       required: false
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     detail_template: detail_template.html
     favorite: RegionDescription
     home_template: home_template.html
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
@@ -1314,11 +1326,12 @@ entities:
       required: false
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     detail_template: detail_template.html
     favorite: CompanyName
     home_template: home_template.html
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
@@ -1431,11 +1444,12 @@ entities:
       required: false
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     detail_template: detail_template.html
     favorite: CompanyName
     home_template: home_template.html
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
@@ -1467,12 +1481,13 @@ entities:
       required: true
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     detail_template: detail_template.html
     exclude: true
     favorite: TerritoryDescription
     home_template: home_template.html
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
@@ -1503,12 +1518,13 @@ entities:
       required: false
       search: false
       sort: false
-      template: integer
+      template: text
       type: INTEGER
     detail_template: detail_template.html
     exclude: true
     favorite: Name
     home_template: home_template.html
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
