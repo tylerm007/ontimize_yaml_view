@@ -1,5 +1,5 @@
 import {Injector, AfterViewInit, Component, ViewChild } from '@angular/core';
-import { OTableButtonComponent, OTableComponent, OntimizeService } from 'ontimize-web-ngx';
+import { OTableButtonComponent, OTableComponent, OntimizeService, DialogService } from 'ontimize-web-ngx';
 import { OChartModule } from 'ontimize-web-ngx-charts';
 import {OReportModule,OReportStoreService} from 'ontimize-web-ngx-report'
 import { environment } from 'src/environments/environment';
@@ -15,6 +15,7 @@ export class EntityHomeComponent implements AfterViewInit {
   @ViewChild('button')
   protected button: OTableButtonComponent;
   protected service: OntimizeService;
+  protected dialogService: DialogService;
 
   ngAfterViewInit() {
     this.configureService();
@@ -29,8 +30,9 @@ export class EntityHomeComponent implements AfterViewInit {
     this.service.configureService(conf);
   }
   constructor(protected injector: Injector,
-    private reportStoreService: OReportStoreService) {
+    private reportStoreService: OReportStoreService)  {
     this.service = this.injector.get(OntimizeService);
+    this.dialogService = this.injector.get(DialogService);
   }
 
   editionStarted(arg: any) {
@@ -43,6 +45,12 @@ export class EntityHomeComponent implements AfterViewInit {
     console.log(arg);
   }
 
+
+  showAlert(alertMessage: any) {
+    if (this.dialogService) {
+      this.dialogService.alert('Success', alertMessage);
+    }
+  }
   editionCommitted(arg: any) {
     console.log('editionCommitted');
     console.log(arg);
@@ -56,6 +64,7 @@ export class EntityHomeComponent implements AfterViewInit {
         if (resp.code === 0) {
           console.log(resp.data);
           setTimeout(function () {}, 15000);
+          this.showAlert("Imported Successfully");
         }
       });
   }
@@ -67,7 +76,8 @@ export class EntityHomeComponent implements AfterViewInit {
         console.log(JSON.stringify(resp));
         if (resp.code === 0) {
           console.log(resp.data);
-          setTimeout(function () {}, 1000);
+          setTimeout(function () {}, 4000);
+          this.showAlert("Exported Successfully");
         }
       });
   }

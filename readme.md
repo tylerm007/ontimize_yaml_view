@@ -48,9 +48,6 @@ This will write back the modified SQL back to disk as yaml.  Use compare files t
 ```
 curl "http://localhost:5656/exportyaml"
 ```
-## Ontimze Issues
-1. Adding parent-keys to detail in all tab groups fails to retrieve or filter data
-
 ## Entity
 Use the Ontimize editor to exclude entities or change the titles.
 ![](ui/templates/Entity.png)
