@@ -8,34 +8,36 @@
                         <div fxLayout="row" fxLayoutAlign="start center" class="gap">
                                 <o-list-picker attr="entity_name" service="Entity" entity="EntityType" fxFlex="30"
                                         query-on-init="no" query-on-bind="yes" required="yes" enabled="yes" filter="yes"
-                                        value-column="name" value-column-type="VARCHAR" keys="name"
-                                        columns="name" title=" Entity Name*"
-                                        visible-columns="name" separator=" - " width="680px">
+                                        value-column="name" value-column-type="VARCHAR" keys="name" columns="name"
+                                        title=" Entity Name*" visible-columns="name" separator=" - " width="680px">
                                 </o-list-picker>
                         </div>
 
                         <div fxLayout="row" fxLayoutAlign="start center" class="gap">
                                 <o-list-picker attr="tab_entity" service="Entity" entity="EntityType" fxFlex="30"
                                         query-on-init="no" query-on-bind="yes" required="yes" enabled="yes" filter="yes"
-                                        value-column="name" value-column-type="VARCHAR" keys="name"
-                                        columns="name" title="Tab Entity"
-                                        visible-columns="name" separator=" - " width="680px">
+                                        value-column="name" value-column-type="VARCHAR" keys="name" columns="name"
+                                        title="Tab Entity" visible-columns="name" separator=" - " width="680px">
                                 </o-list-picker>
                         </div>
 
                         <div fxLayout="row" fxLayoutAlign="start center" class="gap">
-                                <o-text-input attr="direction" label="direction" editable="yes"
-                                        required="yes"></o-text-input>
+                                <o-combo attr="direction" label="direction" [static-data]="DirectionArray"
+                                        [data]="selectedDirection" value-column="code" columns="code"
+                                        visible-columns="code" required="yes" fxFlex>
+                                </o-combo>
                         </div>
                         <div fxLayout="row" fxLayoutAlign="start center" class="gap">
-                                <o-text-input attr="name" label="Name" editable="yes" required="yes"></o-text-input>
+                                <o-text-input attr="name" label="Relationship Name" editable="yes"
+                                        required="yes" fxFlex></o-text-input>
                         </div>
                         <div fxLayout="row" fxLayoutAlign="start center" class="gap">
-                                <o-text-input attr="label" label="label" editable="yes" required="no"></o-text-input>
+                                <o-text-input attr="label" label="label" editable="yes" required="no" fxFlex></o-text-input>
                         </div>
 
                         <div fxLayout="row" fxLayoutAlign="start center" class="gap">
-                                <o-text-input attr="fkeys" label="fkeys" editable="yes" required="yes"></o-text-input>
+                                <o-text-input attr="fkeys" label="Foreign Keys" editable="yes"
+                                        required="yes" fxFlex></o-text-input>
                         </div>
 
                         <div fxLayout="row" fxLayoutAlign="start center" class="gap">

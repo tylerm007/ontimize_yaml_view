@@ -7,4 +7,11 @@ import { Component } from '@angular/core';
 })
 export class TabGroupNewComponent {
 
+  public DirectionArray = [{
+    code: "toone"   
+  }, {
+    code: "tomany"
+  }];
+
+  public selectedDirection = "tomany";
 }

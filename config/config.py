@@ -78,7 +78,7 @@ class Config:
         CREATED_SWAGGER_HOST = CREATED_FLASK_HOST  # 
     if is_docker and CREATED_FLASK_HOST == "localhost":
         CREATED_FLASK_HOST = "0.0.0.0"  # enables docker run.sh (where there are no args)
-    CREATED_PORT = "5656"
+    CREATED_PORT = "5655"
     CREATED_SWAGGER_PORT = CREATED_PORT
     """ for codespaces - see values in launch config """
     CREATED_HTTP_SCHEME = "http"

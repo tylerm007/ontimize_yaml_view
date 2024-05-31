@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  apiEndpoint: "http://localhost:5656/ontimizeweb/services/rest",
+  apiEndpoint: "http://localhost:5655/ontimizeweb/services/rest",
   production: false,
   versions: {
     core: '15.2.10',

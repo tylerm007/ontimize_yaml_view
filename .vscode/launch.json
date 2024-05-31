@@ -16,7 +16,7 @@
             "program": "api_logic_server_run.py",
             "redirectOutput": true,
             "justMyCode": false,
-            "args": ["--flask_host=localhost", "--port=5656", "--swagger_port=5656", "--swagger_host=localhost", "--verbose=False"],
+            "args": ["--flask_host=localhost", "--port=5655", "--swagger_port=5655", "--swagger_host=localhost", "--verbose=False"],
             "console": "internalConsole",
             "internalConsoleOptions": "openOnSessionStart"
         },
@@ -53,7 +53,7 @@
             "cwd": "${workspaceFolder}/ui/yaml",
             "runtimeExecutable": "npm",
             "runtimeArgs": ["start"],
-            "port": 4299,
+            "port": 4298,
             "restart": true,
             "timeout": 30000,
             "protocol": "inspector",

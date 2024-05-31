@@ -3,7 +3,7 @@
   "version": "15.1.0-SNAPSHOT-0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port 4299",
+    "start": "ng serve --port 4298",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",

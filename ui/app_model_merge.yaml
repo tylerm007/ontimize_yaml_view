@@ -314,7 +314,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: integer
       type: INTEGER
     detail_template: detail_template.html
     favorite: DepartmentName
@@ -545,7 +545,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: textarea
       type: VARCHAR(8000)
     - enabled: true
       exclude: false
@@ -1093,7 +1093,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: currency
       type: DECIMAL
     - enabled: true
       exclude: false
@@ -1181,7 +1181,7 @@ entities:
       required: true
       search: false
       sort: false
-      template: text
+      template: currency
       type: DECIMAL
     - enabled: true
       exclude: false
@@ -1199,7 +1199,7 @@ entities:
       required: true
       search: false
       sort: false
-      template: text
+      template: integer
       type: INTEGER
     - enabled: true
       exclude: false
@@ -1226,7 +1226,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: integer
       type: INTEGER
     - enabled: true
       exclude: false
