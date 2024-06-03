@@ -343,7 +343,6 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
             
         #Tab Groups
         for entity in entities:
-            m_entity = models.Entity()
             each_entity_yaml = valuesYaml['entities'][entity]
             insert_tab_groups(entity, each_entity_yaml)
                 
@@ -390,7 +389,7 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         return l
     def insert_tab_groups(entity, each_entity_yaml):
         try:    
-            tab_groups = each_entity_yaml["tab_groups"]
+            tab_groups = each_entity_yaml["tab_groups"] if "tab_groups" in each_entity_yaml else []
             for tab_group in tab_groups:
                 m_tab_group = models.TabGroup()
                 print(entity, f' tab_group: {tab_group}')
@@ -406,8 +405,7 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
                     session.add(m_tab_group)
                     session.commit()
                 except Exception as ex:
-                    session.rollback()
-                    raise ex
+                    print(ex)
         except Exception as ex:
             session.rollback()
             raise ex
