@@ -144,6 +144,7 @@ class EntityAttr(SAFRSBase, Base):
     tooltip = Column(String(8000))
     isrequired = Column(Boolean, server_default=text("false"))
     isenabled = Column(Boolean, server_default=text("true"))
+    isvisible = Column(Boolean, server_default=text("true"))
     exclude = Column(Boolean, server_default=text("false"))
     allow_client_generated_ids = True
 

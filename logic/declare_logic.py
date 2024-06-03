@@ -45,7 +45,7 @@ def declare_logic():
 
     #als rules report
     from api.system import api_utils
-    # api_utils.rules_report()
+    api_utils.rules_report()
 
     app_logger.debug("..logic/declare_logic.py (logic == rules + code)")
 

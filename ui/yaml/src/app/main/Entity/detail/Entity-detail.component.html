@@ -49,24 +49,21 @@
         <div layout-padding>
           <o-table attr="EntityAttrTable" service="EntityAttr" entity="EntityAttr" keys="name;attr"
             parent-keys="entity_name:name"
-            columns="entity_name;attr;template_name;label;issearch;issort;thistype;exclude;isrequired;isenabled"
+            columns="entity_name;attr;template_name;label;issearch;issort;thistype;exclude;isrequired;isenabled;isvisible"
             horizontal-scroll="yes" detail-form-route="EntityAttr" edit-form-route="EntityAttr"
-            visible-columns="entity_name;attr;template_name;label;thistype;issearch;issort;exclude;isrequired;isenabled"
+            visible-columns="attr;template_name;label;thistype;issearch;issort;exclude;isrequired;isenabled;isvisible"
             sort-columns="entity_name" query-rows="8" quick-filter="yes" row-height="small" select-all-checkbox="true"
             pageable="yes" virtual-scroll="yes" insert-button="no" delete-button="no" fixed-header="true"
             class="vertical-padding-8" edition-mode="click" horizontal-scroll="yes">
             <!-- parent-keys="entity_name;entity_name" -->
 
-            <o-table-column attr="entity_name" label=" Entity Name*" editable="no" required="yes"
+            <o-table-column attr="attr" label="Attribute*" editable="no" required="yes"
               content-align="left"></o-table-column>
 
-            <o-table-column attr="attr" label="Attribute" editable="no" required="yes"
+            <o-table-column attr="template_name" title="Template" editable="yes" required="no"
               content-align="left"></o-table-column>
 
-            <o-table-column attr="template_name" label="template_name" editable="yes" required="no"
-              content-align="left"></o-table-column>
-
-            <o-table-column attr="label" label="label" editable="yes" required="no"
+            <o-table-column attr="label" label="Label" editable="yes" required="no"
               content-align="left"></o-table-column>
 
             <o-table-column attr="issearch" label="Search" editable="yes" required="no" content-align="left">
@@ -94,7 +91,13 @@
                 false-value="false"></o-table-cell-renderer-boolean>
             </o-table-column>
 
-            <o-table-column attr="isenabled" label="Enabled" editable="yes" required="no" content-align="left">
+            <o-table-column attr="isvisible" title="Visible" editable="yes" required="no" content-align="left">
+              <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
+                render-type="icon" boolean-type="boolean" true-value="true"
+                false-value="false"></o-table-cell-renderer-boolean>
+            </o-table-column>
+
+            <o-table-column attr="isenabled" title="Enabled" editable="yes" required="no" content-align="left">
               <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
                 render-type="icon" boolean-type="boolean" true-value="true"
                 false-value="false"></o-table-cell-renderer-boolean>
@@ -111,14 +114,12 @@
             parent-keys="entity_name:name"
             columns="entity_name;tab_entity;direction;label;fkeys;exclude"
             horizontal-scroll="yes" detail-form-route="TabGroup" edit-form-route="TabGroup"
-            visible-columns="entity_name;tab_entity;direction;label;fkeys;exclude" sort-columns="entity_name"
+            visible-columns="tab_entity;direction;label;fkeys;exclude" sort-columns="entity_name"
             query-rows="8" quick-filter="yes" row-height="small" select-all-checkbox="true" pageable="yes"
             virtual-scroll="yes" insert-button="no" delete-button="no" fixed-header="true" class="vertical-padding-8"
             edition-mode="click" horizontal-scroll="yes">
             <!-- parent-keys="entity_name;entity_name" -->
 
-            <o-table-column attr="entity_name" label=" Entity Name*" editable="yes" required="yes"
-              content-align="left"></o-table-column>
 
             <o-table-column attr="tab_entity" label="Tab Entity" editable="yes" required="yes"
               content-align="left"></o-table-column>
@@ -150,14 +151,11 @@
             parent-keys="tab_entity:name"
             columns="entity_name;tab_entity;direction;label;fkeys;exclude"
             horizontal-scroll="yes" detail-form-route="TabGroup" edit-form-route="TabGroup"
-            visible-columns="entity_name;tab_entity;direction;label;fkeys;exclude" sort-columns="entity_name"
+            visible-columns="tab_entity;direction;label;fkeys;exclude" sort-columns="entity_name"
             query-rows="8" quick-filter="yes" row-height="small" select-all-checkbox="true" pageable="yes"
             virtual-scroll="yes" insert-button="no" delete-button="no" fixed-header="true" class="vertical-padding-8"
             edition-mode="click" horizontal-scroll="yes">
             <!-- parent-keys="tab_entity;entity_name" -->
-
-            <o-table-column attr="entity_name" label=" Entity Name*" editable="yes" required="yes"
-              content-align="left"></o-table-column>
 
             <o-table-column attr="tab_entity" label="Tab Entity" editable="yes" required="yes"
               content-align="left"></o-table-column>

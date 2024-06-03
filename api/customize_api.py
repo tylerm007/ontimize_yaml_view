@@ -20,7 +20,7 @@ from datetime import date
 from config.config import Args
 import os
 from pathlib import Path
-from api.exression_parser import parsePayload
+from api.expression_parser import parsePayload
 from api.gen_pdf_report import gen_report
 
 # called by api_logic_server_run.py, to customize api (new end points, services).
@@ -209,6 +209,7 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
                 e["info_list"] =entity["info_list"]
             if entity.get("info_show"):
                 e["info_show"] =entity["info_show"]
+            
             entity_list[entity_name] = e
         
             cols = []
@@ -224,6 +225,7 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
                     col["required"] = attr.get("isrequired", False)
                     col["enabled"] = attr.get("isenabled", False)
                     col["exclude"] = attr.get("exclude", False)
+                    col["visible"] = attr.get("isvisible", True)
                     cols.append(col)         
             entity_list[entity_name]["columns"] = cols
             tab_group = []
@@ -292,8 +294,8 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         delete_sql(models.EntityAttr)
         delete_sql(models.Entity)
         
-        insert_entities(valuesYaml)
         insert_styles(valuesYaml)
+        insert_entities(valuesYaml)
         insert_root(valuesYaml)
         
         return jsonify(valuesYaml)
@@ -303,8 +305,9 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
             num_rows_deleted = db.session.query(clz).delete()
             print(clz,num_rows_deleted)
             db.session.commit()
-        except:
+        except Exception as ex:
             db.session.rollback()
+            raise ex
 
         
     def insert_entities(valuesYaml):
@@ -329,19 +332,20 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
                 session.add(m_entity)
                 session.commit()
             except Exception as ex:
-                print(ex)
+                session.rollback()
+                raise ex
             
-            # Attributes
-            for entity in entities:
-                m_entity = models.Entity()
-                each_entity = valuesYaml['entities'][entity]
-                insert_entity_attrs(entity, each_entity)
-                
-            #Tab Groups
-            for entity in entities:
-                m_entity = models.Entity()
-                each_entity = valuesYaml['entities'][entity]
-                insert_tab_groups(entity, each_entity)
+        # Attributes
+        for entity in entities:
+            m_entity = models.Entity()
+            each_entity_yaml = valuesYaml['entities'][entity]
+            insert_entity_attrs(entity, each_entity_yaml)
+            
+        #Tab Groups
+        for entity in entities:
+            m_entity = models.Entity()
+            each_entity_yaml = valuesYaml['entities'][entity]
+            insert_tab_groups(entity, each_entity_yaml)
                 
     def insert_root(valuesYaml):
         about = valuesYaml["about"]
@@ -359,12 +363,12 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
             session.commit()
         except Exception as ex:
             print(ex)
-            session.rollback()
+            #session.rollback()
         
     def get_value(obj:any, name:str, default:any = None):
         try:
             return obj[name] 
-        except:
+        except Exception as ex:
             return default
     
     def get_boolean(obj:any, name:str, default:bool = True):
@@ -373,7 +377,7 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
                 return obj[name]
             else:
                 return obj[name] in ["true", "True", "1"]
-        except:
+        except Exception as ex:
             return default
     def convert_list(key:str) -> list:
         k = key.replace("'","",20)
@@ -384,9 +388,9 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         for v in s:
             l.append(v.strip())
         return l
-    def insert_tab_groups(entity, each_entity):
+    def insert_tab_groups(entity, each_entity_yaml):
         try:    
-            tab_groups = each_entity["tab_groups"]
+            tab_groups = each_entity_yaml["tab_groups"]
             for tab_group in tab_groups:
                 m_tab_group = models.TabGroup()
                 print(entity, f' tab_group: {tab_group}')
@@ -403,12 +407,13 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
                     session.commit()
                 except Exception as ex:
                     session.rollback()
-                    print(ex)
+                    raise ex
         except Exception as ex:
-            print(ex)
+            session.rollback()
+            raise ex
 
-    def insert_entity_attrs(entity, each_entity):
-        for attr in each_entity["columns"]:
+    def insert_entity_attrs(entity, each_entity_yaml):
+        for attr in each_entity_yaml["columns"]:
             m_entity_attr = models.EntityAttr()
             print(entity, f': {attr}') #merge metadata into attr
             m_entity_attr.entity_name = entity
@@ -422,12 +427,14 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
             m_entity_attr.isenabled = get_boolean(attr, "enabled", True)
             m_entity_attr.exclude = get_boolean(attr, "exclude", False)
             m_entity_attr.tooltip = get_value(attr, "tooltip", None)
+            m_entity_attr.isvisible =  get_boolean(attr,"visible", True)
             
             try:
                 session.add(m_entity_attr)
                 session.commit()
             except Exception as ex:
-                session.rollback()
+                #session.rollback()
+                #raise ex
                 print(ex)
 
     def insert_styles(valuesYaml):
@@ -442,7 +449,7 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         try:
             session.commit()
         except Exception as ex:
-            print(ex)
+            raise ex
 
     
     @app.route("/api/entityList", methods=["GET","OPTIONS"])
@@ -561,8 +568,13 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
                 else:
                     return get_rows(request, api_clz, None, orderBy, columns, pagesize, offset)
                 
-        session.commit()
-        session.flush()
+        try:        
+            session.commit()
+            session.flush()
+        except Exception as ex:
+            session.rollback()
+            return jsonify({"code":1,"message":f"{ex.message}","data":[],"sqlTypes":None}) 
+        
         return jsonify({"code":0,"message":f"{method}:True","data":result,"sqlTypes":None})   #{f"{method}":True})
     
     def find_model(clz_name:str) -> any:

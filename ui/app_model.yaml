@@ -60,6 +60,7 @@ entities:
       'p', upper right).<br><br> But, logout and login as 'u1' -- only 1 is shown,
       per <a target="_blank" href="https://apilogicserver.github.io/Docs/Security-Authorization/">authorization</a>.
       <br><br>
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
@@ -236,6 +237,7 @@ entities:
       not shown ("Show_when")</li> <li>Lookup a Product</li> <li>Click <strong>Save
       and Add Another</strong> </li> <li>Lookup another Product, and click <strong>Add</strong>
       to see the added Order </li> </ul> </li> </ul>
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
@@ -271,6 +273,7 @@ entities:
     detail_template: detail_template.html
     favorite: Id
     home_template: home_template.html
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
@@ -311,7 +314,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: integer
       type: INTEGER
     detail_template: detail_template.html
     favorite: DepartmentName
@@ -319,6 +322,7 @@ entities:
     info_list: <h1>Tour - Authorization</h1> <h2>Global Security Filters</h2> Only
       role sa & manager can view SecurityLevel > 0 - see security/declare_security.py
       <br><br>
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
@@ -541,7 +545,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: textarea
       type: VARCHAR(8000)
     - enabled: true
       exclude: false
@@ -579,6 +583,7 @@ entities:
       database, but in <span style="font-family:'Courier New'">database/customize_models.py</span>.<br>
       <h1>Derived Attributes</h1> <span style="font-family:'Courier New'">ProperSalary</span>
       is not defined in the database.<br> See <span style="font-family:'Courier New'">database/customize_models.py</span>.<br>
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
@@ -708,6 +713,7 @@ entities:
     detail_template: detail_template.html
     favorite: LastName
     home_template: home_template.html
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
@@ -752,6 +758,7 @@ entities:
     detail_template: detail_template.html
     favorite: Id
     home_template: home_template.html
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
@@ -803,6 +810,7 @@ entities:
     detail_template: detail_template.html
     favorite: country
     home_template: home_template.html
+    mode: tab
     new_template: new_template.html
     primary_key:
     - country
@@ -1014,6 +1022,7 @@ entities:
       <span style="font-family:'Courier New'">Amount Total.</span> <ul> <li> This
       is not from code, but from <a target="_blank" href="https://apilogicserver.github.io/Docs/Tutorial/#logic">this
       logic.</a> </li> </ul> </li> </ul>
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
@@ -1084,7 +1093,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: currency
       type: DECIMAL
     - enabled: true
       exclude: false
@@ -1125,6 +1134,7 @@ entities:
     detail_template: detail_template.html
     favorite: Id
     home_template: home_template.html
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
@@ -1171,7 +1181,7 @@ entities:
       required: true
       search: false
       sort: false
-      template: text
+      template: currency
       type: DECIMAL
     - enabled: true
       exclude: false
@@ -1189,7 +1199,7 @@ entities:
       required: true
       search: false
       sort: false
-      template: text
+      template: integer
       type: INTEGER
     - enabled: true
       exclude: false
@@ -1216,7 +1226,7 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: integer
       type: INTEGER
     - enabled: true
       exclude: false
@@ -1248,6 +1258,7 @@ entities:
     detail_template: detail_template.html
     favorite: ProductName
     home_template: home_template.html
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
@@ -1283,6 +1294,7 @@ entities:
     detail_template: detail_template.html
     favorite: RegionDescription
     home_template: home_template.html
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
@@ -1319,6 +1331,7 @@ entities:
     detail_template: detail_template.html
     favorite: CompanyName
     home_template: home_template.html
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
@@ -1436,6 +1449,7 @@ entities:
     detail_template: detail_template.html
     favorite: CompanyName
     home_template: home_template.html
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
@@ -1473,6 +1487,7 @@ entities:
     exclude: true
     favorite: TerritoryDescription
     home_template: home_template.html
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
@@ -1509,6 +1524,7 @@ entities:
     exclude: true
     favorite: Name
     home_template: home_template.html
+    mode: tab
     new_template: new_template.html
     primary_key:
     - Id
@@ -1522,8 +1538,6 @@ entities:
       resource: Employee
     type: Union
 settings:
-  HomeJS: http://localhost:5656/admin-app/home.js
-  max_list_columns: 8
   style_guide:
     currency_symbol: $
     currency_symbol_position: left

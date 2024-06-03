@@ -21,7 +21,7 @@ import json
 import requests
 import config.config as config
 from config.config import Args
-from api.exression_parser import parsePayload
+from api.expression_parser import parsePayload
 from api.gen_pdf_report import gen_report
 
 resource_logger = logging.getLogger("api.customize_api")
@@ -108,7 +108,8 @@ class CustomEndpoint():
         self.isCombined = isCombined
         self.join_on = join_on 
         self.isParent= isParent 
-    
+        self.totalQueryRecordsNumber =  999
+        self.startRecordIndex = 0
         if isinstance(join_on, tuple):
             if len(join_on) > 0:
                 # get parent or child
@@ -240,6 +241,7 @@ class CustomEndpoint():
                     pkey , value,  limit, offset, order_by , filter_  = self.parseArgs(args)
         #serverURL = f"{request.host_url}api"
         #query = f"{serverURL}/{self._model_class_name}"
+        self.startRecordIndex = offset + limit
         resource_logger.debug(f"CustomEndpoint execute on: {self._model_class_name} using alias: {self.alias}")
         filter_by = None
         #key = args.get(pkey) if args.get(pkey) is not None else args.get(f"filter[{pkey}]")
@@ -510,6 +512,9 @@ class CustomEndpoint():
                 if isinstance(f,str):
                     fieldName = f
                     alias = fieldName
+                elif isinstance(f[0], sqlalchemy.sql. schema.Column):
+                    alias = f[0].description 
+                    fieldName = f[1] if isinstance(f, tuple) else fieldName
                 else:
                     fieldName = f[0].key if isinstance(f, tuple) else f.key
                     alias = f[1] if isinstance(f, tuple) else fieldName
@@ -844,7 +849,9 @@ class CustomEndpoint():
         result = self.move_checksum(json_result)
         result if isinstance(result,list) else [result]
         if style == "IMATIA":
-            result = {"code":0,"message":"","data": result ,"sqlTypes":{}}
+            recordsNumber = self.totalQueryRecordsNumber #if len(result) == 0 else self.startRecordIndex
+            startRecord = self.startRecordIndex
+            result = {"code":0,"totalQueryRecordsNumber": recordsNumber, "startRecordIndex": startRecord, "message":"ApiLogicServer","data": result ,"sqlTypes":{}}
         return result
     
 

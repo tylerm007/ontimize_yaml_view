@@ -245,7 +245,7 @@
             "type": "debugpy",
             "request": "launch",
             "cwd": "${workspaceFolder}",
-            "program": "api/exression_parser.py",
+            "program": "api/epxression_parser.py",
             "redirectOutput": true,
             "justMyCode": false,
             "console": "integratedTerminal"
