@@ -281,12 +281,12 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         elif request.method == "POST":
             data = request.data.decode("utf-8")
             valuesYaml =json.dumps(data) #TODO - not working yet
-            
-        return _process_yaml(request)
+        file_name = f'{_project_dir}/ui/app_model.yaml'
+        return _process_yaml(filename=file_name)
     
-    def _process_yaml(request):
+    def _process_yaml(filename:str = 'ui/app_model.yaml' ):
         #Clean the database out - this is destructive 
-        with open(f'{_project_dir}/ui/app_model.yaml','rt') as f:  
+        with open(filename,'rt') as f:  
                 valuesYaml=yaml.safe_load(f.read())
                 f.close()
         delete_sql(models.TabGroup)
@@ -522,6 +522,10 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         if clz_type == "exportyaml":
             return dump_yaml()
         
+        if clz_type == "upload":
+            #TODO get full path and filename from request or store locally and read file
+            file_name = f'{_project_dir}/ui/app_model.yaml'
+            return _process_yaml(filename=file_name)
         
         #api_clz = api_map.get(clz_name)
         resource = find_model(clz_name)
@@ -565,6 +569,7 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
                     return get_rows_agg(request, api_clz, clz_type, filter, columns)
                 else:
                     return get_rows(request, api_clz, None, orderBy, columns, pagesize, offset)
+                    #return _get_rows(request, api_clz, filter, orderBy, columns, pagesize, offset)
                 
         try:        
             session.commit()

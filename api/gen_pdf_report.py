@@ -49,7 +49,7 @@ def gen_report(api_clz, request, project_dir, payload, attributes) -> any:
         
         entity = payload["entity"]
         columns = payload["columns"]
-        rows = get_rows(api_clz,request, columns, filter, attributes)
+        rows = get_rows(api_clz,request, columns, None, attributes)
         
         buffer = BytesIO()
         if payload["vertical"] == "true":
@@ -86,7 +86,7 @@ def gen_report(api_clz, request, project_dir, payload, attributes) -> any:
         for row in rows['data']:
             data = []
             for col in columns:
-                data.append(row[col["id"]])
+                data.append(row['attributes'][col["id"]])
             table_data.append(data)
 
         # Create table
@@ -116,14 +116,16 @@ def get_rows(api_clz, request, columns, filter, attributes) -> any:
     #return session.query(clz).all()
     key = api_clz.__name__.lower()
     list_of_columns = []
+    include = f"fields[{api_clz.__name__}]="
     for col in columns:
         print(col)
         for attr in attributes:
             print(" ", attr)
             if col['id'] == attr["name"]:
                 list_of_columns.append(attr['name'])
+                include += f"{attr['name']},"
     request.method = 'GET'
     from api.system.custom_endpoint import CustomEndpoint
-    custom_endpoint = CustomEndpoint(model_class=api_clz, fields=list_of_columns, filter_by=filter)
-    result = custom_endpoint.execute(request=request)
+    custom_endpoint = CustomEndpoint(model_class=api_clz, fields=list_of_columns, filter_by=None)
+    result = custom_endpoint.get_rows(request=request, include=include[:-1])
     return custom_endpoint.transform("IMATIA",key, result)

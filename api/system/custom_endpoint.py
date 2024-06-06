@@ -180,7 +180,39 @@ class CustomEndpoint():
             result = self.execute(request) # a dict of args
             return result
         return {"error": result.status_code}
+    def get_all_rows(self: CustomEndpoint, request: safrs.request.SAFRSRequest, include: str) -> dict:
+        """_summary_
+
+        Args:
+            :self (CustomEndpoint): 
+            :request (safrs.request.SAFRSRequest): 
+            :include (str): name(s) of relationship from swagger include=
+            :altKey (str, optional):  Defaults to None.
+
+        Returns:
+            dict: JSON result
+        """
+        if request.method == 'OPTIONS':
+            return jsonify(success=True)
         
+        serverURL = f"{request.host_url}api"
+        query = f"{serverURL}/{self._model_class_name}" #?include={include}"
+        args = request.args
+
+        self._href = f"{request.url_root[:-1]}{request.path}"
+        resource_logger.debug(f"CustomEndpoint get_all_rows using query: {query}")
+        if Args.security_enabled:
+            jwt = request.headers.get("Authorization") or ""
+            header = {"Authorization": jwt,"Content-Type": "application/json"}
+            result = requests.get(query, headers=header, params={})
+        else:
+            result = requests.get(query, params={})
+        if result.status_code == 200:
+            jsonResult = json.loads(result.content)
+            self._populateResponse(jsonResult) # Pass the JSON result to CustomEndpoint 
+            rows = self.row_to_dict(jsonResult['data']) # convert to dict
+            return rows # a dict of args
+        return {"error": result.status_code}    
     def execute(self: CustomEndpoint, request: safrs.request.SAFRSRequest, altKey: str = None) -> dict:
         """
         execute a model_class resource 
@@ -264,7 +296,7 @@ class CustomEndpoint():
             return json.dumps(result)
         except Exception as ex:
             resource_logger.error(f"CustomEndpoint error {ex}")
-            return f"'error': {ex}"
+            raise ValidationError( f"'error': {ex}") from ex
 
     def _executeChildren(self):
         """
@@ -340,10 +372,11 @@ class CustomEndpoint():
                     qry = qry.filter(text(filter_by))
                 rows = qry.limit(limit).offset(offset).all()
             else:
-                if filter_by is not None:
+                if filter_by is not None and filter_by != '':
                     resource_logger.debug(
                     f"Adding filter_by: {filter_by}")
-                    qry = session_qry.filter(or_(*self.expression))
+                    #qry = session_qry.filter(or_(*self.expression))
+                    qry = session_qry.filter(text(filter_by))
                     rows = qry.limit(limit).offset(offset).all()
                 else:
                     rows = session_qry.limit(limit).offset(offset).all()

@@ -1,14 +1,14 @@
-<o-form-layout-manager attr="Template" mode="tab" title="{{ 'TEMPLATE' | oTranslate }}">
+<o-form-layout-manager attr="Template" mode="dialog" title="{{ 'TEMPLATE' | oTranslate }}">
     <div fxFill fxLayout="column" fxLayoutAlign="start">
         <o-table attr="TemplateTable" service="Template" entity="Template" keys="name" columns="name;description"
-            header-actions="R;D" visible-columns="name;description" sort-columns="name" query-rows="20"
+            header-actions="R;D" visible-columns="name;description" sort-columns="name" query-rows="20" show-header="yes"
             quick-filter="yes" row-height="small" select-all-checkbox="true" pageable="yes" virtual-scroll="yes"
             edition-mode="click" horizontal-scroll="yes" export-button="no">
 
-            <o-table-column attr="name" label=" Name*" editable="no" required="yes"
+            <o-table-column attr="name" title=" Name*" editable="no" required="yes"
                 content-align="left"></o-table-column>
 
-            <o-table-column attr="description" label="description" editable="no" required="no"
+            <o-table-column attr="description" title="Template" editable="no" required="no"
                 content-align="left"></o-table-column>
 
             <o-table-context-menu></o-table-context-menu>
