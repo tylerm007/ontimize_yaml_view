@@ -226,3 +226,6 @@ settings:
     thousand_separator: ','
     use_keycloak: false
     row_height: medium
+    keycloak_url: http://localhost:8080
+    keycloak_realm: kcals
+    keycloak_client_id: alsclient
