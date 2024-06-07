@@ -261,6 +261,14 @@ entities:
     new_template: new_template.html
     primary_key:
     - Id
+    tab_groups:
+    - direction: tomany
+      exclude: false
+      fks:
+      - CustomerId
+      label: Placed Order List
+      name: OrderList
+      resource: Order
     type: Customer
   CustomerDemographic:
     columns:
@@ -344,6 +352,35 @@ entities:
     new_template: new_template.html
     primary_key:
     - Id
+    tab_groups:
+    - direction: tomany
+      exclude: false
+      fks:
+      - DepartmentId
+      label: DepartmentList
+      name: DepartmentList
+      resource: Department
+    - direction: toone
+      exclude: false
+      fks:
+      - DepartmentId
+      label: Department
+      name: Department
+      resource: Department
+    - direction: tomany
+      exclude: false
+      fks:
+      - OnLoanDepartmentId
+      label: Employees On Loan
+      name: EmployeeList
+      resource: Employee
+    - direction: tomany
+      exclude: false
+      fks:
+      - WorksForDepartmentId
+      label: Employees
+      name: EmployeeList1
+      resource: Employee
     type: Department
   Employee:
     columns:
@@ -599,6 +636,63 @@ entities:
     new_template: new_template.html
     primary_key:
     - Id
+    tab_groups:
+    - direction: toone
+      exclude: false
+      fks:
+      - OnLoanDepartmentId
+      label: Department
+      name: Department
+      resource: Department
+    - direction: toone
+      exclude: false
+      fks:
+      - WorksForDepartmentId
+      label: Department1
+      name: Department1
+      resource: Department
+    - direction: tomany
+      exclude: false
+      fks:
+      - ReportsTo
+      label: Manages
+      name: Manages
+      resource: Employee
+    - direction: toone
+      exclude: false
+      fks:
+      - ReportsTo
+      label: Manager
+      name: Manager
+      resource: Employee
+    - direction: tomany
+      exclude: false
+      fks:
+      - EmployeeId
+      label: EmployeeAuditList
+      name: EmployeeAuditList
+      resource: EmployeeAudit
+    - direction: tomany
+      exclude: false
+      fks:
+      - EmployeeId
+      label: EmployeeTerritoryList
+      name: EmployeeTerritoryList
+      resource: EmployeeTerritory
+    - direction: tomany
+      exclude: false
+      fks:
+      - EmployeeId
+      label: OrderList
+      name: OrderList
+      resource: Order
+    - direction: toone
+      exclude: false
+      fks:
+      - UnionId
+      label: Union
+      name: Union
+      resource: Union
     type: Employee
   EmployeeAudit:
     columns:
@@ -679,6 +773,14 @@ entities:
     new_template: new_template.html
     primary_key:
     - Id
+    tab_groups:
+    - direction: toone
+      exclude: false
+      fks:
+      - EmployeeId
+      label: Employee
+      name: Employee
+      resource: Employee
     type: EmployeeAudit
   EmployeeTerritory:
     columns:
@@ -719,6 +821,21 @@ entities:
     new_template: new_template.html
     primary_key:
     - Id
+    tab_groups:
+    - direction: toone
+      exclude: false
+      fks:
+      - EmployeeId
+      label: Employee
+      name: Employee
+      resource: Employee
+    - direction: toone
+      exclude: false
+      fks:
+      - TerritoryId
+      label: Territory
+      name: Territory
+      resource: Territory
     type: EmployeeTerritory
   Location:
     columns:
@@ -760,6 +877,15 @@ entities:
     primary_key:
     - country
     - city
+    tab_groups:
+    - direction: tomany
+      exclude: false
+      fks:
+      - Country
+      - City
+      label: OrderList
+      name: OrderList
+      resource: Order
     type: Location
   Order:
     columns:
@@ -982,6 +1108,36 @@ entities:
     new_template: new_template.html
     primary_key:
     - Id
+    tab_groups:
+    - direction: toone
+      exclude: false
+      fks:
+      - CustomerId
+      label: Customer
+      name: Customer
+      resource: Customer
+    - direction: toone
+      exclude: false
+      fks:
+      - Country
+      - City
+      label: Location
+      name: Location
+      resource: Location
+    - direction: toone
+      exclude: false
+      fks:
+      - EmployeeId
+      label: Employee
+      name: Employee
+      resource: Employee
+    - direction: tomany
+      exclude: false
+      fks:
+      - OrderId
+      label: Order Detail List
+      name: OrderDetailList
+      resource: OrderDetail
     type: Order
   OrderDetail:
     columns:
@@ -1072,6 +1228,21 @@ entities:
     new_template: new_template.html
     primary_key:
     - Id
+    tab_groups:
+    - direction: toone
+      exclude: false
+      fks:
+      - OrderId
+      label: Order
+      name: Order
+      resource: Order
+    - direction: toone
+      exclude: false
+      fks:
+      - ProductId
+      label: Product
+      name: Product
+      resource: Product
     type: OrderDetail
   Product:
     columns:
@@ -1192,6 +1363,14 @@ entities:
     new_template: new_template.html
     primary_key:
     - Id
+    tab_groups:
+    - direction: tomany
+      exclude: false
+      fks:
+      - ProductId
+      label: OrderDetailList
+      name: OrderDetailList
+      resource: OrderDetail
     type: Product
   Region:
     columns:
@@ -1433,6 +1612,14 @@ entities:
     new_template: new_template.html
     primary_key:
     - Id
+    tab_groups:
+    - direction: tomany
+      exclude: false
+      fks:
+      - TerritoryId
+      label: EmployeeTerritoryList
+      name: EmployeeTerritoryList
+      resource: EmployeeTerritory
     type: Territory
   Union:
     columns:
@@ -1464,6 +1651,14 @@ entities:
     new_template: new_template.html
     primary_key:
     - Id
+    tab_groups:
+    - direction: tomany
+      exclude: false
+      fks:
+      - UnionId
+      label: EmployeeList
+      name: EmployeeList
+      resource: Employee
     type: Union
 settings:
   style_guide:
@@ -1475,6 +1670,9 @@ settings:
     decimal_separator: .
     edit_on_mode: dblclick
     include_translation: false
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
     max_decimal_digits: '4'
     min_decimal_digits: '2'
     mode: tab
