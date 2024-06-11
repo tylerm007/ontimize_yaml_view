@@ -46,7 +46,7 @@
 "value": "valor",
 "description": "descripción",
 "tab_entity": "tab_entity",
-"YAMLFILES": "YamlFiles",
+"YAMLFILES": "Manage Yaml Files",
 "content": "contenido",
 "upload_flag": "Bandera de Cargar",
 "download_flag": "download_flag"

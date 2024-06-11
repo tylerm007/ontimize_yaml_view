@@ -139,9 +139,12 @@ resources:
       search: true
       sort: true
     - name: content
+      type: image
       required: false
     - name: upload_flag
+      type: boolean
     - name: export_flag
+      type: boolean
     type: YamlFiles
     user_key: name
 settings:
