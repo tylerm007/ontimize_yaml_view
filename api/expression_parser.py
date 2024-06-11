@@ -7,12 +7,9 @@ JSON:API filtering strategies
 import sqlalchemy
 import safrs
 import json
+from flask import request
 from sqlalchemy.orm import joinedload, Query
 from operator import not_, and_, or_, eq, ne, lt, le, gt, ge
-from safrs import SAFRSBase, SafrsApi, ValidationError
-import re
-import operator
-
 BASIC_EXPRESSION = "@basic_expression"
 FILTER_EXPRESSION = "@filter_expression"
 LESS = "<"
@@ -180,7 +177,10 @@ class BasicExpression:
 def advancedFilter(cls, args) -> any:
     filters = []
     expressions = []
-    
+    from safrs import SAFRSBase, SafrsApi, ValidationError
+    import re
+    import urllib.parse
+    import operator
 
     for req_arg, val in args.items():
         if not req_arg.startswith("filter"):
@@ -192,12 +192,13 @@ def advancedFilter(cls, args) -> any:
                 sqlWhere, filters = parseFilter(adv_filter['filter'], None)
                 continue
         except Exception as e:
-            pass
+            print(e)
+            continue
         #filter[attrname][in|notin]=value
         filter_attr = re.search(r"filter\[(\w+)\]\[(\w+)\]", req_arg)
         if filter_attr:
-            name = filter_attr[1]
-            op = filter_attr[2]
+            name = filter_attr.group(1)
+            op = filter_attr.group(2)
             if op in ["in", "notin"]:
                 val = json.loads(val)
             filters.append({"lop": name, "op": op, "rop": val})
@@ -206,7 +207,7 @@ def advancedFilter(cls, args) -> any:
         #filter[attrname]=value
         filter_attr = re.search(r"filter\[(\w+)\]", req_arg)
         if filter_attr:
-            name = filter_attr[1]
+            name = filter_attr.group(1)
             op = "eq"
             filters.append({"lop": name, "op": op, "rop": val})
             continue
@@ -214,13 +215,9 @@ def advancedFilter(cls, args) -> any:
         #attrname=value
         if filter_attr and filter_attr not in ["page","orderBy","pageSize","offset","limit","sort","order","fields","include"]:
             filters.append({"lop": req_arg, "op": "eq", "rop": val})
-        elif type(val) == dict:
-            for key, value in val.items():
-                filters.append({"lop": key, "op": "eq", "rop": value})
-        
 
     query = cls._s_query
-    
+
     for filt in filters:
         attr_name = filt.get("lop")
         attr_val = filt.get("rop")
@@ -231,13 +228,12 @@ def advancedFilter(cls, args) -> any:
         attr = cls._s_jsonapi_attrs[attr_name] if attr_name != "id" else cls.id
         if op_name in ["in"]:
             op = getattr(attr, op_name + "_")
-            #query = query.filter(op(attr_val))
-            expressions.append(or_(attr, clean(attr_val))) #TODO in?
+            query = query.filter(op(attr_val))
+            #expressions.append(in(attr, clean(attr_val)))
         elif op_name.lower() in ["like", "ilike", "match"]:
             # => attr is Column or InstrumentedAttribute
             like = getattr(attr, op_name)
-            #query = query.filter(eq(attr, attr_val))
-            expressions.append(or_(attr, clean(attr_val))) #TODO like?
+            query = query.filter(eq(attr, attr_val))
         # elif op_name.lower() in ["not like","notlike","notin"]:
         #    # => attr is Column or InstrumentedAttribute
         #    notlike = getattr(attr, op_name)
@@ -251,8 +247,9 @@ def advancedFilter(cls, args) -> any:
     return expressions #query.filter(or_(*expressions))
 
 def clean(val):
-    if val and isinstance(val, str) and (val.startswith('"') and val.endswith('"')):
-        return val[1:-1 ]
+    if val and isinstance(val, str):
+        if val.startswith('"') and val.endswith('"'):
+            return val[1:-1 ]
     return val
             
 class ExpressionParser:

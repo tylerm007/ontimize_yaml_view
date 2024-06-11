@@ -131,6 +131,19 @@ resources:
       resource: EntityAttr
     type: Template
     user_key: name
+  YamlFiles:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: content
+      required: false
+    - name: upload_flag
+    - name: export_flag
+    type: YamlFiles
+    user_key: name
 settings:
   HomeJS: http://localhost:5656/admin-app/home.js
   max_list_columns: 8

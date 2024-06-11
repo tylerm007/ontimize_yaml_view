@@ -10,6 +10,8 @@ import { TabGroupCardComponent } from './TabGroup-card/TabGroup-card.component';
 
 import { TemplateCardComponent } from './Template-card/Template-card.component';
 
+import { YamlFilesCardComponent } from './YamlFiles-card/YamlFiles-card.component';
+
 
 export const MENU_CONFIG: MenuRootItem[] = [
     { id: 'home', name: 'HOME', icon: 'home', route: '/main/home' },
@@ -26,6 +28,8 @@ export const MENU_CONFIG: MenuRootItem[] = [
         ,{ id: 'TabGroup', name: 'TABGROUP', icon: 'description', route: '/main/TabGroup' }
     
         ,{ id: 'Template', name: 'TEMPLATE', icon: 'description', route: '/main/Template' }
+    
+        ,{ id: 'YamlFiles', name: 'YAMLFILES', icon: 'description', route: '/main/YamlFiles' }
     
     ] 
     }
@@ -44,5 +48,7 @@ export const MENU_COMPONENTS = [
     ,TabGroupCardComponent
 
     ,TemplateCardComponent
+
+    ,YamlFilesCardComponent
 
 ];

@@ -21,8 +21,9 @@ import json
 import requests
 import config.config as config
 from config.config import Args
-from api.expression_parser import parsePayload, advancedFilter
-from operator import not_, and_, or_, eq, ne, lt, le, gt, ge
+from api.expression_parser import parsePayload
+from api.gen_pdf_report import gen_report
+
 resource_logger = logging.getLogger("api.customize_api")
 
 db = safrs.DB 
@@ -107,8 +108,10 @@ class CustomEndpoint():
         self.isCombined = isCombined
         self.join_on = join_on 
         self.isParent= isParent 
+        self.totalQueryRecordsNumber =  999
+        self.startRecordIndex = 0
         if isinstance(join_on, tuple):
-            if join_on and len(join_on) > 0:
+            if len(join_on) > 0:
                 # get parent or child
                 self.foreignKey = join_on[0] # - if we have multiple joins
         else:
@@ -127,9 +130,6 @@ class CustomEndpoint():
         self._method = None
         self._href = None
         self._columnNames = [k.key for k in self._model_class._s_columns]
-        self.totalQueryRecordsNumber =  999
-        self.startRecordIndex = 0
-        self.expression = []
 
     def __str__(self):
             return  f"Alias {self.alias} Model: {self._model_class.__name__} PrimaryKey: {self.primaryKey} FilterBy: {self.filter_by} OrderBy: {self.order_by}"
@@ -180,39 +180,7 @@ class CustomEndpoint():
             result = self.execute(request) # a dict of args
             return result
         return {"error": result.status_code}
-    def get_all_rows(self: CustomEndpoint, request: safrs.request.SAFRSRequest, include: str) -> dict:
-        """_summary_
-
-        Args:
-            :self (CustomEndpoint): 
-            :request (safrs.request.SAFRSRequest): 
-            :include (str): name(s) of relationship from swagger include=
-            :altKey (str, optional):  Defaults to None.
-
-        Returns:
-            dict: JSON result
-        """
-        if request.method == 'OPTIONS':
-            return jsonify(success=True)
         
-        serverURL = f"{request.host_url}api"
-        query = f"{serverURL}/{self._model_class_name}" #?include={include}"
-        args = request.args
-
-        self._href = f"{request.url_root[:-1]}{request.path}"
-        resource_logger.debug(f"CustomEndpoint get_all_rows using query: {query}")
-        if Args.security_enabled:
-            jwt = request.headers.get("Authorization") or ""
-            header = {"Authorization": jwt,"Content-Type": "application/json"}
-            result = requests.get(query, headers=header, params={})
-        else:
-            result = requests.get(query, params={})
-        if result.status_code == 200:
-            jsonResult = json.loads(result.content)
-            self._populateResponse(jsonResult) # Pass the JSON result to CustomEndpoint 
-            rows = self.row_to_dict(jsonResult['data']) # convert to dict
-            return rows # a dict of args
-        return {"error": result.status_code}    
     def execute(self: CustomEndpoint, request: safrs.request.SAFRSRequest, altKey: str = None) -> dict:
         """
         execute a model_class resource 
@@ -268,14 +236,11 @@ class CustomEndpoint():
                     raise ValidationError( f'{method} error on entity {self._model_class_name} msg: {ex}') from ex
             elif method == 'GET':
                 if payload:
-                    filter_, columns, sqltypes, offset, limit, order_by, data = parsePayload(payload=payload) 
-                    self.expression.append(advancedFilter(self._model_class, payload))
+                    filter_, columns, sqltypes, offset, limit, order_by, data = parsePayload(payload=payload)
                 else:
                     pkey , value,  limit, offset, order_by , filter_  = self.parseArgs(args)
-                    self.expression.append(advancedFilter(self._model_class, args))
         #serverURL = f"{request.host_url}api"
         #query = f"{serverURL}/{self._model_class_name}"
-
         self.startRecordIndex = offset + limit
         resource_logger.debug(f"CustomEndpoint execute on: {self._model_class_name} using alias: {self.alias}")
         filter_by = None
@@ -296,7 +261,7 @@ class CustomEndpoint():
             return json.dumps(result)
         except Exception as ex:
             resource_logger.error(f"CustomEndpoint error {ex}")
-            raise ValidationError( f"'error': {ex}") from ex
+            return f"'error': {ex}"
 
     def _executeChildren(self):
         """
@@ -363,7 +328,7 @@ class CustomEndpoint():
             resource_logger.debug(
                     f"CreateRows on {model_class_name} using filter_by: {self.filter_by} order_by: {self.order_by}")
             if self.filter_by is not None:
-                qry = session_qry.filter(or_(*self.expression))
+                qry = session_qry.filter(text(self.filter_by))
                 if self.order_by is not None:
                     qry = qry.order_by(self.order_by)
                 if filter_by is not None and 'undefined' not in filter_by:
@@ -372,10 +337,9 @@ class CustomEndpoint():
                     qry = qry.filter(text(filter_by))
                 rows = qry.limit(limit).offset(offset).all()
             else:
-                if filter_by is not None and filter_by != '':
+                if filter_by is not None:
                     resource_logger.debug(
                     f"Adding filter_by: {filter_by}")
-                    #qry = session_qry.filter(or_(*self.expression))
                     qry = session_qry.filter(text(filter_by))
                     rows = qry.limit(limit).offset(offset).all()
                 else:
@@ -384,14 +348,14 @@ class CustomEndpoint():
             resource_logger.debug(
                 f"CreateRows on {model_class_name} using QueryFilter: {queryFilter} order_by: {self.order_by}")
             if self.order_by is not None:
-                qry = session_qry.filter(or_(*self.expression)).order_by(self.order_by)
+                qry = session_qry.filter(text(queryFilter)).order_by(self.order_by)
             elif  self.filter_by is None:
-                qry = session_qry.filter(or_(*self.expression))
+                qry = session_qry.filter(text(queryFilter))
             else:
                 if filter_by:
                     resource_logger.debug(
                     f"Adding on {model_class_name} using filter_by: {filter_by}")
-                    qry = session_qry.filter(or_(*self.expression))
+                    qry = session_qry.filter(text(filter_by))#.filter(text(self.filter_by))
             rows = qry.limit(limit).offset(offset).all()
         if rows:    
             dictRows = self.rows_to_dict(rows)
@@ -820,7 +784,6 @@ class CustomEndpoint():
         '''
         Args = filter.data.data.data = "someexpression=N" 
         '''
-        
         tenant_filter = None
         _filter = None
         pkey = self.primaryKey
@@ -836,14 +799,12 @@ class CustomEndpoint():
                 f = _sys_filter[6:-1].split(":")
                 pkey = f[0]
                 value = f[1]
-                self.expression.append(eq(pkey,value))
         elif _filter:
             f = _filter.split("=")
             if len(f) > 1 and f[1] != 'undefined' and f[0] == self.primaryKey:
                 q = '' if f[0] in ['OFFICEID','CUSTOMERID','ACCOUNTID','BRANCHID'] else "'" 
                 pkey = f'"{f[0]}"'
                 value = f"{q}{f[1]}{q}"
-                self.expression.append(eq(pkey,value))
 
         limit = args.get("page[limit]") or args.get("pagesize") or 20
         offset = args.get("page[offset]") or args.get("offset")  or 0

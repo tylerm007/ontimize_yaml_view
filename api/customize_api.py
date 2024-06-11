@@ -187,7 +187,7 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         return api_utils.server_log(request, jsonify)
 
     @app.route("/exportyaml", methods=["GET"])
-    def dump_yaml():
+    def export_yaml():
         # Write the JSON back to yaml
         # GET curl "http://localhost:5656/exportyaml"
 
@@ -314,216 +314,11 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
             data = request.data.decode("utf-8")
             valuesYaml = json.dumps(data)  # TODO - not working yet
         file_name = f"{_project_dir}/ui/app_model.yaml"
-        return _process_yaml(filename=file_name)
-
-    def _process_yaml(filename: str = "ui/app_model.yaml"):
-        # Clean the database out - this is destructive
-        with open(filename, "rt") as f:
+        with open(file_name, "rt") as f:
             valuesYaml = yaml.safe_load(f.read())
             f.close()
-        delete_sql(models.TabGroup)
-        delete_sql(models.GlobalSetting)
-        delete_sql(models.EntityAttr)
-        delete_sql(models.Entity)
-        delete_sql(models.Template)
+        return process_yaml(valuesYaml=valuesYaml)
 
-        insert_template()
-        insert_styles(valuesYaml)
-        insert_entities(valuesYaml)
-        insert_root(valuesYaml)
-
-        return jsonify(valuesYaml)
-
-    def delete_sql(clz):
-        try:
-            num_rows_deleted = db.session.query(clz).delete()
-            print(clz, num_rows_deleted)
-            db.session.commit()
-        except Exception as ex:
-            db.session.rollback()
-            raise ex
-
-    def insert_entities(valuesYaml):
-        entities = valuesYaml["entities"]
-        for entity in entities:
-            m_entity = models.Entity()
-            each_entity = valuesYaml["entities"][entity]
-            print(entity, each_entity)
-            m_entity.name = each_entity["type"]
-            m_entity.title = entity
-            m_entity.favorite = get_value(each_entity, "favorite")
-            m_entity.pkey = str(get_value(each_entity, "primary_key"))
-            m_entity.info_list = get_value(each_entity, "info_list")
-            m_entity.info_show = get_value(each_entity, "info_show")
-            m_entity.exclude = get_boolean(each_entity, "exclude", False)
-            m_entity.new_template = get_value(
-                each_entity, "new_template", "new_template.html"
-            )
-            m_entity.home_template = get_value(
-                each_entity, "home_template", "home_template.html"
-            )
-            m_entity.detail_template = get_value(
-                each_entity, "detail_template", "detail_template.html"
-            )
-            m_entity.mode = get_value(each_entity, "mode", "tab")
-
-            try:
-                session.add(m_entity)
-                session.commit()
-            except Exception as ex:
-                session.rollback()
-                raise ex
-
-        # Attributes
-        for entity in entities:
-            each_entity_yaml = valuesYaml["entities"][entity]
-            insert_entity_attrs(entity, each_entity_yaml)
-
-        # Tab Groups
-        for entity in entities:
-            each_entity_yaml = valuesYaml["entities"][entity]
-            insert_tab_groups(entity, each_entity_yaml)
-
-    def insert_root(valuesYaml):
-        about = valuesYaml["about"]
-        api_root = valuesYaml["api_root"]
-        authentication = valuesYaml["authentication"]
-        root = session.query(models.Root).one()
-        # root.Id = 1
-        root.AboutDate = about["date"]
-        root.AboutChange = about["recent_changes"]
-        root.ApiRoot = api_root
-        root.ApiAuthType = "endpoint"
-        root.ApiAuth = authentication["endpoint"]
-        try:
-            session.add(root)
-            session.commit()
-        except Exception as ex:
-            print(ex)
-            # session.rollback()
-
-    def insert_template():
-        templates = [
-            ("checkbox", "o_checkbox.html"),
-            ("combo", "o_combo_input.html"),
-            ("currency", "currency_template.html"),
-            ("date", "date_template.html"),
-            ("email", "email_template.html"),
-            ("file", "file_template.html"),
-            ("html", "html_template.html"),
-            ("integer", "integer_template.html"),
-            ("list", "list-picker.html"),
-            ("nif", "o_nif_input.html"),
-            ("password", "password_template.html"),
-            ("percent", "percent_template.html"),
-            ("phone", "phone_template.html"),
-            ("real", "real_template.html"),
-            ("text", "text_template.html"),
-            ("textarea", "textarea_template.html"),
-            ("time", "time_template.html"),
-            ("timestamp", "timestamp_template.html"),
-            ("toggle", "o_slide_toggle.html")
-        ]
-        for name, value in templates:
-            m_template = models.Template()
-            m_template.name = name
-            m_template.description = value
-            try:
-                session.add(m_template)
-                session.commit()
-            except Exception as ex:
-                print(ex)
-
-    def get_value(obj: any, name: str, default: any = None):
-        try:
-            return obj[name]
-        except Exception as ex:
-            return default
-
-    def get_boolean(obj: any, name: str, default: bool = True):
-        try:
-            if isinstance(obj[name], bool):
-                return obj[name]
-            else:
-                return obj[name] in ["true", "True", "1"]
-        except Exception as ex:
-            return default
-
-    def convert_list(key: str) -> list:
-        k = key.replace("'", "", 20)
-        k = k.replace("[", "")
-        k = k.replace("]", "")
-        l = []
-        s = k.split(",")
-        for v in s:
-            l.append(v.strip())
-        return l
-
-    def insert_tab_groups(entity, each_entity_yaml):
-        try:
-            tab_groups = (
-                each_entity_yaml["tab_groups"]
-                if "tab_groups" in each_entity_yaml
-                else []
-            )
-            for tab_group in tab_groups:
-                m_tab_group = models.TabGroup()
-                print(entity, f" tab_group: {tab_group}")
-                m_tab_group.entity_name = entity
-                m_tab_group.direction = tab_group["direction"]
-                m_tab_group.tab_entity = tab_group["resource"]
-                m_tab_group.fkeys = str(tab_group["fks"])
-                m_tab_group.name = tab_group.get("name")
-                m_tab_group.label = tab_group.get("label")
-                m_tab_group.exclude = get_boolean(tab_group, "exclude", False)
-
-                try:
-                    session.add(m_tab_group)
-                    session.commit()
-                except Exception as ex:
-                    print(ex)
-        except Exception as ex:
-            session.rollback()
-            raise ex
-
-    def insert_entity_attrs(entity, each_entity_yaml):
-        for attr in each_entity_yaml["columns"]:
-            m_entity_attr = models.EntityAttr()
-            print(entity, f": {attr}")  # merge metadata into attr
-            m_entity_attr.entity_name = entity
-            m_entity_attr.attr = get_value(attr, "name")
-            m_entity_attr.label = get_value(attr, "label", attr["name"])
-            m_entity_attr.template_name = get_value(attr, "template", "text")
-            m_entity_attr.thistype = attr["type"]
-            m_entity_attr.isrequired = get_boolean(attr, "required", False)
-            m_entity_attr.issearch = get_boolean(attr, "search", False)
-            m_entity_attr.issort = get_boolean(attr, "sort", False)
-            m_entity_attr.isenabled = get_boolean(attr, "enabled", True)
-            m_entity_attr.exclude = get_boolean(attr, "exclude", False)
-            m_entity_attr.tooltip = get_value(attr, "tooltip", None)
-            m_entity_attr.isvisible = get_boolean(attr, "visible", True)
-
-            try:
-                session.add(m_entity_attr)
-                session.commit()
-            except Exception as ex:
-                # session.rollback()
-                # raise ex
-                print(ex)
-
-    def insert_styles(valuesYaml):
-        style_guide = valuesYaml["settings"]["style_guide"]
-        print(f"style_guide: {style_guide}")
-        for style in style_guide:
-            global_setting = models.GlobalSetting()
-            print(f"{style}:{style_guide[style]}")
-            global_setting.name = style
-            global_setting.value = style_guide[style]
-            session.add(global_setting)
-        try:
-            session.commit()
-        except Exception as ex:
-            raise ex
 
     @app.route("/api/entityList", methods=["GET", "OPTIONS"])
     @cross_origin()
@@ -663,7 +458,7 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         except Exception as ex:
             session.rollback()
             return jsonify(
-                {"code": 1, "message": f"{ex.message}", "data": [], "sqlTypes": None}
+                {"code": 1, "message": f"{ex}", "data": [], "sqlTypes": None}
             )
 
         return jsonify(
@@ -832,64 +627,210 @@ def rows_to_dict(result: any) -> list:
         rows.append(row_as_dict)
     return rows
 
+# Process the yaml file (load SQLite)
+def process_yaml(valuesYaml: str):
+    # Clean the database out - this is destructive
+    
+    delete_sql(models.TabGroup)
+    delete_sql(models.GlobalSetting)
+    delete_sql(models.EntityAttr)
+    delete_sql(models.Entity)
+    delete_sql(models.Template)
 
-class TransferFunds(safrs.JABase):
-    @classmethod
-    @jsonapi_rpc(http_methods=["POST"])
-    def transfer(cls, *args, **kwargs):
-        """# yaml creates Swagger description
-        args :
-            FromAcctId: 6
-            ToAcctId: 7
-            Amount: 10
-        """
-        db = safrs.DB  # Use the safrs.DB, not db!
-        session = db.session  # sqlalchemy.orm.scoping.scoped_session
+    insert_template()
+    insert_styles(valuesYaml)
+    insert_entities(valuesYaml)
+    insert_root(valuesYaml)
 
-        jsonData = json.loads(request.data.decode("utf-8"))
-        payload = DotDict(jsonData["meta"]["args"])
-        customerId = payload.customer_id
-        transactions = session.query(
-            models.Transaction
-        ).all()  # TODO where(CustomerID = N)
+    return jsonify(valuesYaml)
+
+def delete_sql(clz):
+    try:
+        num_rows_deleted = db.session.query(clz).delete()
+        print(clz, num_rows_deleted)
+        db.session.commit()
+    except Exception as ex:
+        db.session.rollback()
+        raise ex
+
+def insert_entities(valuesYaml):
+    entities = valuesYaml["entities"]
+    for entity in entities:
+        m_entity = models.Entity()
+        each_entity = valuesYaml["entities"][entity]
+        print(entity, each_entity)
+        m_entity.name = each_entity["type"]
+        m_entity.title = entity
+        m_entity.favorite = get_value(each_entity, "favorite")
+        m_entity.pkey = str(get_value(each_entity, "primary_key"))
+        m_entity.info_list = get_value(each_entity, "info_list")
+        m_entity.info_show = get_value(each_entity, "info_show")
+        m_entity.exclude = get_boolean(each_entity, "exclude", False)
+        m_entity.new_template = get_value(
+            each_entity, "new_template", "new_template.html"
+        )
+        m_entity.home_template = get_value(
+            each_entity, "home_template", "home_template.html"
+        )
+        m_entity.detail_template = get_value(
+            each_entity, "detail_template", "detail_template.html"
+        )
+        m_entity.mode = get_value(each_entity, "mode", "tab")
+
         try:
-            from_account = (
-                session.query(models.Account)
-                .filter(models.Account.ACCOUNTID == payload.FromAcctId)
-                .one()
-            )
+            session.add(m_entity)
+            session.commit()
         except Exception as ex:
-            raise requests.RequestException(
-                f"From Account {payload.FromAcctId} not found"
-            ) from ex
-        from_trans = models.Transaction()
-        from_trans.TransactionID = len(transactions) + 2
-        from_trans.AccountID = payload.FromAcctId
-        from_trans.Withdrawl = payload.Amount
-        from_trans.TransactionType = "Withdrawal"
-        from_trans.TransactionDate = date.today()
-        session.add(from_trans)
+            session.rollback()
+            raise ex
 
-        try:
-            to_account = (
-                session.query(models.Account)
-                .filter(models.Account.ACCOUNTID == payload.ToAcctId)
-                .one()
-            )
-        except Exception as ex:
-            raise requests.RequestException(
-                f"To Account {payload.ToAcctId} not found"
-            ) from ex
+    # Attributes
+    for entity in entities:
+        each_entity_yaml = valuesYaml["entities"][entity]
+        insert_entity_attrs(entity, each_entity_yaml)
 
-        to_trans = models.Transaction()
-        to_trans.TransactionID = len(transactions) + 3
-        to_trans.AccountID = payload.ToAcctId
-        to_trans.Deposit = payload.Amount
-        to_trans.TransactionType = "Deposit"
-        to_trans.TransactionDate = date.today()
-        session.add(to_trans)
+    # Tab Groups
+    for entity in entities:
+        each_entity_yaml = valuesYaml["entities"][entity]
+        insert_tab_groups(entity, each_entity_yaml)
+
+def insert_root(valuesYaml):
+    about = valuesYaml["about"]
+    api_root = valuesYaml["api_root"]
+    authentication = valuesYaml["authentication"]
+    root = session.query(models.Root).one()
+    # root.Id = 1
+    root.AboutDate = about["date"]
+    root.AboutChange = about["recent_changes"]
+    root.ApiRoot = api_root
+    root.ApiAuthType = "endpoint"
+    root.ApiAuth = authentication["endpoint"]
+    try:
+        session.add(root)
         session.commit()
+    except Exception as ex:
+        print(ex)
+        # session.rollback()
 
-        return {
-            f"Transfer Completed amount: {payload.Amount} from acct: {payload.FromAcctId} to acct: {payload.ToAcctId}"
-        }
+def insert_template():
+    templates = [
+        ("checkbox", "o_checkbox.html"),
+        ("combo", "o_combo_input.html"),
+        ("currency", "currency_template.html"),
+        ("date", "date_template.html"),
+        ("email", "email_template.html"),
+        ("file", "file_template.html"),
+        ("html", "html_template.html"),
+        ("integer", "integer_template.html"),
+        ("list", "list-picker.html"),
+        ("nif", "o_nif_input.html"),
+        ("password", "password_template.html"),
+        ("percent", "percent_template.html"),
+        ("phone", "phone_template.html"),
+        ("real", "real_template.html"),
+        ("text", "text_template.html"),
+        ("textarea", "textarea_template.html"),
+        ("time", "time_template.html"),
+        ("timestamp", "timestamp_template.html"),
+        ("toggle", "o_slide_toggle.html")
+    ]
+    for name, value in templates:
+        m_template = models.Template()
+        m_template.name = name
+        m_template.description = value
+        try:
+            session.add(m_template)
+            session.commit()
+        except Exception as ex:
+            print(ex)
+
+def get_value(obj: any, name: str, default: any = None):
+    try:
+        return obj[name]
+    except Exception as ex:
+        return default
+
+def get_boolean(obj: any, name: str, default: bool = True):
+    try:
+        if isinstance(obj[name], bool):
+            return obj[name]
+        else:
+            return obj[name] in ["true", "True", "1"]
+    except Exception as ex:
+        return default
+
+def convert_list(key: str) -> list:
+    k = key.replace("'", "", 20)
+    k = k.replace("[", "")
+    k = k.replace("]", "")
+    l = []
+    s = k.split(",")
+    for v in s:
+        l.append(v.strip())
+    return l
+
+def insert_tab_groups(entity, each_entity_yaml):
+    try:
+        tab_groups = (
+            each_entity_yaml["tab_groups"]
+            if "tab_groups" in each_entity_yaml
+            else []
+        )
+        for tab_group in tab_groups:
+            m_tab_group = models.TabGroup()
+            print(entity, f" tab_group: {tab_group}")
+            m_tab_group.entity_name = entity
+            m_tab_group.direction = tab_group["direction"]
+            m_tab_group.tab_entity = tab_group["resource"]
+            m_tab_group.fkeys = str(tab_group["fks"])
+            m_tab_group.name = tab_group.get("name")
+            m_tab_group.label = tab_group.get("label")
+            m_tab_group.exclude = get_boolean(tab_group, "exclude", False)
+
+            try:
+                session.add(m_tab_group)
+                session.commit()
+            except Exception as ex:
+                print(ex)
+    except Exception as ex:
+        session.rollback()
+        raise ex
+
+def insert_entity_attrs(entity, each_entity_yaml):
+    for attr in each_entity_yaml["columns"]:
+        m_entity_attr = models.EntityAttr()
+        print(entity, f": {attr}")  # merge metadata into attr
+        m_entity_attr.entity_name = entity
+        m_entity_attr.attr = get_value(attr, "name")
+        m_entity_attr.label = get_value(attr, "label", attr["name"])
+        m_entity_attr.template_name = get_value(attr, "template", "text")
+        m_entity_attr.thistype = attr["type"]
+        m_entity_attr.isrequired = get_boolean(attr, "required", False)
+        m_entity_attr.issearch = get_boolean(attr, "search", False)
+        m_entity_attr.issort = get_boolean(attr, "sort", False)
+        m_entity_attr.isenabled = get_boolean(attr, "enabled", True)
+        m_entity_attr.exclude = get_boolean(attr, "exclude", False)
+        m_entity_attr.tooltip = get_value(attr, "tooltip", None)
+        m_entity_attr.isvisible = get_boolean(attr, "visible", True)
+
+        try:
+            session.add(m_entity_attr)
+            session.commit()
+        except Exception as ex:
+            # session.rollback()
+            # raise ex
+            print(ex)
+
+def insert_styles(valuesYaml):
+    style_guide = valuesYaml["settings"]["style_guide"]
+    print(f"style_guide: {style_guide}")
+    for style in style_guide:
+        global_setting = models.GlobalSetting()
+        print(f"{style}:{style_guide[style]}")
+        global_setting.name = style
+        global_setting.value = style_guide[style]
+        session.add(global_setting)
+    try:
+        session.commit()
+    except Exception as ex:
+        raise ex        

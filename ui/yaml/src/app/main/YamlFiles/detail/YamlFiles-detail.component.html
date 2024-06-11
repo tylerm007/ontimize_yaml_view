@@ -1,0 +1,27 @@
+<div class="container">
+<o-form-container breadcrumb="yes" breadcrumb-label-columns="name" breadcrumb-separator=", " class="fill-form">
+      <o-form #form attr="YamlFiles_form_edit" 
+        service="YamlFiles" 
+        entity="YamlFiles" 
+        fxLayout="column" 
+        show-header="yes" 
+        header-actions="R;I;U;D"
+        #oDetailForm keys="id" 
+        keys-sql-types="VARCHAR" 
+        show-header-navigation="yes"
+        (onDataLoaded)="onDataLoaded($event)">
+
+  <o-row attr="row1" layout-align="start stretch">
+    <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+      
+      <o-text-input attr="name" label=" name*" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
+      <o-checkbox attr="upload_flag" label="Upload Yaml" tooltip="insert entity, attributes, and tabs into model" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-checkbox>
+      <o-checkbox attr="export_flag" label="Download Yaml" tooltip="export to ui/admin_model_merge.yaml" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-checkbox>
+      <!-- o-image attr="content" type="image" auto-fit="true" enabled="true" read-only="false" show-controls="true"  full-screen-button="false" empty-image="./assets/images/no-image.png"></o-image -->
+      <o-text-input attr="id" label=" Id*" type="INTEGER" enabled="no" required="yes" fxFlex="20%" class="form-field"></o-text-input>
+    </div>
+  </o-row>
+      
+    </o-form>
+  </o-form-container>
+</div>

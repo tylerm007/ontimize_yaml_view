@@ -23,6 +23,8 @@ export const routes: Routes = [
     
         { path: 'Template', loadChildren: () => import('./Template/Template.module').then(m => m.TemplateModule) },
     
+        { path: 'YamlFiles', loadChildren: () => import('./YamlFiles/YamlFiles.module').then(m => m.YamlFilesModule) },
+    
     ]
   }
 ];

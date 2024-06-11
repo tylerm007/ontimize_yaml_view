@@ -7,13 +7,13 @@ import { {{ entity_first_cap }}DetailComponent } from './detail/{{ entity }}-det
 const routes: Routes = [
   {path: '', component: {{ entity_first_cap }}HomeComponent},
   { path: 'new', component: {{ entity_first_cap }}NewComponent },
-  { path: ':{{ key }}', component: {{ entity_first_cap }}DetailComponent,
+  { path: ':{{ keyPath }}', component: {{ entity_first_cap }}DetailComponent,
     data: {
       oPermission: {
         permissionId: '{{ entity }}-detail-permissions'
       }
     }
-  }
+  }{{ additional_routes }}
 ];
 
 export const {{ entity_upper}}_MODULE_DECLARATIONS = [

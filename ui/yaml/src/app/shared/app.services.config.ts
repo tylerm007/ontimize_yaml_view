@@ -3,4 +3,5 @@ export const SERVICE_CONFIG: Object ={ 'Entity': { 'path': '/Entity' }
 ,'GlobalSetting': { 'path': '/GlobalSetting' }
 ,'TabGroup': { 'path': '/TabGroup' }
 ,'Template': { 'path': '/Template' }
+,'YamlFiles': { 'path': '/YamlFiles' }
  };

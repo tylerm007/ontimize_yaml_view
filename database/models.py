@@ -222,3 +222,31 @@ class Root(SAFRSBase, Base):
         self._check_sum_property = value
 
     S_CheckSum = _check_sum_
+    
+class YamlFiles(SAFRSBase, Base):
+    __tablename__ = 'yaml_files'
+    _s_collection_name = 'YamlFiles'  # type: ignore
+    __bind_key__ = 'None'
+
+    id = Column(INTEGER, nullable=False, primary_key=True)
+    name = Column(String(50), primary_key=True)
+    content = Column(Text)
+    upload_flag = Column(Boolean, server_default=text("0"))
+    export_flag = Column(Boolean, server_default=text("0"))
+    allow_client_generated_ids = True
+
+    # parent relationships (access parent)
+
+    # child relationships (access children)
+
+    @jsonapi_attr
+    def _check_sum_(self):  # type: ignore [no-redef]
+        return None if isinstance(self, flask_sqlalchemy.model.DefaultMeta) \
+            else self._check_sum_property if hasattr(self,"_check_sum_property") \
+                else None  # property does not exist during initialization
+
+    @_check_sum_.setter
+    def _check_sum_(self, value):  # type: ignore [no-redef]
+        self._check_sum_property = value
+
+    S_CheckSum = _check_sum_

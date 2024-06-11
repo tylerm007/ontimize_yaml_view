@@ -43,6 +43,22 @@ def declare_logic():
 
     Rule.early_row_event_all_classes(early_row_event_all_classes=handle_all)
 
+    def upload(row:models.YamlFiles, old_row:models.YamlFiles, logic_row:LogicRow):
+        encoding = 'utf-8'
+        from base64 import b64decode
+        from requests import get
+        yaml_content = str(b64decode(row.content), encoding=encoding) if row.content else None 
+        if logic_row.ins_upd_dlt in ["ins","upd"] and row.upload_flag and old_row and old_row.upload_flag == False and yaml_content:
+            #from api.customize_api import process_yaml 
+            get("http://localhost:5655/importyaml", None)
+            #process_yaml(yaml_content)
+    
+        elif logic_row.ins_upd_dlt == "upd" and row.export_flag and old_row.export_flag == False and yaml_content:
+            #from api.customize_api import export_yaml 
+            get("http://localhost:5655/exportyaml", None)
+            #export_yaml()
+                
+    Rule.commit_row_event(models.YamlFiles, calling=upload)
     #als rules report
     from api.system import api_utils
     api_utils.rules_report()

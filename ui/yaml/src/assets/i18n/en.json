@@ -47,5 +47,10 @@
   "TEMPLATE": "Template",
   "GLOBALSETTING": "GlobalSetting",
   "value": "value",
-  "description": "description"
+  "description": "description",
+  "tab_entity": "tab_entity",
+  "YAMLFILES": "Manage Yaml Files",
+  "content": "content",
+  "upload_flag": "upload_flag",
+  "download_flag": "download_flag"
 }
