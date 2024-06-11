@@ -10,8 +10,8 @@ The Ontimize application is loaded in ui/yaml directory. The react-admin is in t
 
 
 ```bash title="Install API Logic Server in a Virtual Environment"
-python -m venv venv                        # may require python3 -m venv venv
-venv\Scripts\activate                      # mac/linux: source venv/bin/activate
+python3 -m venv venv                        # may require python3 -m venv venv
+venv\Scripts\activate                       # mac/linux: source venv/bin/activate
 pip install ApiLogicServer
 ```
 
@@ -32,11 +32,18 @@ npm start
 ```
 in a browser:
 react-admin backend application
-http://localhost:5656 (user: admin password: p)
+http://localhost:5655 (user: admin password: p)
 
 Ontimize
-http://localhost:4299 (user: admin password: p)
+http://localhost:4298 (user: admin password: p)
 ```
+
+## Use the Manage Yaml File to load each app_model.yaml 
+Go to the "Manage Yaml Files" and click New - then add each of your app_model.yaml files.
+Then go to the Home page and select the new row and click []Upload (and save) this will load the yaml file into the editor (you may need to refresh)
+
+![](ui/templates/ManageYaml.png)
+
 ## IMPORT the admin_model.yaml and load into SQL
 Copy your admin_model.yaml file from your application to the ui directory. This endpoint will read the admin_model.yaml file from the ui directory. It will populate the in-memory SQLite database that the UI developers can edit.
 ```
