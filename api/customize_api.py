@@ -457,8 +457,9 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
             session.flush()
         except Exception as ex:
             session.rollback()
+            msg = f"{ex.message if hasattr(ex, 'message') else ex}"
             return jsonify(
-                {"code": 1, "message": f"{ex}", "data": [], "sqlTypes": None}
+                {"code": 1, "message": f"{msg}", "data": [], "sqlTypes": None}
             )
 
         return jsonify(

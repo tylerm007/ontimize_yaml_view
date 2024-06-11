@@ -7,9 +7,11 @@ from database import models
 import api.system.opt_locking.opt_locking as opt_locking
 from security.system.authorization import Grant
 import logging
+from base64 import b64decode
+from requests import get
 
 app_logger = logging.getLogger(__name__)
-
+encoding = 'utf-8'
 declare_logic_message = "ALERT:  *** No Rules Yet ***"  # printed in api_logic_server.py
 
 def declare_logic():
@@ -43,10 +45,20 @@ def declare_logic():
 
     Rule.early_row_event_all_classes(early_row_event_all_classes=handle_all)
 
+    def validate_yaml(row:models.YamlFiles, old_row:models.YamlFiles, logic_row:LogicRow):
+        import yaml
+        if logic_row.ins_upd_dlt in ["ins","upd"]:
+            yaml_content = str(b64decode(row.content), encoding=encoding) if row.content else None 
+            if yaml_content:
+                try:
+                    yaml.safe_load(yaml_content)
+                    return True
+                except yaml.YAMLError as exc:
+                    return False    
+            return False
+        return True
     def upload(row:models.YamlFiles, old_row:models.YamlFiles, logic_row:LogicRow):
-        encoding = 'utf-8'
-        from base64 import b64decode
-        from requests import get
+        
         yaml_content = str(b64decode(row.content), encoding=encoding) if row.content else None 
         if logic_row.ins_upd_dlt in ["ins","upd"] and row.upload_flag and old_row and old_row.upload_flag == False and yaml_content:
             #from api.customize_api import process_yaml 
@@ -59,6 +71,7 @@ def declare_logic():
             #export_yaml()
                 
     Rule.commit_row_event(models.YamlFiles, calling=upload)
+    Rule.constraint(models.YamlFiles, calling=validate_yaml, error_msg="Invalid yaml file")
     #als rules report
     from api.system import api_utils
     api_utils.rules_report()
