@@ -800,13 +800,12 @@ def insert_tab_groups(entity, entity_type, each_entity_yaml):
         for tab_group in tab_groups:
             m_tab_group = models.TabGroup()
             print(entity, f" tab_group: {tab_group}")
-            m_tab_group.entity_name = entity_type
-            m_tab_group.title = entity
+            m_tab_group.entity_name = entity
             m_tab_group.direction = tab_group["direction"]
             m_tab_group.tab_entity = tab_group["resource"]
             m_tab_group.fkeys = str(tab_group["fks"])
             m_tab_group.name = tab_group.get("name")
-            m_tab_group.label = tab_group.get("label")
+            m_tab_group.label = tab_group.get("label") or tab_group.get("name")
             m_tab_group.exclude = get_boolean(tab_group, "exclude", False)
 
             try:
@@ -823,7 +822,6 @@ def insert_entity_attrs(entity, entity_type, each_entity_yaml):
         m_entity_attr = models.EntityAttr()
         print(entity, f": {attr}")  # merge metadata into attr
         m_entity_attr.entity_name = entity_type
-        m_entity_attr.title = entity
         m_entity_attr.attr = get_value(attr, "name")
         m_entity_attr.label = get_value(attr, "label", attr["name"])
         m_entity_attr.template_name = get_value(attr, "template", "text")

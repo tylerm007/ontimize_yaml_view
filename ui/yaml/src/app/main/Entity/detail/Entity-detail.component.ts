@@ -37,9 +37,9 @@ export class EntityDetailComponent implements OnInit  {
 
   cloneEntity() {
     console.log(this.entity);
-    const clone_url = environment.apiEndpoint +"/clonerow/" + this.entity["title"]; 
+    const clone_url = environment.apiEndpoint +"/clonerow/" + this.entity["name"]; 
     console.log(clone_url);
-    this.service.query({"name": this.entity["title"]},
+    this.service.query({"name": this.entity["name"]},
       [],
       'clonerow').subscribe((resp) => {
         //console.log(JSON.stringify(resp));
