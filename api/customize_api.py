@@ -300,16 +300,27 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
             yaml.safe_dump(source, file, default_flow_style=False)
             # file.write(source)
 
-    @app.route("/importyaml", methods=["GET", "POST", "OPTIONS"])
-    def load_yaml():
+    @app.route("/importyaml/<key>", methods=["GET", "POST", "OPTIONS"])
+    def load_yaml(key: int = 0):
         """
         GET curl "http://localhost:5656/importyaml"
         POST  curl -X "POST" http://localhost:5656/importyaml -H "Content-Type: text/x-yaml" -d @app_model.yaml
         """
-        if request.method == "GET":
+        if request.method == "GET" and int(key) == 0:
             with open(f"{_project_dir}/ui/app_model.yaml", "rt") as f:
                 valuesYaml = yaml.safe_load(f.read())
                 f.close()
+        elif request.method == "GET" and int(key) > 0:
+            from base64 import b64decode
+            encoding = 'utf-8'
+            data = session.query(models.YamlFiles).filter(models.YamlFiles.id == int(key)).one() 
+            yaml_content = str(b64decode(data.content), encoding=encoding) if data.content else None 
+            if yaml_content:
+                try:
+                    valuesYaml = yaml.safe_load(yaml_content)
+                    return process_yaml(valuesYaml=valuesYaml)
+                except yaml.YAMLError as exc:
+                    return jsonify({"code": 1, "message": f"Error loading yaml: {exc}"})    
         elif request.method == "POST":
             data = request.data.decode("utf-8")
             valuesYaml = json.dumps(data)  # TODO - not working yet
@@ -358,7 +369,11 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         attributes = resources["resources"][api_clz.__name__]["attributes"]
 
         return gen_report(api_clz, request, _project_dir, payload, attributes)
-
+    def clonerow(request) -> any:
+        payload = json.loads(request.data)
+        print("clonerow",payload["filter"]) #TODO
+        return jsonify({"code": 0, "message": "clonerow", "data": {}})  
+    
     # http://localhost:5656/ontimizeweb/services/qsallcomponents-jee/services/rest/customers/customerType/search
     # https://try.imatia.com/ontimizeweb/services/qsallcomponents-jee/services/rest/customers/customerType/search
     @app.route(
@@ -384,6 +399,9 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         if method == "OPTIONS":
             return jsonify(success=True)
 
+        if clz_name == "Entity" and clz_type == "clonerow":
+            return clonerow(request)
+        
         if clz_name == "dynamicjasper":
             return _gen_report(request)
 
@@ -688,12 +706,14 @@ def insert_entities(valuesYaml):
     # Attributes
     for entity in entities:
         each_entity_yaml = valuesYaml["entities"][entity]
-        insert_entity_attrs(entity, each_entity_yaml)
+        entity_type = entities[entity]["type"]
+        insert_entity_attrs(entity, entity_type, each_entity_yaml)
 
     # Tab Groups
     for entity in entities:
         each_entity_yaml = valuesYaml["entities"][entity]
-        insert_tab_groups(entity, each_entity_yaml)
+        entity_type = entities[entity]["type"]
+        insert_tab_groups(entity, entity_type, each_entity_yaml)
 
 def insert_root(valuesYaml):
     about = valuesYaml["about"]
@@ -770,7 +790,7 @@ def convert_list(key: str) -> list:
         l.append(v.strip())
     return l
 
-def insert_tab_groups(entity, each_entity_yaml):
+def insert_tab_groups(entity, entity_type, each_entity_yaml):
     try:
         tab_groups = (
             each_entity_yaml["tab_groups"]
@@ -780,7 +800,8 @@ def insert_tab_groups(entity, each_entity_yaml):
         for tab_group in tab_groups:
             m_tab_group = models.TabGroup()
             print(entity, f" tab_group: {tab_group}")
-            m_tab_group.entity_name = entity
+            m_tab_group.entity_name = entity_type
+            m_tab_group.title = entity
             m_tab_group.direction = tab_group["direction"]
             m_tab_group.tab_entity = tab_group["resource"]
             m_tab_group.fkeys = str(tab_group["fks"])
@@ -797,18 +818,19 @@ def insert_tab_groups(entity, each_entity_yaml):
         session.rollback()
         raise ex
 
-def insert_entity_attrs(entity, each_entity_yaml):
+def insert_entity_attrs(entity, entity_type, each_entity_yaml):
     for attr in each_entity_yaml["columns"]:
         m_entity_attr = models.EntityAttr()
         print(entity, f": {attr}")  # merge metadata into attr
-        m_entity_attr.entity_name = entity
+        m_entity_attr.entity_name = entity_type
+        m_entity_attr.title = entity
         m_entity_attr.attr = get_value(attr, "name")
         m_entity_attr.label = get_value(attr, "label", attr["name"])
         m_entity_attr.template_name = get_value(attr, "template", "text")
-        m_entity_attr.thistype = attr["type"]
+        m_entity_attr.thistype = get_value(attr,"type", "VARCHAR")
         m_entity_attr.isrequired = get_boolean(attr, "required", False)
         m_entity_attr.issearch = get_boolean(attr, "search", False)
-        m_entity_attr.issort = get_boolean(attr, "sort", False)
+        m_entity_attr.isort = get_boolean(attr, "sort", False)
         m_entity_attr.isenabled = get_boolean(attr, "enabled", True)
         m_entity_attr.exclude = get_boolean(attr, "exclude", False)
         m_entity_attr.tooltip = get_value(attr, "tooltip", None)

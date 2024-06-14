@@ -1,5 +1,5 @@
 <o-breadcrumb [form]="YamlFilesForm" label-columns="" separator=" "></o-breadcrumb>
-<o-form #YamlFilesForm attr="YamlFiles_form_insert" service="YamlFiles" entity="YamlFiles" 
+<o-form #YamlFilesForm attr="YamlFiles_form_insert" service="YamlFiles" entity="YamlFiles"
 keys="id;name" fxLayout="column" show-header="yes" header-actions="I"
 horizontal-scroll="yes"
 after-insert-mode="new" class="standalone-form-container">
@@ -10,7 +10,7 @@ after-insert-mode="new" class="standalone-form-container">
         <o-text-input attr="id" label=" Id*" type="INTEGER" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
         <o-text-input attr="name" label=" name*" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
         <o-checkbox attr="upload_flag" label="upload_flag" enabled="no" required="no" fxFlex="20%" class="form-field" data="'0"></o-checkbox>
-        <o-checkbox attr="download_flag" label="export_flag" enabled="no" required="no" fxFlex="20%" class="form-field" data="0"></o-checkbox>
+        <o-checkbox attr="download_flag" label="download_flag" enabled="no" required="no" fxFlex="20%" class="form-field" data="0"></o-checkbox>
         <o-image attr="content" type="image" label="Yaml Content" sql-type="TEXT" auto-fit="true" enabled="true" read-only="false" show-controls="true"  full-screen-button="false" accept-file-type="*.yaml" empty-image="./assets/images/no-image.png"></o-image>
       
 </div>

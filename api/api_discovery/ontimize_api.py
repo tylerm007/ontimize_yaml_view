@@ -37,7 +37,9 @@ class DotDict(dict):
     __getattr__ = dict.get
     __setattr__ = dict.__setitem__
     __delattr__ = dict.__delitem__
-def add_service(app, api, project_dir, swagger_host: str, PORT: str):
+
+
+def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_decorators = []):
     pass
     
 #def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
@@ -48,8 +50,9 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str):
     
     """
     _project_dir = project_dir
-    app_logger.debug("api/api_discovery/ontimize_api.py - expose custom services") 
+    app_logger.debug("api/api_discovery/ontimize_api.py - services for ontimize") 
 
+    
     def getMetaData(resource_name:str = None, include_attributes: bool = True) -> dict:
         import inspect
         import sys
@@ -88,7 +91,19 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str):
         return_result = {"resources": resource_objs}
         return return_result
     
-    
+    def admin_required():
+        """
+        Support option to bypass security (see cats, below).
+        """
+        def wrapper(fn):
+            @wraps(fn)
+            def decorator(*args, **kwargs):
+                if Args.instance.security_enabled == False:
+                    return fn(*args, **kwargs)
+                verify_jwt_in_request(True)  # must be issued if security enabled
+                return fn(*args, **kwargs)
+            return decorator
+        return wrapper
     @app.route("/api/entityList", methods=["GET","OPTIONS"])
     @cross_origin()
     def entity_list():
@@ -128,7 +143,8 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str):
     
     @app.route("/ontimizeweb/services/rest/<path:path>", methods=['GET','POST','PUT','PATCH','DELETE','OPTIONS'])
     @app.route("/services/rest/<path:path>", methods=['GET','POST','PUT','PATCH','DELETE','OPTIONS'])
-    #@cross_origin(vary_header=True)
+    @cross_origin(vary_header=True)
+    @admin_required()
     def api_search(path):
         s = path.split("/")
         clz_name = s[0]

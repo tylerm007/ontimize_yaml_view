@@ -1,5 +1,5 @@
 # coding: utf-8
-from sqlalchemy import Boolean, Column, ForeignKey, String, Text, text
+from sqlalchemy import Boolean, Column, ForeignKey, ForeignKeyConstraint, Integer, String, Text, text
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -9,14 +9,14 @@ from sqlalchemy.ext.declarative import declarative_base
 # Alter this file per your database maintenance policy
 #    See https://apilogicserver.github.io/Docs/Project-Rebuild/#rebuilding
 #
-# Created:  April 26, 2024 11:18:59
-# Database: sqlite:////Users/tylerband/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/ontimize/database/db.sqlite
+# Created:  June 13, 2024 21:33:44
+# Database: sqlite:////Users/tylerband/ontimize/ontimize_yaml_view/database/db.sqlite
 # Dialect:  sqlite
 #
 # mypy: ignore-errors
 ########################################################################################################################
-
-from safrs import SAFRSBase
+ 
+from database.system.SAFRSBaseX import SAFRSBaseX
 from flask_login import UserMixin
 import safrs, flask_sqlalchemy
 from safrs import jsonapi_attr
@@ -37,30 +37,30 @@ from sqlalchemy.dialects.sqlite import *
 
 
 
-class Entity(SAFRSBase, Base):
+class Entity(SAFRSBaseX, Base):
     __tablename__ = 'entity'
     _s_collection_name = 'Entity'  # type: ignore
     __bind_key__ = 'None'
 
-    name = Column(String(80), primary_key=True)
-    title = Column(String(100))
+    title = Column(String(100), primary_key=True, nullable=False)
+    name = Column(String(80), primary_key=True, nullable=False)
     pkey = Column(String(100))
     favorite = Column(String(100))
-    mode = Column(String(10))
     info_list = Column(Text)
     info_show = Column(Text)
-    new_template = Column(VARCHAR(80))
-    home_template = Column(VARCHAR(80))
-    detail_template = Column(VARCHAR(80))
     exclude = Column(Boolean, server_default=text("false"))
+    new_template = Column(String(80))
+    home_template = Column(String(80))
+    detail_template = Column(String(80))
+    mode = Column(String(10), server_default=text("'tab'"))
     allow_client_generated_ids = True
 
     # parent relationships (access parent)
 
     # child relationships (access children)
     EntityAttrList : Mapped[List["EntityAttr"]] = relationship(back_populates="entity")
-    TabGroupList : Mapped[List["TabGroup"]] = relationship(foreign_keys='[TabGroup.entity_name]', back_populates="entity")
-    TabGroupList1 : Mapped[List["TabGroup"]] = relationship(foreign_keys='[TabGroup.tab_entity]', back_populates="entity1")
+    TabGroupList : Mapped[List["TabGroup"]] = relationship(foreign_keys='[TabGroup.title, TabGroup.entity_name]', back_populates="entity")
+    TabGroupList1 : Mapped[List["TabGroup"]] = relationship(foreign_keys='[TabGroup.title, TabGroup.tab_entity]', back_populates="entity1")
 
     @jsonapi_attr
     def _check_sum_(self):  # type: ignore [no-redef]
@@ -75,7 +75,7 @@ class Entity(SAFRSBase, Base):
     S_CheckSum = _check_sum_
 
 
-class GlobalSetting(SAFRSBase, Base):
+class GlobalSetting(SAFRSBaseX, Base):
     __tablename__ = 'global_settings'
     _s_collection_name = 'GlobalSetting'  # type: ignore
     __bind_key__ = 'None'
@@ -102,7 +102,36 @@ class GlobalSetting(SAFRSBase, Base):
     S_CheckSum = _check_sum_
 
 
-class Template(SAFRSBase, Base):
+class Root(SAFRSBaseX, Base):
+    __tablename__ = 'root'
+    _s_collection_name = 'Root'  # type: ignore
+    __bind_key__ = 'None'
+
+    id = Column(Integer, primary_key=True)
+    about_changes = Column(Text)
+    api_root = Column(String(1000))
+    api_auth_type = Column(String(100))
+    api_auth = Column(String(1000))
+    about_date = Column(String(100))
+
+    # parent relationships (access parent)
+
+    # child relationships (access children)
+
+    @jsonapi_attr
+    def _check_sum_(self):  # type: ignore [no-redef]
+        return None if isinstance(self, flask_sqlalchemy.model.DefaultMeta) \
+            else self._check_sum_property if hasattr(self,"_check_sum_property") \
+                else None  # property does not exist during initialization
+
+    @_check_sum_.setter
+    def _check_sum_(self, value):  # type: ignore [no-redef]
+        self._check_sum_property = value
+
+    S_CheckSum = _check_sum_
+
+
+class Template(SAFRSBaseX, Base):
     __tablename__ = 'template'
     _s_collection_name = 'Template'  # type: ignore
     __bind_key__ = 'None'
@@ -129,113 +158,98 @@ class Template(SAFRSBase, Base):
     S_CheckSum = _check_sum_
 
 
-class EntityAttr(SAFRSBase, Base):
-    __tablename__ = 'entity_attr'
-    _s_collection_name = 'EntityAttr'  # type: ignore
-    __bind_key__ = 'None'
-
-    entity_name = Column(ForeignKey('entity.name'), primary_key=True, nullable=False)
-    attr = Column(String(80), primary_key=True, nullable=False)
-    label = Column(String(100))
-    issearch = Column(Boolean, server_default=text("false"))
-    issort = Column(Boolean, server_default=text("false"))
-    thistype = Column(String(50), nullable=False)
-    template_name = Column(ForeignKey('template.name'), server_default=text("text"))
-    tooltip = Column(String(8000))
-    isrequired = Column(Boolean, server_default=text("false"))
-    isenabled = Column(Boolean, server_default=text("true"))
-    isvisible = Column(Boolean, server_default=text("true"))
-    exclude = Column(Boolean, server_default=text("false"))
-    allow_client_generated_ids = True
-
-    # parent relationships (access parent)
-    entity : Mapped["Entity"] = relationship(back_populates=("EntityAttrList"))
-    template : Mapped["Template"] = relationship(back_populates=("EntityAttrList"))
-
-    # child relationships (access children)
-
-    @jsonapi_attr
-    def _check_sum_(self):  # type: ignore [no-redef]
-        return None if isinstance(self, flask_sqlalchemy.model.DefaultMeta) \
-            else self._check_sum_property if hasattr(self,"_check_sum_property") \
-                else None  # property does not exist during initialization
-
-    @_check_sum_.setter
-    def _check_sum_(self, value):  # type: ignore [no-redef]
-        self._check_sum_property = value
-
-    S_CheckSum = _check_sum_
-
-
-class TabGroup(SAFRSBase, Base):
-    __tablename__ = 'tab_group'
-    _s_collection_name = 'TabGroup'  # type: ignore
-    __bind_key__ = 'None'
-
-    entity_name = Column(ForeignKey('entity.name'), primary_key=True, nullable=False)
-    tab_entity = Column(ForeignKey('entity.name'), primary_key=True, nullable=False)
-    direction = Column(String(6), primary_key=True, nullable=False)
-    name = Column(String(80), primary_key=True, nullable=False)
-    fkeys = Column(String(80), nullable=False)
-    label = Column(String(80))
-    exclude = Column(Boolean, server_default=text("true"))
-    allow_client_generated_ids = True
-
-    # parent relationships (access parent)
-    entity : Mapped["Entity"] = relationship(foreign_keys='[TabGroup.entity_name]', back_populates=("TabGroupList"))
-    entity1 : Mapped["Entity"] = relationship(foreign_keys='[TabGroup.tab_entity]', back_populates=("TabGroupList1"))
-
-    # child relationships (access children)
-
-    @jsonapi_attr
-    def _check_sum_(self):  # type: ignore [no-redef]
-        return None if isinstance(self, flask_sqlalchemy.model.DefaultMeta) \
-            else self._check_sum_property if hasattr(self,"_check_sum_property") \
-                else None  # property does not exist during initialization
-
-    @_check_sum_.setter
-    def _check_sum_(self, value):  # type: ignore [no-redef]
-        self._check_sum_property = value
-
-    S_CheckSum = _check_sum_
-
-class Root(SAFRSBase, Base):
-    __tablename__ = 'root'
-    _s_collection_name = 'Root'  # type: ignore
-    __bind_key__ = 'None'
-    
-    id = Column(INTEGER, primary_key=True, nullable=False)
-    AboutDate = Column("about_date",String(100))
-    AboutChange = Column("about_changes", Text)
-    ApiRoot = Column("api_root",String(1000))
-    ApiAuthType = Column("api_auth_type", String(100))
-    ApiAuth = Column("api_auth", String(1000))
-
-    @jsonapi_attr
-    def _check_sum_(self):  # type: ignore [no-redef]
-        return None if isinstance(self, flask_sqlalchemy.model.DefaultMeta) \
-            else self._check_sum_property if hasattr(self,"_check_sum_property") \
-                else None  # property does not exist during initialization
-
-    @_check_sum_.setter
-    def _check_sum_(self, value):  # type: ignore [no-redef]
-        self._check_sum_property = value
-
-    S_CheckSum = _check_sum_
-    
-class YamlFiles(SAFRSBase, Base):
+class YamlFiles(SAFRSBaseX, Base):
     __tablename__ = 'yaml_files'
     _s_collection_name = 'YamlFiles'  # type: ignore
     __bind_key__ = 'None'
 
-    id = Column(INTEGER, nullable=False, primary_key=True)
-    name = Column(String(50), primary_key=True)
+    id = Column(Integer, primary_key=True)
+    name = Column(String(100), nullable=False)
     content = Column(Text)
-    upload_flag = Column(Boolean, server_default=text("0"))
-    export_flag = Column(Boolean, server_default=text("0"))
+    upload_flag = Column(Boolean, server_default=text("FALSE"))
+    download_flag = Column(Boolean, server_default=text("FALSE"))
+
+    # parent relationships (access parent)
+
+    # child relationships (access children)
+
+    @jsonapi_attr
+    def _check_sum_(self):  # type: ignore [no-redef]
+        return None if isinstance(self, flask_sqlalchemy.model.DefaultMeta) \
+            else self._check_sum_property if hasattr(self,"_check_sum_property") \
+                else None  # property does not exist during initialization
+
+    @_check_sum_.setter
+    def _check_sum_(self, value):  # type: ignore [no-redef]
+        self._check_sum_property = value
+
+    S_CheckSum = _check_sum_
+
+
+class EntityAttr(SAFRSBaseX, Base):
+    __tablename__ = 'entity_attr'
+    _s_collection_name = 'EntityAttr'  # type: ignore
+    __bind_key__ = 'None'
+    __table_args__ = (
+        ForeignKeyConstraint(['title', 'entity_name'], ['entity.title', 'entity.name']),
+    )
+
+    title = Column(String(100), primary_key=True, nullable=False)
+    entity_name = Column(String(80), primary_key=True, nullable=False)
+    attr = Column(String(80), primary_key=True, nullable=False)
+    label = Column(String(100))
+    issearch = Column("isSearch",Boolean, server_default=text("false"))
+    issort = Column("isSort",Boolean, server_default=text("false"))
+    thistype = Column("thisType",String(50), nullable=False)
+    template_name = Column(ForeignKey('template.name'), server_default=text("'text'"))
+    tooltip = Column(Text)
+    isrequired = Column(Boolean, server_default=text("true"))
+    isenabled = Column(Boolean, server_default=text("true"))
+    exclude = Column(Boolean, server_default=text("false"))
+    visible = Column(Boolean, server_default=text("true"))
     allow_client_generated_ids = True
 
     # parent relationships (access parent)
+    template : Mapped["Template"] = relationship(back_populates=("EntityAttrList"))
+    entity : Mapped["Entity"] = relationship(back_populates=("EntityAttrList"))
+
+    # child relationships (access children)
+
+    @jsonapi_attr
+    def _check_sum_(self):  # type: ignore [no-redef]
+        return None if isinstance(self, flask_sqlalchemy.model.DefaultMeta) \
+            else self._check_sum_property if hasattr(self,"_check_sum_property") \
+                else None  # property does not exist during initialization
+
+    @_check_sum_.setter
+    def _check_sum_(self, value):  # type: ignore [no-redef]
+        self._check_sum_property = value
+
+    S_CheckSum = _check_sum_
+
+
+class TabGroup(SAFRSBaseX, Base):
+    __tablename__ = 'tab_group'
+    _s_collection_name = 'TabGroup'  # type: ignore
+    __bind_key__ = 'None'
+    __table_args__ = (
+        ForeignKeyConstraint(['title', 'entity_name'], ['entity.title', 'entity.name']),
+        ForeignKeyConstraint(['title', 'tab_entity'], ['entity.title', 'entity.name'])
+    )
+
+    title = Column(String(100), primary_key=True, nullable=False)
+    entity_name = Column(String(80), primary_key=True, nullable=False)
+    tab_entity = Column(String(80), primary_key=True, nullable=False)
+    direction = Column(String(6), primary_key=True, nullable=False)
+    fkeys = Column(String(80), nullable=False)
+    name = Column(String(80), nullable=False)
+    label = Column(String(80), primary_key=True, nullable=False)
+    exclude = Column(Boolean, server_default=text("false"))
+    allow_client_generated_ids = True
+
+    # parent relationships (access parent)
+    entity : Mapped["Entity"] = relationship(foreign_keys='[TabGroup.title, TabGroup.entity_name]', back_populates=("TabGroupList"))
+    entity1 : Mapped["Entity"] = relationship(foreign_keys='[TabGroup.title, TabGroup.tab_entity]', back_populates=("TabGroupList1"))
 
     # child relationships (access children)
 

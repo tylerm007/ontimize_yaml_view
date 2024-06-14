@@ -62,10 +62,10 @@ def declare_logic():
         yaml_content = str(b64decode(row.content), encoding=encoding) if row.content else None 
         if logic_row.ins_upd_dlt in ["ins","upd"] and row.upload_flag and old_row and old_row.upload_flag == False and yaml_content:
             #from api.customize_api import process_yaml 
-            get("http://localhost:5655/importyaml", None)
+            get(f"http://localhost:5655/importyaml/{row.id}", None)
             #process_yaml(yaml_content)
     
-        elif logic_row.ins_upd_dlt == "upd" and row.export_flag and old_row.export_flag == False and yaml_content:
+        elif logic_row.ins_upd_dlt == "upd" and row.download_flag and old_row.download_flag == False and yaml_content:
             #from api.customize_api import export_yaml 
             get("http://localhost:5655/exportyaml", None)
             #export_yaml()

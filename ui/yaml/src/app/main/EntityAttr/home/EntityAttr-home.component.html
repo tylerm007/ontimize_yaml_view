@@ -4,10 +4,10 @@
             attr="EntityAttrTable" 
             service="EntityAttr" 
             entity="EntityAttr" 
-            keys="entity_name;attr"
-            columns="entity_name;attr;template_name;label;issearch;issort;thistype;tooltip;isrequired;isvisible;isenabled;exclude" 
+            keys="entity_name;title;attr"
+            columns="entity_name;title;attr;template_name;label;issearch;issort;thistype;tooltip;isrequired;isvisible;isenabled;exclude" 
             header-actions="R;D"
-            visible-columns="entity_name;attr;template_name;label;thistype;issearch;issort;isrequired;isvisible;isenabled;exclude"  
+            visible-columns="entity_name;title;attr;template_name;label;thistype;issearch;issort;isrequired;isvisible;isenabled;exclude"  
             sort-columns="entity_name" 
             query-rows="200" 
             quick-filter="yes"
@@ -19,15 +19,15 @@
             horizontal-scroll="yes"
             export-button="no">
             
-            <o-table-column attr="entity_name" label=" Entity Name*" editable="yes" required="yes" content-align="left"></o-table-column>
-            
-            <o-table-column attr="attr" label="Attribute*" editable="yes" required="yes" content-align="left"></o-table-column>
+            <o-table-column attr="entity_name" title=" Entity Name*" editable="no" required="yes" content-align="left"></o-table-column>
+            <o-table-column attr="title" title=" Title Name*" editable="no" required="yes" content-align="left"></o-table-column>
+            <o-table-column attr="attr" title="Attribute*" editable="no" required="yes" content-align="left"></o-table-column>
             
             <o-table-column attr="template_name" title="Template" editable="yes" required="no" content-align="left"></o-table-column>
             
             <o-table-column attr="label" title="Label" editable="yes" required="no" content-align="left"></o-table-column>
             
-            <o-table-column attr="thistype" label="DataType" editable="yes" required="yes" content-align="left"></o-table-column>
+            <o-table-column attr="thistype" title="DataType" editable="no" required="yes" content-align="left"></o-table-column>
             
             <o-table-column attr="issearch" title="Search">
                 <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"

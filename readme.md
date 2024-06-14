@@ -40,17 +40,17 @@ http://localhost:4298 (user: admin password: p)
 
 ## Use the Manage Yaml File to load each app_model.yaml 
 Go to the "Manage Yaml Files" and click New - then add each of your app_model.yaml files.
-Then go to the Home page and select the new row and click []Upload (and save) this will load the yaml file into the editor (you may need to refresh)
+Then go to the Home page and select the new row and click []Upload (and save) this will load the yaml file into the editor (you may need to refresh). Once you have modified your labels, templates, values, you can click on []Download Yaml to export the ui/app_model_merge.yaml.  This file can be merged back into your Ontimize/ApiLogicServer application and then use app-build to create new pages.
 
 ![](ui/templates/ManageYaml.png)
 
-## IMPORT the admin_model.yaml and load into SQL
-Copy your admin_model.yaml file from your application to the ui directory. This endpoint will read the admin_model.yaml file from the ui directory. It will populate the in-memory SQLite database that the UI developers can edit.
+## Import the admin_model.yaml and load into SQL
+You can also copy your admin_model.yaml file from your application to the 'ui' directory. This endpoint will read the admin_model.yaml file from the ui directory. It will populate the in-memory SQLite database that the UI developers can edit.
 ```
 curl "http://localhost:5656/importyaml"
 ```
 
-## EXPORT yaml file back to disk (ui/admin_model_merge.yaml)
+## Export yaml file back to disk (ui/admin_model_merge.yaml)
 This will write back the modified SQL back to disk as yaml.  Use compare files to merge or replace the merge file for the new admin_model_merge.yaml in your application.
 ```
 curl "http://localhost:5656/exportyaml"

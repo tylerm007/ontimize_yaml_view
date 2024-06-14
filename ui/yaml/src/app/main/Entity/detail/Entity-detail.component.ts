@@ -1,6 +1,6 @@
 import { Injector, ViewChild, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { OFormComponent, OntimizeService, OListPickerComponent, OTableComponent, ORealPipe, ONIFInputComponent } from 'ontimize-web-ngx';
-
+import { OButtonComponent, OFormComponent, OntimizeService, OListPickerComponent, OTableComponent} from 'ontimize-web-ngx';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'Entity-detail',
@@ -9,15 +9,20 @@ import { OFormComponent, OntimizeService, OListPickerComponent, OTableComponent,
 })
 export class EntityDetailComponent implements OnInit  {
   protected service: OntimizeService;
+  protected entity: any;
+  @ViewChild('table', { static: true }) table: OTableComponent;
+
+  @ViewChild('button')
+  protected button: OButtonComponent;
 
   @ViewChild('oDetailForm') form: OFormComponent;
   
-  constructor(protected injector: Injector) {
+  constructor(protected injector: Injector)  {
     this.service = this.injector.get(OntimizeService);
   }
-
   ngOnInit() {
     this.configureService();
+   
   }
 
   protected configureService() {
@@ -27,6 +32,22 @@ export class EntityDetailComponent implements OnInit  {
   }
   onDataLoaded(e: object) {
     console.log(JSON.stringify(e));
+    this.entity = e;
   }
 
+  cloneEntity() {
+    console.log(this.entity);
+    const clone_url = environment.apiEndpoint +"/clonerow/" + this.entity["title"]; 
+    console.log(clone_url);
+    this.service.query({"name": this.entity["title"]},
+      [],
+      'clonerow').subscribe((resp) => {
+        //console.log(JSON.stringify(resp));
+        if (resp.code === 0) {
+          console.log(JSON.stringify(resp.data));
+          setTimeout(function () {}, 4000);
+          console.log("Cloned Successfully");
+        }
+      });
+  }
 }

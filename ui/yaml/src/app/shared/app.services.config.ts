@@ -1,4 +1,4 @@
-export const SERVICE_CONFIG: Object ={ 'Entity': { 'path': '/Entity' }
+export const SERVICE_CONFIG: Object = { 'Entity': { 'path': '/Entity' }
 ,'EntityAttr': { 'path': '/EntityAttr' }
 ,'GlobalSetting': { 'path': '/GlobalSetting' }
 ,'TabGroup': { 'path': '/TabGroup' }

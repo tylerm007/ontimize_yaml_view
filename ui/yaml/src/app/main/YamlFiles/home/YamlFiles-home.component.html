@@ -6,9 +6,9 @@
             entity="YamlFiles" 
             title="{{ 'YAMLFILES' | oTranslate }}"
             keys="id;name"
-            columns="id;name;upload_flag;export_flag" 
+            columns="id;name;upload_flag;download_flag" 
             header-actions="R;D"
-            visible-columns="name;upload_flag;export_flag"  
+            visible-columns="name;upload_flag;download_flag"  
             sort-columns="name" 
             query-rows="20" 
             quick-filter="yes"
@@ -28,7 +28,7 @@
                 <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
                     render-type="icon" boolean-type="boolean" true-value="1" false-value="0"></o-table-cell-renderer-boolean>
             </o-table-column>
-            <o-table-column attr="export_flag" title="Export Flag">
+            <o-table-column attr="download_flag" title="Download Flag">
                 <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
                     render-type="icon" boolean-type="boolean" true-value="1" false-value="0"></o-table-cell-renderer-boolean>
             </o-table-column>
