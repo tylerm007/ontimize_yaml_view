@@ -39,7 +39,9 @@
           <div fxLayout="row" fxLayoutAlign="start center" class="gap">
             <o-checkbox attr="exclude" label="exclude" read-only="no" enabled="yes"></o-checkbox>
           </div>
-  
+          <div fxLayout="row" fxLayoutAlign="start center">
+              <o-button #button attr="button" label="Show/Hide Attributes" icon="description" (onClick)="showHideColumns()" tooltip="Arrange columns and hide/show columns"></o-button>
+          </div>
       </div>
       </o-row>
       

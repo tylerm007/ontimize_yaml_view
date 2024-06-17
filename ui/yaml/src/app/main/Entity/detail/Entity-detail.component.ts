@@ -1,6 +1,8 @@
 import { Injector, ViewChild, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { OButtonComponent, OFormComponent, OntimizeService, OListPickerComponent, OTableComponent} from 'ontimize-web-ngx';
+import { OTableVisibleColumnsDialogComponent, OButtonComponent, OFormComponent, OntimizeService, OListPickerComponent, OTableComponent, DialogService} from 'ontimize-web-ngx';
 import { environment } from 'src/environments/environment';
+//import { OTableVisibleColumnsDialogComponent } from './visible-columns/o-table-visible-columns-dialog.component';  // This import is missing in the original file  
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'Entity-detail',
@@ -10,6 +12,11 @@ import { environment } from 'src/environments/environment';
 export class EntityDetailComponent implements OnInit  {
   protected service: OntimizeService;
   protected entity: any;
+  protected dialogService: DialogService;
+  protected dialog: MatDialog
+  //protected cd: ChangeDetectorRef,
+  
+
   @ViewChild('table', { static: true }) table: OTableComponent;
 
   @ViewChild('button')
@@ -19,6 +26,7 @@ export class EntityDetailComponent implements OnInit  {
   
   constructor(protected injector: Injector)  {
     this.service = this.injector.get(OntimizeService);
+    this.dialogService = this.injector.get(DialogService);
   }
   ngOnInit() {
     this.configureService();
@@ -34,20 +42,26 @@ export class EntityDetailComponent implements OnInit  {
     console.log(JSON.stringify(e));
     this.entity = e;
   }
-
-  cloneEntity() {
-    console.log(this.entity);
-    const clone_url = environment.apiEndpoint +"/clonerow/" + this.entity["name"]; 
-    console.log(clone_url);
-    this.service.query({"name": this.entity["name"]},
-      [],
-      'clonerow').subscribe((resp) => {
-        //console.log(JSON.stringify(resp));
-        if (resp.code === 0) {
-          console.log(JSON.stringify(resp.data));
-          setTimeout(function () {}, 4000);
-          console.log("Cloned Successfully");
-        }
-      });
+  
+  showHideColumns() {
+    // TODO - get the attributes for this table and pass them to the dialog
+    // columns: ColumnVisibilityConfiguration[] = [];
+    // Each column should have the following properties:
+    //  attr: oCol.attr,
+    //  title: oCol.label,
+    //  visible: oCol.visible
+    console.log("Show/Hide Columns:", this.entity);
+    const dialogRef = this.dialog.open(OTableVisibleColumnsDialogComponent, {
+      data: {
+        table: this.entity
+      },
+      maxWidth: '35vw',
+      disableClose: true,
+      panelClass: ['o-dialog-class', 'o-table-dialog']
+    });
+    // POST the new column visibility to the server and refresh the table
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+    });
   }
 }

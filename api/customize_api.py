@@ -812,6 +812,7 @@ def insert_tab_groups(entity, entity_type, each_entity_yaml):
                 session.add(m_tab_group)
                 session.commit()
             except Exception as ex:
+                session.rollback()
                 print(ex)
     except Exception as ex:
         session.rollback()
@@ -831,14 +832,14 @@ def insert_entity_attrs(entity, entity_type, each_entity_yaml):
         m_entity_attr.isort = get_boolean(attr, "sort", False)
         m_entity_attr.isenabled = get_boolean(attr, "enabled", True)
         m_entity_attr.exclude = get_boolean(attr, "exclude", False)
-        m_entity_attr.tooltip = get_value(attr, "tooltip", None)
+        m_entity_attr.tooltip = get_value(attr, "tooltip", f'Insert {attr["name"]}')
         m_entity_attr.isvisible = get_boolean(attr, "visible", True)
 
         try:
             session.add(m_entity_attr)
             session.commit()
         except Exception as ex:
-            # session.rollback()
+            session.rollback()
             # raise ex
             print(ex)
 
