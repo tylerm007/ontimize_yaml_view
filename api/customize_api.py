@@ -255,7 +255,7 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
                     col["required"] = attr.get("isrequired", False)
                     col["enabled"] = attr.get("isenabled", False)
                     col["exclude"] = attr.get("exclude", False)
-                    col["visible"] = attr.get("isvisible", True)
+                    col["visible"] = attr.get("visible", True)
                     cols.append(col)
             entity_list[entity_name]["columns"] = cols
             tab_group = []
@@ -395,7 +395,8 @@ def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
         methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     )
     @admin_required()
-    # @cross_origin(vary_header=True)
+    @cross_origin()
+    @admin_required()
     def api_search(path):
         s = path.split("/")
         clz_name = s[0]
@@ -843,7 +844,7 @@ def insert_entity_attrs(entity, entity_type, each_entity_yaml):
         m_entity_attr.isenabled = get_boolean(attr, "enabled", True)
         m_entity_attr.exclude = get_boolean(attr, "exclude", False)
         m_entity_attr.tooltip = get_value(attr, "tooltip", f'Insert {attr["name"]}')
-        m_entity_attr.isvisible = get_boolean(attr, "visible", True)
+        m_entity_attr.visible = get_boolean(attr, "visible", True)
 
         try:
             session.add(m_entity_attr)

@@ -1,47 +1,46 @@
 <o-breadcrumb [form]="EntityForm" label-columns="" separator=" "></o-breadcrumb>
-<o-form #EntityForm attr="Entity_form_insert" service="Entity" entity="Entity" 
-keys="name" fxLayout="column" show-header="yes" header-actions="I"
-horizontal-scroll="yes"
-after-insert-mode="new" class="standalone-form-container">
+<o-form #EntityForm attr="Entity_form_insert" service="Entity" entity="Entity" keys="name" fxLayout="column"
+  show-header="yes" header-actions="I" horizontal-scroll="yes" after-insert-mode="new"
+  class="standalone-form-container">
 
-<o-row attr="row1" layout-align="start stretch">
-  <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
-    
-        <div fxLayout="row" fxLayoutAlign="start center" class="gap">
+  <o-row attr="row1" layout-align="start stretch">
+    <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+
+      <div fxLayout="row" fxLayoutAlign="start center" class="gap">
         <o-text-input attr="name" label=" Entity Name*" editable="yes" required="yes"></o-text-input>
-        </div>
-      
-        <div fxLayout="row" fxLayoutAlign="start center" class="gap">
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="start center" class="gap">
         <o-text-input attr="title" label="Title" editable="yes" required="no"></o-text-input>
-        </div>
-      
-        <div fxLayout="row" fxLayoutAlign="start center" class="gap">
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="start center" class="gap">
         <o-text-input attr="pkey" label="Primary Key" editable="yes" required="no"></o-text-input>
-        </div>
-      
-        <div fxLayout="row" fxLayoutAlign="start center" class="gap">
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="start center" class="gap">
         <o-text-input attr="favorite" label="favorite" editable="yes" required="no"></o-text-input>
-        </div>
+      </div>
 
-        <div fxLayout="row" fxLayoutAlign="start center" class="gap">
-          <o-text-input attr="mode" label="mode" tooltip="tab or dialog" editable="yes" required="no"></o-text-input>
-        </div>
-      
-        <div fxLayout="row" fxLayoutAlign="start center" class="gap">
-        <o-textarea-input attr="info_list"  label="info_list" enabled="true" read-only="false"></o-textarea-input>
-        </div>
-      
-        <div fxLayout="row" fxLayoutAlign="start center" class="gap">
-        <o-textarea-input attr="info_show"  label="info_show" enabled="true" read-only="false"></o-textarea-input>
-        </div>
-      
-        <div fxLayout="row" fxLayoutAlign="start center" class="gap">
+      <div fxLayout="row" fxLayoutAlign="start center" class="gap">
+        <o-text-input attr="mode" label="mode" tooltip="tab or dialog" editable="yes" required="no"></o-text-input>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="start center" class="gap">
+        <o-textarea-input attr="info_list" label="info_list" enabled="true" read-only="false"></o-textarea-input>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="start center" class="gap">
+        <o-textarea-input attr="info_show" label="info_show" enabled="true" read-only="false"></o-textarea-input>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="start center" class="gap">
         <o-checkbox attr="exclude" label="exclude" read-only="no" enabled="yes"></o-checkbox>
-        </div>
+      </div>
 
-</div>
-</o-row>
+    </div>
+  </o-row>
 
-<div layout-padding></div>
+  <div layout-padding></div>
 
 </o-form>

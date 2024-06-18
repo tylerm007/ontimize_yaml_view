@@ -5,9 +5,9 @@
             service="EntityAttr" 
             entity="EntityAttr" 
             keys="entity_name;attr"
-            columns="entity_name;attr;template_name;label;issearch;issort;thistype;tooltip;isrequired;isvisible;isenabled;exclude" 
+            columns="entity_name;attr;template_name;label;issearch;issort;thistype;tooltip;isrequired;visible;isenabled;exclude" 
             header-actions="R;D"
-            visible-columns="entity_name;attr;template_name;label;thistype;issearch;issort;isrequired;isvisible;isenabled;exclude"  
+            visible-columns="entity_name;attr;template_name;label;thistype;issearch;issort;isrequired;visible;isenabled;exclude"  
             sort-columns="entity_name" 
             query-rows="200" 
             quick-filter="yes"
@@ -17,7 +17,7 @@
             virtual-scroll="yes" 
             edition-mode="dblclick" 
             horizontal-scroll="yes"
-            export-button="no">
+            export-button="yes">
             
             <o-table-column attr="entity_name" title=" Entity Name*" editable="no" required="yes" content-align="left"></o-table-column>
         
@@ -44,7 +44,7 @@
                 render-type="icon" boolean-type="boolean" true-value="true" false-value="false"></o-table-cell-renderer-boolean>
             </o-table-column>
             
-            <o-table-column attr="isvisible" title="Visible">
+            <o-table-column attr="visible" title="Visible">
                 <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
                 render-type="icon" boolean-type="boolean" true-value="true" false-value="false"></o-table-cell-renderer-boolean>
             </o-table-column>
