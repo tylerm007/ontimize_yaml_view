@@ -49,7 +49,7 @@
 
       <mat-tab label="ENTITYATTR-entity_name">
         <div layout-padding>
-          <o-table attr="EntityAttrTable" service="EntityAttr" entity="EntityAttr" keys="name;attr"
+          <o-table #table attr="EntityAttrTable" service="EntityAttr" entity="EntityAttr" keys="name;attr"
             parent-keys="entity_name:name"
             columns="entity_name;attr;template_name;label;issearch;issort;thistype;exclude;isrequired;isenabled;isvisible"
             horizontal-scroll="yes" detail-form-route="EntityAttr" edit-form-route="EntityAttr"

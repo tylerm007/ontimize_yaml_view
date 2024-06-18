@@ -10,10 +10,10 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./Entity-detail.component.scss']
 })
 export class EntityDetailComponent implements OnInit  {
-  protected service: OntimizeService;
+  protected service: any;
   protected entity: any;
-  protected dialogService: DialogService;
-  protected dialog: MatDialog
+  protected dialogService: any;
+  protected dialog: any
   //protected cd: ChangeDetectorRef,
   
 
@@ -27,12 +27,14 @@ export class EntityDetailComponent implements OnInit  {
   constructor(protected injector: Injector)  {
     this.service = this.injector.get(OntimizeService);
     this.dialogService = this.injector.get(DialogService);
+    this.dialog = this.injector.get(MatDialog);
   }
   ngOnInit() {
     this.configureService();
-   
   }
-
+  ngAfterViewInit() {
+    this.showHideColumns();
+  }
   protected configureService() {
     const conf = this.service.getDefaultServiceConfiguration();
     conf['path'] = '/Entity';
@@ -53,7 +55,7 @@ export class EntityDetailComponent implements OnInit  {
     console.log("Show/Hide Columns:", this.entity);
     const dialogRef = this.dialog.open(OTableVisibleColumnsDialogComponent, {
       data: {
-        table: this.entity
+        table: this.table
       },
       maxWidth: '35vw',
       disableClose: true,
