@@ -1,5 +1,5 @@
 import { Injector, ViewChild, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { OTableVisibleColumnsDialogComponent, OButtonComponent, OFormComponent, OntimizeService, OListPickerComponent, OTableComponent, DialogService} from 'ontimize-web-ngx';
+import { OTableVisibleColumnsDialogComponent, OButtonComponent, OFormComponent, OntimizeService, OListPickerComponent, OTableComponent, OColumn, OTableOptions, DialogService} from 'ontimize-web-ngx';
 import { environment } from 'src/environments/environment';
 //import { OTableVisibleColumnsDialogComponent } from './visible-columns/o-table-visible-columns-dialog.component';  // This import is missing in the original file  
 import { MatDialog } from '@angular/material/dialog';
@@ -52,7 +52,21 @@ export class EntityDetailComponent implements OnInit  {
     //  attr: oCol.attr,
     //  title: oCol.label,
     //  visible: oCol.visible
-    console.log("Show/Hide Columns:", this.entity);
+    const columnVisibilityConfiguration = []
+    const oCol: OColumn = new OColumn();
+    oCol.attr = 'column1';
+    oCol.title = 'Column 1';
+    oCol.visible = true;
+    columnVisibilityConfiguration.push(oCol);
+    //this.table.oTableOptions.columns = columnVisibilityConfiguration;
+    //this.table.oTableOptions.visibleColumns = ["column1"];
+    //this.table.visibleColumns = "column1";
+    //this.table.columns = "column1"
+    //this.table.visibleColArray = ["column1"];
+    console.log("Show/Hide VisibleColumns:", this.table.visibleColumns);
+    console.log("Show/Hide Columns:", this.table.visibleColArray);
+    console.log("Show/Hide TableOptions:", this.table.tableOptions);
+    
     const dialogRef = this.dialog.open(OTableVisibleColumnsDialogComponent, {
       data: {
         table: this.table
@@ -65,5 +79,8 @@ export class EntityDetailComponent implements OnInit  {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed', result);
     });
+    dialogRef.componentInstance.onAccept.subscribe((data) => {
+      console.log('onAccept', data);
+    });  
   }
 }
