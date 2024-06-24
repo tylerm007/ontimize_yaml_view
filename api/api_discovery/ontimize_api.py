@@ -733,7 +733,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
 
         request.method = "GET"
         r = CustomEndpoint(
-            model_class=api_clz, fields=list_of_columns, filter_by=filter, attributes=attributes
+            model_class=api_clz, fields=list_of_columns, filter_by=filter
         )
         result = r.execute(request=request)
         return r.transform("IMATIA", key, result)
