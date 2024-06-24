@@ -51,9 +51,9 @@
         <div layout-padding>
           <o-table #table attr="EntityAttrTable" service="EntityAttr" entity="EntityAttr" keys="name;attr"
             parent-keys="entity_name:name"
-            columns="entity_name;attr;template_name;label;issearch;issort;thistype;exclude;isrequired;isenabled;isvisible"
+            columns="entity_name;attr;template_name;label;issearch;issort;thistype;exclude;isrequired;isenabled;visible"
             horizontal-scroll="yes" detail-form-route="EntityAttr" edit-form-route="EntityAttr"
-            visible-columns="attr;template_name;label;thistype;issearch;issort;exclude;isrequired;isenabled;isvisible"
+            visible-columns="attr;template_name;label;thistype;issearch;issort;exclude;isrequired;isenabled;visible"
             sort-columns="entity_name" query-rows="20" quick-filter="yes" row-height="small" select-all-checkbox="true"
             pageable="yes" virtual-scroll="yes" insert-button="no" delete-button="no" fixed-header="true"
             class="vertical-padding-8" edition-mode="click" horizontal-scroll="yes">
@@ -65,16 +65,16 @@
             <o-table-column attr="template_name" title="Template" editable="yes" required="no"
               content-align="left"></o-table-column>
 
-            <o-table-column attr="label" label="Label" editable="yes" required="no"
+            <o-table-column attr="label" title="Label" editable="yes" required="no"
               content-align="left"></o-table-column>
 
-            <o-table-column attr="issearch" label="Search" editable="yes" required="no" content-align="left">
+            <o-table-column attr="issearch" title="Search" editable="yes" required="no" content-align="left">
               <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
                 render-type="icon" boolean-type="boolean" true-value="true"
                 false-value="false"></o-table-cell-renderer-boolean>
             </o-table-column>
 
-            <o-table-column attr="issort" label="Sort" editable="yes" required="no" content-align="left">
+            <o-table-column attr="issort" title="Sort" editable="yes" required="no" content-align="left">
               <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
                 render-type="icon" boolean-type="boolean" true-value="true"
                 false-value="false"></o-table-cell-renderer-boolean>
@@ -87,17 +87,13 @@
                 false-value="false"></o-table-cell-renderer-boolean>
             </o-table-column>
 
-            <o-table-column attr="isrequired" label="Required" editable="yes" required="no" content-align="left">
+            <o-table-column attr="isrequired" title="Required" editable="yes" required="no" content-align="left">
               <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
                 render-type="icon" boolean-type="boolean" true-value="true"
                 false-value="false"></o-table-cell-renderer-boolean>
             </o-table-column>
 
-            <o-table-column attr="isvisible" title="Visible" editable="yes" required="no" content-align="left">
-              <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
-                render-type="icon" boolean-type="boolean" true-value="true"
-                false-value="false"></o-table-cell-renderer-boolean>
-            </o-table-column>
+
 
             <o-table-column attr="isenabled" title="Enabled" editable="yes" required="no" content-align="left">
               <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
@@ -105,6 +101,11 @@
                 false-value="false"></o-table-cell-renderer-boolean>
             </o-table-column>
 
+            <o-table-column attr="visible" title="Visible" editable="yes" required="no" content-align="left">
+              <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
+                render-type="icon" boolean-type="boolean" true-value="true"
+                false-value="false"></o-table-cell-renderer-boolean>
+            </o-table-column>
           </o-table>
         </div>
       </mat-tab>
