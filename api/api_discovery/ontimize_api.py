@@ -104,15 +104,6 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 return fn(*args, **kwargs)
             return decorator
         return wrapper
-    @app.route("/api/entityList", methods=["GET","OPTIONS"])
-    @cross_origin()
-    def entity_list():
-        import yaml
-
-        with open("//Users/tylerband/ontimize/banking/ui/admin/admin.yaml", 'r') as f:
-            valuesYaml = yaml.load(f, Loader=yaml.FullLoader)
-        print(valuesYaml['resources'])
-        return jsonify(valuesYaml)
 
     
     def gen_export(request) -> any:
@@ -128,32 +119,19 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         api_clz = resource["model"]
         resources = getMetaData(api_clz.__name__)
         attributes = resources["resources"][api_clz.__name__]["attributes"]
-        if type in ["csv",'xlsx']:
+        if type in ["csv",'CSV']:
             from api.gen_csv_report import gen_report as csv_gen_report
             return csv_gen_report(api_clz, request, entity, queryParm, columns, columnTitles, attributes) 
         elif type == "pdf": 
             from api.gen_pdf_report import export_pdf
             payload["entity"] = entity
             return export_pdf(api_clz, request, entity, queryParm, columns, columnTitles, attributes) 
-    
-    def _gen_report(request) -> any:
-        payload = json.loads(request.data)
-
-        print(payload)
-        if len(payload) == 3:
-            return jsonify({})
-        
-        entity = payload["entity"]
-        resource = find_model(entity)
-        api_clz = resource["model"]
-        resources = getMetaData(api_clz.__name__)
-        attributes = resources["resources"][api_clz.__name__]["attributes"]
-    
-        return gen_report(api_clz, request, _project_dir, payload, attributes)
-        
+        elif type == "xlsx":
+            from api.gen_xlsx_report import xlsx_gen_report
+            return xlsx_gen_report(api_clz, request, entity, queryParm, columns, columnTitles, attributes)
+        return jsonify({"code":1,"message":f"Unknown export type {type}","data":None,"sqlTypes":None})   
     
     @app.route("/ontimizeweb/services/rest/<path:path>", methods=['GET','POST','PUT','PATCH','DELETE','OPTIONS'])
-    @app.route("/services/rest/<path:path>", methods=['GET','POST','PUT','PATCH','DELETE','OPTIONS'])
     @cross_origin()
     @admin_required()
     def api_search(path):
@@ -175,12 +153,6 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         
         if clz_name == "export":
             return gen_export(request)
-        
-        if clz_type == "loadyaml":
-            return load_yaml()
-        
-        if clz_type == "dumpyaml":
-            return dump_yaml()
         
         
         #api_clz = api_map.get(clz_name)
@@ -415,3 +387,641 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 row_as_dict = each_row.to_dict()                  # safrs helper
             rows.append(row_as_dict)
         return rows
+
+    @app.route("/exportyaml", methods=["GET"])
+    def export_yaml():
+        # Write the JSON back to yaml
+        # GET curl "http://localhost:5656/exportyaml"
+
+        entities = read(models.Entity)
+        attrs = read(models.EntityAttr)
+        tabs = read(models.TabGroup)
+        settings = read(models.GlobalSetting)
+        root = read(models.Root)
+
+        output = build_json(entities, attrs, tabs, settings, root)
+        fn = "app_model_merge.yaml"
+        write_file(output, file_name=fn)
+        return jsonify(f"Yaml file written to ui/{fn}")
+
+    def read(clz) -> list:
+        return rows_to_dict(session.query(clz).all())
+
+    def build_json(
+        entities: list, attrs: list, tabs: list, settings: list, root: list
+    ) -> any:
+        output = {}
+        for r in root:
+            output["about"] = {
+                "date": r["AboutDate"],
+                "recent_changes": r["AboutChange"],
+            }
+            output["api_root"] = r["ApiRoot"]
+            output["authentication"] = {r["ApiAuthType"]: r["ApiAuth"]}
+
+        entity_list = {}
+        for entity in entities:
+            entity_name = entity["name"]
+            e = {}
+            e["type"] = entity["title"]
+            e["primary_key"] = convert_list(entity["pkey"])
+            if entity.get("new_template"):
+                e["new_template"] = entity["new_template"]
+            if entity.get("home_template"):
+                e["home_template"] = entity["home_template"]
+            if entity.get("detail_template"):
+                e["detail_template"] = entity["detail_template"]
+            if entity.get("mode"):
+                e["mode"] = entity["mode"]
+            if entity.get("favorite"):
+                e["favorite"] = entity.get("favorite")
+            if entity.get("exclude"):
+                e["exclude"] = entity["exclude"]
+            if entity.get("info_list"):
+                e["info_list"] = entity["info_list"]
+            if entity.get("info_show"):
+                e["info_show"] = entity["info_show"]
+
+            entity_list[entity_name] = e
+
+            cols = []
+            for attr in attrs:
+                col = {}
+                if attr["entity_name"] == entity_name:
+                    col["name"] = attr["attr"]
+                    col["label"] = attr["label"]
+                    col["template"] = attr["template_name"]
+                    col["type"] = attr["thistype"]
+                    col["sort"] = attr.get("issort", False)
+                    col["search"] = attr.get("issearch", False)
+                    col["required"] = attr.get("isrequired", False)
+                    col["enabled"] = attr.get("isenabled", False)
+                    col["exclude"] = attr.get("exclude", False)
+                    col["visible"] = attr.get("visible", True)
+                    cols.append(col)
+            entity_list[entity_name]["columns"] = cols
+            tab_group = []
+            for tab in tabs:
+                tg = {}
+                if tab["entity_name"] == entity_name:
+                    tg["direction"] = tab["direction"]
+                    tg["resource"] = tab["tab_entity"]
+                    tg["label"] = (
+                        tab["label"] if tab.get("label") != None else tab.get("name")
+                    )
+                    tg["name"] = tab.get("name")
+                    tg["fks"] = convert_list(tab["fkeys"])
+                    tg["exclude"] = tab.get("exclude", False)
+                    tab_group.append(tg)
+            if len(tab_group) > 0:
+                entity_list[entity_name]["tab_groups"] = tab_group
+
+        output["entities"] = entity_list
+
+        output_yaml = {}
+        output_yaml["entities"] = output
+        style_guide = {}
+        for s in settings:
+            sg = {}
+
+            name = s["name"]
+            if name in ["use_keycloak", "include_translation"]:
+                sg[name] = s["value"] == "1"
+            else:
+                sg[name] = s["value"]
+            style_guide.update(sg)
+
+        output["settings"] = {}
+        output["settings"]["style_guide"] = style_guide
+
+        return output
+
+    def write_file(source: str, file_name: str):
+
+        with open(f"{_project_dir}/ui/{file_name}", "w") as file:
+            yaml.safe_dump(source, file, default_flow_style=False)
+            # file.write(source)
+
+    @app.route("/importyaml/<key>", methods=["GET", "POST", "OPTIONS"])
+    def load_yaml(key: int = 0):
+        """
+        GET curl "http://localhost:5656/importyaml"
+        POST  curl -X "POST" http://localhost:5656/importyaml -H "Content-Type: text/x-yaml" -d @app_model.yaml
+        """
+        if request.method == "GET" and int(key) == 0:
+            with open(f"{_project_dir}/ui/app_model.yaml", "rt") as f:
+                valuesYaml = yaml.safe_load(f.read())
+                f.close()
+        elif request.method == "GET" and int(key) > 0:
+            from base64 import b64decode
+            encoding = 'utf-8'
+            data = session.query(models.YamlFiles).filter(models.YamlFiles.id == int(key)).one() 
+            yaml_content = str(b64decode(data.content), encoding=encoding) if data.content else None 
+            if yaml_content:
+                try:
+                    valuesYaml = yaml.safe_load(yaml_content)
+                    return process_yaml(valuesYaml=valuesYaml)
+                except yaml.YAMLError as exc:
+                    return jsonify({"code": 1, "message": f"Error loading yaml: {exc}"})    
+        elif request.method == "POST":
+            data = request.data.decode("utf-8")
+            valuesYaml = json.dumps(data)  # TODO - not working yet
+        file_name = f"{_project_dir}/ui/app_model.yaml"
+        with open(file_name, "rt") as f:
+            valuesYaml = yaml.safe_load(f.read())
+            f.close()
+        return process_yaml(valuesYaml=valuesYaml)
+
+
+    def _gen_report(request) -> any:
+        payload = json.loads(request.data)
+
+        print(payload)
+        if len(payload) == 3:
+            return jsonify({})
+
+        entity = payload["entity"]
+        resource = find_model(entity)
+        api_clz = resource["model"]
+        resources = getMetaData(api_clz.__name__)
+        attributes = resources["resources"][api_clz.__name__]["attributes"]
+
+        return gen_report(api_clz, request, _project_dir, payload, attributes)
+    def clonerow(request) -> any:
+        payload = json.loads(request.data)
+        print("clonerow",payload["filter"]) #TODO
+        return jsonify({"code": 0, "message": "clonerow", "data": {}})  
+    
+    # http://localhost:5656/ontimizeweb/services/qsallcomponents-jee/services/rest/customers/customerType/search
+    # https://try.imatia.com/ontimizeweb/services/qsallcomponents-jee/services/rest/customers/customerType/search
+
+    def api_search_orig(path):
+        s = path.split("/")
+        clz_name = s[0]
+        clz_type = (
+            None if len(s) == 1 else s[1]
+        )  # [2] TODO customerType search advancedSearch defer(photo)customerTypeAggregate
+
+        method = request.method
+        rows = []
+        # CORS
+        if method == "OPTIONS":
+            return jsonify(success=True)
+
+        if clz_name == "Entity" and clz_type == "clonerow":
+            return clonerow(request)
+        
+        if clz_name == "dynamicjasper":
+            return _gen_report(request)
+
+        if clz_name in ["listReports", "bundle", "reportstore"]:
+            return jsonify({"code": 0, "data": {}, "message": None})
+
+        if clz_name == "export":
+            return gen_export(request)
+
+        if clz_type == "importyaml":
+            return load_yaml()
+
+        if clz_type == "exportyaml":
+            return dump_yaml()
+
+        if clz_type == "upload":
+            # TODO get full path and filename from request or store locally and read file
+            file_name = f"{_project_dir}/ui/app_model.yaml"
+            return _process_yaml(filename=file_name)
+
+        # api_clz = api_map.get(clz_name)
+        resource = find_model(clz_name)
+        api_attributes = resource["attributes"]
+        api_clz = resource["model"]
+
+        payload = json.loads(request.data)
+        filter, columns, sqltypes, offset, pagesize, orderBy, data = parsePayload(
+            payload
+        )
+        result = {}
+        if method in ["PUT", "PATCH"]:
+            sql_alchemy_row = session.query(api_clz).filter(text(filter)).one()
+            for key in DotDict(data):
+                setattr(sql_alchemy_row, key, DotDict(data)[key])
+            session.add(sql_alchemy_row)
+            result = sql_alchemy_row
+            # stmt = update(api_clz).where(text(filter)).values(data)
+
+        if method == "DELETE":
+            # stmt = delete(api_clz).where(text(filter))
+            sql_alchemy_row = session.query(api_clz).filter(text(filter)).one()
+            session.delete(sql_alchemy_row)
+            result = sql_alchemy_row
+
+        if method == "POST":
+            if data != None:
+                # this is an insert
+                sql_alchemy_row = api_clz()
+                row = DotDict(data)
+                for attr in api_attributes:
+                    name = attr["name"]
+                    if getattr(row, name) != None:
+                        setattr(sql_alchemy_row, name, row[name])
+                session.add(sql_alchemy_row)
+                result = sql_alchemy_row
+                # stmt = insert(api_clz).values(data)
+
+            else:
+                # GET (sent as POST)
+                # rows = get_rows_by_query(api_clz, filter, orderBy, columns, pagesize, offset)
+                if "TypeAggregate" in clz_type:
+                    return get_rows_agg(request, api_clz, clz_type, filter, columns)
+                else:
+                    return get_rows(
+                        request, api_clz, None, orderBy, columns, pagesize, offset
+                    )
+                    # return _get_rows(request, api_clz, filter, orderBy, columns, pagesize, offset)
+
+        try:
+            session.commit()
+            session.flush()
+        except Exception as ex:
+            session.rollback()
+            msg = f"{ex.message if hasattr(ex, 'message') else ex}"
+            return jsonify(
+                {"code": 1, "message": f"{msg}", "data": [], "sqlTypes": None}
+            )
+
+        return jsonify(
+            {"code": 0, "message": f"{method}:True", "data": result, "sqlTypes": None}
+        )  # {f"{method}":True})
+
+    def find_model(clz_name: str) -> any:
+        clz_members = getMetaData()
+        resources = clz_members.get("resources")
+        for resource in resources:
+            if resource == clz_name:
+                return resources[resource]
+        return None
+
+    def get_rows_agg(request: any, api_clz, agg_type, filter, columns):
+        key = api_clz.__name__
+        resources = getMetaData(key)
+        attributes = resources["resources"][key]["attributes"]
+        list_of_columns = ""
+        sep = ""
+        attr_list = list(api_clz._s_columns)
+        table_name = api_clz._s_type
+        # api_clz.__mapper__.attrs #TODO map the columns to the attributes to build the select list
+        for a in attributes:
+            name = a["name"]
+            t = a["type"]  # INTEGER or VARCHAR(N)
+            # list_of_columns.append(api_clz._sa_class_manager.get(n))
+            attr = a["attr"]
+            # MAY need to do upper case compares
+            if name in columns:
+                list_of_columns = f"{list_of_columns}{sep}{name}"
+                sep = ","
+        sql = (
+            f" count(*), {list_of_columns} from {table_name} group by {list_of_columns}"
+        )
+        print(sql)
+        # TODO HARDCODED for now....
+        data = {}
+        if "customerTypeAggregate" == agg_type:
+            data = {
+                "data": [
+                    {"AMOUNT": 24, "DESCRIPTION": "Normal"},
+                    {"AMOUNT": 15, "DESCRIPTION": "VIP"},
+                    {"AMOUNT": 36, "DESCRIPTION": "Other"},
+                ]
+            }
+        elif "accountTypeAggregate" == agg_type:
+            data = {
+                "data": [
+                    {"AMOUNT": 32, "ACCOUNTTYPENAME": "Savings", "ACCOUNTTYPEID": 1},
+                    {"AMOUNT": 36, "ACCOUNTTYPENAME": "Checking", "ACCOUNTTYPEID": 0},
+                    {"AMOUNT": 30, "ACCOUNTTYPENAME": "Payroll", "ACCOUNTTYPEID": 3},
+                    {"AMOUNT": 23, "ACCOUNTTYPENAME": "Market", "ACCOUNTTYPEID": 2},
+                ]
+            }
+        elif "employeeTypeAggregate" == agg_type:
+            data = {
+                "data": [
+                    {"AMOUNT": 27, "EMPLOYEETYPENAME": "Manager"},
+                    {"AMOUNT": 485, "EMPLOYEETYPENAME": "Employee"},
+                ]
+            }
+        data["code"] = 0
+        data["message"] = ""
+        data["sqlType"] = {}
+        # rows = session.query(text(sql)).all()
+        # rows = session.query(models.Account.ACCOUNTTYPEID,func.count(models.Account.AccountID)).group_by(models.Account.ACCOUNTTYPEID).all()
+        return data
+
+    def get_rows(request: any, api_clz, filter, order_by, columns, pagesize, offset):
+        # New Style
+        key = api_clz.__name__.lower()
+        resources = getMetaData(api_clz.__name__)
+        attributes = resources["resources"][api_clz.__name__]["attributes"]
+        list_of_columns = []
+        for a in attributes:
+            name = a["name"]
+            t = a["type"]  # INTEGER or VARCHAR(N)
+            # MAY need to do upper case compares
+            if name in columns:
+                list_of_columns.append(name)
+
+        from api.system.custom_endpoint import CustomEndpoint
+
+        request.method = "GET"
+        r = CustomEndpoint(
+            model_class=api_clz, fields=list_of_columns, filter_by=filter, attributes=attributes
+        )
+        result = r.execute(request=request)
+        return r.transform("IMATIA", key, result)
+
+    def get_rows_by_query(api_clz, filter, orderBy, columns, pagesize, offset):
+        # Old Style
+        rows = []
+        results = session.query(api_clz)  # or list of columns?
+
+        if columns:
+            # stmt = select(api_clz).options(load_only(Book.title, Book.summary))
+            pass  # TODO
+
+        if orderBy:
+            results = results.order_by(text(parseOrderBy(orderBy)))
+
+        if filter:
+            results = results.filter(text(filter))
+
+        results = results.limit(pagesize).offset(offset)
+
+        for row in results.all():
+            rows.append(row.to_dict())
+
+        return rows
+
+    def parseData(data: dict = None) -> str:
+        # convert dict to str
+        result = ""
+        join = ""
+        if data:
+            for d in data:
+                result += f'{join}{d}="{data[d]}"'
+                join = ","
+        return result
+
+    def parseOrderBy(orderBy) -> str:
+        # [{'columnName': 'SURNAME', 'ascendent': True}]
+        result = ""
+        if orderBy and len(orderBy) > 0:
+            result = f"{orderBy[0]['columnName']}"  # TODO for desc
+        return result
+
+    def fix_payload(data, sqltypes):
+        import datetime
+
+        if sqltypes:
+            for t in sqltypes:
+                if sqltypes[t] == 91:  # Date
+                    with contextlib.suppress(Exception):
+                        my_date = float(data[t]) / 1000
+                        data[t] = datetime.datetime.fromtimestamp(
+                            my_date
+                        )  # .strftime('%Y-%m-%d %H:%M:%S')
+
+
+    def rows_to_dict(result: any) -> list:
+        """
+        Converts SQLAlchemy result (mapped or raw) to dict array of un-nested rows
+
+        Args:
+            result (object): list of serializable objects (e.g., dict)
+
+        Returns:
+            list of rows as dicts
+        """
+        rows = []
+        for each_row in result:
+            row_as_dict = {}
+            print(f"type(each_row): {type(each_row)}")
+            if isinstance(
+                each_row, sqlalchemy.engine.row.Row
+            ):  # raw sql, eg, sample catsql
+                key_to_index = each_row._key_to_index  # note: SQLAlchemy 2 specific
+                for name, value in key_to_index.items():
+                    row_as_dict[name] = each_row[value]
+            else:
+                row_as_dict = each_row.to_dict()  # safrs helper
+            rows.append(row_as_dict)
+        return rows
+
+    # Process the yaml file (load SQLite)
+    def process_yaml(valuesYaml: str):
+        # Clean the database out - this is destructive
+        
+        delete_sql(models.TabGroup)
+        delete_sql(models.GlobalSetting)
+        delete_sql(models.EntityAttr)
+        delete_sql(models.Entity)
+        delete_sql(models.Template)
+
+        insert_template()
+        insert_styles(valuesYaml)
+        insert_entities(valuesYaml)
+        insert_root(valuesYaml)
+
+        return jsonify(valuesYaml)
+
+    def delete_sql(clz):
+        try:
+            num_rows_deleted = db.session.query(clz).delete()
+            print(clz, num_rows_deleted)
+            db.session.commit()
+        except Exception as ex:
+            db.session.rollback()
+            raise ex
+
+    def insert_entities(valuesYaml):
+        entities = valuesYaml["entities"]
+        for entity in entities:
+            m_entity = models.Entity()
+            each_entity = valuesYaml["entities"][entity]
+            print(entity, each_entity)
+            m_entity.name = each_entity["type"]
+            m_entity.title = entity
+            m_entity.favorite = get_value(each_entity, "favorite")
+            m_entity.pkey = str(get_value(each_entity, "primary_key"))
+            m_entity.info_list = get_value(each_entity, "info_list")
+            m_entity.info_show = get_value(each_entity, "info_show")
+            m_entity.exclude = get_boolean(each_entity, "exclude", False)
+            m_entity.new_template = get_value(
+                each_entity, "new_template", "new_template.html"
+            )
+            m_entity.home_template = get_value(
+                each_entity, "home_template", "home_template.html"
+            )
+            m_entity.detail_template = get_value(
+                each_entity, "detail_template", "detail_template.html"
+            )
+            m_entity.mode = get_value(each_entity, "mode", "tab")
+
+            try:
+                session.add(m_entity)
+                session.commit()
+            except Exception as ex:
+                session.rollback()
+                raise ex
+
+        # Attributes
+        for entity in entities:
+            each_entity_yaml = valuesYaml["entities"][entity]
+            entity_type = entities[entity]["type"]
+            insert_entity_attrs(entity, entity_type, each_entity_yaml)
+
+        # Tab Groups
+        for entity in entities:
+            each_entity_yaml = valuesYaml["entities"][entity]
+            entity_type = entities[entity]["type"]
+            insert_tab_groups(entity, entity_type, each_entity_yaml)
+
+    def insert_root(valuesYaml):
+        about = valuesYaml["about"]
+        api_root = valuesYaml["api_root"]
+        authentication = valuesYaml["authentication"]
+        root = session.query(models.Root).one()
+        # root.Id = 1
+        root.AboutDate = about["date"]
+        root.AboutChange = about["recent_changes"]
+        root.ApiRoot = api_root
+        root.ApiAuthType = "endpoint"
+        root.ApiAuth = authentication["endpoint"]
+        try:
+            session.add(root)
+            session.commit()
+        except Exception as ex:
+            print(ex)
+            # session.rollback()
+
+    def insert_template():
+        templates = [
+            ("checkbox", "o_checkbox.html"),
+            ("combo", "o_combo_input.html"),
+            ("currency", "currency_template.html"),
+            ("date", "date_template.html"),
+            ("email", "email_template.html"),
+            ("file", "file_template.html"),
+            ("html", "html_template.html"),
+            ("integer", "integer_template.html"),
+            ("list", "list-picker.html"),
+            ("nif", "o_nif_input.html"),
+            ("password", "password_template.html"),
+            ("percent", "percent_template.html"),
+            ("phone", "phone_template.html"),
+            ("real", "real_template.html"),
+            ("text", "text_template.html"),
+            ("textarea", "textarea_template.html"),
+            ("time", "time_template.html"),
+            ("timestamp", "timestamp_template.html"),
+            ("toggle", "o_slide_toggle.html")
+        ]
+        for name, value in templates:
+            m_template = models.Template()
+            m_template.name = name
+            m_template.description = value
+            try:
+                session.add(m_template)
+                session.commit()
+            except Exception as ex:
+                print(ex)
+
+    def get_value(obj: any, name: str, default: any = None):
+        try:
+            return obj[name]
+        except Exception as ex:
+            return default
+
+    def get_boolean(obj: any, name: str, default: bool = True):
+        try:
+            if isinstance(obj[name], bool):
+                return obj[name]
+            else:
+                return obj[name] in ["true", "True", "1"]
+        except Exception as ex:
+            return default
+
+    def convert_list(key: str) -> list:
+        k = key.replace("'", "", 20)
+        k = k.replace("[", "")
+        k = k.replace("]", "")
+        l = []
+        s = k.split(",")
+        for v in s:
+            l.append(v.strip())
+        return l
+
+    def insert_tab_groups(entity, entity_type, each_entity_yaml):
+        try:
+            tab_groups = (
+                each_entity_yaml["tab_groups"]
+                if "tab_groups" in each_entity_yaml
+                else []
+            )
+            for tab_group in tab_groups:
+                m_tab_group = models.TabGroup()
+                print(entity, f" tab_group: {tab_group}")
+                m_tab_group.entity_name = entity
+                m_tab_group.direction = tab_group["direction"]
+                m_tab_group.tab_entity = tab_group["resource"]
+                m_tab_group.fkeys = str(tab_group["fks"])
+                m_tab_group.name = tab_group.get("name")
+                m_tab_group.label = tab_group.get("label") or tab_group.get("name")
+                m_tab_group.exclude = get_boolean(tab_group, "exclude", False)
+
+                try:
+                    session.add(m_tab_group)
+                    session.commit()
+                except Exception as ex:
+                    session.rollback()
+                    print(ex)
+        except Exception as ex:
+            session.rollback()
+            raise ex
+
+    def insert_entity_attrs(entity, entity_type, each_entity_yaml):
+        for attr in each_entity_yaml["columns"]:
+            m_entity_attr = models.EntityAttr()
+            print(entity, f": {attr}")  # merge metadata into attr
+            m_entity_attr.entity_name = entity_type
+            m_entity_attr.attr = get_value(attr, "name")
+            m_entity_attr.label = get_value(attr, "label", attr["name"])
+            m_entity_attr.template_name = get_value(attr, "template", "text")
+            m_entity_attr.thistype = get_value(attr,"type", "VARCHAR")
+            m_entity_attr.isrequired = get_boolean(attr, "required", False)
+            m_entity_attr.issearch = get_boolean(attr, "search", False)
+            m_entity_attr.isort = get_boolean(attr, "sort", False)
+            m_entity_attr.isenabled = get_boolean(attr, "enabled", True)
+            m_entity_attr.exclude = get_boolean(attr, "exclude", False)
+            m_entity_attr.tooltip = get_value(attr, "tooltip", f'Insert {attr["name"]}')
+            m_entity_attr.visible = get_boolean(attr, "visible", True)
+
+            try:
+                session.add(m_entity_attr)
+                session.commit()
+            except Exception as ex:
+                session.rollback()
+                # raise ex
+                print(ex)
+
+    def insert_styles(valuesYaml):
+        style_guide = valuesYaml["settings"]["style_guide"]
+        print(f"style_guide: {style_guide}")
+        for style in style_guide:
+            global_setting = models.GlobalSetting()
+            print(f"{style}:{style_guide[style]}")
+            global_setting.name = style
+            global_setting.value = style_guide[style]
+            session.add(global_setting)
+        try:
+            session.commit()
+        except Exception as ex:
+            raise ex        

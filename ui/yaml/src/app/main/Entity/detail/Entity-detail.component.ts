@@ -30,10 +30,10 @@ export class EntityDetailComponent implements OnInit  {
     this.dialog = this.injector.get(MatDialog);
   }
   ngOnInit() {
-    this.configureService();
+    //this.configureService();
   }
   ngAfterViewInit() {
-    this.showHideColumns();
+   // this.showHideColumns();
   }
   protected configureService() {
     const conf = this.service.getDefaultServiceConfiguration();
