@@ -11,16 +11,11 @@ export const routes: Routes = [
         { path: 'about', loadChildren: () => import('./about/about.module').then(m => m.AboutModule) },
         { path: 'home', loadChildren: () => import('./home/home.module').then(m => m.HomeModule) },
         { path: 'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule) },
-      
-    
         { path: 'Entity', loadChildren: () => import('./Entity/Entity.module').then(m => m.EntityModule) },
-    
         { path: 'EntityAttr', loadChildren: () => import('./EntityAttr/EntityAttr.module').then(m => m.EntityAttrModule) },
-    
-        { path: 'GlobalSetting', loadChildren: () => import('./GlobalSetting/GlobalSetting.module').then(m => m.GlobalSettingModule) },
-    
         { path: 'TabGroup', loadChildren: () => import('./TabGroup/TabGroup.module').then(m => m.TabGroupModule) },
-    
+
+        { path: 'GlobalSetting', loadChildren: () => import('./GlobalSetting/GlobalSetting.module').then(m => m.GlobalSettingModule) },
         { path: 'Template', loadChildren: () => import('./Template/Template.module').then(m => m.TemplateModule) },
     
         { path: 'YamlFiles', loadChildren: () => import('./YamlFiles/YamlFiles.module').then(m => m.YamlFilesModule) },

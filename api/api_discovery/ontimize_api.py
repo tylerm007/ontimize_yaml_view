@@ -732,11 +732,11 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         from api.system.custom_endpoint import CustomEndpoint
 
         request.method = "GET"
-        r = CustomEndpoint(
+        custom_endpoint = CustomEndpoint(
             model_class=api_clz, fields=list_of_columns, filter_by=filter
         )
-        result = r.execute(request=request)
-        return r.transform("IMATIA", key, result)
+        result = custom_endpoint.execute(request=request)
+        return custom_endpoint.transform("IMATIA", key, result)
 
     def get_rows_by_query(api_clz, filter, orderBy, columns, pagesize, offset):
         # Old Style
