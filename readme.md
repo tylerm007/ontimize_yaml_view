@@ -1,5 +1,5 @@
 # Ontimize Yaml editor
-This is a proof of concept - a local SQLite database is used to store a yaml file and custom endpoints can read and write the yaml.  The model was created using ApiLogicServer (app-create and app-build) feature to generate the complete application from the yaml file. This editor is designed to help developers edit the templates and labels used in the Ontimize application.
+This is a proof of concept - a local SQLite database is used to store a yaml files.  The model was created using ApiLogicServer (app-create and app-build) feature to generate the complete application from the yaml file. This editor is designed to help developers edit the yaml attributes, apply column templates and labels used in the Ontimize application generation. Use "Manage Yaml Files" to import your file and the flags to import or download the changes.
 
 ## Ontimize Seed
 The Ontimize application is loaded in ui/yaml directory. The react-admin is in the ui/admin directory.
@@ -22,9 +22,10 @@ code .
 ```
 
 ```bash title="start ApiLogicServer"
+! REQUIRES INSTALLATION of NodeJS and NPM (Node Package Manager)
 -- press F5 to start ApiLogicServer
 -- in a terminal window or 
--- use run menu to Install Ontimize and Launch Ontimize
+-- use run > menu to Install Ontimize (npm install) and Start Ontimize (npm start)
 # cd ontimize_yaml_view/ui/yaml
 npm install
 npm start
@@ -56,13 +57,13 @@ This will write back the modified SQL back to disk as yaml.  Use compare files t
 curl "http://localhost:5656/exportyaml"
 ```
 ## Entity
-Use the Ontimize editor to exclude entities or change the titles.
+Use the Ontimize editor to exclude a selected entity or change the titles.
 ![](ui/templates/Entity.png)
-## EntityAttr
-Use the Ontimize editor to exclude attributes, include search or sort, enable or mark fields as required.
+## Attributes
+Use the Ontimize editor to change the label, tooltip, exclude selected attributes, include attribute in the search or sort, enable or mark fields as required, and include visible in the home table display.
 ![](ui/templates/EntityAttr.png)
-## TabGroup
-Use the Ontimize editor to exclude attributes, include search or sort, enable or mark fields as required.
+## Relationships (TabGroup)
+Use the Ontimize editor to exclude tab on detail page (tomany) or change the tile used to display.
 ![](ui/templates/TabGroup.png)
 # Quick Start
 
@@ -187,7 +188,8 @@ To make customizations easy to explore, **search for:**
 | Directory | Usage                         | Key Customization File             | Typical Customization                                                                 |
 |:-------------- |:------------------------------|:-----------------------------------|:--------------------------------------------------------------------------------------|
 | ```api``` | **JSON:API**<br>*Ready to Run*                    | ```api/customize_api.py```         | Add new end points / services                                                         |
-| ```ui``` | **Multi-Page Admin App**<br>*Ready to Run*  | ```ui/admin/admin.yaml```          | Control field display - order, captions etc.                                          |
+| ```ui``` | **Multi-Page Admin App**<br>*Ready to Run*  | ```ui/admin/admin.yaml```          | Control field display - order, captions etc.    
+| ```ui/yaml``` | **Multi-Page Ontimize App**<br>*Ready to Run*  | ```ui/yaml/app_model.yaml```          | Control field display - order, captions etc.                                         |
 | ```database``` | SQLAlchemy Data Model Classes | ```database/customize_models.py``` | Add derived attributes, and relationships missing in the schema                       |
 | ```logic``` | **Transactional Logic**<br>spreadsheet-like rules   | ```logic/declare_logic.py```       | Declare multi-table derivations, constraints, and Python events such as send mail / messages |
 | ```security``` | Authentication, Authorization   | ```security/declare_security.py```          | Control login, role-based row access         |
