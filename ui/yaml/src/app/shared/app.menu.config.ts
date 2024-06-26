@@ -18,16 +18,16 @@ export const MENU_CONFIG: MenuRootItem[] = [
     { id: 'settings', name: 'Settings', icon: 'settings', route: '/main/settings'},
     { id: 'data', name: 'Yaml Data', icon: 'remove_red_eye', opened: true,
     items: [
-        { id: 'Entity', name: 'ENTITY', icon: 'description', route: '/main/Entity' }
-        ,{ id: 'EntityAttr', name: 'ENTITYATTR', icon: 'description', route: '/main/EntityAttr' }
-        ,{ id: 'TabGroup', name: 'TABGROUP', icon: 'description', route: '/main/TabGroup' }
+        { id: 'Entity', name: 'ENTITY', icon: 'view_list', route: '/main/Entity' }
+        ,{ id: 'EntityAttr', name: 'ENTITYATTR', icon: 'view_list', route: '/main/EntityAttr' }
+        ,{ id: 'TabGroup', name: 'TABGROUP', icon: 'view_list', route: '/main/TabGroup' }
     
         ] 
     }
     ,{ id: 'other', name: 'Global', icon: 'remove_red_eye', opened: false,
     items: [        
-        { id: 'GlobalSetting', name: 'GLOBALSETTING', icon: 'description', route: '/main/GlobalSetting' }
-        ,{ id: 'Template', name: 'TEMPLATE', icon: 'description', route: '/main/Template' }
+        { id: 'GlobalSetting', name: 'GLOBALSETTING', icon: 'view_list', route: '/main/GlobalSetting' }
+        ,{ id: 'Template', name: 'TEMPLATE', icon: 'view_list', route: '/main/Template' }
         ] 
     }
     ,{ id: 'YamlFiles', name: 'YAMLFILES', icon: 'upload_file', route: '/main/YamlFiles' }
