@@ -53,44 +53,6 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
     app_logger.debug("api/api_discovery/ontimize_api.py - services for ontimize") 
 
     
-    def getMetaData(resource_name:str = None, include_attributes: bool = True) -> dict:
-        import inspect
-        import sys
-        resource_list = []  # array of attributes[], name (so, the name is last...)
-        resource_objs = {}  # objects, named = resource_name
-
-        models_name = "database.models"
-        cls_members = inspect.getmembers(sys.modules["database.models"], inspect.isclass)
-        for each_cls_member in cls_members:
-            each_class_def_str = str(each_cls_member)
-            if (f"'{models_name}." in each_class_def_str and
-                            "Ab" not in each_class_def_str):
-                each_resource_name = each_cls_member[0]
-                each_resource_class = each_cls_member[1]
-                each_resource_mapper = each_resource_class.__mapper__
-                if resource_name is None or resource_name == each_resource_name:
-                    resource_object = {"name": each_resource_name}
-                    resource_list.append(resource_object)
-                    resource_objs[each_resource_name] = {}
-                    if include_attributes:
-                        attr_list = []
-                        for each_attr in each_resource_mapper.attrs:
-                            if not each_attr._is_relationship:
-                                try:
-                                    attribute_object = {"name": each_attr.key,
-                                                        "attr": each_attr,
-                                                        "type": str(each_attr.expression.type)}
-                                except Exception as ex:
-                                    attribute_object = {"name": each_attr.key,
-                                                        "exception": f"{ex}"}
-                                attr_list.append(attribute_object)
-                        resource_object["attributes"] = attr_list
-                        resource_objs[each_resource_name] = {"attributes": attr_list, "model": each_resource_class}
-        # pick the format you like
-        #return_result = {"resources": resource_list}
-        return_result = {"resources": resource_objs}
-        return return_result
-    
     def admin_required():
         """
         Support option to bypass security (see cats, below).
@@ -441,6 +403,8 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 e["info_list"] = entity["info_list"]
             if entity.get("info_show"):
                 e["info_show"] = entity["info_show"]
+            if entity.get("menu_group"):
+                e["group"] = entity["menu_group"]
 
             entity_list[entity_name] = e
 
@@ -864,7 +828,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 each_entity, "detail_template", "detail_template.html"
             )
             m_entity.mode = get_value(each_entity, "mode", "tab")
-
+            m_entity.menu_group = get_value(each_entity, "group", "data")
             try:
                 session.add(m_entity)
                 session.commit()
@@ -1025,3 +989,40 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
             session.commit()
         except Exception as ex:
             raise ex        
+    def getMetaData(resource_name:str = None, include_attributes: bool = True) -> dict:
+        import inspect
+        import sys
+        resource_list = []  # array of attributes[], name (so, the name is last...)
+        resource_objs = {}  # objects, named = resource_name
+
+        models_name = "database.models"
+        cls_members = inspect.getmembers(sys.modules["database.models"], inspect.isclass)
+        for each_cls_member in cls_members:
+            each_class_def_str = str(each_cls_member)
+            if (f"'{models_name}." in each_class_def_str and
+                            "Ab" not in each_class_def_str):
+                each_resource_name = each_cls_member[0]
+                each_resource_class = each_cls_member[1]
+                each_resource_mapper = each_resource_class.__mapper__
+                if resource_name is None or resource_name == each_resource_name:
+                    resource_object = {"name": each_resource_name}
+                    resource_list.append(resource_object)
+                    resource_objs[each_resource_name] = {}
+                    if include_attributes:
+                        attr_list = []
+                        for each_attr in each_resource_mapper.attrs:
+                            if not each_attr._is_relationship:
+                                try:
+                                    attribute_object = {"name": each_attr.key,
+                                                        "attr": each_attr,
+                                                        "type": str(each_attr.expression.type)}
+                                except Exception as ex:
+                                    attribute_object = {"name": each_attr.key,
+                                                        "exception": f"{ex}"}
+                                attr_list.append(attribute_object)
+                        resource_object["attributes"] = attr_list
+                        resource_objs[each_resource_name] = {"attributes": attr_list, "model": each_resource_class}
+        # pick the format you like
+        #return_result = {"resources": resource_list}
+        return_result = {"resources": resource_objs}
+        return return_result

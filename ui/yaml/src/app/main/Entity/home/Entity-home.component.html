@@ -5,9 +5,9 @@
             service="Entity" 
             entity="Entity" 
             keys="name"
-            columns="name;title;pkey;favorite;mode;exclude" 
+            columns="name;title;pkey;favorite;mode;menu_group;exclude" 
             header-actions="R;D"
-            visible-columns="name;title;pkey;favorite;mode;exclude"  
+            visible-columns="name;title;pkey;favorite;mode;menu_group;exclude"  
             sort-columns="name" 
             query-rows="20" 
             quick-filter="yes"
@@ -27,6 +27,7 @@
             <o-table-column attr="pkey" label="Primary Key" editable="yes" required="no" content-align="left"></o-table-column>
             
             <o-table-column attr="favorite" label="favorite" editable="yes" required="no" content-align="left"></o-table-column>
+            <o-table-column attr="menu_group" label="Menu Group" editable="yes" required="no" content-align="left"></o-table-column>
             <o-table-column attr="mode" label="mode" editable="yes" required="no" content-align="left"></o-table-column>
         
             <o-table-column attr="exclude" title="Excluded">

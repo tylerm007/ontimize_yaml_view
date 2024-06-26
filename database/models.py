@@ -53,6 +53,7 @@ class Entity(SAFRSBaseX, Base):
     home_template = Column(String(80))
     detail_template = Column(String(80))
     mode = Column(String(10), server_default=text("'tab'"))
+    menu_group = Column(String(25))
     allow_client_generated_ids = True
 
     # parent relationships (access parent)
