@@ -1,6 +1,6 @@
 # Ontimize Yaml editor
 This is a proof of concept - a local SQLite database is used to store a yaml files.  The model was created using ApiLogicServer (app-create and app-build) feature to generate the complete application from the yaml file. This editor is designed to help developers edit the yaml attributes, apply column templates and labels used in the Ontimize application generation. Use "Manage Yaml Files" to import your file and the flags to import or download the changes.
-
+![](ui/templates/Home.png)
 ## Ontimize Seed
 The Ontimize application is loaded in ui/yaml directory. The react-admin is in the ui/admin directory.
 
