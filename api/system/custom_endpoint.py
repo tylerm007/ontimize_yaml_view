@@ -130,7 +130,11 @@ class CustomEndpoint():
         self._method = None
         self._href = None
         self._columnNames = [k.key for k in self._model_class._s_columns]
-
+        key = self._model_class_name
+        from api.api_discovery.ontimize_api import getMetaData
+        resources = getMetaData(key)
+        self._attributes = resources["resources"][key]["attributes"]
+        
     def __str__(self):
             return  f"Alias {self.alias} Model: {self._model_class.__name__} PrimaryKey: {self.primaryKey} FilterBy: {self.filter_by} OrderBy: {self.order_by}"
 
@@ -342,8 +346,13 @@ class CustomEndpoint():
                     f"Adding filter_by: {filter_by}")
                     session_qry = session_qry.filter(text(filter_by))
                 
-                if order_by:
-                    session_qry = session_qry.order_by(text(order_by[0]["columnName"]))
+                if order_by and isinstance(order_by, list) and len(order_by) > 0:
+                    col_name = order_by[0]["columnName"]
+                    for a in self._attributes:
+                        if a['attr'].key == col_name:
+                            col_name = a['attr'].columns[0].name
+                            break
+                    session_qry = session_qry.order_by(text(col_name))
                 rows = session_qry.limit(limit).offset(offset).all()
         else:
             resource_logger.debug(
@@ -358,7 +367,12 @@ class CustomEndpoint():
                     f"Adding on {model_class_name} using filter_by: {filter_by}")
                     session_qry = session_qry.filter(text(filter_by))#.filter(text(self.filter_by))
             if order_by:
-                session_qry = session_qry.order_by(text(order_by[0]["columnName"]))
+                col_name = order_by[0]["columnName"]
+                for a in self._attributes:
+                    if a['attr'].key == col_name:
+                        col_name = a['attr'].columns[0].name
+                        break
+                session_qry = session_qry.order_by(text(col_name))
             rows = session_qry.limit(limit).offset(offset).all()
         if rows:    
             dictRows = self.rows_to_dict(rows)

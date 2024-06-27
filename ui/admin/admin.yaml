@@ -19,6 +19,8 @@ resources:
     - name: title
     - name: pkey
     - name: favorite
+    - name: menu_group
+      label: 'group'
     - name: info_list
     - name: info_show
     - name: exclude
@@ -139,14 +141,16 @@ resources:
       search: true
       sort: true
     - name: content
-      type: image
+      type: text
       required: false
     - name: upload_flag
       type: boolean
     - name: download_flag
       type: boolean
+    - name: Id
     type: YamlFiles
-    user_key: name
+    user_key: Id
+    favorite: name
 settings:
   HomeJS: http://localhost:5656/admin-app/home.js
   max_list_columns: 8
