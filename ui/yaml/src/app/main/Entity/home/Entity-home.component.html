@@ -1,9 +1,10 @@
-<o-form-layout-manager attr="Entity" mode="dialog" title="{{ 'ENTITY' | oTranslate }}">
+<o-form attr="Entity" mode="tab" title="{{ 'ENTITY' | oTranslate }}">
     <div fxFill fxLayout="column" fxLayoutAlign="start">
         <o-table 
             attr="EntityTable" 
             service="Entity" 
             entity="Entity" 
+            title="{{ 'ENTITY' | oTranslate }}"
             keys="name"
             columns="name;title;pkey;favorite;mode;menu_group;exclude" 
             header-actions="R;D"
@@ -14,9 +15,11 @@
             row-height="small" 
             select-all-checkbox="false" 
             pageable="yes"  
+            auto-adjust="true" 
             virtual-scroll="yes" 
             edition-mode="dblClick" 
             horizontal-scroll="yes"
+            show-title="yes"
             export-button="yes">
             <!--o-table-button #button attr="button" label="IMPORT" icon="description" (onClick)="importyaml('')"></o-table-button -->
             <!--o-table-button #button attr="button" label="EXPORT" icon="description" (onClick)="exportyaml('')"></o-table-button -->
@@ -43,4 +46,4 @@
             <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
         </o-table>
     </div>
-</o-form-layout-manager>
+</o-form>

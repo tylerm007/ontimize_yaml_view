@@ -9,13 +9,13 @@
 #    $ cd <your project>
 #    $ sh devops/docker-image/build_image.sh .
 
-projectname="ontimize"  # lower case, only
+projectname="ontimize_yaml_editor"  # lower case, only
 repositoryname="apilogicserver"
 version="1.0.0"
 
 debug() {
   debug="disabled"
-  # echo "$1"
+  echo "$1"
 }
 
 debug "\n"

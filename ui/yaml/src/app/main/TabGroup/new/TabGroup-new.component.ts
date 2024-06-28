@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Injector } from '@angular/core';
+import { NavigationService } from 'ontimize-web-ngx';
 
 @Component({
   selector: 'TabGroup-new',
@@ -7,6 +8,10 @@ import { Component } from '@angular/core';
 })
 export class TabGroupNewComponent {
 
+  constructor(protected injector: Injector) {
+    this.injector.get(NavigationService).initialize();
+  }
+  
   public DirectionArray = [{
     code: "toone"   
   }, {

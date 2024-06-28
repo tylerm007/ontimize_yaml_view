@@ -1,4 +1,4 @@
-<o-form-layout-manager attr="Template" mode="dialog" title="{{ 'TEMPLATE' | oTranslate }}">
+<o-form attr="Template" mode="dialog" title="{{ 'TEMPLATE' | oTranslate }}">
     <div fxFill fxLayout="column" fxLayoutAlign="start">
         <o-table attr="TemplateTable" service="Template" entity="Template" keys="name" columns="name;description"
             header-actions="R;D" visible-columns="name;description" sort-columns="name" query-rows="20" show-header="yes"
@@ -15,4 +15,4 @@
             <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
         </o-table>
     </div>
-</o-form-layout-manager>
+</o-form>

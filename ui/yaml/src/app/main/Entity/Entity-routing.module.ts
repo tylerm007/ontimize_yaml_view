@@ -13,7 +13,28 @@ const routes: Routes = [
         permissionId: 'Entity-detail-permissions'
       }
     }
-  }
+  },{
+    path: ':entity_name/EntityAttr', loadChildren: () => import('../EntityAttr/EntityAttr.module').then(m => m.EntityAttrModule),
+    data: {
+        oPermission: {
+            permissionId: 'EntityAttr-detail-permissions'
+        }
+    }
+},{
+    path: ':entity_name/TabGroup', loadChildren: () => import('../TabGroup/TabGroup.module').then(m => m.TabGroupModule),
+    data: {
+        oPermission: {
+            permissionId: 'TabGroup-detail-permissions'
+        }
+    }
+},{
+    path: ':tab_entity/TabGroup', loadChildren: () => import('../TabGroup/TabGroup.module').then(m => m.TabGroupModule),
+    data: {
+        oPermission: {
+            permissionId: 'TabGroup-detail-permissions'
+        }
+    }
+}
 ];
 
 export const ENTITY_MODULE_DECLARATIONS = [

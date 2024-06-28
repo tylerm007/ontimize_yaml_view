@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Injector } from '@angular/core';
+import { NavigationService } from 'ontimize-web-ngx';
 
 @Component({
   selector: 'EntityAttr-new',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./EntityAttr-new.component.scss']
 })
 export class EntityAttrNewComponent {
-
+  constructor(protected injector: Injector) {
+    this.injector.get(NavigationService).initialize();
+  }
 }

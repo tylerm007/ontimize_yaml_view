@@ -14,8 +14,14 @@ const routes: Routes = [
         permissionId: 'Template-detail-permissions'
       }
     }
-  },
-  { path: ':entity_name/:attr', component: EntityAttrDetailComponent}
+  },{
+    path: ':template_name/EntityAttr', loadChildren: () => import('../EntityAttr/EntityAttr.module').then(m => m.EntityAttrModule),
+    data: {
+        oPermission: {
+            permissionId: 'EntityAttr-detail-permissions'
+        }
+    }
+}
 ];
 
 export const TEMPLATE_MODULE_DECLARATIONS = [

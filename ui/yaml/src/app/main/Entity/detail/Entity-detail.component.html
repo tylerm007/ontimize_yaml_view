@@ -51,15 +51,32 @@
     <mat-tab-group fxFill>
 
       <mat-tab label="Attributes">
-        <div layout-padding>
-          <o-table #table attr="EntityAttrTable" service="EntityAttr" entity="EntityAttr" keys="name;attr"
-            parent-keys="entity_name:name"
-            columns="entity_name;attr;template_name;label;issearch;issort;thistype;exclude;isrequired;isenabled;visible"
-            horizontal-scroll="yes" detail-form-route="EntityAttr" edit-form-route="EntityAttr"
-            visible-columns="attr;template_name;label;thistype;issearch;issort;exclude;isrequired;isenabled;visible"
-            sort-columns="entity_name" query-rows="20" quick-filter="yes" row-height="small" select-all-checkbox="true"
-            pageable="yes" virtual-scroll="yes" insert-button="no" delete-button="no" fixed-header="true"
-            class="vertical-padding-8" edition-mode="click" horizontal-scroll="yes">
+    <div layout-padding>
+      <o-table 
+        attr="EntityAttrTable" 
+        service="EntityAttr" 
+        entity="EntityAttr" 
+        keys="entity_name;attr"
+        parent-keys="entity_name:name"
+        columns="entity_name;template_name;attr;label;issearch;issort;thistype;tooltip;exclude;isrequired;isenabled;visible"  
+        horizontal-scroll="yes"
+        detail-form-route="EntityAttr" 
+        edit-form-route="EntityAttr"
+        visible-columns="attr;template_name;label;issearch;issort;thistype;tooltip;exclude;isrequired;isenabled;visible"  
+        sort-columns="entity_name" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
             <!-- parent-keys="entity_name;entity_name" -->
 
             <o-table-column attr="attr" title="Attribute*" editable="no" required="yes"

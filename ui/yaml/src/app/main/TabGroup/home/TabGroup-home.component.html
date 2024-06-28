@@ -1,4 +1,4 @@
-<o-form-layout-manager attr="TabGroup" mode="dialog" title="{{ 'TABGROUP' | oTranslate }}">
+<o-form attr="TabGroup" mode="dialog" title="{{ 'TABGROUP' | oTranslate }}"  class="fill-form">
     <div fxFill fxLayout="column" fxLayoutAlign="start">
         <o-table attr="TabGroupTable" service="TabGroup" entity="TabGroup" keys="entity_name;tab_entity;direction;name"
             columns="entity_name;tab_entity;direction;name;label;fkeys;exclude" header-actions="R;D"
@@ -34,4 +34,4 @@
             <o-table-paginator page-size-options="100;200"></o-table-paginator>
         </o-table>
     </div>
-</o-form-layout-manager>
+</o-form>

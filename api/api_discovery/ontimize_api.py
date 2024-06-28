@@ -869,6 +869,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
     def insert_template():
         templates = [
             ("checkbox", "o_checkbox.html"),
+            {"check_circle", "check_circle.html"},
             ("combo", "o_combo_input.html"),
             ("currency", "currency_template.html"),
             ("date", "date_template.html"),
