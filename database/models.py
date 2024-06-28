@@ -207,6 +207,7 @@ class EntityAttr(SAFRSBaseX, Base):
     isenabled = Column(Boolean, server_default=text("true"))
     exclude = Column(Boolean, server_default=text("false"))
     visible = Column(Boolean, server_default=text("true"))
+    default_value = Column(String(100))
     allow_client_generated_ids = True
 
     # parent relationships (access parent)

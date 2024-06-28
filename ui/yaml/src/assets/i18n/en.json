@@ -51,6 +51,7 @@
   "tab_entity": "tab_entity",
   "YAMLFILES": "Manage Yaml Files",
   "content": "content",
-  "upload_flag": "upload_flag",
-  "download_flag": "download_flag"
+  "upload_flag": "Upload Yaml",
+  "download_flag": "Download Yaml",
+  "Id": "Id"
 }

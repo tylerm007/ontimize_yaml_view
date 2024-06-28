@@ -61,6 +61,7 @@ resources:
     - name: exclude
     - name: isrequired
     - name: isenabled
+    - name: default_value
     tab_groups:
     - direction: toone
       fks:

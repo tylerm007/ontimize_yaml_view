@@ -422,6 +422,8 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                     col["enabled"] = attr.get("isenabled", False)
                     col["exclude"] = attr.get("exclude", False)
                     col["visible"] = attr.get("visible", True)
+                    if attr.get("default_value"):
+                        col["default_value"] = attr.get("default_value")    
                     cols.append(col)
             entity_list[entity_name]["columns"] = cols
             tab_group = []
@@ -968,6 +970,8 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
             m_entity_attr.exclude = get_boolean(attr, "exclude", False)
             m_entity_attr.tooltip = get_value(attr, "tooltip", f'Insert {attr["name"]}')
             m_entity_attr.visible = get_boolean(attr, "visible", True)
+            if get_value(attr, "default_value"):
+                m_entity_attr.default_value = get_value(attr, "default_value", "")
 
             try:
                 session.add(m_entity_attr)
