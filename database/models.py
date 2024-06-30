@@ -161,7 +161,7 @@ class Template(SAFRSBaseX, Base):
 
 class YamlFiles(SAFRSBaseX, Base):
     __tablename__ = 'yaml_files'
-    _s_collection_name = 'YamlFile'  # type: ignore
+    _s_collection_name = 'YamlFiles'  # type: ignore
     __bind_key__ = 'None'
 
     id = Column(Integer, primary_key=True)

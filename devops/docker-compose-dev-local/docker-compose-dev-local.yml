@@ -20,19 +20,34 @@ services:
         - ../../database/:/root/db/
       # thanks: https://stackoverflow.com/questions/65811608/how-to-connect-flask-app-to-sqlite-db-running-in-docker
 
-    api-logic-server:
-        image: apilogicserver/ontimize
+    apilogicserver:
+        image: apilogicserver/ontimize_repos
         environment:
           - APILOGICPROJECT_VERBOSE=true
           - SECURITY_ENABLED=true
           ## todid - use default database uri's:
-          # - APILOGICPROJECT_SQLALCHEMY_DATABASE_URI=sqlite:///../database/db.sqlite
-          # - APILOGICPROJECT_SQLALCHEMY_DATABASE_URI_AUTHENTICATION=sqlite:///../database/authentication_db.sqlite
+          - APILOGICPROJECT_SQLALCHEMY_DATABASE_URI=sqlite:///../database/db.sqlite
+          - APILOGICPROJECT_SQLALCHEMY_DATABASE_URI_AUTHENTICATION=sqlite:///../database/authentication_db.sqlite
         expose:
-          - 5656
+          - 5655
         ports:
-          - 5656:5656
+          - 5655:5655
         volumes:
           # local:path-in-container
           - ../:/app
           - ../../database/:/my/sqlite/path/
+    yaml_editor:
+        image: apilogicserver/yaml_editor
+        container_name: yaml_editor
+        expose:
+          - 80
+        ports:
+          - 80:80
+        volumes:
+          # local:path-in-container
+          - ../:/home/node  
+        depends_on:
+          - apilogicserver
+        environment:
+          - NODE_ENV=production
+

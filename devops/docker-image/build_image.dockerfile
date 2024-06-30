@@ -3,30 +3,21 @@
 
 # consider adding your version here
 
-FROM node:latest
-
-
-WORKDIR ../../ui/yaml
-#RUN npm install
-ENV NODE_ENV=container
-
-#RUN chown -R node /opt/app
-
 # ensure platform for common amd deployment, even if running on M1/2 mac --platform=linux/amd64
+#FROM --platform=linux/arm64 apilogicserver/api_logic_server
+FROM apilogicserver/api_logic_server 
 
-# FROM apilogicserver/api_logic_server  
-FROM --platform=linux/amd64 apilogicserver/api_logic_server
 USER root
-
+RUN apt-get update \
+    && apt-get install nano \
+    && export TERM=xterm
+# user api_logic_server comes from apilogicserver/api_logic_server
 WORKDIR /home/api_logic_project
 # USER api_logic_server
 COPY ../../ .
+RUN rm -rf ../../ui/yaml
 
-# user api_logic_server comes from apilogicserver/api_logic_server
-
+# enables docker to write into container, for sqlite
 RUN chown -R api_logic_server /home/api_logic_project
 
-#CMD [ "python", "./api_logic_server_run.py" ]
-# Install dependencies and build your application
-#RUN npm start
-CMD ["tail", "-f", "/dev/null"]
+CMD [ "python", "./api_logic_server_run.py" ]
