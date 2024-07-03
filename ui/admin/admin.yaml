@@ -142,7 +142,7 @@ resources:
       search: true
       sort: true
     - name: content
-      type: text
+      type: image
       required: false
     - name: upload_flag
       type: boolean

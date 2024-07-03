@@ -1,7 +1,7 @@
 <o-breadcrumb [form]="EntityForm" label-columns="" separator=" "></o-breadcrumb>
 <o-form #EntityForm attr="Entity_form_insert" service="Entity" entity="Entity" keys="name" fxLayout="column"
   show-header="yes" header-actions="I" horizontal-scroll="yes" after-insert-mode="new"
-  class="standalone-form-container">
+  class="standalone-form-container" (onInsertMode)="onInsertMode()">
 
   <o-row attr="row1" layout-align="start stretch">
     <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
@@ -23,7 +23,7 @@
       </div>
 
       <div fxLayout="row" fxLayoutAlign="start center" class="gap">
-        <o-text-input attr="mode" label="Mode" tooltip="tab or dialog" editable="yes" required="no"></o-text-input>
+        <o-text-input #mode  attr="mode" label="Mode" tooltip="tab or dialog" editable="yes" required="no"></o-text-input>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="start center" class="gap">
