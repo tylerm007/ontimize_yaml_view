@@ -100,7 +100,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         s = path.split("/")
         clz_name = s[0]
         clz_type = None if len(s) == 1 else s[1] #[2] TODO customerType search advancedSearch defer(photo)customerTypeAggregate
-        
+        isSearch = s[len(s) -1] == "search"
         method = request.method
         rows = []
         #CORS 
@@ -158,6 +158,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 if "TypeAggregate" in clz_type:
                     return get_rows_agg(request, api_clz, clz_type, filter, columns)
                 else:
+                    pagesize = 999 if isSearch else pagesize
                     return get_rows(request, api_clz, None, orderBy, columns, pagesize, offset)
         try:        
             session.commit()
@@ -276,7 +277,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 
         from api.system.custom_endpoint import CustomEndpoint
         request.method = 'GET'
-        r = CustomEndpoint(model_class=api_clz, fields=list_of_columns, filter_by=filter)
+        r = CustomEndpoint(model_class=api_clz, fields=list_of_columns, filter_by=filter, pagesize=pagesize, offset=offset)
         result = r.execute(request=request)
         return r.transform("IMATIA",key, result)
     
@@ -699,7 +700,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
 
         request.method = "GET"
         custom_endpoint = CustomEndpoint(
-            model_class=api_clz, fields=list_of_columns, filter_by=filter
+            model_class=api_clz, fields=list_of_columns, filter_by=filter, pagesize=pagesize, offset=offset
         )
         result = custom_endpoint.execute(request=request)
         return custom_endpoint.transform("IMATIA", key, result)
