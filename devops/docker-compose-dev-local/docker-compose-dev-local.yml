@@ -21,7 +21,7 @@ services:
       # thanks: https://stackoverflow.com/questions/65811608/how-to-connect-flask-app-to-sqlite-db-running-in-docker
 
     apilogicserver:
-        image: apilogicserver/ontimize_repos
+        image: tylerm007/ontimize_repos
         environment:
           - APILOGICPROJECT_VERBOSE=true
           - SECURITY_ENABLED=true
@@ -37,7 +37,7 @@ services:
           - ../:/app
           - ../../database/:/my/sqlite/path/
     yaml_editor:
-        image: apilogicserver/yaml_editor
+        image: tylerm007/yaml_editor
         container_name: yaml_editor
         expose:
           - 80

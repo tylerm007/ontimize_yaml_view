@@ -1,5 +1,5 @@
 # Ontimize Yaml editor
-This is a proof of concept - a local SQLite database is used to store a yaml files.  The model was created using ApiLogicServer (app-create and app-build) feature to generate the complete application from the yaml file. This editor is designed to help developers edit the yaml attributes, apply column templates and labels used in the Ontimize application generation. Use "Manage Yaml Files" to import your file and the flags to import or download the changes.
+The YAML editor was built using ApiLogicServer and Ontimize [see docs](https://apilogicserver.github.io/Docs/App-Custom-Ontimize-Overview/) - a local SQLite database is used to store the Ontimize created app_model.yaml files.  The model was created using ApiLogicServer (app-create and app-build) feature to generate the complete application from the yaml file. This editor is designed to help developers edit the yaml attributes, apply column templates and labels used in the Ontimize application generation. Use "Manage Yaml Files" to import your file and the flags to import or download the changes.
 ![](ui/templates/Home.png)
 ## Ontimize Seed
 The Ontimize application is loaded in ui/yaml directory. The react-admin is in the ui/admin directory.
@@ -7,7 +7,7 @@ The Ontimize application is loaded in ui/yaml directory. The react-admin is in t
 ## Run the demo
 
 ## 1.1 Establish Your Python Environment 
-
+Install Python 3.12 or higher (if you choose the Docker option - skip these steps)
 
 ```bash title="Install API Logic Server in a Virtual Environment"
 python3 -m venv venv                        # may require python3 -m venv venv
@@ -34,8 +34,19 @@ npm start
 in a browser:
 react-admin backend application
 http://localhost:5655 (user: admin password: p)
+```
 
-Ontimize
+# Run as Docker container
+
+```
+docker compose -f devops/docker-compose-dev-local/docker-compose-dev-local.yml up -d
+
+in a browser
+http://localhost/yaml-editor/ (user: admin password: p)
+```
+# Run Ontimize from ApiLogicServer
+After you install and start the ApiLogicServer (f5) and (cd ui/yaml) npm install and npm start:
+```
 http://localhost:4298 (user: admin password: p)
 ```
 
@@ -59,12 +70,63 @@ curl "http://localhost:5656/exportyaml"
 ## Entity
 Use the Ontimize editor to exclude a selected entity or change the titles.
 ![](ui/templates/Entity.png)
+
+### Edit Entity
+|field|Description|
+:------|:---------------|
+|Entity name|name of API endpoint {{ entity }}|
+|Title|display name used for {{ title }} |
+|Primary Key|array of primary keys {{ primaryKeys }}|
+|Favorite|used for list-picker display|
+|Mode|tab or dialog style {{ editMode }}|
+|Menu Group|used to organize entity into menu groups|
+|Exclude|if true - skip this API endpoint in the first page generation|
+
 ## Attributes
 Use the Ontimize editor to change the label, tooltip, exclude selected attributes, include attribute in the search or sort, enable or mark fields as required, and include visible in the home table display.
 ![](ui/templates/EntityAttr.png)
+### Edit Attributes
+|field|Description|
+:------|:---------------|
+|Entity Name|name of api endpoint|
+|Attribute|name of API attribute {{ attr }}|
+|Title|label used for this attribute {{ label }} |
+|Template Name|column template (pick list)|
+|Search|is this field included in search|
+|Sort|is this field included in sort|
+|Required|is this field marked as required|
+|Excluded|exclude this attribute from detail/new/home pages|
+|Visible|is this attribute visible on home table {{ visibleColumns }}|
+|DataType|the internal datatype|
+|Tooltip|hover value for attribute|
+|Default Value|value to show on new page|
+
 ## Relationships (TabGroup)
 Use the Ontimize editor to exclude tab on detail page (tomany) or change the tile used to display.
 ![](ui/templates/TabGroup.png)
+### Edit Tab Groups
+|field|Description|
+:------|:---------------|
+|Entity Name|name of api endpoint|
+|Tab Entity|the name of the other end of the relationship|
+|Direction|toone (parent) or tomnay (children)|
+|Relationship name|defined in SQLAlchemy|
+|label|Tab Display name|
+|Exclude|skip this relationship for all tabs and lookups|
+|Foreign Keys|array of values|
+
+## Global Settings
+These values are injected into the various entity and attribute to provide and set global values.  New values can be added for new templates.
+
+### Values
+|field|Description|
+:------|:---------------|
+|Include Translation|set to true and then do an app-build to generate Spanish translation (assets/Ii8n/es.json)|
+|Currency Symbol|set for locale $ |
+
+## Attribute Templates
+This is a list of defined column templates.  If new templates are created - they can be added here and must be copied to the ui/{ontimize_app_name}/templates directory.
+
 # Quick Start
 
 For **VSCode** Users, you are ready to run:
