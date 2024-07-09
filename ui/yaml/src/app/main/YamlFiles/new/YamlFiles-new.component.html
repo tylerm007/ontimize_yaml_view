@@ -11,7 +11,11 @@ after-insert-mode="new" class="standalone-form-container">
         <o-text-input attr="name" label=" name*" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
         <o-checkbox attr="upload_flag" label="upload_flag" enabled="no" required="no" fxFlex="20%" class="form-field" data="'0"></o-checkbox>
         <o-checkbox attr="download_flag" label="download_flag" enabled="no" required="no" fxFlex="20%" class="form-field" data="0"></o-checkbox>
-        <o-image attr="content" type="image" label="Yaml Content" sql-type="TEXT" auto-fit="true" enabled="true" read-only="false" show-controls="true"  full-screen-button="false" accept-file-type="*.yaml" empty-image="./assets/images/no-image.png"></o-image>
+        <o-image attr="content" type="image" label="Yaml Content" sql-type="TEXT" auto-fit="true" enabled="true" 
+          read-only="false" show-controls="true"  
+          tooltip="Select an app_model.yaml file from your ApiLogicServer project."
+          full-screen-button="false" accept-file-type="*.yaml" empty-image="./assets/images/no-image.png">
+        </o-image>
       
 </div>
 </o-row>

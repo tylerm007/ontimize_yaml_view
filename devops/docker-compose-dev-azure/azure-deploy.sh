@@ -107,5 +107,5 @@ echo "   For Web server logging, select Storage to store logs on blob storage, o
 echo " "
 echo "Completed.  Browse to the app:" 
 echo "http://$resourcename.azurewebsites.net"
-eche "e.g.: yaml-editor.azurewebsites.net"
+echo "e.g.: yaml-editor.azurewebsites.net"
 echo " "

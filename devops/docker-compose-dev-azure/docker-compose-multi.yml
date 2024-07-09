@@ -15,7 +15,7 @@
 # --> builds, runs at localhost:5656
 # az webapp create --resource-group apilogicserver_rg --plan AIMicroservicePlan --name yaml-editor --multicontainer-config-type compose --multicontainer-config-file docker-compose-multi.yml
 
-version: "3.5"
+version: "3.8"
 
 services:
 
@@ -29,7 +29,7 @@ services:
       # thanks: https://stackoverflow.com/questions/65811608/how-to-connect-flask-app-to-sqlite-db-running-in-docker
 
     apilogicserver:
-        image: tylerm007/ontimize_repos
+        image: tylerm007/ontimize_repos:latest
         environment:
           - APILOGICPROJECT_VERBOSE=true
           - SECURITY_ENABLED=true
@@ -45,7 +45,7 @@ services:
           #- ../:/app
           #- ../../database/:/my/sqlite/path/
     yaml_editor:
-        image: tylerm007/yaml_editor
+        image: tylerm007/yaml_editor:laest
         container_name: yaml_editor
         expose:
           - 80
