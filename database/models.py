@@ -169,6 +169,10 @@ class YamlFiles(SAFRSBaseX, Base):
     content = Column(Text)
     upload_flag = Column(Boolean, server_default=text("FALSE"))
     download_flag = Column(Boolean, server_default=text("FALSE"))
+    createDate = Column(DATE)
+    size = Column(Integer)
+    directory = Column(Boolean, server_default=text("FALSE"))
+    downloaded = Column(Text)
 
     # parent relationships (access parent)
 

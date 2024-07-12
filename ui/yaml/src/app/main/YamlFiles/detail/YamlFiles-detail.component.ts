@@ -9,6 +9,9 @@ import { OFormComponent, OntimizeService, OListPickerComponent, OTableComponent,
 })
 export class YamlFilesDetailComponent implements OnInit  {
   protected service: OntimizeService;
+  public data: any;
+  public content: string;
+  public downloaded: string;
 
   @ViewChild('oDetailForm') form: OFormComponent;
   
@@ -26,7 +29,24 @@ export class YamlFilesDetailComponent implements OnInit  {
     this.service.configureService(conf);
   }
   onDataLoaded(e: object) {
-    console.log(JSON.stringify(e));
-  }
 
+    this.data = e;
+    //console.log("OnDataLoad: " + JSON.stringify(this.data));
+    this.content = this.data.content;
+    this.downloaded = this.data.downloaded;
+  }
+  getContent(): string {
+    //console.log("getValue " + this.content);
+    if (!this.content) {
+      return "foo bar";
+    }
+    return this.content;
+  }
+  getConverted(): string {
+    //console.log("getValue " + this.content);
+    if (!this.downloaded) {
+      return "";
+    }
+    return this.downloaded;
+  }
 }

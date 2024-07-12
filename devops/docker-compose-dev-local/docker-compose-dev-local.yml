@@ -7,13 +7,12 @@
 # sh ./devops/docker-compose-dev-local/docker-compose.sh
 # --> builds, runs at localhost:5656
 
-version: "3.5"
-
 services:
 
     sqlite3:
       # hmm... runs, but not access; SQLAlchemy syntax for sqlite service?  (it's just files below)
-      image: nouchka/sqlite3:latest
+      #image: nouchka/sqlite3:latest
+      image:  keinos/sqlite3:latest
       stdin_open: true
       tty: true
       volumes:
@@ -21,7 +20,7 @@ services:
       # thanks: https://stackoverflow.com/questions/65811608/how-to-connect-flask-app-to-sqlite-db-running-in-docker
 
     apilogicserver:
-        image: tylerm007/ontimize_repos
+        image: tylerm007/ontimize_repos:latest
         environment:
           - APILOGICPROJECT_VERBOSE=true
           - SECURITY_ENABLED=true
@@ -34,10 +33,10 @@ services:
           - 5655:5655
         volumes:
           # local:path-in-container
-          - ../:/app
-          - ../../database/:/my/sqlite/path/
+          - ../:/home/api_logic_project
+          - ../../database/:/root/db/
     yaml_editor:
-        image: tylerm007/yaml_editor
+        image: tylerm007/yaml_editor:latest
         container_name: yaml_editor
         expose:
           - 80
@@ -45,7 +44,7 @@ services:
           - 80:80
         volumes:
           # local:path-in-container
-          - ../:/home/node  
+          - ../../ui/yaml/dist:/home/node  
         depends_on:
           - apilogicserver
         environment:

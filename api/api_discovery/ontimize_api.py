@@ -107,8 +107,61 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         attributes = resources["resources"][api_clz.__name__]["attributes"]
     
         return gen_report(api_clz, request, _project_dir, payload, attributes)
-        
     
+    @app.route("/main/YamlFiles", methods=['GET','POST','DELETE', 'OPTIONS'])    
+    @cross_origin()
+    @admin_required()
+    def getFiles(path):
+        method = request.method
+        #if method == 'OPTIONS':
+        #    return jsonify(success=True)
+        files = session.query(models.YamlFiles).all()
+        return jsonify({"code": 0, "message": "Yaml Files", "data": files})
+        
+    @app.route("/ontimizeweb/services/rest/YamlFiles/insertFile/<path:path>", methods=['GET','POST','DELETE', 'OPTIONS'])
+    @cross_origin()
+    @admin_required()
+    def insertFile(path):
+        method = request.method
+        if method == 'OPTIONS':
+            return jsonify(success=True)
+            
+        if 'file' not in request.files:
+            return jsonify({"code": 1, "message": "No file part", "data": None})
+        
+        file = request.files['file']
+        
+        if file.filename == '':
+            return jsonify({"code": 1, "message": "No selected file", "data": None})
+        
+        if file:
+            from base64 import b64decode, b64encode
+            content = file.read()
+            yaml_content = content.decode('utf-8') if content else None
+            #yaml_content = str(b64encode(content), encoding='utf-8') if content else None 
+            #filename = secure_filename(file.filename)
+            #file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            # need to get the id from request
+            files = session.query(models.YamlFiles).all()
+            sql_alchemy_row = models.YamlFiles()
+            
+            setattr(sql_alchemy_row, "content" , yaml_content)
+            setattr(sql_alchemy_row, "id" , len(files) + 1)
+            setattr(sql_alchemy_row, "size" , len(content))
+            setattr(sql_alchemy_row, "name" , file.filename)
+            session.add(sql_alchemy_row)
+            try:        
+                session.commit()
+                session.flush()
+                valuesYaml = yaml.safe_load(yaml_content)
+                process_yaml(valuesYaml=valuesYaml)
+            except Exception as ex:
+                session.rollback()
+                return jsonify({"code":1,"message":f"{ex.message}","data":[],"sqlTypes":None}) 
+            
+            return jsonify({"code": 0, "message": "File uploaded successfully", "data": file.filename})
+        
+        return jsonify({"code": 1, "message": "Invalid file type", "data": None})
     @app.route("/ontimizeweb/services/rest/<path:path>", methods=['GET','POST','PUT','PATCH','DELETE','OPTIONS'])
     @cross_origin()
     @admin_required()
@@ -132,6 +185,9 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         if clz_name == "export":
             return gen_export(request)
         
+        if clz_name == "insertFile":
+            pass
+            return insertFile(request)
         
         if request.path == '/ontimizeweb/services/rest/users/login':
             return login(request)
@@ -411,7 +467,14 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
 
         output = build_json(entities, attrs, tabs, settings, root)
         fn = "app_model_merge.yaml"
-        write_file(output, file_name=fn)
+        yaml_file = write_file(output, file_name=fn)
+        try:
+            sql_alchemy_row = session.query(models.YamlFiles).filter(models.YamlFiles.id == 1).one()
+            setattr(sql_alchemy_row, "downloaded" , yaml_file)
+            session.add(sql_alchemy_row)
+            session.commit()
+        except Exception as ex:
+            print(ex)
         return jsonify(f"Yaml file written to ui/{fn}")
 
     def read(clz) -> list:
@@ -423,11 +486,11 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         output = {}
         for r in root:
             output["about"] = {
-                "date": r["AboutDate"],
-                "recent_changes": r["AboutChange"],
+                "date": r["about_date"],
+                "recent_changes": r["about_changes"],
             }
-            output["api_root"] = r["ApiRoot"]
-            output["authentication"] = {r["ApiAuthType"]: r["ApiAuth"]}
+            output["api_root"] = r["api_root"]
+            output["authentication"] = {r["api_auth_type"]: r["api_auth"]}
 
         entity_list = {}
         for entity in entities:
@@ -515,6 +578,8 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         with open(f"{_project_dir}/ui/{file_name}", "w") as file:
             yaml.safe_dump(source, file, default_flow_style=False)
             # file.write(source)
+        with open(f"{_project_dir}/ui/{file_name}", "r") as file:
+            return file.read()
 
     @app.route("/importyaml/<key>", methods=["GET", "POST", "OPTIONS"])
     def load_yaml(key: int = 0):
@@ -838,6 +903,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         delete_sql(models.EntityAttr)
         delete_sql(models.Entity)
         delete_sql(models.Template)
+        delete_sql(models.Root)
 
         insert_template()
         insert_styles(valuesYaml)
@@ -902,13 +968,13 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         about = valuesYaml["about"]
         api_root = valuesYaml["api_root"]
         authentication = valuesYaml["authentication"]
-        root = session.query(models.Root).one()
-        # root.Id = 1
-        root.AboutDate = about["date"]
-        root.AboutChange = about["recent_changes"]
-        root.ApiRoot = api_root
-        root.ApiAuthType = "endpoint"
-        root.ApiAuth = authentication["endpoint"]
+        root = models.Root() #session.query(models.Root).one_or_none()
+        root.id = 1
+        root.about_date = about["date"]
+        root.about_changes = about["recent_changes"]
+        root.api_root = api_root
+        root.api_auth_type = "endpoint"
+        root.api_auth = authentication["endpoint"]
         try:
             session.add(root)
             session.commit()

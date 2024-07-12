@@ -35,23 +35,26 @@ def declare_logic():
         """
         if logic_row.is_updated() and logic_row.old_row is not None and logic_row.nest_level == 0:
             opt_locking.opt_lock_patch(logic_row=logic_row)
-        enable_creation_stamping = False  # CreatedOn time stamping
+        enable_creation_stamping = True  # CreatedOn time stamping
         if enable_creation_stamping:
             row = logic_row.row
-            if logic_row.ins_upd_dlt == "ins" and hasattr(row, "CreatedOn"):
-                row.CreatedOn = datetime.datetime.now()
-                logic_row.log("early_row_event_all_classes - handle_all sets 'Created_on"'')
-            Grant.process_updates(logic_row=logic_row)
+            if logic_row.ins_upd_dlt == "ins" and hasattr(row, "createDate"):
+                row.createDate = datetime.datetime.now()
+                logic_row.log("early_row_event_all_classes - handle_all sets 'createDate"'')
+        
+        Grant.process_updates(logic_row=logic_row)
 
     Rule.early_row_event_all_classes(early_row_event_all_classes=handle_all)
 
     def validate_yaml(row:models.YamlFiles, old_row:models.YamlFiles, logic_row:LogicRow):
         import yaml
         if logic_row.ins_upd_dlt in ["ins","upd"]:
-            yaml_content = str(b64decode(row.content), encoding=encoding) if row.content else None 
-            if yaml_content:
+            #yaml_content = str(b64decode(row.content), encoding=encoding) if row.content else None 
+            if row.content:
                 try:
-                    yaml.safe_load(yaml_content)
+                    yaml.safe_load(row.content)
+                    row.size = len(row.content)
+                    row.upload_flag = True
                     return True
                 except yaml.YAMLError as exc:
                     return False    
@@ -59,13 +62,15 @@ def declare_logic():
         return True
     def upload(row:models.YamlFiles, old_row:models.YamlFiles, logic_row:LogicRow):
         
-        yaml_content = str(b64decode(row.content), encoding=encoding) if row.content else None 
+        #yaml_content = str(b64decode(row.content), encoding=encoding) if row.content else None 
         if logic_row.ins_upd_dlt in ["ins","upd"] and row.upload_flag and old_row and old_row.upload_flag == False and yaml_content:
             #from api.customize_api import process_yaml 
-            get(f"http://localhost:5655/importyaml/{row.id}", None)
+            #get(f"http://localhost:5655/importyaml/{row.id}", None)
             #process_yaml(yaml_content)
+            pass
+
     
-        elif logic_row.ins_upd_dlt == "upd" and row.download_flag and old_row.download_flag == False and yaml_content:
+        elif logic_row.ins_upd_dlt == "upd" and row.download_flag and old_row.download_flag == False and row.content:
             #from api.customize_api import export_yaml 
             get("http://localhost:5655/exportyaml", None)
             #export_yaml()

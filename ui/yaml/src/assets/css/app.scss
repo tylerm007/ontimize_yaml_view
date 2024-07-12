@@ -14,3 +14,5 @@
 .o-dark {
   @include ontimize-style.ontimize-theme-all-component-color(theme.$dark-theme);
 }
+//@import '~ontimize-web-ngx-filemanager/o-filemanager-table-theme.scss';
+//@include o-filemanager-table-theme($theme);

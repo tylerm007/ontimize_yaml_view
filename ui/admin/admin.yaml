@@ -142,13 +142,20 @@ resources:
       search: true
       sort: true
     - name: content
+      label: 'Original Content'
       type: image
       required: false
-    - name: upload_flag
-      type: boolean
+    - name: downloaded
+      label: 'Downloaded'
+      type: image
+      required: false
     - name: download_flag
       type: boolean
     - name: Id
+    - name: createDate
+    - name: directory
+      label: 'isDirectory'
+    - name: size
     type: YamlFiles
     user_key: Id
     favorite: name
