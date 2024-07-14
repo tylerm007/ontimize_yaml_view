@@ -1,5 +1,5 @@
 # coding: utf-8
-from sqlalchemy import Boolean, Column, ForeignKey, ForeignKeyConstraint, Integer, String, Text, text
+from sqlalchemy import Boolean, Column, Date, ForeignKey, Integer, String, Text, text
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -9,9 +9,9 @@ from sqlalchemy.ext.declarative import declarative_base
 # Alter this file per your database maintenance policy
 #    See https://apilogicserver.github.io/Docs/Project-Rebuild/#rebuilding
 #
-# Created:  June 14, 2024 15:03:30
-# Database: sqlite:////Users/tylerband/ontimize/ontimize_yaml_view/database/db.sqlite
-# Dialect:  sqlite
+# Created:  July 14, 2024 09:44:34
+# Database: postgresql://postgres:p@127.0.0.1/yaml
+# Dialect:  postgresql
 #
 # mypy: ignore-errors
 ########################################################################################################################
@@ -33,7 +33,7 @@ metadata = Base.metadata
 #NullType = db.String  # datatype fixup
 #TIMESTAMP= db.TIMESTAMP
 
-from sqlalchemy.dialects.sqlite import *
+from sqlalchemy.dialects.postgresql import *
 
 
 
@@ -42,8 +42,8 @@ class Entity(SAFRSBaseX, Base):
     _s_collection_name = 'Entity'  # type: ignore
     __bind_key__ = 'None'
 
-    name = Column(String(80), primary_key=True, nullable=False)
-    title = Column(String(100))
+    name = Column(String(80), primary_key=True)
+    title = Column(String(100), nullable=False)
     pkey = Column(String(100))
     favorite = Column(String(100))
     info_list = Column(Text)
@@ -52,7 +52,7 @@ class Entity(SAFRSBaseX, Base):
     new_template = Column(String(80))
     home_template = Column(String(80))
     detail_template = Column(String(80))
-    mode = Column(String(10), server_default=text("'tab'"))
+    mode = Column(String(10), server_default=text("'tab'::character varying"))
     menu_group = Column(String(25))
     allow_client_generated_ids = True
 
@@ -60,8 +60,8 @@ class Entity(SAFRSBaseX, Base):
 
     # child relationships (access children)
     EntityAttrList : Mapped[List["EntityAttr"]] = relationship(back_populates="entity")
-    TabGroupList : Mapped[List["TabGroup"]] = relationship(foreign_keys='[TabGroup.tab_entity]', back_populates="entity")
-    TabGroupList1 : Mapped[List["TabGroup"]] = relationship(foreign_keys='[TabGroup.entity_name]', back_populates="entity1")
+    TabGroupList : Mapped[List["TabGroup"]] = relationship(foreign_keys='[TabGroup.entity_name]', back_populates="entity")
+    TabGroupList1 : Mapped[List["TabGroup"]] = relationship(foreign_keys='[TabGroup.tab_entity]', back_populates="entity")
 
     @jsonapi_attr
     def _check_sum_(self):  # type: ignore [no-redef]
@@ -114,6 +114,7 @@ class Root(SAFRSBaseX, Base):
     api_auth_type = Column(String(100))
     api_auth = Column(String(1000))
     about_date = Column(String(100))
+    allow_client_generated_ids = True
 
     # parent relationships (access parent)
 
@@ -167,12 +168,13 @@ class YamlFiles(SAFRSBaseX, Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(100), nullable=False)
     content = Column(Text)
-    upload_flag = Column(Boolean, server_default=text("FALSE"))
-    download_flag = Column(Boolean, server_default=text("FALSE"))
-    createDate = Column(DATE)
+    upload_flag = Column(Boolean, server_default=text("false"))
+    download_flag = Column(Boolean, server_default=text("false"))
     size = Column(Integer)
-    directory = Column(Boolean, server_default=text("FALSE"))
+    createdate = Column(Date)
+    directory = Column(Boolean, server_default=text("false"), nullable=False)
     downloaded = Column(Text)
+    allow_client_generated_ids = True
 
     # parent relationships (access parent)
 
@@ -195,17 +197,14 @@ class EntityAttr(SAFRSBaseX, Base):
     __tablename__ = 'entity_attr'
     _s_collection_name = 'EntityAttr'  # type: ignore
     __bind_key__ = 'None'
-    __table_args__ = (
-        ForeignKeyConstraint(['entity_name'], ['entity.name']),
-    )
 
-    entity_name = Column(String(80), primary_key=True, nullable=False)
+    entity_name = Column(ForeignKey('entity.name'), primary_key=True, nullable=False)
     attr = Column(String(80), primary_key=True, nullable=False)
     label = Column(String(100))
     issearch = Column(Boolean, server_default=text("false"))
     issort = Column(Boolean, server_default=text("false"))
     thistype = Column(String(50), nullable=False)
-    template_name = Column(ForeignKey('template.name'), server_default=text("'text'"))
+    template_name = Column(ForeignKey('template.name'), server_default=text("'text'::character varying"))
     tooltip = Column(Text)
     isrequired = Column(Boolean, server_default=text("true"))
     isenabled = Column(Boolean, server_default=text("true"))
@@ -215,8 +214,8 @@ class EntityAttr(SAFRSBaseX, Base):
     allow_client_generated_ids = True
 
     # parent relationships (access parent)
-    template : Mapped["Template"] = relationship(back_populates=("EntityAttrList"))
     entity : Mapped["Entity"] = relationship(back_populates=("EntityAttrList"))
+    template : Mapped["Template"] = relationship(back_populates=("EntityAttrList"))
 
     # child relationships (access children)
 
@@ -237,22 +236,19 @@ class TabGroup(SAFRSBaseX, Base):
     __tablename__ = 'tab_group'
     _s_collection_name = 'TabGroup'  # type: ignore
     __bind_key__ = 'None'
-    __table_args__ = (
-        ForeignKeyConstraint(['entity_name'], ['entity.name']),
-    )
 
-    entity_name = Column(String(80), primary_key=True, nullable=False)
+    entity_name = Column(ForeignKey('entity.name'), primary_key=True, nullable=False)
     tab_entity = Column(ForeignKey('entity.name'), primary_key=True, nullable=False)
     direction = Column(String(6), primary_key=True, nullable=False)
-    label = Column(String(80), primary_key=True, nullable=False)
     fkeys = Column(String(80), nullable=False)
     name = Column(String(80), nullable=False)
+    label = Column(String(80), primary_key=True, nullable=False)
     exclude = Column(Boolean, server_default=text("false"))
     allow_client_generated_ids = True
 
     # parent relationships (access parent)
-    entity : Mapped["Entity"] = relationship(foreign_keys='[TabGroup.tab_entity]', back_populates=("TabGroupList"))
-    entity1 : Mapped["Entity"] = relationship(foreign_keys='[TabGroup.entity_name]', back_populates=("TabGroupList1"))
+    entity : Mapped["Entity"] = relationship(foreign_keys='[TabGroup.entity_name]', back_populates=("TabGroupList"))
+    entity1 : Mapped["Entity"] = relationship(foreign_keys='[TabGroup.tab_entity]', back_populates=("TabGroupList1"))
 
     # child relationships (access children)
 

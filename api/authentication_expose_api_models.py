@@ -23,8 +23,7 @@ def expose_models(api, method_decorators = []):
         You typically do not customize this file 
         - See https://apilogicserver.github.io/Docs/Tutorial/#customize-and-debug 
     """
-    api.expose_object(database.authentication_models.Api, method_decorators= method_decorators)
-    api.expose_object(database.authentication_models.User, method_decorators= method_decorators)
     api.expose_object(database.authentication_models.Role, method_decorators= method_decorators)
+    api.expose_object(database.authentication_models.User, method_decorators= method_decorators)
     api.expose_object(database.authentication_models.UserRole, method_decorators= method_decorators)
     return api

@@ -1,0 +1,5419 @@
+entities:
+  Dealer:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' branch_name*'
+      name: branch_name
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(64)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: group_id
+      name: group_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: sic_code
+      name: sic_code
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: parent_dlr
+      name: parent_dlr
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: region
+      name: region
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_logo
+      name: dlr_logo
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_name
+      name: dlr_name
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(128)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: short_name
+      name: short_name
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: street1
+      name: street1
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: street2
+      name: street2
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: city
+      name: city
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: postcode
+      name: postcode
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(12)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: state
+      name: state
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: country
+      name: country
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: email
+      name: email
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: telephone
+      name: telephone
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: website
+      name: website
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(128)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: miles_km
+      name: miles_km
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(5)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: currency
+      name: currency
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_discount
+      name: dlr_discount
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: NUMERIC(5, 3)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_comment
+      name: dlr_comment
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(128)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: location_note
+      name: location_note
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(128)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_text
+      name: dlr_text
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(256)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_photo
+      name: dlr_photo
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: TEXT
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_id
+      name: dlr_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: language_id
+      name: language_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_tax_id
+      name: dlr_tax_id
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: billing_period
+      name: billing_period
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: invoice_method
+      name: invoice_method
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: payment_method
+      name: payment_method
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    detail_template: detail_template.html
+    favorite: branch_name
+    group: Dealer
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - dlr_id
+    type: Dealer
+  DealerInfo:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' key_name_1*'
+      name: key_name_1
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_id
+      name: dlr_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_loaner_module
+      name: dlr_loaner_module
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: BOOLEAN
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_loaner_comment
+      name: dlr_loaner_comment
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_service_module
+      name: dlr_service_module
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: BOOLEAN
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_type
+      name: dlr_type
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_var_1
+      name: dlr_var_1
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_var_2
+      name: dlr_var_2
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_var_3
+      name: dlr_var_3
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_var_4
+      name: dlr_var_4
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_var_5
+      name: dlr_var_5
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_var_6
+      name: dlr_var_6
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_var_7
+      name: dlr_var_7
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_var_8
+      name: dlr_var_8
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: default_loc_loaner1
+      name: default_loc_loaner1
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: default_loc_loaner2
+      name: default_loc_loaner2
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: default_loc_new1
+      name: default_loc_new1
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: default_loc_new2
+      name: default_loc_new2
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: default_loc_new3
+      name: default_loc_new3
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: default_loc_used1
+      name: default_loc_used1
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: default_loc_used2
+      name: default_loc_used2
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: default_loc_used3
+      name: default_loc_used3
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dms_integration
+      name: dms_integration
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: BOOLEAN
+      visible: true
+    - enabled: true
+      exclude: false
+      label: key_name_2
+      name: key_name_2
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: key_name_3
+      name: key_name_3
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: keycontrol_integration
+      name: keycontrol_integration
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: BOOLEAN
+      visible: true
+    - enabled: true
+      exclude: false
+      label: loaner_active
+      name: loaner_active
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: BOOLEAN
+      visible: true
+    - enabled: true
+      exclude: false
+      label: loaner_stock_prefix
+      name: loaner_stock_prefix
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: loaner_stock_suffix
+      name: loaner_stock_suffix
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: num_keys_loaner
+      name: num_keys_loaner
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: num_keys_new
+      name: num_keys_new
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: search_year
+      name: search_year
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DATE
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_settings_id
+      name: dlr_settings_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: loaner_vehs_billed
+      name: loaner_vehs_billed
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: BOOLEAN
+      visible: true
+    - enabled: true
+      exclude: false
+      label: num_keys_used
+      name: num_keys_used
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: key_name_1
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - dlr_settings_id
+    type: DealerInfo
+  DlrAttachment:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' attach_name*'
+      name: attach_name
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_id
+      name: dlr_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: attach_comment
+      name: attach_comment
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: attach_date
+      name: attach_date
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DATE
+      visible: true
+    - enabled: true
+      exclude: false
+      label: attach_path
+      name: attach_path
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: attach_text
+      name: attach_text
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: attach_type
+      name: attach_type
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: attach_id
+      name: attach_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: attach_user_id
+      name: attach_user_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: vehicle_id
+      name: vehicle_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: attach_name
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - attach_id
+    type: DlrAttachment
+  DlrFunctionRole:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' dlr_func_role_id*'
+      name: dlr_func_role_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_role_id
+      name: dlr_role_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: function_id
+      name: function_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_func_role_comment
+      name: dlr_func_role_comment
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    detail_template: detail_template.html
+    favorite: dlr_func_role_id
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - dlr_func_role_id
+    type: DlrFunctionRole
+  DlrKeyLoc:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' key_loc_name*'
+      name: key_loc_name
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_id
+      name: dlr_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: key_loc_id
+      name: key_loc_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: key_loc_name
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - key_loc_id
+    type: DlrKeyLoc
+  DlrLocCheck:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' loc_check_id*'
+      name: loc_check_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: loc_id
+      name: loc_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: reminder_text
+      name: reminder_text
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: in_out
+      name: in_out
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: doc_required
+      name: doc_required
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: BOOLEAN
+      visible: true
+    - enabled: true
+      exclude: false
+      label: checkbox_required
+      name: checkbox_required
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: BOOLEAN
+      visible: true
+    detail_template: detail_template.html
+    favorite: loc_check_id
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - loc_check_id
+    type: DlrLocCheck
+  DlrLocCheckDoc:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' template_name*'
+      name: template_name
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: loc_check_id
+      name: loc_check_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: doc_comment
+      name: doc_comment
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: doc_path
+      name: doc_path
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: loc_check_doc_id
+      name: loc_check_doc_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: template_name
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - loc_check_doc_id
+    type: DlrLocCheckDoc
+  DlrLocation:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' loc_name*'
+      name: loc_name
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_id
+      name: dlr_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: map_id
+      name: map_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: show_loc_on_map
+      name: show_loc_on_map
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: BOOLEAN
+      visible: true
+    - enabled: true
+      exclude: false
+      label: loc_coordinates
+      name: loc_coordinates
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: loc_has_spaces
+      name: loc_has_spaces
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: BOOLEAN
+      visible: true
+    - enabled: true
+      exclude: false
+      label: loc_checkboxes
+      name: loc_checkboxes
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: BOOLEAN
+      visible: true
+    - enabled: true
+      exclude: false
+      label: one_party_transfer
+      name: one_party_transfer
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: BOOLEAN
+      visible: true
+    - enabled: true
+      exclude: false
+      label: max_num_cars
+      name: max_num_cars
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: check_in_out
+      name: check_in_out
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: location_comment
+      name: location_comment
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: loc_id
+      name: loc_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: prefer_veh_type_id
+      name: prefer_veh_type_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: loc_name
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - loc_id
+    type: DlrLocation
+  DlrMake:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' dlr_make_id*'
+      name: dlr_make_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_id
+      name: dlr_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_make_id
+      name: veh_make_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: dlr_make_id
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - dlr_make_id
+    type: DlrMake
+  DlrMap:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' map_name*'
+      name: map_name
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_id
+      name: dlr_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: map_id
+      name: map_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: map_name
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - map_id
+    type: DlrMap
+  DlrMapImage:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' img_filename*'
+      name: img_filename
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_id
+      name: dlr_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: img_current
+      name: img_current
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: img_date
+      name: img_date
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DATE
+      visible: true
+    - enabled: true
+      exclude: false
+      label: num_loc_on_map
+      name: num_loc_on_map
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: img_file_path
+      name: img_file_path
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: img_source
+      name: img_source
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: mapimage_id
+      name: mapimage_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: map_id
+      name: map_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: img_filename
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - mapimage_id
+    type: DlrMapImage
+  DlrRole:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' role_name*'
+      name: role_name
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_id
+      name: dlr_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: default_max_key_count
+      name: default_max_key_count
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: transfer_location
+      name: transfer_location
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: BOOLEAN
+      visible: true
+    - enabled: true
+      exclude: false
+      label: role_cmt
+      name: role_cmt
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_role_id
+      name: dlr_role_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: role_name
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - dlr_role_id
+    type: DlrRole
+  DlrRow:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' map_rowname*'
+      name: map_rowname
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_id
+      name: dlr_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: loc_id
+      name: loc_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: map_coordinates
+      name: map_coordinates
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: row_id
+      name: row_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: mapimage_id
+      name: mapimage_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: map_rowname
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - row_id
+    type: DlrRow
+  DlrSpace:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' space_name*'
+      name: space_name
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: row_id
+      name: row_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: hard_soft
+      name: hard_soft
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: space_id
+      name: space_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: space_name
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - space_id
+    type: DlrSpace
+  DlrSvcCustomer:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' firstname*'
+      name: firstname
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_id
+      name: dlr_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: lastname
+      name: lastname
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: phone1
+      name: phone1
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: phone2
+      name: phone2
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: email
+      name: email
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: svc_cust_comment
+      name: svc_cust_comment
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: svc_cust_id
+      name: svc_cust_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: firstname
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - svc_cust_id
+    type: DlrSvcCustomer
+  DlrSvcDocument:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' svc_doc_id*'
+      name: svc_doc_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: work_order_id
+      name: work_order_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: attach_comment
+      name: attach_comment
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: attach_id
+      name: attach_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: svc_doc_id
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - svc_doc_id
+    type: DlrSvcDocument
+  DlrSvcWorkOrder:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' work_order_id*'
+      name: work_order_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: svc_cust_id
+      name: svc_cust_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: svc_tag_no
+      name: svc_tag_no
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: vin
+      name: vin
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: model
+      name: model
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: date_in
+      name: date_in
+      required: false
+      search: false
+      sort: false
+      template: date
+      type: DATETIME
+      visible: true
+    - enabled: true
+      exclude: false
+      label: date_out
+      name: date_out
+      required: false
+      search: false
+      sort: false
+      template: date
+      type: DATETIME
+      visible: true
+    - enabled: true
+      exclude: false
+      label: mileage_in
+      name: mileage_in
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: svc_workorder_comment
+      name: svc_workorder_comment
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: loc_id
+      name: loc_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: work_order_id
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - work_order_id
+    type: DlrSvcWorkOrder
+  DlrUser:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' name_first*'
+      name: name_first
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_id
+      name: dlr_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_emp_no
+      name: dlr_emp_no
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: initials
+      name: initials
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: max_key_user
+      name: max_key_user
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: max_role_keys
+      name: max_role_keys
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: multi_logon
+      name: multi_logon
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: BOOLEAN
+      visible: true
+    - enabled: true
+      exclude: false
+      label: name_last
+      name: name_last
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: name_long
+      name: name_long
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: name_short
+      name: name_short
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: user_phone_cell
+      name: user_phone_cell
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: user_email_work
+      name: user_email_work
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: user_email_personal
+      name: user_email_personal
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: user_info_1
+      name: user_info_1
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: user_info_2
+      name: user_info_2
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: user_info_3
+      name: user_info_3
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: user_id
+      name: user_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: name_first
+    group: Dealer
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - user_id
+    type: DlrUser
+  DlrUserRole:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' user_role_id*'
+      name: user_role_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_role_id
+      name: dlr_role_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: user_id
+      name: user_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: user_role_comment
+      name: user_role_comment
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: date_role_assigned
+      name: date_role_assigned
+      required: false
+      search: false
+      sort: false
+      template: date
+      type: DATETIME
+      visible: true
+    - enabled: true
+      exclude: false
+      label: user_mod
+      name: user_mod
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: user_role_id
+    group: Dealer
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - user_role_id
+    type: DlrUserRole
+  DlrValidStatusChange:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' valid_change_id*'
+      name: valid_change_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_id
+      name: dlr_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: current_status
+      name: current_status
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: valid_next_status
+      name: valid_next_status
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    detail_template: detail_template.html
+    favorite: valid_change_id
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - valid_change_id
+    type: DlrValidStatusChange
+  SysApp:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' app_name*'
+      name: app_name
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: app_comment
+      name: app_comment
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: app_id
+      name: app_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: app_name
+    group: System
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - app_id
+    type: SysApp
+  SysAppsImport:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' app_id*'
+      name: app_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column01
+      name: column01
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column02
+      name: column02
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column03
+      name: column03
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column04
+      name: column04
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column05
+      name: column05
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column06
+      name: column06
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column07
+      name: column07
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column08
+      name: column08
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column09
+      name: column09
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column10
+      name: column10
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column11
+      name: column11
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column12
+      name: column12
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column13
+      name: column13
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column14
+      name: column14
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column15
+      name: column15
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column16
+      name: column16
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column17
+      name: column17
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column18
+      name: column18
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column19
+      name: column19
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column20
+      name: column20
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column21
+      name: column21
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column22
+      name: column22
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column23
+      name: column23
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column24
+      name: column24
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column25
+      name: column25
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column26
+      name: column26
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column27
+      name: column27
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column28
+      name: column28
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column29
+      name: column29
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column30
+      name: column30
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: column31
+      name: column31
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    detail_template: detail_template.html
+    favorite: app_id
+    group: System
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - app_id
+    type: SysAppsImport
+  SysCountry:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' country_iso_name*'
+      name: country_iso_name
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: country
+      name: country
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: display_country
+      name: display_country
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: comments
+      name: comments
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: country_id
+      name: country_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: country_iso_name
+    group: System
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - country_id
+    type: SysCountry
+  SysCountryLanguage:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' country_language_id*'
+      name: country_language_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: country_id
+      name: country_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: language_id
+      name: language_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: country_language_id
+    group: System
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - country_language_id
+    type: SysCountryLanguage
+  SysDlrApp:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' dlr_app_id*'
+      name: dlr_app_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: app_id
+      name: app_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_id
+      name: dlr_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: app_function
+      name: app_function
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: app_comment
+      name: app_comment
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    detail_template: detail_template.html
+    favorite: dlr_app_id
+    group: System
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - dlr_app_id
+    type: SysDlrApp
+  SysDlrBillingRate:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' dlr_billing_rate_id*'
+      name: dlr_billing_rate_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_id
+      name: dlr_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: active_day_rate
+      name: active_day_rate
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: NUMERIC(5, 3)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: billing_comment
+      name: billing_comment
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_type
+      name: veh_type
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: standard_day_rate
+      name: standard_day_rate
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: NUMERIC(5, 3)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: discounted_day_rate
+      name: discounted_day_rate
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: NUMERIC(5, 3)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: date_activated
+      name: date_activated
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DATE
+      visible: true
+    - enabled: true
+      exclude: false
+      label: date_deactivated
+      name: date_deactivated
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DATE
+      visible: true
+    detail_template: detail_template.html
+    favorite: dlr_billing_rate_id
+    group: System
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - dlr_billing_rate_id
+    type: SysDlrBillingRate
+  SysDlrContact:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' first_name*'
+      name: first_name
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_id
+      name: dlr_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_job_title
+      name: dlr_job_title
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: last_name
+      name: last_name
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: primary_contact
+      name: primary_contact
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: cell_phone
+      name: cell_phone
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: desk_phone
+      name: desk_phone
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: email_address
+      name: email_address
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: comment_short
+      name: comment_short
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: comment_long
+      name: comment_long
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: contact_id
+      name: contact_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: group_id
+      name: group_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: first_name
+    group: System
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - contact_id
+    type: SysDlrContact
+  SysDlrContract:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' dlr_contract_id*'
+      name: dlr_contract_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_id
+      name: dlr_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_po_num
+      name: dlr_po_num
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: contract_number
+      name: contract_number
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: active
+      name: active
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: BOOLEAN
+      visible: true
+    - enabled: true
+      exclude: false
+      label: effective_date
+      name: effective_date
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DATE
+      visible: true
+    - enabled: true
+      exclude: false
+      label: contract_length_months
+      name: contract_length_months
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: contract_expire_date
+      name: contract_expire_date
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DATE
+      visible: true
+    - enabled: true
+      exclude: false
+      label: auto_renewal
+      name: auto_renewal
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: BOOLEAN
+      visible: true
+    - enabled: true
+      exclude: false
+      label: auto_renewal_term
+      name: auto_renewal_term
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: document_id
+      name: document_id
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    detail_template: detail_template.html
+    favorite: dlr_contract_id
+    group: System
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - dlr_contract_id
+    type: SysDlrContract
+  SysDlrShareMember:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' dlr_share_member_id*'
+      name: dlr_share_member_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_share_id
+      name: dlr_share_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: share_inventory
+      name: share_inventory
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: BOOLEAN
+      visible: true
+    - enabled: true
+      exclude: false
+      label: share_loaner
+      name: share_loaner
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: BOOLEAN
+      visible: true
+    - enabled: true
+      exclude: false
+      label: share_map
+      name: share_map
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: BOOLEAN
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_id
+      name: dlr_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: dlr_share_member_id
+    group: System
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - dlr_share_member_id
+    type: SysDlrShareMember
+  SysDlrSharing:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' share_group_name*'
+      name: share_group_name
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_id
+      name: dlr_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: num_dlr_members
+      name: num_dlr_members
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_share_id
+      name: dlr_share_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: share_group_name
+    group: System
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - dlr_share_id
+    type: SysDlrSharing
+  SysFunction:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' function_name*'
+      name: function_name
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_id
+      name: dlr_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: function_comment
+      name: function_comment
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: function_id
+      name: function_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: function_name
+    group: System
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - function_id
+    type: SysFunction
+  SysGroup:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' group_name*'
+      name: group_name
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: number_child_groups
+      name: number_child_groups
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: discounts
+      name: discounts
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: NUMERIC(5, 3)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: description
+      name: description
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(128)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: email
+      name: email
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(64)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: telephone
+      name: telephone
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: website
+      name: website
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(128)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: street1
+      name: street1
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: street2
+      name: street2
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: city
+      name: city
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: state
+      name: state
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: country_iso
+      name: country_iso
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: notes
+      name: notes
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(256)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: group_id
+      name: group_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: parent_group_id
+      name: parent_group_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: group_name
+    group: System
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - group_id
+    type: SysGroup
+  SysHelpdesk:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' helpdesk_id*'
+      name: helpdesk_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: calltime
+      name: calltime
+      required: false
+      search: false
+      sort: false
+      template: date
+      type: DATETIME
+      visible: true
+    - enabled: true
+      exclude: false
+      label: question
+      name: question
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: response
+      name: response
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: comment
+      name: comment
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: contact_id
+      name: contact_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_id
+      name: dlr_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: method
+      name: method
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: resolved
+      name: resolved
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: BOOLEAN
+      visible: true
+    detail_template: detail_template.html
+    favorite: helpdesk_id
+    group: System
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - helpdesk_id
+    type: SysHelpdesk
+  SysHelpdeskComment:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' helpdesk_comment_id*'
+      name: helpdesk_comment_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: helpdesk_id
+      name: helpdesk_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: commenttime
+      name: commenttime
+      required: false
+      search: false
+      sort: false
+      template: date
+      type: DATETIME
+      visible: true
+    - enabled: true
+      exclude: false
+      label: comment
+      name: comment
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: method
+      name: method
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: lv_staff_id
+      name: lv_staff_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: helpdesk_comment_id
+    group: System
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - helpdesk_comment_id
+    type: SysHelpdeskComment
+  SysInvoice:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' invoice_id*'
+      name: invoice_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_id
+      name: dlr_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: inv_number
+      name: inv_number
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: inv_date
+      name: inv_date
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DATE
+      visible: true
+    - enabled: true
+      exclude: false
+      label: inv_period_start
+      name: inv_period_start
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DATE
+      visible: true
+    - enabled: true
+      exclude: false
+      label: total
+      name: total
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: NUMERIC(10, 2)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: comment
+      name: comment
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: group_id
+      name: group_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: inv_period_end
+      name: inv_period_end
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DATE
+      visible: true
+    detail_template: detail_template.html
+    favorite: invoice_id
+    group: System
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - invoice_id
+    type: SysInvoice
+  SysInvoiceDetail:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' daily_charge_id*'
+      name: daily_charge_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_id
+      name: dlr_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: charge_date
+      name: charge_date
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DATE
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_type
+      name: veh_type
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: num_vehs
+      name: num_vehs
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: SMALLINT
+      visible: true
+    - enabled: true
+      exclude: false
+      label: daily_price
+      name: daily_price
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: NUMERIC(5, 3)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: amount
+      name: amount
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: NUMERIC(5, 3)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: currency
+      name: currency
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(3)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: invoice_id
+      name: invoice_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: daily_charge_id
+    group: System
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - daily_charge_id
+    type: SysInvoiceDetail
+  SysLanguage:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' language_id*'
+      name: language_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: display_language
+      name: display_language
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    detail_template: detail_template.html
+    favorite: language_id
+    group: System
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - language_id
+    type: SysLanguage
+  SysMapColor:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' map_color_name*'
+      name: map_color_name
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: map_hex
+      name: map_hex
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: map_color_id
+      name: map_color_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: map_color_name
+    group: System
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - map_color_id
+    type: SysMapColor
+  SysPricingTag:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' tag_pricing_id*'
+      name: tag_pricing_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: country_id
+      name: country_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: currency
+      name: currency
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: tag_type
+      name: tag_type
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: active
+      name: active
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: date_active
+      name: date_active
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DATE
+      visible: true
+    - enabled: true
+      exclude: false
+      label: price_day_tag
+      name: price_day_tag
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: NUMERIC(5, 3)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: comment
+      name: comment
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    detail_template: detail_template.html
+    favorite: tag_pricing_id
+    group: System
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - tag_pricing_id
+    type: SysPricingTag
+  SysPricingVeh:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' veh_pricing_id*'
+      name: veh_pricing_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: country_id
+      name: country_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: currency
+      name: currency
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_type
+      name: veh_type
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: active
+      name: active
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: BOOLEAN
+      visible: true
+    - enabled: true
+      exclude: false
+      label: date_active
+      name: date_active
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DATE
+      visible: true
+    - enabled: true
+      exclude: false
+      label: price_day_veh
+      name: price_day_veh
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: NUMERIC(5, 3)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: comment
+      name: comment
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    detail_template: detail_template.html
+    favorite: veh_pricing_id
+    group: System
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - veh_pricing_id
+    type: SysPricingVeh
+  SysSicCode:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' industry_name*'
+      name: industry_name
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: sic_code
+      name: sic_code
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    detail_template: detail_template.html
+    favorite: industry_name
+    group: System
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - sic_code
+    type: SysSicCode
+  SysStatusChange:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' status_change_id*'
+      name: status_change_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: current_status
+      name: current_status
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: valid_next_status
+      name: valid_next_status
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    detail_template: detail_template.html
+    favorite: status_change_id
+    group: System
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - status_change_id
+    type: SysStatusChange
+  SysVehColor:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' veh_color_id*'
+      name: veh_color_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: country_id
+      name: country_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: map_color
+      name: map_color
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_make_id
+      name: veh_make_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_color
+      name: veh_color
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: SMALLINT
+      visible: true
+    - enabled: true
+      exclude: false
+      label: first_year
+      name: first_year
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(4)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: last_year
+      name: last_year
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(4)
+      visible: true
+    detail_template: detail_template.html
+    favorite: veh_color_id
+    group: System
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - veh_color_id
+    type: SysVehColor
+  SysVehMak:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' veh_make_name*'
+      name: veh_make_name
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_make_comment
+      name: veh_make_comment
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_make_id
+      name: veh_make_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: veh_make_name
+    group: System
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - veh_make_id
+    type: SysVehMak
+  SysVehMakMod:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' veh_make_model_id*'
+      name: veh_make_model_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_make_id
+      name: veh_make_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: model
+      name: model
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: submodel
+      name: submodel
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: yearstart
+      name: yearstart
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(4)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: comment
+      name: comment
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: yearend
+      name: yearend
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(4)
+      visible: true
+    detail_template: detail_template.html
+    favorite: veh_make_model_id
+    group: System
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - veh_make_model_id
+    type: SysVehMakMod
+  SysVehMakModCtry:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' vmmc_id*'
+      name: vmmc_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: country_id
+      name: country_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_make_model_id
+      name: veh_make_model_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: vmmc_comment
+      name: vmmc_comment
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    detail_template: detail_template.html
+    favorite: vmmc_id
+    group: System
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - vmmc_id
+    type: SysVehMakModCtry
+  SysVehStatu:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' veh_status_id*'
+      name: veh_status_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_status_display
+      name: veh_status_display
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    detail_template: detail_template.html
+    favorite: veh_status_id
+    group: System
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - veh_status_id
+    type: SysVehStatu
+  SysVehType:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' veh_type*'
+      name: veh_type
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: country_id
+      name: country_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: language_id
+      name: language_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_type_display
+      name: veh_type_display
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    detail_template: detail_template.html
+    favorite: veh_type
+    group: System
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - veh_type
+    type: SysVehType
+  Tag:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' tag_id*'
+      name: tag_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_id
+      name: dlr_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: tag_status
+      name: tag_status
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: tag_serial_no
+      name: tag_serial_no
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: date_wireless_active
+      name: date_wireless_active
+      required: false
+      search: false
+      sort: false
+      template: date
+      type: DATETIME
+      visible: true
+    - enabled: true
+      exclude: false
+      label: date_wireless_inactive
+      name: date_wireless_inactive
+      required: false
+      search: false
+      sort: false
+      template: date
+      type: DATETIME
+      visible: true
+    - enabled: true
+      exclude: false
+      label: tag_option_1
+      name: tag_option_1
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: tag_option_2
+      name: tag_option_2
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: tag_wireless_id
+      name: tag_wireless_id
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: date_received
+      name: date_received
+      required: false
+      search: false
+      sort: false
+      template: date
+      type: DATETIME
+      visible: true
+    - enabled: true
+      exclude: false
+      label: date_returned
+      name: date_returned
+      required: false
+      search: false
+      sort: false
+      template: date
+      type: DATETIME
+      visible: true
+    detail_template: detail_template.html
+    favorite: tag_id
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - tag_id
+    type: Tag
+  TagKey:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' tag_key_id*'
+      name: tag_key_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: key_id
+      name: key_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: tag_id
+      name: tag_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: user_attaching
+      name: user_attaching
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: user_detaching
+      name: user_detaching
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: date_attached
+      name: date_attached
+      required: false
+      search: false
+      sort: false
+      template: date
+      type: DATETIME
+      visible: true
+    - enabled: true
+      exclude: false
+      label: date_detached
+      name: date_detached
+      required: false
+      search: false
+      sort: false
+      template: date
+      type: DATETIME
+      visible: true
+    detail_template: detail_template.html
+    favorite: tag_key_id
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - tag_key_id
+    type: TagKey
+  VehKey:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' key_name*'
+      name: key_name
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: key_loc_id
+      name: key_loc_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_id
+      name: veh_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: key_accessible
+      name: key_accessible
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: BOOLEAN
+      visible: true
+    - enabled: true
+      exclude: false
+      label: received_from
+      name: received_from
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: received_by
+      name: received_by
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_key_id
+      name: veh_key_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: key_fob_id
+      name: key_fob_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: key_fob_tracker_id
+      name: key_fob_tracker_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: received
+      name: received
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: BOOLEAN
+      visible: true
+    - enabled: true
+      exclude: false
+      label: date_received
+      name: date_received
+      required: false
+      search: false
+      sort: false
+      template: date
+      type: DATETIME
+      visible: true
+    detail_template: detail_template.html
+    favorite: key_name
+    group: Vehicle
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - veh_key_id
+    type: VehKey
+  VehKeyAssign:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' veh_key_assign_id*'
+      name: veh_key_assign_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: user_id
+      name: user_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_key_id
+      name: veh_key_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: key_assign_status
+      name: key_assign_status
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: date_key_assign_start
+      name: date_key_assign_start
+      required: false
+      search: false
+      sort: false
+      template: date
+      type: DATETIME
+      visible: true
+    - enabled: true
+      exclude: false
+      label: date_key_assign_stop
+      name: date_key_assign_stop
+      required: false
+      search: false
+      sort: false
+      template: date
+      type: DATETIME
+      visible: true
+    - enabled: true
+      exclude: false
+      label: date_veh_assign_start
+      name: date_veh_assign_start
+      required: false
+      search: false
+      sort: false
+      template: date
+      type: DATETIME
+      visible: true
+    - enabled: true
+      exclude: false
+      label: date_veh_assign_stop
+      name: date_veh_assign_stop
+      required: false
+      search: false
+      sort: false
+      template: date
+      type: DATETIME
+      visible: true
+    - enabled: true
+      exclude: false
+      label: transferer
+      name: transferer
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: transferee
+      name: transferee
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: assign_comment
+      name: assign_comment
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    detail_template: detail_template.html
+    favorite: veh_key_assign_id
+    group: Vehicle
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - veh_key_assign_id
+    type: VehKeyAssign
+  VehLocCheck:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' veh_loc_check_id*'
+      name: veh_loc_check_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_loc_id
+      name: veh_loc_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: done
+      name: done
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: BOOLEAN
+      visible: true
+    - enabled: true
+      exclude: false
+      label: loc_check_id
+      name: loc_check_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: veh_loc_check_id
+    group: Vehicle
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - veh_loc_check_id
+    type: VehLocCheck
+  VehLocCheckDoc:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' doc_name*'
+      name: doc_name
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_loc_check_id
+      name: veh_loc_check_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: doc_path
+      name: doc_path
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: doc_comment
+      name: doc_comment
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_loc_check_doc_id
+      name: veh_loc_check_doc_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: doc_mgmt_id
+      name: doc_mgmt_id
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    detail_template: detail_template.html
+    favorite: doc_name
+    group: Vehicle
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - veh_loc_check_doc_id
+    type: VehLocCheckDoc
+  VehLocation:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' veh_loc_id*'
+      name: veh_loc_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: loc_id
+      name: loc_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_id
+      name: veh_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: date_in_loc
+      name: date_in_loc
+      required: false
+      search: false
+      sort: false
+      template: date
+      type: DATETIME
+      visible: true
+    - enabled: true
+      exclude: false
+      label: date_out_loc
+      name: date_out_loc
+      required: false
+      search: false
+      sort: false
+      template: date
+      type: DATETIME
+      visible: true
+    - enabled: true
+      exclude: false
+      label: user_in
+      name: user_in
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: user_out
+      name: user_out
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: veh_loc_id
+    group: Vehicle
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - veh_loc_id
+    type: VehLocation
+  VehSpace:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' veh_space_id*'
+      name: veh_space_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: space_id
+      name: space_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_id
+      name: veh_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_loc_id
+      name: veh_loc_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: veh_space_id
+    group: Vehicle
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - veh_space_id
+    type: VehSpace
+  VehStatusChange:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' veh_stat_chng_id*'
+      name: veh_stat_chng_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_id
+      name: veh_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: status_new
+      name: status_new
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_stat_valid_chng_id
+      name: veh_stat_valid_chng_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: user_stat_changed
+      name: user_stat_changed
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: date_stat_changed
+      name: date_stat_changed
+      required: false
+      search: false
+      sort: false
+      template: date
+      type: DATETIME
+      visible: true
+    - enabled: true
+      exclude: false
+      label: status_old
+      name: status_old
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    detail_template: detail_template.html
+    favorite: veh_stat_chng_id
+    group: Vehicle
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - veh_stat_chng_id
+    type: VehStatusChange
+  Vehicle:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' veh_description_1*'
+      name: veh_description_1
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: dlr_id
+      name: dlr_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_status
+      name: veh_status
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: num_keys_assign
+      name: num_keys_assign
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: accessible_key_count
+      name: accessible_key_count
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: map_color
+      name: map_color
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: stock_no
+      name: stock_no
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_type
+      name: veh_type
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: vin
+      name: vin
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: licence_plate
+      name: licence_plate
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: make
+      name: make
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: model
+      name: model
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: option_package
+      name: option_package
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: model_year
+      name: model_year
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(4)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_color_exterior
+      name: veh_color_exterior
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_color_ext_custom
+      name: veh_color_ext_custom
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_color_interior
+      name: veh_color_interior
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: initial_odo
+      name: initial_odo
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: km_miles
+      name: km_miles
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(5)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_description_2
+      name: veh_description_2
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: exists_in_dms
+      name: exists_in_dms
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: BOOLEAN
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_comment
+      name: veh_comment
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(32)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_id
+      name: veh_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: veh_sold
+      name: veh_sold
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: BOOLEAN
+      visible: true
+    - enabled: true
+      exclude: false
+      label: key_assigned
+      name: key_assigned
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: BOOLEAN
+      visible: true
+    - enabled: true
+      exclude: false
+      label: date_inserted
+      name: date_inserted
+      required: false
+      search: false
+      sort: false
+      template: date
+      type: DATETIME
+      visible: true
+    - enabled: true
+      exclude: false
+      label: attach_id
+      name: attach_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    favorite: veh_description_1
+    group: Vehicle
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - veh_id
+    type: Vehicle
+settings:
+  style_guide:
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000'
+    decimal_min: '0'
+    decimal_separator: .
+    edit_on_mode: dblclick
+    include_translation: false
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    mode: tab
+    pick_style: list
+    style: light
+    thousand_separator: ','
+    use_keycloak: false
