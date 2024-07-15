@@ -1,8 +1,8 @@
 # Stage 1: Compile and Build angular codebase
 # Use official node image as the base image
 # docker build -f Dockerfile -t tylerm007/yaml_editor --rm .
-# docker tag tylerm007/yaml_editor tylerm007/yaml_editor:1.0.0
-# docker push tylerm007/yaml_editor:1.0.0  # requires docker login
+# docker tag tylerm007/yaml_editor tylerm007/yaml_editor:1.0.2
+# docker push tylerm007/yaml_editor:1.0.2  # requires docker login
 #
 # docker tag tylerm007/yaml_editor tylerm007/yaml_editor:latest
 # docker push tylerm007/yaml_editor:latest  

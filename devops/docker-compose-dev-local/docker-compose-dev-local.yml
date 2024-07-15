@@ -33,7 +33,7 @@ services:
           - 5655:5655
         volumes:
           # local:path-in-container
-          - ../:/home/api_logic_project
+          - ../../:/home/api_logic_project
           - ../../database/:/root/db/
     yaml_editor:
         image: tylerm007/yaml_editor:latest
