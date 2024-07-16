@@ -64,7 +64,7 @@ Manage Yaml files -> New - the app_model.yml file can be uploaded and automatica
 ### Import from curl
 You can also copy your app_model.yaml file from your application to the 'ui' directory. This endpoint will read the app_model.yaml file from the ui directory. It will populate the in-memory SQLite database that the UI developers can edit.
 ```
-curl "http://localhost:5656/importyaml"
+curl "http://localhost:5655/importyaml"
 ```
 
 ## Download yaml 
@@ -74,7 +74,7 @@ Manage Yaml Files - select the imported file and click the checkbox 'download' i
 ### Download using curl file back to disk (ui/app_model_merge.yaml)
 This will write back the modified SQL back to disk as yaml.  Use compare files to merge or replace the merge file for the new app_model_merge.yaml in your application.
 ```
-curl "http://localhost:5656/exportyaml"
+curl "http://localhost:5655/exportyaml"
 ```
 ## Entity
 Use the Ontimize editor to exclude a selected entity or change the titles.
