@@ -56,14 +56,23 @@ Then go to the Home page and select the new row and click []Upload (and save) th
 
 ![](ui/templates/ManageYaml.png)
 
-## Import the admin_model.yaml and load into SQL
-You can also copy your admin_model.yaml file from your application to the 'ui' directory. This endpoint will read the admin_model.yaml file from the ui directory. It will populate the in-memory SQLite database that the UI developers can edit.
+## Import the app_model.yaml and load into SQL
+Manage Yaml files -> New - the app_model.yml file can be uploaded and automatically populates entities, attributes, and relationships.
+
+![](ui/templates/UploadYaml.png)
+
+### Import from curl
+You can also copy your app_model.yaml file from your application to the 'ui' directory. This endpoint will read the app_model.yaml file from the ui directory. It will populate the in-memory SQLite database that the UI developers can edit.
 ```
 curl "http://localhost:5656/importyaml"
 ```
 
-## Export yaml file back to disk (ui/admin_model_merge.yaml)
-This will write back the modified SQL back to disk as yaml.  Use compare files to merge or replace the merge file for the new admin_model_merge.yaml in your application.
+## Download yaml 
+Manage Yaml Files - select the imported file and click the checkbox 'download' it will write to disk and display in the download content window.
+![](ui/templates/DownloadYaml.png)
+
+### Download using curl file back to disk (ui/app_model_merge.yaml)
+This will write back the modified SQL back to disk as yaml.  Use compare files to merge or replace the merge file for the new app_model_merge.yaml in your application.
 ```
 curl "http://localhost:5656/exportyaml"
 ```
