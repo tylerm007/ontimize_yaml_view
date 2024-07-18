@@ -60,8 +60,8 @@ class Entity(SAFRSBaseX, Base):
 
     # child relationships (access children)
     EntityAttrList : Mapped[List["EntityAttr"]] = relationship(back_populates="entity")
-    TabGroupList : Mapped[List["TabGroup"]] = relationship(foreign_keys='[TabGroup.entity_name]', back_populates="entity")
-    TabGroupList1 : Mapped[List["TabGroup"]] = relationship(foreign_keys='[TabGroup.tab_entity]', back_populates="entity")
+    TabGroupList : Mapped[List["TabGroup"]] = relationship(foreign_keys='[TabGroup.entity_name]')
+    TabGroupList1 : Mapped[List["TabGroup"]] = relationship(foreign_keys='[TabGroup.tab_entity]')
 
     @jsonapi_attr
     def _check_sum_(self):  # type: ignore [no-redef]
