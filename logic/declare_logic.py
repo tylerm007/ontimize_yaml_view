@@ -22,6 +22,8 @@ def declare_logic():
     Your Code Goes Here - Use code completion (Rule.) to declare rules
     '''
 
+    from logic.logic_discovery.auto_discovery import discover_logic
+    discover_logic()
     def handle_all(logic_row: LogicRow):  # OPTIMISTIC LOCKING, [TIME / DATE STAMPING]
         """
         This is generic - executed for all classes.
@@ -60,26 +62,19 @@ def declare_logic():
                     return False    
             return False
         return True
-    def upload(row:models.YamlFiles, old_row:models.YamlFiles, logic_row:LogicRow):
-        
-        #yaml_content = str(b64decode(row.content), encoding=encoding) if row.content else None 
-        if logic_row.ins_upd_dlt in ["ins","upd"] and row.upload_flag and old_row and old_row.upload_flag == False and yaml_content:
-            #from api.customize_api import process_yaml 
-            #get(f"http://localhost:5655/importyaml/{row.id}", None)
-            #process_yaml(yaml_content)
-            pass
-
-    
-        elif logic_row.ins_upd_dlt == "upd" and row.download_flag and old_row.download_flag == False and row.content:
-            #from api.customize_api import export_yaml 
-            get("http://localhost:5655/exportyaml", None)
-            #export_yaml()
+    def export_yaml(row:models.YamlFiles, old_row:models.YamlFiles, logic_row:LogicRow):
+        if logic_row.is_updated and row.download_flag and old_row.download_flag == False and row.content != None:
+            from api.api_discovery.ontimize_api import export_yaml_to_file
+            from pathlib import Path
+            running_at = Path(__file__)
+            project_dir = running_at.parent.parent
+            row.downloaded = export_yaml_to_file(project_dir=project_dir)
                 
-    Rule.commit_row_event(models.YamlFiles, calling=upload)
+    Rule.row_event(models.YamlFiles, calling=export_yaml)
     Rule.constraint(models.YamlFiles, calling=validate_yaml, error_msg="Invalid yaml file")
     #als rules report
-    from api.system import api_utils
-    api_utils.rules_report()
+    #from api.system import api_utils
+    #api_utils.rules_report()
 
     app_logger.debug("..logic/declare_logic.py (logic == rules + code)")
 
