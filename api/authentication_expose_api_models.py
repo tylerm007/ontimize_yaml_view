@@ -25,6 +25,6 @@ def expose_models(api, method_decorators = []):
     """
     from database.database_discovery import authentication_models
     api.expose_object(authentication_models.Role, method_decorators= method_decorators)
-    api.expose_object(authentication_models.Users, method_decorators= method_decorators)
+    api.expose_object(authentication_models.User, method_decorators= method_decorators)
     api.expose_object(authentication_models.UserRole, method_decorators= method_decorators)
     return api

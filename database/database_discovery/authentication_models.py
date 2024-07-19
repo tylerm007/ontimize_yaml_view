@@ -68,18 +68,17 @@ class Role(SAFRSBaseX, Baseauthentication, db.Model, UserMixin):  # type: ignore
     S_CheckSum = _check_sum_
 
 
-class Users(SAFRSBaseX, Baseauthentication, db.Model, UserMixin):  # type: ignore
-    __tablename__ = 'Users'
+class User(SAFRSBaseX, Baseauthentication, db.Model, UserMixin):  # type: ignore
+    __tablename__ = 'User'
     _s_collection_name = 'authentication-User'  # type: ignore
     __bind_key__ = 'authentication'
 
     name = Column(String(128), server_default=text("NULL::character varying"))
-    notes = Column(Text)
     id = Column(String(64), primary_key=True)
     username = Column(String(128), server_default=text("NULL::character varying"))
-    email = Column(String(128), server_default=text("NULL::character varying"))
     password_hash = Column(String(200), server_default=text("NULL::character varying"))
     client_id = Column(Integer)
+    region = Column(String(32), server_default=text("NULL::character varying"))
     allow_client_generated_ids = True
 
     # parent relationships (access parent)
@@ -131,14 +130,14 @@ class UserRole(SAFRSBaseX, Baseauthentication, db.Model, UserMixin):  # type: ig
     _s_collection_name = 'authentication-UserRole'  # type: ignore
     __bind_key__ = 'authentication'
 
-    user_id = Column(ForeignKey('Users.id', ondelete='CASCADE'), primary_key=True, nullable=False)
+    user_id = Column(ForeignKey('User.id', ondelete='CASCADE'), primary_key=True, nullable=False)
     notes = Column(Text)
     role_name = Column(ForeignKey('Role.name', ondelete='CASCADE'), primary_key=True, nullable=False)
     allow_client_generated_ids = True
 
     # parent relationships (access parent)
     Role : Mapped["Role"] = relationship(back_populates=("UserRoleList"))
-    user : Mapped["Users"] = relationship(back_populates=("UserRoleList"))
+    user : Mapped["User"] = relationship(back_populates=("UserRoleList"))
 
     # child relationships (access children)
 
