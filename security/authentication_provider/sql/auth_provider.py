@@ -88,18 +88,18 @@ class Authentication_Provider(Abstract_Authentication_Provider):
             session = db.session  # sqlalchemy.orm.scoping.scoped_session
 
         try:
-            user = session.query(authentication_models.User).filter(authentication_models.User.id == id).one()
+            user = session.query(authentication_models.Users).filter(authentication_models.Users.id == id).one()
         except Exception as e:
             logger.info(f'*****\nauth_provider FAILED looking for: {id}\n*****\n')
             logger.info(f'excp: {str(e)}\n')
             # raise e
-            raise ALSError(f"User {id} is not authorized for this system")
+            raise ALSError(f"Users {id} is not authorized for this system")
         use_db_row = False
         if use_db_row:
             return user
         else:
             pass
-            rtn_user = row_to_dotmap(user, authentication_models.User)
+            rtn_user = row_to_dotmap(user, authentication_models.Users)
             rtn_user.UserRoleList = []
             user_roles = getattr(user, "UserRoleList")
             for each_row in user_roles:

@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "production": "ng build --base-href=/yaml-editor/"
+    "production": "ng build --configuration production --base-href=/yaml-editor/ --verbose=true"
   },
   "private": true,
   "engines": {

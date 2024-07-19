@@ -68,7 +68,7 @@ class Role(SAFRSBaseX, Baseauthentication, db.Model, UserMixin):  # type: ignore
     S_CheckSum = _check_sum_
 
 
-class User(SAFRSBaseX, Baseauthentication, db.Model, UserMixin):  # type: ignore
+class Users(SAFRSBaseX, Baseauthentication, db.Model, UserMixin):  # type: ignore
     __tablename__ = 'Users'
     _s_collection_name = 'authentication-User'  # type: ignore
     __bind_key__ = 'authentication'
@@ -138,7 +138,7 @@ class UserRole(SAFRSBaseX, Baseauthentication, db.Model, UserMixin):  # type: ig
 
     # parent relationships (access parent)
     Role : Mapped["Role"] = relationship(back_populates=("UserRoleList"))
-    user : Mapped["User"] = relationship(back_populates=("UserRoleList"))
+    user : Mapped["Users"] = relationship(back_populates=("UserRoleList"))
 
     # child relationships (access children)
 

@@ -19,13 +19,13 @@ CREATE TABLE "Role" (
 );
 
 INSERT INTO "Role" VALUES ('sa');
-
+INSERT INTO "Role" VALUES ('tenant');
 --
 -- Table structure for table User
 --
-
 DROP TABLE IF EXISTS "User";
-CREATE TABLE "User" (
+DROP TABLE IF EXISTS "Users";
+CREATE TABLE "Users" (
   name varchar(128) DEFAULT NULL,
   notes text,
   id varchar(64) NOT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE "User" (
 -- Dumping data for table User
 --
 
-INSERT INTO "User" VALUES ('Administrator',NULL,'admin','Admin User','admin@corp.com','p');
+INSERT INTO "Users" VALUES ('Administrator',NULL,'admin','Admin User','admin@corp.com','p');
 
 
 --
@@ -52,8 +52,9 @@ CREATE TABLE "UserRole" (
   notes text,
   role_name varchar(32) NOT NULL,
   PRIMARY KEY (user_id,role_name),
-  CONSTRAINT in_client FOREIGN KEY (user_id) REFERENCES "User" (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT in_client FOREIGN KEY (user_id) REFERENCES "Users" (id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT in_role FOREIGN KEY (role_name) REFERENCES "Role" (name) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 INSERT INTO "UserRole" VALUES ('admin',NULL,'sa');
+INSERT INTO "UserRole" VALUES ('admin',NULL,'tenant');

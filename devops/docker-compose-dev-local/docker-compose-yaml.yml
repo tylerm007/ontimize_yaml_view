@@ -30,23 +30,26 @@ services:
           - ./sql/create_tables_yaml.sql:/docker-entrypoint-initdb.d/create_tables_yaml.sql
 
     apilogicserver:
-        image: tylerm007/ontimize_repos:latest
+        image: tylerm007/ontimize_repos:1.0.8
         environment:
           - APILOGICPROJECT_VERBOSE=true
           - SECURITY_ENABLED=true
-          ## todid - use default database uri's:
+          - APILOGICSERVER_RUNNING=DOCKER
+          - APILOGICPROJECT_SWAGGER_HOST=localhost
           - SQLALCHEMY_DATABASE_URI=postgresql://postgres:postgres@postgresql-service/yaml
           - SQLALCHEMY_DATABASE_URI_AUTHENTICATION=postgresql://postgres:postgres@postgresql-service/authdb
-          # - APILOGICPROJECT_SQLALCHEMY_DATABASE_URI=mysql+pymysql://root:p@mysql-service:3306/rowbot
-          # - APILOGICPROJECT_SQLALCHEMY_DATABASE_URI_AUTHENTICATION=sqlite:///../database/authentication_db.sqlite
+          - APILOGICPROJECT_SQLALCHEMY_DATABASE_URI=postgresql://postgres:postgres@postgresql-service/yaml
+          - APILOGICPROJECT_SQLALCHEMY_DATABASE_URI_AUTHENTICATION=postgresql://postgres:postgres@postgresql-service/authdb
         expose:
           - 5655
         ports:
           - 5655:5655
         depends_on:
           - postgresql-service
+        networks:
+          - backend
     yaml_editor:
-        image: tylerm007/yaml_editor:latest
+        image: tylerm007/yaml_editor:1.0.6
         container_name: yaml_editor
         expose:
           - 80
@@ -59,4 +62,8 @@ services:
           - apilogicserver
         environment:
           - NODE_ENV=production
-
+        networks:
+          - backend
+networks:
+  backend:
+    driver: bridge

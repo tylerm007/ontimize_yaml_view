@@ -161,16 +161,16 @@ resources:
       search: true
       sort: true
     - name: content
-    - name: upload_flag
+    - name: downloaded
+
     - name: download_flag
     - name: size
     - name: createdate
       type: DATE
-    - name: directory
       required: true
     - name: id
     - name: downloaded
-    type: YamlFile
+    type: YamlFiles
     user_key: name
 settings:
   HomeJS: http://localhost:5656/admin-app/home.js

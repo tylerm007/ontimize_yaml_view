@@ -237,6 +237,11 @@ def add_service(
 
         # api_clz = api_map.get(clz_name)
         resource = find_model(clz_name)
+        if resource == None:
+            return jsonify(
+                {"code": 1, "message": f"Resource {clz_name} not found", "data": None}
+            )
+            
         api_attributes = resource["attributes"]
         api_clz = resource["model"]
 
@@ -309,7 +314,7 @@ def add_service(
             import base64
 
             base64_message = auth[6:]
-            print(f"auth found: {auth}")
+            #print(f"auth found: {auth}")
             # base64_message = 'UHl0aG9uIGlzIGZ1bg=='
             base64_bytes = base64_message.encode("ascii")
             message_bytes = base64.b64decode(base64_bytes)
@@ -336,7 +341,7 @@ def add_service(
             {
                 "code": 0,
                 "message": "Login Successful",
-                "data": {"username": "admin", "token": "admin"},
+                "data": {"username": username, "token": access_token},
             }
         )
         # return jsonify({"code":1,"message":"Login Failed","data":None})

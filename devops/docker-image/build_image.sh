@@ -11,7 +11,7 @@
 
 projectname="ontimize_repos"  # lower case, only
 repositoryname="tylerm007"
-version="1.0.1"
+version="1.0.8"
 
 debug() {
   debug="disabled"
@@ -27,7 +27,7 @@ if [ $# -eq 0 ]; then
   echo "    . means use defaults:"
   echo "        ${repositoryname}/${projectname}:${version}"
   echo "    <docker-id> means use explicit args: <repository-name> <project-name> <version> eg,"
-  echo "        sh build_image.sh myrepository myproject 1.0.1"
+  echo "        sh build_image.sh myrepository myproject 1.0.4"
   echo " "
   exit 0
 fi
