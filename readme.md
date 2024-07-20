@@ -39,7 +39,7 @@ http://localhost:5655 (user: admin password: p)
 # Run as Docker container
 
 ```
-docker compose -f devops/docker-compose-dev-local/docker-compose-dev-local.yml up -d
+docker compose -f devops/docker-compose-dev-local/docker-compose-yaml.yml up -d
 
 in a browser
 http://localhost/yaml-editor/ (user: admin password: p)
@@ -57,7 +57,7 @@ Then go to the Home page and select the new row and click []Upload (and save) th
 ![](ui/templates/ManageYaml.png)
 
 ## Import the app_model.yaml and load into SQL
-Manage Yaml files -> New - the app_model.yml file can be uploaded and automatically populates entities, attributes, and relationships.
+Manage Yaml files -> New - the app_model.yml file can be uploaded and automatically populates entities, attributes, and relationships. Enter an Id, Name, and Select or drag and drop you app_model.yaml file.
 
 ![](ui/templates/UploadYaml.png)
 
