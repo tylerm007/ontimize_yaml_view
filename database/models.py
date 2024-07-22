@@ -36,7 +36,6 @@ metadata = Base.metadata
 from sqlalchemy.dialects.sqlite import *
 
 
-
 class Entity(SAFRSBaseX, Base):
     __tablename__ = 'entity'
     _s_collection_name = 'Entity'  # type: ignore

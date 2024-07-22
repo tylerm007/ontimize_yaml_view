@@ -60,10 +60,10 @@ class Authentication_Provider(Abstract_Authentication_Provider):
             db = safrs.DB         # Use the safrs.DB for database access
             session = db.session  # sqlalchemy.orm.scoping.scoped_session
 
-        user = session.query(authentication_models.User).filter(authentication_models.User.id  == id).one_or_none()
+        user = session.query(authentication_models.Users).filter(authentication_models.Users.id  == id).one_or_none()
         if user is None:
             logger.info(f'*****\nauth_provider: Create user for: {id}\n*****\n')
-            user = session.query(authentication_models.User).first()
+            user = session.query(authentication_models.Users).first()
             #return user
         logger.info(f'*****\nauth_provider: User: {user}\n*****\n')
         use_db_row = True
@@ -71,7 +71,7 @@ class Authentication_Provider(Abstract_Authentication_Provider):
             return user
         else:
             pass
-            rtn_user = row_to_dotmap(user, authentication_models.User)
+            rtn_user = row_to_dotmap(user, authentication_models.Users)
             rtn_user.UserRoleList = []
             user_roles = getattr(user, "UserRoleList")
             for each_row in user_roles:

@@ -1,6 +1,6 @@
 DROP DATABASE IF EXISTS authdb;
 CREATE DATABASE authdb;
-use authdb;
+\c authdb;
 
 -- in docker container/terminal
 -- psql--username=postgres
@@ -42,7 +42,8 @@ CREATE TABLE "Users" (
 -- Dumping data for table Users
 --
 
-INSERT INTO "Users" VALUES ('Administrator',NULL,'admin','Admin User','admin@corp.com','p');
+INSERT INTO "Users" VALUES ('Administrator',NULL,'admin','Admin User','admin@corp.com','p',1);
+INSERT INTO "Users" VALUES ('User1',NULL,'u1','User1','iser1@corp.com','p',1);
 
 
 --

@@ -1,12 +1,13 @@
 DROP DATABASE IF EXISTS yaml;
 CREATE DATABASE yaml;
-use yaml;
+\c yaml;
 
 DROP TABLE IF EXISTS entity;
 DROP TABLE IF EXISTS entity_attr;
 DROP TABLE IF EXISTS tab_group;
 DROP TABLE IF EXISTS global_settings;
 DROP TABLE IF EXISTS template;
+DROP TABLE IF EXISTS root;
 
 CREATE TABLE entity (
     name varchar(80) not null,

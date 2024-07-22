@@ -14,8 +14,8 @@ from flask_jwt_extended import create_access_token
 # Alter this file per your database maintenance policy
 #    See https://apilogicserver.github.io/Docs/Project-Rebuild/#rebuilding
 #
-# Created:  July 14, 2024 09:44:43
-# Database: postgresql://postgres:p@127.0.0.1/authdb
+# Created:  July 22, 2024 09:56:58
+# Database: postgresql://postgres:p@localhost:5432/authdb
 # Dialect:  postgresql
 #
 # mypy: ignore-errors
@@ -68,17 +68,18 @@ class Role(SAFRSBaseX, Baseauthentication, db.Model, UserMixin):  # type: ignore
     S_CheckSum = _check_sum_
 
 
-class User(SAFRSBaseX, Baseauthentication, db.Model, UserMixin):  # type: ignore
-    __tablename__ = 'User'
+class Users(SAFRSBaseX, Baseauthentication, db.Model, UserMixin):  # type: ignore
+    __tablename__ = 'Users'
     _s_collection_name = 'authentication-User'  # type: ignore
     __bind_key__ = 'authentication'
 
     name = Column(String(128), server_default=text("NULL::character varying"))
+    notes = Column(Text)
     id = Column(String(64), primary_key=True)
     username = Column(String(128), server_default=text("NULL::character varying"))
+    email = Column(String(128), server_default=text("NULL::character varying"))
     password_hash = Column(String(200), server_default=text("NULL::character varying"))
     client_id = Column(Integer)
-    region = Column(String(32), server_default=text("NULL::character varying"))
     allow_client_generated_ids = True
 
     # parent relationships (access parent)
@@ -130,14 +131,14 @@ class UserRole(SAFRSBaseX, Baseauthentication, db.Model, UserMixin):  # type: ig
     _s_collection_name = 'authentication-UserRole'  # type: ignore
     __bind_key__ = 'authentication'
 
-    user_id = Column(ForeignKey('User.id', ondelete='CASCADE'), primary_key=True, nullable=False)
+    user_id = Column(ForeignKey('Users.id', ondelete='CASCADE'), primary_key=True, nullable=False)
     notes = Column(Text)
     role_name = Column(ForeignKey('Role.name', ondelete='CASCADE'), primary_key=True, nullable=False)
     allow_client_generated_ids = True
 
     # parent relationships (access parent)
     Role : Mapped["Role"] = relationship(back_populates=("UserRoleList"))
-    user : Mapped["User"] = relationship(back_populates=("UserRoleList"))
+    user : Mapped["Users"] = relationship(back_populates=("UserRoleList"))
 
     # child relationships (access children)
 

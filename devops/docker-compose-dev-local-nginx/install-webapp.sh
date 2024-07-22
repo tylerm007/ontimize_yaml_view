@@ -15,7 +15,7 @@ fi
 
 read -p "Ready to obtain web app files, press ENTER to proceed> "
 
-curl https://github.com/thomaxxl/safrs-react-admin/releases/download/0.1.2/safrs-react-admin-0.1.2.zip -LO
+curl https://github.com/thomaxxl/safrs-react-admin/releases/download/0.2.7/safrs-react-admin-0.1.2.zip -LO
 echo "unzipping sra to build.."
 set +x
 unzip safrs-react-admin-0.1.2.zip
