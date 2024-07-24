@@ -30,7 +30,7 @@ services:
         - ./sql/create_tables_yaml.sql:/docker-entrypoint-initdb.d/create_tables_yaml.sql
 
   apilogicserver:
-      image: tylerm007/ontimize_repos:1.0.10
+      image: tylerm007/ontimize_repos:1.0.12
       environment:
         - APILOGICPROJECT_VERBOSE=true
         - SECURITY_ENABLED=true
@@ -44,22 +44,22 @@ services:
         - APILOGICPROJECT_SQLALCHEMY_DATABASE_URI=postgresql://postgres:postgres@postgresql-service/yaml
         - APILOGICPROJECT_SQLALCHEMY_DATABASE_URI_AUTHENTICATION=postgresql://postgres:postgres@postgresql-service/authdb
       ports:
-        - 8080:8080
+        - 5655:5655
       expose:
-        - 8080
+        - 5655
       depends_on:
         - postgresql-service
       volumes:
           # relative path - thanks https://stackoverflow.com/questions/46907558/docker-compose-relative-paths-vs-docker-volume
           # - /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/org_git/docker-compose-nw-postgres:/app
-          - ./../..:/app
-          - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:rw
+          - ../../:/home/api_logic_project
+          #- ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:rw
       # https://stackoverflow.com/questions/39460892/gunicorn-no-module-named-myproject
-      command: /usr/local/bin/gunicorn --reload --workers 2 --worker-connections 2 --access-logfile=- --pythonpath /app -b :5655 api_logic_server_run:flask_app 
-      working_dir: /app/ApiLogicProject 
+      #command: /usr/local/bin/gunicorn --reload --workers 2 --worker-connections 2 --access-logfile=- --pythonpath /app -b :5655 api_logic_server_run:flask_app 
+      working_dir: /home/api_logic_project 
   
   yaml_editor:
-      image: tylerm007/yaml_editor:1.0.9
+      image: tylerm007/yaml_editor:1.0.11
       container_name: yaml_editor
       expose:
         - 80

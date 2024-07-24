@@ -10,7 +10,7 @@
 
 services:
     api-logic-server:
-        image: tylerm007/ontimize_repos:1.0.8
+        image: tylerm007/apilogcproject
         environment:
             - APILOGICPROJECT_VERBOSE=true
             - SECURITY_ENABLED=true

@@ -70,7 +70,7 @@ class Role(SAFRSBaseX, Baseauthentication, db.Model, UserMixin):  # type: ignore
 
 class Users(SAFRSBaseX, Baseauthentication, db.Model, UserMixin):  # type: ignore
     __tablename__ = 'Users'
-    _s_collection_name = 'authentication-User'  # type: ignore
+    _s_collection_name = 'authentication-Users'  # type: ignore
     __bind_key__ = 'authentication'
 
     name = Column(String(128), server_default=text("NULL::character varying"))

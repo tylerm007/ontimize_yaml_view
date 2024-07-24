@@ -88,6 +88,8 @@ class Authentication_Provider(Abstract_Authentication_Provider):
             session = db.session  # sqlalchemy.orm.scoping.scoped_session
 
         try:
+            all = session.query(authentication_models.Users).all()
+            logger.info(all)
             user = session.query(authentication_models.Users).filter(authentication_models.Users.id == id).one()
         except Exception as e:
             logger.info(f'*****\nauth_provider FAILED looking for: {id}\n*****\n')
