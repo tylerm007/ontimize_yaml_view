@@ -29,6 +29,6 @@ else
     echo "\n... security check complete\n"
 fi
 
-pushd ./../../docker compose -f ./devops/docker-compose-dev-local/docker-compose-yaml.yml up -d
-
+pushd ./../../
+docker compose -f ./devops/docker-compose-dev-local/docker-compose-yaml.yml up -d
 popd

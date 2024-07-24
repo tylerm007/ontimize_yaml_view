@@ -153,7 +153,7 @@ resources:
       resource: EntityAttr
     type: Template
     user_key: name
-  YamlFile:
+  YamlFiles:
     attributes:
     - label: ' name*'
       name: name
@@ -165,7 +165,6 @@ resources:
 
     - name: download_flag
     - name: size
-      type: DATE
       required: true
     - name: id
     - name: downloaded
