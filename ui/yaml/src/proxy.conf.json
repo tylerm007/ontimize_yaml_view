@@ -1,0 +1,12 @@
+{
+    "/ontimizeweb/*": {
+        "target": "http://apilogicserver:5655",
+        "secure": false,
+        "logLevel": "debug"
+    },
+    "/api/*": {
+        "target": "http://apilogicserver:5655",
+        "secure": false,
+        "logLevel": "debug"
+    }
+}

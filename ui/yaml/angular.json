@@ -130,7 +130,8 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "ontimize-web-ngx-jee-seed:build:production"
+              "browserTarget": "ontimize-web-ngx-jee-seed:build:production",
+              "proxyConfig": "src/proxy.conf.json"
             },
             "development": {
               "browserTarget": "ontimize-web-ngx-jee-seed:build:development"

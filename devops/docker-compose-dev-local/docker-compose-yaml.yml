@@ -30,7 +30,7 @@ services:
         - ./sql/create_tables_yaml.sql:/docker-entrypoint-initdb.d/create_tables_yaml.sql
 
   apilogicserver:
-      image: tylerm007/ontimize_repos:1.0.12
+      image: tylerm007/ontimize_repos:latest
       environment:
         - APILOGICPROJECT_VERBOSE=true
         - SECURITY_ENABLED=true
@@ -59,7 +59,7 @@ services:
       working_dir: /home/api_logic_project 
   
   yaml_editor:
-      image: tylerm007/yaml_editor:1.0.11
+      image: tylerm007/yaml_editor:latest
       container_name: yaml_editor
       expose:
         - 80

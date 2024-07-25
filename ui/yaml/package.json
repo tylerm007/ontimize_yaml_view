@@ -3,12 +3,12 @@
   "version": "15.4.0-SNAPSHOT-0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port 4298",
+    "start": "ng serve --port 4298 --public-host http://localhost:4298 --configuration development",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "production": "ng build --configuration production --base-href=/yaml-editor/ --verbose=true"
+    "production": "ng build --configuration production --public-host http://apilogicserver:5655  --base-href=/yaml-editor/ --verbose=true"
   },
   "private": true,
   "engines": {
