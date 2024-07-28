@@ -94,8 +94,7 @@ class Config:
     project_abs_dir = running_at.parent.absolute()
 
     # Database
-    #SQLALCHEMY_DATABASE_URI : typing.Optional[str] = f"sqlite:///../database/db.sqlite"
-    SQLALCHEMY_DATABASE_URI : typing.Optional[str] = 'postgresql://postgres:p@localhost:5432/yaml'
+    SQLALCHEMY_DATABASE_URI : typing.Optional[str] = f"sqlite:///../database/db.sqlite"
     # override SQLALCHEMY_DATABASE_URI here as required
 
     app_logger.debug(f'config.py - SQLALCHEMY_DATABASE_URI: {SQLALCHEMY_DATABASE_URI}')
@@ -119,7 +118,7 @@ class Config:
     KEYCLOAK_CLIENT_ID = 'alsclient'
     ''' keycloak client id '''
 
-    SECURITY_ENABLED = True
+    SECURITY_ENABLED = True  # you must also: ApiLogicServer add-db --db_url=auth --bind_key=authentication
     SECURITY_PROVIDER = None
     if os.getenv('SECURITY_ENABLED'):  # e.g. export SECURITY_ENABLED=true
         security_export = os.getenv('SECURITY_ENABLED')  # type: ignore # type: str
@@ -139,8 +138,7 @@ class Config:
     # Begin Multi-Database URLs (from ApiLogicServer add-db...)
 
 
-    #SQLALCHEMY_DATABASE_URI_AUTHENTICATION = 'sqlite:///../database/authentication_db.sqlite'
-    SQLALCHEMY_DATABASE_URI_AUTHENTICATION = 'postgresql://postgres:p@localhost:5432/authdb'
+    SQLALCHEMY_DATABASE_URI_AUTHENTICATION = 'sqlite:///../database/authentication_db.sqlite'
     app_logger.info(f'config.py - SQLALCHEMY_DATABASE_URI_AUTHENTICATION: {SQLALCHEMY_DATABASE_URI_AUTHENTICATION}\n')
 
     # as desired, use env variable: export SQLALCHEMY_DATABASE_URI='sqlite:////Users/val/dev/servers/docker_api_logic_project/database/db.sqliteXX'

@@ -23,26 +23,25 @@ resources:
       resource: authentication-UserRole
     type: authentication-Role
     user_key: name
-  authentication-Users:
+  authentication-User:
     attributes:
     - label: ' name*'
       name: name
       search: true
       sort: true
-    - name: notes
     - name: username
-    - name: email
     - name: password_hash
+    - name: region
+    - name: client_id
     - name: id
       required: true
-    - name: client_id
     tab_groups:
     - direction: tomany
       fks:
       - user_id
       name: UserRoleList
       resource: authentication-UserRole
-    type: authentication-Users
+    type: authentication-User
     user_key: name
   authentication-UserRole:
     attributes:
@@ -66,7 +65,7 @@ resources:
       fks:
       - user_id
       name: user
-      resource: authentication-Users
+      resource: authentication-User
     type: authentication-UserRole
     user_key: role_name
 settings:

@@ -27,8 +27,8 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
 
     provider_name = str(Config.SECURITY_PROVIDER)
     if "sql" in provider_name and args.instance.security_enabled:
-        from database.database_discovery.authentication_models import Users, Role, UserRole
-        api.expose_object(Users, method_decorators= method_decorators)
+        from database.database_discovery.authentication_models import User, Role, UserRole
+        api.expose_object(User, method_decorators= method_decorators)
         api.expose_object(Role, method_decorators= method_decorators)
         api.expose_object(UserRole, method_decorators= method_decorators)
     return api

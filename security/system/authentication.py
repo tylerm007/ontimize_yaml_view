@@ -79,7 +79,7 @@ def configure_auth(flask_app: Flask, database: object, method_decorators: list[o
     def login():
         """
         Post id/password, returns token to be placed in header of subsequent requests.
-        curl -X POST http://apilogicserver:8080/api/auth/login -d '{"username":"admin","password":"p"}'
+        curl -X POST http://apilogicserver:5655/api/auth/login -d '{"username":"admin","password":"p"}'
         Returns:
             string: access token
         """
@@ -89,11 +89,9 @@ def configure_auth(flask_app: Flask, database: object, method_decorators: list[o
         try:   
             username = request.json.get("username", None)
             password = request.json.get("password", None)
-            print("username:",username)
-            security_logger.info(f"1 username: {username}, password: {password}")
         except:
-            username = 'no_user'
-            password = 'no_password'
+            username = ''
+            password = ''
             auth = request.headers.get("Authorization", None)
             if auth and auth.startswith("Basic"):  # support basic auth
                 import base64
@@ -106,8 +104,7 @@ def configure_auth(flask_app: Flask, database: object, method_decorators: list[o
                 s = message.split(":")
                 username = s[0]
                 password = s[1]
-        print("username:",username)
-        security_logger.info(f"2 username: {username}, password: {password}")
+
         user = authentication_provider.get_user(username, password)
         if not user or not user.check_password(password):
             return jsonify("Wrong username or password"), 401
