@@ -24,7 +24,7 @@
             <!-- a href="/download/yamlfile" download="app_model_merge.yaml">Download link</a -->
             <!-- o-textarea-input attr="content" label="Original Content" [data]="getContent()" read-only="true" rows="30"
               content-align="left" fxFlex="40%" class="form-field"></o-textarea-input -->
-            <o-textarea-input attr="downloaded" label="Downloaded Content" [data]="getConverted()" read-only="true"
+            <o-textarea-input #downloaded attr="downloaded" label="Downloaded Content" [data]="getConverted()" read-only="true"
               rows="30" content-align="left" fxFlex="40%" class="form-field"></o-textarea-input>
             <!-- -text-input attr="id" label=" Id*" type="INTEGER" enabled="no" required="yes" fxFlex="20%"
               class="form-field"></o-text-input -->
