@@ -132,6 +132,7 @@ def add_service(
     @app.route("/main/YamlFiles", methods=["GET", "POST", "DELETE", "OPTIONS"])
     @cross_origin()
     @admin_required()
+    @admin_required()
     def getFiles(path):
         method = request.method
         # if method == 'OPTIONS':
@@ -229,8 +230,6 @@ def add_service(
         if clz_name == "export":
             return gen_export(request)
 
-        if clz_name == "insertFile":
-            return insertFile(request)
 
         if request.path == "/ontimizeweb/services/rest/users/login":
             return login(request)
@@ -278,6 +277,19 @@ def add_service(
                 # stmt = insert(api_clz).values(data)
 
             else:
+                if clz_type == "importyaml":
+                    key = filter.split("=")[1] if filter and "id" in filter else "1"
+                    resp = (
+                        session.query(models.YamlFiles)
+                        .filter(models.YamlFiles.id == int(key))
+                        .one()
+                        )
+                    yaml_content = resp and resp.content
+                    #yaml_content = request.data.decode("utf-8")
+                    valuesYaml = yaml.safe_load(yaml_content)
+                    process_yaml(valuesYaml=valuesYaml)
+    
+                    return jsonify({"code": 0, "message": "Yaml file loaded", "data": None})
                 # GET (sent as POST)
                 # rows = get_rows_by_query(api_clz, filter, orderBy, columns, pagesize, offset)
                 if "TypeAggregate" in clz_type:
@@ -514,21 +526,24 @@ def add_service(
         yaml_file = export_yaml_to_file(_project_dir)
         try:
             sql_alchemy_row = (
-                session.query(models.YamlFiles).filter(models.YamlFiles.id == 1).one()
+                session.query(models.YamlFiles).filter(models.YamlFiles.id == 1).one_or_none()
             )
-            setattr(sql_alchemy_row, "downloaded", yaml_file)
-            session.add(sql_alchemy_row)
-            session.commit()
+            if sql_alchemy_row and sql_alchemy_row.downloaded is None:
+                setattr(sql_alchemy_row, "downloaded", yaml_file)
+                session.add(sql_alchemy_row)
+                session.commit()
         except Exception as ex:
             print(ex)
-        return jsonify(f"Yaml file written to ui/{fn}")
+            return jsonify({"code": 1, "message": f"{ex}", "data": None})
+        app_logger.debug(f"Yaml file written to ui/app_model_merge.yaml")
+        return yaml_file
 
 
     @app.route("/importyaml/<key>", methods=["GET", "POST", "OPTIONS"])
     def load_yaml(key: int = 0):
         """
-        GET curl "http://localhost:5656/importyaml"
-        POST  curl -X "POST" http://localhost:5656/importyaml -H "Content-Type: text/x-yaml" -d @app_model.yaml
+        GET curl "http://localhost:5655/importyaml"
+        POST  curl -X "POST" http://localhost:5655/importyaml -H "Content-Type: text/x-yaml" -d @app_model.yaml
         """
         if request.method == "GET" and int(key) == 0:
             with open(f"{_project_dir}/ui/app_model.yaml", "rt") as f:
@@ -543,25 +558,28 @@ def add_service(
                 .filter(models.YamlFiles.id == int(key))
                 .one()
             )
-            yaml_content = (
-                str(b64decode(data.content), encoding=encoding)
-                if data.content
-                else None
-            )
+            yaml_content = data and data.content
+                ##if not data.content.startswith('b')
+                ##else str(b64decode(data.content), encoding=encoding)
+            
             if yaml_content:
                 try:
                     valuesYaml = yaml.safe_load(yaml_content)
-                    return process_yaml(valuesYaml=valuesYaml)
+                    process_yaml(valuesYaml=valuesYaml)
+                    return jsonify({"code": 0, "message": "Yaml file loaded", "data": None})
                 except yaml.YAMLError as exc:
                     return jsonify({"code": 1, "message": f"Error loading yaml: {exc}"})
         elif request.method == "POST":
-            data = request.data.decode("utf-8")
-            valuesYaml = json.dumps(data)  # TODO - not working yet
-        file_name = f"{_project_dir}/ui/app_model.yaml"
-        with open(file_name, "rt") as f:
-            valuesYaml = yaml.safe_load(f.read())
-            f.close()
-        return process_yaml(valuesYaml=valuesYaml)
+            data = (
+                session.query(models.YamlFiles)
+                .filter(models.YamlFiles.id == int(key))
+                .one()
+            )
+            yaml_content = data and data.content
+            #yaml_content = request.data.decode("utf-8")
+            valuesYaml = yaml.safe_load(yaml_content)
+            process_yaml(valuesYaml=valuesYaml)
+            return jsonify({"code": 0, "message": "Yaml file loaded", "data": None})
 
     def _gen_report(request) -> any:
         payload = json.loads(request.data)
@@ -858,7 +876,7 @@ def add_service(
             each_entity = valuesYaml["entities"][entity]
             print(entity, each_entity)
             m_entity.name = each_entity["type"]
-            m_entity.title = entity
+            m_entity.title =  get_value(each_entity, "title", entity)
             m_entity.favorite = get_value(each_entity, "favorite")
             m_entity.pkey = str(get_value(each_entity, "primary_key"))
             m_entity.info_list = get_value(each_entity, "info_list")
@@ -1093,7 +1111,8 @@ def build_json(
     for entity in entities:
         entity_name = entity["name"]
         e = {}
-        e["type"] = entity["title"]
+        e["type"] = entity_name
+        e["title"]  = entity["title"]
         e["primary_key"] = convert_list(entity["pkey"])
         if entity.get("new_template"):
             e["new_template"] = entity["new_template"]

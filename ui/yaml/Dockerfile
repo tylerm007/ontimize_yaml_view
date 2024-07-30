@@ -26,16 +26,14 @@ RUN npm run production
 # Stage 2: Serve app with nginx server
 
 # Use official nginx image as the base image
-FROM nginx:latest
+FROM nginx:stable-alpine
 
 # Copy the build output to replace the default nginx contents.
 COPY --from=build /usr/local/app/dist /usr/share/nginx/html
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
-#RUN chown root /usr/share/nginx/html/*
-
-#and changed permissions using:
-
-#RUN chmod 755 /usr/share/nginx/html/*
-# Expose port 80
+COPY /setenv.sh /opt
+RUN chmod +x /opt/setenv.sh
 EXPOSE 80
+CMD ["sh", "-c", "/opt/setenv.sh && nginx -g 'daemon off;'"]
+

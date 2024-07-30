@@ -8,7 +8,8 @@ import api.system.opt_locking.opt_locking as opt_locking
 from security.system.authorization import Grant, Security
 import logging
 from base64 import b64decode
-from requests import get
+from requests import get, post
+import yaml
 
 app_logger = logging.getLogger(__name__)
 encoding = 'utf-8'
@@ -40,29 +41,36 @@ def declare_logic():
         enable_creation_stamping = True  # CreatedOn time stamping
         if enable_creation_stamping:
             row = logic_row.row
-            if logic_row.ins_upd_dlt == "ins" and hasattr(row, "createDate"):
-                row.createDate = datetime.datetime.now()
-                logic_row.log("early_row_event_all_classes - handle_all sets 'createDate"'')
+            if logic_row.ins_upd_dlt == "ins" and hasattr(row, "createdate"):
+                #row.createdate = datetime.datetime.now()
+                logic_row.log("early_row_event_all_classes - handle_all sets 'createdate"'')
         
         Grant.process_updates(logic_row=logic_row)
 
     Rule.early_row_event_all_classes(early_row_event_all_classes=handle_all)
 
     def validate_yaml(row:models.YamlFiles, old_row:models.YamlFiles, logic_row:LogicRow):
-        import yaml
-        if logic_row.ins_upd_dlt in ["ins","upd"] and row.download_flag == False:
+        if logic_row.ins_upd_dlt in ["ins"] and (row.download_flag is None or row.download_flag == False):
             if row.content:
                 yaml_content = str(b64decode(row.content), encoding=encoding) if row.content else None 
                 try:
-                    yaml.safe_load(yaml_content)
+                    ont_yaml = yaml.safe_load(yaml_content)
+                    if ont_yaml.get('entities') is None:
+                        #raise yaml.YAMLError("The yaml file must be a valid app_model.yaml file")
+                        return False
                     row.size = len(yaml_content)
-                    row.upload_flag = True
+                    row.upload_flag = False
+                    row.download_flag = False
                     row.content = yaml_content
+                    
                     return True
                 except yaml.YAMLError as exc:
+                    row.content = None
                     return False    
             return False
         return True
+
+            
     def export_yaml(row:models.YamlFiles, old_row:models.YamlFiles, logic_row:LogicRow):
         if logic_row.is_updated and row.download_flag and old_row.download_flag == False and row.content != None:
             from api.api_discovery.ontimize_api import export_yaml_to_file

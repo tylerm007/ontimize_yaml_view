@@ -1,0 +1,781 @@
+about:
+  date: May 26, 2024 09:58:39
+  recent_changes: works with modified safrs-react-admin
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication:
+  endpoint: '{http_type}://{swagger_host}:{port}/api/auth/login'
+entities:
+  Brand:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' brand_id*'
+      name: brand_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: brand
+      name: brand
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: TEXT
+      visible: true
+    - enabled: true
+      exclude: false
+      label: brand_desc
+      name: brand_desc
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(20)
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: brand_id
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - brand_id
+    tab_groups:
+    - direction: tomany
+      exclude: false
+      fks:
+      - brand_id
+      label: CattleList
+      name: CattleList
+      resource: Cattle
+    title: Brand
+    type: Brand
+  BrandLocation:
+    columns:
+    - enabled: true
+      exclude: false
+      label: brand_Loc_desc
+      name: brand_Loc_desc
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(20)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: ' brand_loc_id*'
+      name: brand_loc_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: brand_loc_id
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - brand_loc_id
+    title: BrandLocation
+    type: BrandLocation
+  Cattle:
+    columns:
+    - enabled: true
+      exclude: false
+      label: brand_id
+      name: brand_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: pen_id
+      name: pen_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: tab_number
+      name: tab_number
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(50)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: breed
+      name: breed
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(50)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: ' cattle_id*'
+      name: cattle_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: lot_id
+      name: lot_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: sex_id
+      name: sex_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: birth_date
+      name: birth_date
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DATE
+      visible: true
+    - enabled: true
+      exclude: false
+      label: brand_loc_id
+      name: brand_loc_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: cattle_id
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - cattle_id
+    tab_groups:
+    - direction: toone
+      exclude: false
+      fks:
+      - brand_id
+      label: brand
+      name: brand
+      resource: Brand
+    - direction: toone
+      exclude: false
+      fks:
+      - lot_id
+      label: lot
+      name: lot
+      resource: Lot
+    - direction: toone
+      exclude: false
+      fks:
+      - pen_id
+      label: pen
+      name: pen
+      resource: Pen
+    - direction: toone
+      exclude: false
+      fks:
+      - sex_id
+      label: sex
+      name: sex
+      resource: Sex
+    title: Cattle
+    type: Cattle
+  CattleDeal:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' cattle_deal_id*'
+      name: cattle_deal_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: pen_id
+      name: pen_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: total_invoice
+      name: total_invoice
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(10, 2)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: deal_id
+      name: deal_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: deal_pct
+      name: deal_pct
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(10, 2)
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: cattle_deal_id
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - cattle_deal_id
+    tab_groups:
+    - direction: tomany
+      exclude: false
+      fks:
+      - pen_id
+      label: InvoiceList
+      name: InvoiceList
+      resource: Invoice
+    - direction: toone
+      exclude: false
+      fks:
+      - deal_id
+      label: deal
+      name: deal
+      resource: Deal
+    - direction: toone
+      exclude: false
+      fks:
+      - pen_id
+      label: pen
+      name: pen
+      resource: Pen
+    title: CattleDeal
+    type: CattleDeal
+  Deal:
+    columns:
+    - enabled: true
+      exclude: false
+      label: contact
+      name: contact
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(50)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: email
+      name: email
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(100)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: deal_id
+      name: deal_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: ' deal_name*'
+      name: deal_name
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(50)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: phone
+      name: phone
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(100)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: deal_date
+      name: deal_date
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DATE
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: deal_name
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - deal_id
+    tab_groups:
+    - direction: tomany
+      exclude: false
+      fks:
+      - deal_id
+      label: CattleDealList
+      name: CattleDealList
+      resource: CattleDeal
+    title: Deal
+    type: Deal
+  Invoice:
+    columns:
+    - enabled: true
+      exclude: false
+      label: pen_id
+      name: pen_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: invoice_date
+      name: invoice_date
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DATE
+      visible: true
+    - enabled: true
+      exclude: false
+      label: ' invoice_id*'
+      name: invoice_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: amount
+      name: amount
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(10, 2)
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: invoice_id
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - invoice_id
+    tab_groups:
+    - direction: toone
+      exclude: false
+      fks:
+      - pen_id
+      label: pen
+      name: pen
+      resource: CattleDeal
+    title: Invoice
+    type: Invoice
+  Lot:
+    columns:
+    - enabled: true
+      exclude: false
+      label: pen_count
+      name: pen_count
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: contact
+      name: contact
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(50)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: city
+      name: city
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(100)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: postal_code
+      name: postal_code
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(100)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: phone
+      name: phone
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(100)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: lat
+      name: lat
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(100)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: capacity
+      name: capacity
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: ' lott_name*'
+      name: lott_name
+      required: true
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(50)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: livestock_count
+      name: livestock_count
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: address
+      name: address
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(100)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: Region
+      name: Region
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(100)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: country
+      name: country
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(100)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: fax
+      name: fax
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(100)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: lng
+      name: lng
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(100)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: lot_id
+      name: lot_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: lott_name
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - lot_id
+    tab_groups:
+    - direction: tomany
+      exclude: false
+      fks:
+      - lot_id
+      label: CattleList
+      name: CattleList
+      resource: Cattle
+    - direction: tomany
+      exclude: false
+      fks:
+      - lot_id
+      label: PenList
+      name: PenList
+      resource: Pen
+    title: Lot
+    type: Lot
+  Pen:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' pen_name*'
+      name: pen_name
+      required: true
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(50)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: cattle_count
+      name: cattle_count
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: capacity
+      name: capacity
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: lot_id
+      name: lot_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: geofence
+      name: geofence
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(100)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: pen_id
+      name: pen_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: pen_name
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - pen_id
+    tab_groups:
+    - direction: tomany
+      exclude: false
+      fks:
+      - pen_id
+      label: CattleList
+      name: CattleList
+      resource: Cattle
+    - direction: tomany
+      exclude: false
+      fks:
+      - pen_id
+      label: CattleDealList
+      name: CattleDealList
+      resource: CattleDeal
+    - direction: toone
+      exclude: false
+      fks:
+      - lot_id
+      label: lot
+      name: lot
+      resource: Lot
+    title: Pen
+    type: Pen
+  Sex:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' sex_id*'
+      name: sex_id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: sex_desc
+      name: sex_desc
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(20)
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: sex_id
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - sex_id
+    tab_groups:
+    - direction: tomany
+      exclude: false
+      fks:
+      - sex_id
+      label: CattleList
+      name: CattleList
+      resource: Cattle
+    title: Sex
+    type: Sex
+settings:
+  style_guide:
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000'
+    decimal_min: '0'
+    decimal_separator: .
+    edit_on_mode: dblclick
+    include_translation: false
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    mode: tab
+    pick_style: list
+    style: light
+    thousand_separator: ','
+    use_keycloak: false
