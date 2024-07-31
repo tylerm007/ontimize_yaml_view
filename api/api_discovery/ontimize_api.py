@@ -278,10 +278,11 @@ def add_service(
 
             else:
                 if clz_type == "importyaml":
-                    key = filter.split("=")[1] if filter and "id" in filter else "1"
+                    key = filter.split("=")[1] if filter and "name" in filter else "app_model.yaml"
+                    key = key.replace("'","",2).strip()
                     resp = (
                         session.query(models.YamlFiles)
-                        .filter(models.YamlFiles.id == int(key))
+                        .filter(models.YamlFiles.name == str(key))
                         .one()
                         )
                     yaml_content = resp and resp.content
@@ -518,15 +519,15 @@ def add_service(
             rows.append(row_as_dict)
         return rows
 
-    @app.route("/exportyaml", methods=["GET"])
-    def export_yaml():
-        # Write the JSON back to yaml
-        # GET curl "http://localhost:5656/exportyaml"
+    @app.route("/exportyaml/<key>", methods=["GET"])
+    def export_yaml(key: str = "app_model.yaml"):
+        # Write the yaml to disk and update the database if name is found
+        # GET curl "http://localhost:5656/exportyaml/{YamlFiles.name}"
 
         yaml_file = export_yaml_to_file(_project_dir)
         try:
             sql_alchemy_row = (
-                session.query(models.YamlFiles).filter(models.YamlFiles.id == 1).one_or_none()
+                session.query(models.YamlFiles).filter(models.YamlFiles.name == key).one_or_none()
             )
             if sql_alchemy_row and sql_alchemy_row.downloaded is None:
                 setattr(sql_alchemy_row, "downloaded", yaml_file)
@@ -534,13 +535,14 @@ def add_service(
                 session.commit()
         except Exception as ex:
             print(ex)
-            return jsonify({"code": 1, "message": f"{ex}", "data": None})
+            session.rollback()
+            #return jsonify({"code": 1, "message": f"{ex}", "data": None})
         app_logger.debug(f"Yaml file written to ui/app_model_merge.yaml")
         return yaml_file
 
 
     @app.route("/importyaml/<key>", methods=["GET", "POST", "OPTIONS"])
-    def load_yaml(key: int = 0):
+    def load_yaml(key: str = "app_model.yaml"):
         """
         GET curl "http://localhost:5655/importyaml"
         POST  curl -X "POST" http://localhost:5655/importyaml -H "Content-Type: text/x-yaml" -d @app_model.yaml
@@ -555,7 +557,7 @@ def add_service(
             encoding = "utf-8"
             data = (
                 session.query(models.YamlFiles)
-                .filter(models.YamlFiles.id == int(key))
+                .filter(models.YamlFiles.name == str(key))
                 .one()
             )
             yaml_content = data and data.content
@@ -572,7 +574,7 @@ def add_service(
         elif request.method == "POST":
             data = (
                 session.query(models.YamlFiles)
-                .filter(models.YamlFiles.id == int(key))
+                .filter(models.YamlFiles.name == str(key))
                 .one()
             )
             yaml_content = data and data.content

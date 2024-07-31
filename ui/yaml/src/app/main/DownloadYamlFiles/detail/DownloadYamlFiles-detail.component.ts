@@ -1,20 +1,20 @@
 import { Injector, ViewChild, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { OFormComponent, OntimizeService, OListPickerComponent, OTableComponent, ORealPipe, ONIFInputComponent } from 'ontimize-web-ngx';
+import { OFormComponent, OntimizeService, OTableComponent, OTextareaInputComponent } from 'ontimize-web-ngx';
 import { DialogService } from 'ontimize-web-ngx';
 
 @Component({
-  selector: 'YamlFiles-detail',
-  templateUrl: './YamlFiles-detail.component.html',
-  styleUrls: ['./YamlFiles-detail.component.scss']
+  selector: 'DownloadYamlFiles-detail',
+  templateUrl: './DownloadYamlFiles-detail.component.html',
+  styleUrls: ['./DownloadYamlFiles-detail.component.scss']
 })
-export class YamlFilesDetailComponent implements OnInit  {
+export class DownloadYamlFilesDetailComponent implements OnInit  {
   protected service: OntimizeService;
   public data: any;
   public content: string;
   public downloaded: string;
 
-  @ViewChild('oDetailForm') form: OFormComponent;
-  
+  @ViewChild('yamlFile') yamlFile: OFormComponent;
+  @ViewChild('downloadedFile') downloadedFile: OTextareaInputComponent;
   constructor(protected injector: Injector,
     protected dialogService: DialogService)  {
     this.service = this.injector.get(OntimizeService);
@@ -51,29 +51,23 @@ export class YamlFilesDetailComponent implements OnInit  {
     }
     return this.downloaded;
   }
-  process_yaml() {
-    console.log("process_yaml");
-    this.service.query({ 'name': this.data.name }, [],"importyaml").subscribe((resp) => {
-        console.log("res: " + JSON.stringify(resp));
+    download_yaml() {
+      console.log("download_yaml");
+      this.service.update({'name':this.data.name}, {'download_flag':true},"YamlFiles").subscribe((resp) => {
+        console.log("downloaded: " + JSON.stringify(resp.data.attributes.content));
         if (resp.code === 0) {
-          this.updateProcessFlag()
+          this.data.downloaded = JSON.stringify(resp.data.attributes.content)
+          this.showDownloadInfo();
+          this.yamlFile.reload();
+        } else {
+          console.error(resp);
         }
       });
     }
-    updateProcessFlag() {
-      console.log("updateProcessFlag");
-      this.data.upload_flag = true;
-      this.service.update({'name':this.data.name}, {'upload_flag':this.data.upload_flag},"YamlFiles").subscribe((resp) => {
-        console.log("res: " + JSON.stringify(resp));
-        if (resp.code === 0) {
-          this.showInfo();
-        }
-      });
-    }
-    showInfo() {
-        if (this.dialogService) {
-        this.dialogService.info('Yaml Processing Complete',
-            'Entities, Attributes, and Relationships have been created from the Yaml "original content"',);
-        }
+    showDownloadInfo(){
+      if (this.dialogService) {
+        this.dialogService.info('Yaml File Downloaded',
+            'The Yaml "converted content" has been downloaded (press Refresh if not visible)',);
+      } 
     }
 }
