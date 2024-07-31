@@ -35,7 +35,6 @@ CREATE TABLE "User" (
     email varchar(128) DEFAULT NULL,
     password_hash varchar(200) DEFAULT NULL,
     client_id INTEGER DEFAULT NULL,
-    region VARCHAR(32),
     PRIMARY KEY (id)
 );
 

@@ -118,7 +118,7 @@ class Config:
     KEYCLOAK_CLIENT_ID = 'alsclient'
     ''' keycloak client id '''
 
-    SECURITY_ENABLED = True  # you must also: ApiLogicServer add-db --db_url=auth --bind_key=authentication
+    SECURITY_ENABLED = True
     SECURITY_PROVIDER = None
     if os.getenv('SECURITY_ENABLED'):  # e.g. export SECURITY_ENABLED=true
         security_export = os.getenv('SECURITY_ENABLED')  # type: ignore # type: str

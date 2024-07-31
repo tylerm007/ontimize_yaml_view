@@ -9,34 +9,6 @@
 # --> builds, runs at localhost
 
 services:
-    api-logic-server:
-        image: tylerm007/apilogcproject
-        environment:
-            - APILOGICPROJECT_VERBOSE=true
-            - SECURITY_ENABLED=true
-            - APILOGICPROJECT_CLIENT_URI=//${HOST_IP}
-            - PYTHONPATH=/app/ApiLogicProject
-            - APILOGICSERVER_RUNNING=DOCKER
-            - APILOGICPROJECT_SWAGGER_HOST=${HOST_IP}
-            - APILOGICPROJECT_SWAGGER_PORT=5655
-            #- SQLALCHEMY_DATABASE_URI=postgresql://postgres:postgres@postgresql-service/yaml
-            #- SQLALCHEMY_DATABASE_URI_AUTHENTICATION=postgresql://postgres:postgres@postgresql-service/authdb
-            #- APILOGICPROJECT_SQLALCHEMY_DATABASE_URI=postgresql://postgres:postgres@postgresql-service/yaml
-            #- APILOGICPROJECT_SQLALCHEMY_DATABASE_URI_AUTHENTICATION=postgresql://postgres:postgres@postgresql-service/authdb
-            - APILOGICPROJECT_SQLALCHEMY_DATABASE_URI=mysql+pymysql://root:p@mysql-service:3306/yaml
-            - APILOGICPROJECT_SQLALCHEMY_DATABASE_URI_AUTHENTICATION=mysql+pymysql://root:p@mysql-service:3306/authdb
-        expose:
-            - 5655
-        volumes:
-            # relative path - thanks https://stackoverflow.com/questions/46907558/docker-compose-relative-paths-vs-docker-volume
-            # - /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/org_git/docker-compose-nw-postgres:/app
-            - ./../..:/app
-        # https://stackoverflow.com/questions/39460892/gunicorn-no-module-named-myproject
-        command: /usr/local/bin/gunicorn --reload --workers 2 --worker-connections 2 --access-logfile=- --pythonpath /app -b :5000 api_logic_server_run:flask_app 
-        working_dir: /app/ApiLogicProject 
-        depends_on:
-            - mysql-service
-
     nginx:
         restart: always
         image: nginx:latest
@@ -48,18 +20,47 @@ services:
             - ./etc/nginx.conf:/etc/nginx/conf.d/default.conf:ro
             - ./etc/ssl:/etc/ssl:ro
         depends_on:
-            - api-logic-server
+            - apilogicserver
 
-    mysql-service:
-        image: apilogicserver/mysql8.0:latest
+    postgresql-service:
+        image: postgres:10.5
         restart: always
         environment:
-            - MYSQL_USER=root
-            - MYSQL_PASSWORD=p
-            - MYSQL_ROOT_PASSWORD=p
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
         ports:
-            # <Port exposed> : <MySQL Port running inside service container>
-            - '3306:3306'
+            - '5432:5432'
+        volumes: 
+            - ./postgres-data:/var/lib/postgresql/data
+            # copy the sql script to create tables
+            - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+            - ./sql/create_tables_yaml.sql:/docker-entrypoint-initdb.d/create_tables_yaml.sql
+
+    apilogicserver:
+        image: tylerm007/ontimize_repos:latest
+        environment:
+            - APILOGICPROJECT_VERBOSE=true
+            - SECURITY_ENABLED=true
+            - APILOGICPROJECT_CLIENT_URI=//${HOST_IP}
+            - PYTHONPATH=/app/ApiLogicProject
+            - APILOGICSERVER_RUNNING=DOCKER
+            - APILOGICPROJECT_SWAGGER_HOST=${HOST_IP}
+            - APILOGICPROJECT_SWAGGER_PORT=5655
+            - SQLALCHEMY_DATABASE_URI=postgresql://postgres:postgres@postgresql-service/yaml
+            - SQLALCHEMY_DATABASE_URI_AUTHENTICATION=postgresql://postgres:postgres@postgresql-service/authdb
+            - APILOGICPROJECT_SQLALCHEMY_DATABASE_URI=postgresql://postgres:postgres@postgresql-service/yaml
+            - APILOGICPROJECT_SQLALCHEMY_DATABASE_URI_AUTHENTICATION=postgresql://postgres:postgres@postgresql-service/authdb
+        ports:
+            - 5655:5655
         expose:
-            # Opens port 3306 on the container
-            - '3306'
+            - 5655
+        depends_on:
+            - postgresql-service
+        volumes:
+            # relative path - thanks https://stackoverflow.com/questions/46907558/docker-compose-relative-paths-vs-docker-volume
+            # - /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/org_git/docker-compose-nw-postgres:/app
+            - ../../:/home/ApiLogicProject
+            #- ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:rw
+        # https://stackoverflow.com/questions/39460892/gunicorn-no-module-named-myproject
+        command: /usr/local/bin/gunicorn --reload --workers 2 --worker-connections 2 --access-logfile=- --pythonpath /app -b :5655 api_logic_server_run:flask_app 
+        working_dir: /home/ApiLogicProject 

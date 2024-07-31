@@ -1,3 +1,446 @@
-entities: {}
+about:
+  date: April 26, 2024 11:18:59
+  recent_changes: works with modified safrs-react-admin
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication:
+  endpoint: '{http_type}://{swagger_host}:{port}/api/auth/login'
+entities:
+  Entity:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' Entity Name*'
+      name: name
+      required: true
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(80)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: Title
+      name: title
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(100)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: Primary Key
+      name: pkey
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(100)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: favorite
+      name: favorite
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(100)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: info_list
+      name: info_list
+      required: false
+      search: false
+      sort: false
+      template: textarea
+      type: TEXT
+      visible: true
+    - enabled: true
+      exclude: false
+      label: info_show
+      name: info_show
+      required: false
+      search: false
+      sort: false
+      template: textarea
+      type: TEXT
+      visible: true
+    - enabled: true
+      exclude: false
+      label: exclude
+      name: exclude
+      required: false
+      search: false
+      sort: false
+      template: checkbox
+      type: BOOLEAN
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: name
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - name
+    tab_groups:
+    - direction: tomany
+      exclude: false
+      fks:
+      - entity_name
+      label: EntityAttrList
+      name: EntityAttrList
+      resource: EntityAttr
+    - direction: tomany
+      exclude: false
+      fks:
+      - entity_name
+      label: TabGroupList
+      name: TabGroupList
+      resource: TabGroup
+    - direction: tomany
+      exclude: false
+      fks:
+      - tab_entity
+      label: TabGroupList1
+      name: TabGroupList1
+      resource: TabGroup
+    title: Entity
+    type: Entity
+  EntityAttr:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' Entity Name*'
+      name: entity_name
+      required: true
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(80)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: Attribute
+      name: attr
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(80)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: template_name
+      name: template_name
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(100)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: label
+      name: label
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(100)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: Search
+      name: issearch
+      required: false
+      search: false
+      sort: false
+      template: checkbox
+      type: BOOLEAN
+      visible: true
+    - enabled: true
+      exclude: false
+      label: Sort
+      name: issort
+      required: false
+      search: false
+      sort: false
+      template: checkbox
+      type: BOOLEAN
+      visible: true
+    - enabled: true
+      exclude: false
+      label: DataType
+      name: thistype
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(50)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: tooltip
+      name: tooltip
+      required: false
+      search: false
+      sort: false
+      template: textarea
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: exclude
+      name: exclude
+      required: false
+      search: false
+      sort: false
+      template: checkbox
+      type: BOOLEAN
+      visible: true
+    - enabled: true
+      exclude: false
+      label: Required
+      name: isrequired
+      required: false
+      search: false
+      sort: false
+      template: checkbox
+      type: BOOLEAN
+      visible: true
+    - enabled: true
+      exclude: false
+      label: Enabled
+      name: isenabled
+      required: false
+      search: false
+      sort: false
+      template: checkbox
+      type: BOOLEAN
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: entity_name
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - entity_name
+    - attr
+    tab_groups:
+    - direction: toone
+      exclude: false
+      fks:
+      - entity_name
+      label: entity
+      name: entity
+      resource: Entity
+    - direction: toone
+      exclude: false
+      fks:
+      - template_name
+      label: template
+      name: template
+      resource: Template
+    title: EntityAttr
+    type: EntityAttr
+  GlobalSetting:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(100)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: value
+      name: value
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: description
+      name: description
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: TEXT
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: name
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - name
+    title: GlobalSetting
+    type: GlobalSetting
+  TabGroup:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' Entity Name*'
+      name: entity_name
+      required: true
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(80)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: Tab Entity
+      name: tab_entity
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(80)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: direction
+      name: direction
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(6)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: label
+      name: label
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(80)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: fkeys
+      name: fkeys
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(80)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: exclude
+      name: exclude
+      required: false
+      search: false
+      sort: false
+      template: checkbox
+      type: BOOLEAN
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: entity_name
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - entity_name
+    - tab_entity
+    - direction
+    - label
+    tab_groups:
+    - direction: toone
+      exclude: false
+      fks:
+      - entity_name
+      label: entity
+      name: entity
+      resource: Entity
+    - direction: toone
+      exclude: false
+      fks:
+      - tab_entity
+      label: entity1
+      name: entity1
+      resource: Entity
+    title: TabGroup
+    type: TabGroup
+  Template:
+    columns:
+    - enabled: true
+      exclude: false
+      label: ' Name*'
+      name: name
+      required: true
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(100)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: description
+      name: description
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: TEXT
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: name
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - name
+    tab_groups:
+    - direction: tomany
+      exclude: false
+      fks:
+      - template_name
+      label: EntityAttrList
+      name: EntityAttrList
+      resource: EntityAttr
+    title: Template
+    type: Template
 settings:
-  style_guide: {}
+  style_guide:
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000'
+    decimal_min: '0'
+    decimal_separator: .
+    edit_on_mode: dblclick
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    mode: tab
+    pick_style: list
+    row_height: medium
+    style: light
+    thousand_separator: ','
+    use_keycloak: false

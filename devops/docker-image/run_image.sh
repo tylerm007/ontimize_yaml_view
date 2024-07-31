@@ -16,7 +16,7 @@
 # docker run --env-file devops/docker/env.list -it --name api_logic_project --rm --net dev-network -p 5656:5656 -p 5002:5002 apilogicserver/ontimize bash
 
 # Start container and run the app
-docker run --env-file devops/docker-image/env.list -it --name api_logic_project --rm --net dev-network -p 5655:5655 -p 5002:5002 apilogicserver/ontimize_repos
+docker run --env-file devops/docker-image/env.list -it --name api_logic_project --rm --net dev-network -p 5655:5655 -p 5002:5002 tylerm007/ontimize_repos
 
 # Or, start the container in bash
 # docker run --env-file devops/docker-image/env.list -it --name api_logic_project --rm --net dev-network -p 5656:5656 -p 5002:5002 apilogicserver/aicustomerorders /bin/bash

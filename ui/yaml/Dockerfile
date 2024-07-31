@@ -7,7 +7,9 @@
 #
 # docker tag tylerm007/yaml_editor tylerm007/yaml_editor:latest
 # docker push tylerm007/yaml_editor:latest  
-#
+
+# curl -X POST http://192.168.1.5:5655/ontimizeweb/services/rest/users/login -H 'Authorization: Basic YWRtaW46cA=='
+#  curl -X POST http://localhost:5655/ontimizeweb/services/rest/users/login -H 'Authorization: Basic YWRtaW46cA=='
 #  curl -X POST http://apilogicserver:5655/ontimizeweb/services/rest/users/login -H 'Authorization: Basic YWRtaW46cA=='
 FROM node:18.10.0-alpine as build
 USER root
@@ -35,10 +37,10 @@ FROM nginx:latest
 COPY --from=build /usr/local/app/dist /usr/share/nginx/html
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
-#RUN chown root /usr/share/nginx/html/*
-
-#and changed permissions using:
-
-#RUN chmod 755 /usr/share/nginx/html/*
-# Expose port 80
+COPY /setenv.sh /opt
+RUN chmod +x /opt/setenv.sh
 EXPOSE 80
+CMD ["sh", "-c", "/opt/setenv.sh && nginx -g 'daemon off;'"]
+
+
+

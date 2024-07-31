@@ -1,5 +1,5 @@
 export const environment = {
-  apiEndpoint: "http://apilogicserver:5655/ontimizeweb/services/rest",
+  apiEndpoint: "http://192.168.1.5:5655/ontimizeweb/services/rest",
   production: true,
   versions: {
     core: '15.2.10',

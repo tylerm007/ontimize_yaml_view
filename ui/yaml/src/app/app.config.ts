@@ -5,7 +5,9 @@ import { SERVICE_CONFIG } from './shared/app.services.config';
 import { environment } from 'src/environments/environment';
 
 export const CONFIG: Config = {
-  apiEndpoint: environment.apiEndpoint,
+  //apiEndpoint: environment.apiEndpoint,
+  apiEndpoint:  (window['__env'] !== undefined) ? window['__env']['apiUrl'] : environment.apiEndpoint,
+
   //production: environment.production,
   bundle: {
     path: 'bundle'
