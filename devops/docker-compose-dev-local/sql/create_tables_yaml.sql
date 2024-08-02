@@ -64,16 +64,15 @@ CREATE TABLE tab_group (
     
 );
 
-CREATE TABLE yaml_files(
-    id INTEGER NOT NULL,    
+CREATE TABLE yaml_files( 
     name VARCHAR(100) NOT NULL,    
     content TEXT,
     upload_flag BOOLEAN DEFAULT FALSE,
     download_flag    BOOLEAN DEFAULT FALSE, 
-    size INT, createDate DATE, 
+    size INT, 
     directory BOOLEAN NOT NULL DEFAULT FALSE, 
     downloaded text,
-    PRIMARY KEY(id)
+    PRIMARY KEY(name)
 );
 
 CREATE TABLE root (

@@ -132,11 +132,10 @@ def add_service(
     @app.route("/main/YamlFiles", methods=["GET", "POST", "DELETE", "OPTIONS"])
     @cross_origin()
     @admin_required()
-    @admin_required()
     def getFiles(path):
         method = request.method
-        # if method == 'OPTIONS':
-        #    return jsonify(success=True)
+        if method == 'OPTIONS':
+            return jsonify(success=True)
         files = session.query(models.YamlFiles).all()
         return jsonify({"code": 0, "message": "Yaml Files", "data": files})
 
