@@ -22,15 +22,17 @@ def jsonapi_filter(cls):
     from flask import request
     expressions = []
     query = cls._s_query
-    args = request.args
-    if args:
-        pass
+    if args := request.args:
+        from api.expression_parser import advancedFilter
         # Used by api_service layer  
+        expressions = advancedFilter(cls, args)
         
     return query.filter(or_(*expressions))
     
 
 class SAFRSBaseX(SAFRSBase):
     __abstract__ = True
-    # jsonapi_filter = jsonapi_filter
+    USE_ADVANCED_FILTER = False
+    if USE_ADVANCED_FILTER:
+        jsonapi_filter = jsonapi_filter
 
