@@ -20,8 +20,8 @@ from datetime import date
 from config.config import Args
 import os
 from pathlib import Path
-from api.expression_parser import parsePayload
-from api.gen_pdf_report import gen_report
+from api.system.expression_parser import parsePayload
+from api.system.gen_pdf_report import gen_report
 
 # called by api_logic_server_run.py, to customize api (new end points, services).
 # separate from expose_api_models.py, to simplify merge if project recreated
@@ -132,10 +132,11 @@ def add_service(
     @app.route("/main/YamlFiles", methods=["GET", "POST", "DELETE", "OPTIONS"])
     @cross_origin()
     @admin_required()
+    @admin_required()
     def getFiles(path):
         method = request.method
-        if method == 'OPTIONS':
-            return jsonify(success=True)
+        # if method == 'OPTIONS':
+        #    return jsonify(success=True)
         files = session.query(models.YamlFiles).all()
         return jsonify({"code": 0, "message": "Yaml Files", "data": files})
 
@@ -244,7 +245,7 @@ def add_service(
         api_clz = resource["model"]
 
         payload = json.loads(request.data)
-        expressions, filter, columns, sqltypes, offset, pagesize, orderBy, data = parsePayload(api_clz, payload)
+        expressions, filter, columns, sqltypes, offset, pagesize, orderBy, data = parsePayload(clz=api_clz, payload=payload)
         result = {}
         if method in ["PUT", "PATCH"]:
             sql_alchemy_row = session.query(api_clz).filter(text(filter)).one()

@@ -18,21 +18,19 @@ def jsonapi_filter(cls):
     Returns:
         _type_: SQLAlchemy query filter
     """
-    from sqlalchemy import text, or_
+    from sqlalchemy import text, or_, and_
     from flask import request
     expressions = []
     query = cls._s_query
     if args := request.args:
-        from api.expression_parser import advancedFilter
-        # Used by api_service layer  
+        from api.system.expression_parser import advancedFilter
         expressions = advancedFilter(cls, args)
         
-    return query.filter(or_(*expressions))
+    return query.filter(and_(*expressions))
     
 
 class SAFRSBaseX(SAFRSBase):
     __abstract__ = True
-    USE_ADVANCED_FILTER = False
-    if USE_ADVANCED_FILTER:
+    if do_enable_ont_advanced_filters := False:
         jsonapi_filter = jsonapi_filter
 
