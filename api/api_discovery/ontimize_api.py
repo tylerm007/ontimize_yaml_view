@@ -24,7 +24,7 @@ from api.system.expression_parser import parsePayload
 from api.system.gen_pdf_report import gen_report
 from api.system.gen_csv_report import gen_report as csv_gen_report
 from api.system.gen_pdf_report import export_pdf
-from api.system.gen_xlsx_report import xlsx_gen_report
+#from api.gen_xlsx_report import xlsx_gen_report
 
 # This is the Ontimize Bridge API - all endpoints will be prefixed with /ontimizeweb/services/rest
 # called by api_logic_server_run.py, to customize api (new end points, services).
@@ -36,7 +36,7 @@ app_logger = logging.getLogger(__name__)
 db = safrs.DB
 session = db.session
 _project_dir = None
-
+app_logger.debug("api/api_discovery/ontimize_api.py - services for ontimize")
 
 class DotDict(dict):
     """dot.notation access to dictionary attributes"""
@@ -47,10 +47,7 @@ class DotDict(dict):
     __delattr__ = dict.__delitem__
 
 
-def add_service(
-    app, api, project_dir, swagger_host: str, PORT: str, method_decorators=[]
-):
-
+def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_decorators=[]):
     # def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
     # sourcery skip: avoid-builtin-shadow
     """ Ontimize API - new end points for services 
@@ -60,7 +57,8 @@ def add_service(
     """
     global _project_dir
     _project_dir = project_dir
-    app_logger.debug("api/api_discovery/ontimize_api.py - services for ontimize")
+    pass
+
 
     def admin_required():
         """
@@ -97,8 +95,8 @@ def add_service(
         elif type == "pdf": 
             payload["entity"] = entity
             return export_pdf(api_clz, request, entity, queryParm, columns, columnTitles, attributes) 
-        elif type == "xlsx":
-            return xlsx_gen_report(api_clz, request, entity, queryParm, columns, columnTitles, attributes)
+        #elif type == "xlsx":
+        #    return xlsx_gen_report(api_clz, request, entity, queryParm, columns, columnTitles, attributes)
         
         return jsonify({"code":1,"message":f"Unknown export type {type}","data":None,"sqlTypes":None})   
     
@@ -263,7 +261,7 @@ def add_service(
                 # stmt = insert(api_clz).values(data)
 
             else:
-                if clz_type == "importyaml":
+                if clz_name == "YamlFiles" and clz_type in ["importyaml", "reloadyaml", "downloadyaml"]:
                     key = filter.split("=")[1] if filter and "name" in filter else "app_model.yaml"
                     key = key.replace("'","",2).strip()
                     resp = (
@@ -271,12 +269,23 @@ def add_service(
                         .filter(models.YamlFiles.name == str(key))
                         .one()
                         )
-                    yaml_content = resp and resp.content
-                    #yaml_content = request.data.decode("utf-8")
-                    valuesYaml = yaml.safe_load(yaml_content)
-                    process_yaml(valuesYaml=valuesYaml)
+                    if clz_type == "downloadyaml":
+                        yaml_content = export_yaml_to_file(_project_dir)
+                        try:
+                            setattr(resp, "downloaded", yaml_content)
+                            session.add(resp)
+                            session.commit()
+                        except Exception as ex:
+                            session.rollback()
+                            return jsonify({"code": 1, "message": f"Yaml file {clz_type} error {ex}", "data": None})
     
-                    return jsonify({"code": 0, "message": "Yaml file loaded", "data": None})
+                    else:
+                        yaml_content = resp.downloaded if resp.downloaded != None and clz_type == "reloadyaml" else resp.content
+                        #yaml_content = request.data.decode("utf-8")
+                        valuesYaml = yaml.safe_load(yaml_content)
+                        process_yaml(valuesYaml=valuesYaml)
+                    
+                    return jsonify({"code": 0, "totalQueryRecordsNumber": 1, "startRecordIndex": 1,"message": f"Yaml file {clz_type}", "data": yaml_content})
                 # GET (sent as POST)
                 # rows = get_rows_by_query(api_clz, filter, orderBy, columns, pagesize, offset)
                 if "TypeAggregate" in clz_type:
