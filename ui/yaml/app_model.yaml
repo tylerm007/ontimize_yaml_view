@@ -1,234 +1,871 @@
 about:
-  date: April 26, 2024 11:18:59
-  recent_changes: works with modified safrs-react-admin
-  version: 0.0.0
+  date: 7/22/2024
+  recent_changes: auth config, api_root, altered Customer/Order/Employee attribute
+    ordering, tab captions, info, EmpType, dept emps, defaults, show_when, cascade
+    add, toggles, images, security, login, virtual relns, global filters, no IsCommissioned,
+    employee.notes as textarea, reln names
 api_root: '{http_type}://{swagger_host}:{port}/{api}'
-authentication:
-  endpoint: '{http_type}://{swagger_host}:{port}/api/auth/login'
+authentication: '{system-default}'
 entities:
-  Entity:
+  Category:
     columns:
-    - label: ' Entity Name*'
-      name: name
-      required: true
+    - label: ' Category Name*'
+      name: CategoryName
       search: true
       sort: true
       template: text
-      type: VARCHAR(80)
-    - name: title
-      label: "Title"
+      type: text
+    - name: Description
       template: text
-      type: VARCHAR(100)
-    - name: pkey
-      label: "Primary Key"
-      template: text
-      type: VARCHAR(100)
-    - name: favorite
-      template: text
-      type: VARCHAR(100)
-    - name: info_list
-      template: textarea
-      type: TEXT
-    - name: info_show
-      template: textarea
-      type: TEXT
-    - name: exclude
-      template: checkbox
-      type: BOOLEAN
-    - name: new_template
-    - name: home_template
-    - name: detail_template
-    favorite: name
+      type: VARCHAR(8000)
+    - name: Client_id
+      template: integer
+      type: INTEGER
+    - name: Id
+      template: integer
+      type: INTEGER
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: CategoryName
+    home_template: home_template.html
+    info_list: <h1>Tour - Application Information, Authorization</h1> <h2>Application
+      Information</h2> Info is set in the <span style="font-family:'Courier New'">ui/admin/admin.yaml</span>
+      file with <span style="font-family:'Courier New'">info_list</span> and <span
+      style="font-family:'Courier New'">info_show</span>.  To show info... <ul> <li>On
+      the page, click (?) to see the info dialog box</li> <li>On the personalization
+      icon (upper right), click the (?) toggle to see info on the page</li> <li>In
+      the admin.yaml, set <span style="font-family:'Courier New'">info_toggle_checked</span></li>
+      </ul> Suggestion - visit the Customer, Department and Employee pages.<br><br>
+      <h2>Authorization</h2> The table includes 8 rows (login as 'admin' with password
+      'p', upper right).<br><br> But, logout and login as 'u1' -- only 1 is shown,
+      per <a target="_blank" href="https://apilogicserver.github.io/Docs/Security-Authorization/">authorization</a>.
+      <br><br>
+    mode: tab
+    new_template: new_template.html
     primary_key:
-    - name
+    - Id
+    type: Category
+  Customer:
+    columns:
+    - name: Id
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+    - label: ' Company Name*'
+      name: CompanyName
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+    - info: derived as sum(Order.AmountTotal where ShippedDate is None)
+      name: Balance
+      type: DECIMAL
+    - info: Balance may not exceed this value
+      name: CreditLimit
+      type: DECIMAL
+    - default: '0'
+      info: derived as sum(Order)
+      name: OrderCount
+      template: integer
+      type: INTEGER
+    - default: '0'
+      info: derived as count(Order where ShippedDate is None)
+      name: UnpaidOrderCount
+      template: integer
+      type: INTEGER
+    - name: Client_id
+      template: integer
+      type: INTEGER
+    - name: ContactName
+      template: text
+      type: VARCHAR(8000)
+    - name: ContactTitle
+      template: text
+      type: VARCHAR(8000)
+    - name: Address
+      template: text
+      type: VARCHAR(8000)
+    - name: City
+      template: text
+      type: VARCHAR(8000)
+    - name: Region
+      template: text
+      type: VARCHAR(8000)
+    - name: PostalCode
+      template: text
+      type: VARCHAR(8000)
+    - name: Country
+      template: text
+      type: VARCHAR(8000)
+    - name: Phone
+      template: text
+      type: VARCHAR(8000)
+    - name: Fax
+      template: text
+      type: VARCHAR(8000)
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: CompanyName
+    home_template: home_template.html
+    info_list: <h1>List Pages</h1> In this <a target="_blank" href="https://apilogicserver.github.io/Docs/Sample-Database/">Northwind
+      demo,</a> Info provides Tour suggestions (see Category for instructions).  On
+      this page... <ul> <li> <strong>Search</strong> on multiple fields (Company,
+      Contact Name) -- try z</li> <li> <strong>Sort</strong> by column headers</li>
+      <li> <strong>Pagination</strong> (at bottom) to handle large result sets</li>
+      <li> <strong>Multi-page</strong> <ul> <li>Reset your search / sort so that <span
+      style="font-family:'Courier New'">Alfreds</span> is at the top </li> <li>Click
+      <span style="font-family:'Courier New'">Alfreds,</span> to "zoom in" to the
+      <i>show</i> page <ul><li>More info there</li></ul></li> </ul> </li> </ul> <br><br>
+      <h2>Authorization</h2> The table includes many rows (login as 'admin' with password
+      'p', upper right).<br><br> But, logout and login as 's1' -- only 1 is shown,
+      per <a target="_blank" href="https://apilogicserver.github.io/Docs/Security-Authorization/">authorization</a>.
+      See `security/declare_logic.py`. <br><br>
+    info_show: <h1>Multi-table</h1> <ul> <li><strong>Multi-Table Browsing - </strong>Note
+      the list of related orders <ul> <li><strong>Navigations - </strong> Click first
+      Order</li> </ul> </li> <li> <strong>Multi-Table Add - </strong> Add a New Order
+      <ul> <li>Observe several fields are not shown when inserting (e.g., Order.Id)</li>
+      <li>Observe that the Customer is filled in ("Cascade Add")</li> <li>Lookup an
+      Employee</li> <li><strong>Click Save and Show</strong></li> <li>Insert several
+      OrderDetails <ul> <li>Observe OrderId value is defaulted ("Cascade Add") and
+      not shown ("Show_when")</li> <li>Lookup a Product</li> <li>Click <strong>Save
+      and Add Another</strong> </li> <li>Lookup another Product, and click <strong>Add</strong>
+      to see the added Order </li> </ul> </li> </ul>
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - Id
     tab_groups:
     - direction: tomany
       fks:
-      - entity_name
-      name: EntityAttrList
-      resource: EntityAttr
-    - direction: tomany
-      fks:
-      - entity_name
-      name: TabGroupList
-      resource: TabGroup
-    - direction: tomany
-      fks:
-      - tab_entity
-      name: TabGroupList1
-      resource: TabGroup
-    type: Entity
-  EntityAttr:
+      - CustomerId
+      label: Placed Order List
+      name: OrderList
+      resource: Order
+    type: Customer
+  CustomerDemographic:
     columns:
-    - label: ' Entity Name*'
-      name: entity_name
+    - label: ' Id*'
+      name: Id
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+    - name: CustomerDesc
+      template: text
+      type: VARCHAR(8000)
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: Id
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - Id
+    type: CustomerDemographic
+  Department:
+    columns:
+    - label: ' Department Name*'
+      name: DepartmentName
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(100)
+    - name: DepartmentId
+      template: integer
+      type: INTEGER
+    - name: Id
+      template: integer
+      type: INTEGER
+    - default: '0'
+      name: SecurityLevel
+      template: integer
+      type: INTEGER
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: DepartmentName
+    home_template: home_template.html
+    info_list: <h1>Tour - Authorization</h1> <h2>Global Security Filters</h2> Only
+      role sa & manager can view SecurityLevel > 0 - see security/declare_security.py
+      <br><br>
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - Id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - DepartmentId
+      name: DepartmentList
+      resource: Department
+    - direction: tomany
+      fks:
+      - OnLoanDepartmentId
+      name: EmployeeList
+      resource: Employee
+    - direction: tomany
+      fks:
+      - WorksForDepartmentId
+      name: WorksForEmployeeList
+      resource: Employee
+    - direction: toone
+      fks:
+      - DepartmentId
+      name: Department
+      resource: Department
+    type: Department
+  Employee:
+    columns:
+    - label: ' Last Name*'
+      name: LastName
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+    - name: OnLoanDepartmentId
+      template: integer
+      type: INTEGER
+    - name: WorksForDepartmentId
+      template: integer
+      type: INTEGER
+    - name: Salary
+      type: DECIMAL
+    - name: ProperSalary
+      type: DECIMAL
+    - default: Salaried
+      name: EmployeeType
+      template: text
+      type: VARCHAR(16)
+    - name: Dues
+      show_when: record["EmployeeType"] == "Hourly"
+      type: DECIMAL
+    - name: FirstName
+      template: text
+      type: VARCHAR(8000)
+    - name: Id
+      template: integer
+      type: INTEGER
+    - name: Title
+      template: text
+      type: VARCHAR(8000)
+    - name: TitleOfCourtesy
+      template: text
+      type: VARCHAR(8000)
+    - name: BirthDate
+      template: text
+      type: VARCHAR(8000)
+    - name: HireDate
+      template: text
+      type: VARCHAR(8000)
+    - name: Address
+      template: text
+      type: VARCHAR(8000)
+    - name: City
+      template: text
+      type: VARCHAR(8000)
+    - name: Region
+      template: text
+      type: VARCHAR(8000)
+    - name: PostalCode
+      template: text
+      type: VARCHAR(8000)
+    - name: Country
+      template: text
+      type: VARCHAR(8000)
+    - name: HomePhone
+      template: text
+      type: VARCHAR(8000)
+    - name: Extension
+      template: text
+      type: VARCHAR(8000)
+    - name: ReportsTo
+      template: integer
+      type: INTEGER
+    - name: PhotoPath
+      type: image
+    - name: Notes
+      type: textarea
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: LastName
+    home_template: home_template.html
+    info_list: <h1>Show When</h1> Support for <a target="_blank" href="https://apilogicserver.github.io/Docs/Admin-Customization/#show_when">Show
+      When</a> means you can define expressions that determine when a field is shown
+      or hidden.  On this page... <ul> <li> Click <strong>Suyama</strong> and note
+      <span style="font-family:'Courier New'">Dues</span> is hidden, but visible if
+      you click <strong>Steele</strong> <ul> <li> That is because <span style="font-family:'Courier
+      New'">Admin.yaml</span> has a expression for the <span style="font-family:'Courier
+      New'">show_when expression</span> for the <span style="font-family:'Courier
+      New'">Dues</span> field </li> </ul> </li> <li> Observe the same effect on Update
+      / Insert screens as you alter the value of <span style="font-family:'Courier
+      New'">EmployeeType</span></li> </ul> <h1>Images</h1> Observe that "show" pages
+      support images. <h1>Virtual Relationships</h1> Observe that your API includes
+      Manages and Manager.<br> These foreign keys are *not* defined in the database,
+      but in <span style="font-family:'Courier New'">database/customize_models.py</span>.<br>
+      <h1>Derived Attributes</h1> <span style="font-family:'Courier New'">ProperSalary</span>
+      is not defined in the database.<br> See <span style="font-family:'Courier New'">database/customize_models.py</span>.<br>
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - Id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - EmployeeId
+      name: EmployeeAuditList
+      resource: EmployeeAudit
+    - direction: tomany
+      fks:
+      - EmployeeId
+      name: EmployeeTerritoryList
+      resource: EmployeeTerritory
+    - direction: tomany
+      fks:
+      - EmployeeId
+      name: OrderList
+      resource: Order
+    - direction: toone
+      fks:
+      - OnLoanDepartmentId
+      name: OnLoanDepartment
+      resource: Department
+    - direction: toone
+      fks:
+      - UnionId
+      name: Union
+      resource: Union
+    - direction: toone
+      fks:
+      - WorksForDepartmentId
+      name: WorksForDepartment
+      resource: Department
+    type: Employee
+  EmployeeAudit:
+    columns:
+    - label: ' Last Name*'
+      name: LastName
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: EmployeeId
+      template: integer
+      type: INTEGER
+    - name: Title
+      template: text
+      type: VARCHAR
+    - name: Salary
+      type: DECIMAL
+    - name: FirstName
+      template: text
+      type: VARCHAR
+    - name: CreatedOn
+      template: text
+      type: TEXT
+    - name: CreatedBy
+      template: text
+      type: TEXT
+    - name: UpdatedOn
+      template: text
+      type: TEXT
+    - name: UpdatedBy
+      template: text
+      type: TEXT
+    - name: Id
+      template: integer
+      type: INTEGER
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: LastName
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - Id
+    tab_groups:
+    - direction: toone
+      fks:
+      - EmployeeId
+      name: Employee
+      resource: Employee
+    type: EmployeeAudit
+  EmployeeTerritory:
+    columns:
+    - label: ' Id*'
+      name: Id
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+    - name: TerritoryId
+      template: text
+      type: VARCHAR(8000)
+    - name: EmployeeId
+      required: true
+      template: integer
+      type: INTEGER
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: Id
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - Id
+    tab_groups:
+    - direction: toone
+      fks:
+      - TerritoryId
+      name: Territory
+      resource: Territory
+    - direction: toone
+      fks:
+      - EmployeeId
+      name: Employee
+      resource: Employee
+    type: EmployeeTerritory
+  Location:
+    columns:
+    - label: ' country*'
+      name: country
       required: true
       search: true
       sort: true
       template: text
-      type: VARCHAR(80)
-    - name: attr
-      label: Attribute
-      required: true
-      template: text
-      type: VARCHAR(80)
-    - name: template_name
-      template: text
-      type: VARCHAR(100)
-    - name: label
-      template: text
-      type: VARCHAR(100)
-    - name: issearch
-      label: Search
-      template: checkbox
-      type: BOOLEAN
-    - name: issort
-      label: Sort
-      template: checkbox
-      type: BOOLEAN
-    - name: thistype
-      label: "DataType"
+      type: VARCHAR(50)
+    - name: city
       required: true
       template: text
       type: VARCHAR(50)
-    - name: tooltip
-      template: textarea
-      type: VARCHAR(8000)
-    - name: exclude
-      template: checkbox
-      type: BOOLEAN
-    - name: isrequired
-      label: Required
-      template: checkbox
-      type: BOOLEAN
-    - name: isenabled
-      label: Enabled
-      template: checkbox
-      type: BOOLEAN
-    favorite: entity_name
+    - name: notes
+      template: text
+      type: VARCHAR(256)
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: country
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
     primary_key:
-    - entity_name
-    - attr
-    tab_groups:
-    - direction: toone
-      fks:
-      - entity_name
-      name: entity
-      resource: Entity
-    - direction: toone
-      fks:
-      - template_name
-      name: template
-      resource: Template
-    type: EntityAttr
-  GlobalSetting:
-    columns:
-    - label: ' name*'
-      name: name
-      required: true
-      search: true
-      sort: true
-      template: text
-      type: VARCHAR(100)
-    - name: value
-      required: true
-      template: text
-      type: VARCHAR(8000)
-    - name: description
-      template: text
-      type: TEXT
-    favorite: name
-    primary_key:
-    - name
-    type: GlobalSetting
-  TabGroup:
-    columns:
-    - label: ' Entity Name*'
-      name: entity_name
-      required: true
-      search: true
-      sort: true
-      template: text
-      type: VARCHAR(80)
-    - name: tab_entity
-      label: Tab Entity
-      required: true
-      template: text
-      type: VARCHAR(80)
-    - name: direction
-      required: true
-      template: text
-      type: VARCHAR(6)
-    - name: label
-      required: true
-      template: text
-      type: VARCHAR(80)
-    - name: fkeys
-      required: true
-      template: text
-      type: VARCHAR(80)
-    - name: exclude
-      template: checkbox
-      type: BOOLEAN
-    favorite: entity_name
-    primary_key:
-    - entity_name
-    - tab_entity
-    - direction
-    - label
-    tab_groups:
-    - direction: toone
-      fks:
-      - entity_name
-      name: entity
-      resource: Entity
-    - direction: toone
-      fks:
-      - tab_entity
-      name: entity1
-      resource: Entity
-    type: TabGroup
-  Template:
-    columns:
-    - label: ' Name*'
-      name: name
-      required: true
-      search: true
-      sort: true
-      template: text
-      type: VARCHAR(100)
-    - name: description
-      template: text
-      type: TEXT
-    favorite: name
-    primary_key:
-    - name
+    - country
+    - city
     tab_groups:
     - direction: tomany
       fks:
-      - template_name
-      name: EntityAttrList
-      resource: EntityAttr
-    type: Template
+      - Country
+      - City
+      name: OrderList
+      resource: Order
+    type: Location
+  Order:
+    columns:
+    - name: Id
+      show_when: isInserting == false
+      template: integer
+      type: INTEGER
+    - name: EmployeeId
+      template: integer
+      type: INTEGER
+    - info: set reduces Customer Balance, decreases Product Stock
+      name: ShippedDate
+      show_when: isInserting == false
+      template: text
+      type: VARCHAR(8000)
+    - name: OrderDate
+      type: DATE
+    - info: derived as sum(OrderDetail.Amount)
+      name: AmountTotal
+      show_when: isInserting == false
+      type: DECIMAL
+    - name: Ready
+      type: Boolean
+    - name: CloneFromOrder
+      template: integer
+      type: INTEGER
+    - default: '0'
+      name: OrderDetailCount
+      show_when: isInserting == false
+      template: integer
+      type: INTEGER
+    - name: Freight
+      type: DECIMAL
+    - label: Country
+      name: Country
+      template: text
+      type: VARCHAR(50)
+    - label: City
+      name: City
+      template: text
+      type: VARCHAR(50)
+    - name: RequiredDate
+      template: date
+      type: DATE
+    - name: CustomerId
+      required: true
+      template: text
+      type: VARCHAR(8000)
+    - label: ' Ship Name*'
+      name: ShipName
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+    - name: ShipVia
+      template: integer
+      type: INTEGER
+    - name: ShipAddress
+      template: text
+      type: VARCHAR(8000)
+    - name: ShipCity
+      template: text
+      type: VARCHAR(8000)
+    - name: ShipRegion
+      template: text
+      type: VARCHAR(8000)
+    - name: ShipZip
+      template: text
+      type: text
+    - name: ShipCountry
+      template: text
+      type: VARCHAR(8000)
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: Id
+    home_template: home_template.html
+    info_show: <h1>Tour</h1> <h3>Automatic Joins</h3> <ul> <li> Observe the Product
+      Name in the Order Detail list.</li> <li> In the <a target="_blank" href="https://apilogicserver.github.io/Docs/Sample-Database/">sample
+      database,</a> the Order Detail is related to the Product by <span style="font-family:'Courier
+      New'">ProductId.</span> which makes no sense to End Users.<br> So, the system
+      joins a suitable field, automatically. </li> <li> Automatic joins are configurable
+      <a target="_blank" href="https://apilogicserver.github.io/Docs/Admin-Customization/">configurable.</a>
+      </li> </ul> <h3>Update Support - Lookups, Logic</h3> <ul> <li> <strong>Edit</strong>
+      the first Order Detail, and.... <ul> <li> Use <strong>Lookup</strong> to select
+      a different product. </li> </ul> </li> <li> After save, observe the altered
+      <span style="font-family:'Courier New'">Amount Total.</span> <ul> <li> This
+      is not from code, but from <a target="_blank" href="https://apilogicserver.github.io/Docs/Tutorial/#logic">this
+      logic.</a> </li> </ul> </li> </ul>
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - Id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - OrderId
+      label: Order Detail List
+      name: OrderDetailList
+      resource: OrderDetail
+    - direction: toone
+      fks:
+      - CustomerId
+      name: Customer
+      resource: Customer
+    - direction: toone
+      fks:
+      - Country
+      - City
+      name: Location
+      resource: Location
+    - direction: toone
+      fks:
+      - EmployeeId
+      name: Employee
+      resource: Employee
+    type: Order
+  OrderDetail:
+    columns:
+    - label: ' Id*'
+      name: Id
+      search: true
+      show_when: isInserting == false
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: ProductId
+      required: true
+      template: integer
+      type: INTEGER
+    - name: OrderId
+      required: true
+      show_when: isInserting == false
+      template: integer
+      type: INTEGER
+    - info: derived as copy(Product.UnitPrice)
+      name: UnitPrice
+      show_when: isInserting == false
+      type: DECIMAL
+    - default: '1'
+      name: Quantity
+      template: integer
+      type: INTEGER
+    - default: '0'
+      name: Discount
+      template: real
+      type: DOUBLE
+    - info: derived as UnitPrice * Quantity
+      name: Amount
+      show_when: isInserting == false
+      type: DECIMAL
+    - info: derived as Order.ShippedDate
+      name: ShippedDate
+      show_when: isInserting == false
+      template: text
+      type: VARCHAR(8000)
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: Id
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - Id
+    tab_groups:
+    - direction: toone
+      fks:
+      - ProductId
+      name: Product
+      resource: Product
+    - direction: toone
+      fks:
+      - OrderId
+      name: Order
+      resource: Order
+    type: OrderDetail
+  Product:
+    columns:
+    - label: ' Product Name*'
+      name: ProductName
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+    - name: QuantityPerUnit
+      template: text
+      type: VARCHAR(8000)
+    - name: UnitPrice
+      required: true
+      type: DECIMAL
+    - info: derived as UnitsInStock - (UnitsShipped - old_row.UnitsShipped)
+      name: UnitsInStock
+      required: true
+      template: integer
+      type: INTEGER
+    - name: UnitsOnOrder
+      required: true
+      template: integer
+      type: INTEGER
+    - name: ReorderLevel
+      required: true
+      template: integer
+      type: INTEGER
+    - name: Discontinued
+      required: true
+      template: integer
+      type: INTEGER
+    - name: UnitsShipped
+      template: integer
+      type: INTEGER
+    - info: derived as sum(OrderDetail.Quantity where ShippedDate is not None)
+      name: Id
+      template: integer
+      type: INTEGER
+    - name: SupplierId
+      required: true
+      template: integer
+      type: INTEGER
+    - name: CategoryId
+      required: true
+      template: integer
+      type: INTEGER
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: ProductName
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - Id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - ProductId
+      name: OrderDetailList
+      resource: OrderDetail
+    type: Product
+  Region:
+    columns:
+    - label: ' Region Description*'
+      name: RegionDescription
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+    - name: Id
+      template: integer
+      type: INTEGER
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: RegionDescription
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - Id
+    type: Region
+  Shipper:
+    columns:
+    - label: ' Company Name*'
+      name: CompanyName
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+    - name: Phone
+      template: text
+      type: VARCHAR(8000)
+    - name: Id
+      template: integer
+      type: INTEGER
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: CompanyName
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - Id
+    type: Shipper
+  Supplier:
+    columns:
+    - label: ' Company Name*'
+      name: CompanyName
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+    - name: ContactName
+      template: text
+      type: VARCHAR(8000)
+    - name: ContactTitle
+      template: text
+      type: VARCHAR(8000)
+    - name: Address
+      template: text
+      type: VARCHAR(8000)
+    - name: City
+      template: text
+      type: VARCHAR(8000)
+    - name: Region
+      template: text
+      type: VARCHAR(8000)
+    - name: PostalCode
+      template: text
+      type: VARCHAR(8000)
+    - name: Country
+      template: text
+      type: VARCHAR(8000)
+    - name: Phone
+      template: text
+      type: VARCHAR(8000)
+    - name: Fax
+      template: text
+      type: VARCHAR(8000)
+    - name: HomePage
+      template: text
+      type: VARCHAR(8000)
+    - name: Id
+      template: integer
+      type: INTEGER
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: CompanyName
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - Id
+    type: Supplier
+  Territory:
+    columns:
+    - label: ' Territory Description*'
+      name: TerritoryDescription
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+    - name: Id
+      template: text
+      type: VARCHAR(8000)
+    - name: RegionId
+      required: true
+      template: integer
+      type: INTEGER
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: TerritoryDescription
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - Id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - TerritoryId
+      name: EmployeeTerritoryList
+      resource: EmployeeTerritory
+    type: Territory
+  Union:
+    columns:
+    - label: ' Name*'
+      name: Name
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(80)
+    - name: Id
+      template: integer
+      type: INTEGER
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: Name
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - Id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - UnionId
+      name: EmployeeList
+      resource: Employee
+    type: Union
 settings:
   HomeJS: http://localhost:5656/admin-app/home.js
   max_list_columns: 8
   style_guide:
+    applicationLocales:
+    - en
+    - es
     currency_symbol: $
     currency_symbol_position: left
     date_format: LL
-    decimal_max: '1000000'
+    decimal_max: '1000000000'
     decimal_min: '0'
     decimal_separator: .
     edit_on_mode: dblclick
+    include_translation: false
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
     max_decimal_digits: '4'
     min_decimal_digits: '2'
     mode: tab
     pick_style: list
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
     style: light
     thousand_separator: ','
     use_keycloak: false
-    row_height: medium
-    keycloak_url: http://localhost:8080
-    keycloak_realm: kcals
-    keycloak_client_id: alsclient

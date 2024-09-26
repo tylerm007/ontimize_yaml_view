@@ -27,7 +27,10 @@ resource_logger = logging.getLogger("api.customize_api")
 
 db = safrs.DB 
 """this is a safrs db not DB"""
+
 session = db.session  # type: sqlalchemy.orm.scoping.scoped_session
+
+
 class DotDict(dict):
     """ dot.notation access to dictionary attributes """
     # thanks: https://stackoverflow.com/questions/2352181/how-to-use-a-dot-to-access-members-of-dictionary/28463329
@@ -139,6 +142,7 @@ class CustomEndpoint():
         from api.api_discovery.ontimize_api import getMetaData
         resources = getMetaData(key)
         self._attributes = resources["resources"][key]["attributes"]
+        self._quote = '`' if Args.backtic_as_quote else '"'
         
     def __str__(self):
             return  f"Alias {self.alias} Model: {self._model_class.__name__} PrimaryKey: {self.primaryKey} FilterBy: {self.filter_by} OrderBy: {self.order_by}"
@@ -216,6 +220,7 @@ class CustomEndpoint():
         Returns:
             dict: data dict from sql
         """
+        expressions = []
         args = {}
         payload = {}
         result = {}
@@ -227,7 +232,8 @@ class CustomEndpoint():
             method = request.method
             self._method = method
             args = request.args
-            payload = json.loads(request.data.decode('utf-8'))
+            if len(request.data) > 0:
+                payload = json.loads(request.data.decode('utf-8'))
             self._printIncludes(1) # debug print
             if method == 'DELETE':
                 raise ValidationError( 'Delete is not supported at this time')
@@ -250,25 +256,26 @@ class CustomEndpoint():
                     pkey , value,  limit, offset, order_by , filter_  = self.parseArgs(args)
         #serverURL = f"{request.host_url}api"
         #query = f"{serverURL}/{self._model_class_name}"
-        self.startRecordIndex = offset + limit
+        self.startRecordIndex = int(offset) + int(limit)
         resource_logger.debug(f"CustomEndpoint execute on: {self._model_class_name} using alias: {self.alias}")
         filter_by = None
         #key = args.get(pkey) if args.get(pkey) is not None else args.get(f"filter[{pkey}]")
+        _quote = '`' if Args.backtic_as_quote else '"'
         if value is not None and value != 'undefined':
-            filter_by = f'"{pkey}" = {self.quoteStr(value)}'
+            filter_by = f'{_quote}{pkey}{_quote} = {self.quoteStr(value)}'
             self._pkeyList.append(self.quoteStr(value))
         elif altKey is not None:
-            filter_by = f'"{pkey}" = {self.quoteStr(altKey)}'
+            filter_by = f'{_quote}{pkey}{_quote} = {self.quoteStr(altKey)}'
             self._pkeyList.append(self.quoteStr(altKey))
         filter_by = filter_by if filter_ is None else f"{filter_by} and {filter_}" if filter_by is not None else filter_
         self._href = f"{request.url_root[:-1]}{request.path}"
-        limit = self.pagesize if self.pagesize > limit else limit
+        limit =  max(self.pagesize, int(limit))
         print(f"limit: {limit}, offset: {offset}, sort: {order_by},filter_by: {filter_by}, add_filter {filter_}")
         try:
             self._createRows(limit=limit,offset=offset,order_by=order_by,filter_by=filter_by, expressions=expressions) 
             self._executeChildren()
             self._modifyRows(result)
-            return json.dumps(result)
+            return json.dumps(result, indent=4, ensure_ascii=False).encode('utf8')
         except Exception as ex:
             resource_logger.error(f"CustomEndpoint error {ex}")
             return f"'error': {ex}"
@@ -353,19 +360,25 @@ class CustomEndpoint():
                     f"Adding filter_by: {filter_by}")
                     session_qry = session_qry.filter(text(filter_by))
                 
-                if order_by and isinstance(order_by, list) and len(order_by) > 0:
-                    col_name = order_by[0]["columnName"]
-                    for a in self._attributes:
-                        if a['attr'].key == col_name:
-                            col_name = a['attr'].columns[0].name
-                            break
-                    session_qry = session_qry.order_by(text(col_name))
+                if order_by:
+                    if isinstance(order_by, list) and len(order_by) > 0:
+                        col_name = order_by[0]["columnName"]
+                        direction =  order_by[0]["ascendent"] if "ascendent" in order_by[0] else False
+                        for a in self._attributes:
+                            if a['attr'].key == col_name:
+                                col_name = f"{a['attr'].columns[0].name } { 'asc' if direction else 'desc'}"
+                                break
+                        session_qry = session_qry.order_by(text(col_name))
+                    else:
+                        if order_by in self._attributes:
+                            session_qry = session_qry.order_by(text(order_by))
                 rows = session_qry.limit(limit).offset(offset).all()
         else:
             resource_logger.debug(
                 f"CreateRows on {model_class_name} using QueryFilter: {queryFilter} order_by: {self.order_by}")
             if self.order_by is not None:
-                session_qry = session_qry.filter(text(queryFilter)).order_by(self.order_by)
+                    if self.order_by in self._attributes:
+                        session_qry = session_qry.filter(text(queryFilter)).order_by(self.order_by)
             elif  self.filter_by is None:
                 session_qry = session_qry.filter(text(queryFilter))
             else:
@@ -709,8 +722,8 @@ class CustomEndpoint():
                 response = requests.post(url=url, json=j) 
             elif method in ["PUT","PATCH" ]:
                 response = requests.patch(url=f"{url}/{key}", data=j) 
-                
-        return json.dumps(json.loads(response.text)["data"]["attributes"]) if response.status_code < 301 else response.content
+        data  = json.loads(response.text)["data"]["attributes"]        
+        return json.dumps(data,indent=4, ensure_ascii=False).encode('utf8') if response.status_code < 301 else response.content
 
     def populateClass(self, clz, payload):
         for p in payload:
@@ -759,14 +772,23 @@ class CustomEndpoint():
         Returns:
             dict: dict array
         """
+        from decimal import Decimal
+        import datetime 
         rows = []
         for each_row in result:
-            row_as_dict = None
+            row_as_dict = {}
             print(f'type(each_row): {type(each_row)}')
             if isinstance (each_row, sqlalchemy.engine.row.Row):  # sqlalchemy.engine.row
                 row_as_dict = each_row._asdict()
             else:
-                row_as_dict = each_row.to_dict()
+                for a,v, in each_row.__dict__.items(): 
+                    if a != "_sa_instance_state":
+                        if isinstance(v, Decimal):
+                            row_as_dict[a] = str(v) 
+                        elif isinstance(v, datetime.date):
+                            row_as_dict[a] = v.strftime('%Y-%m-%d %H:%M:%S')
+                        else:
+                            row_as_dict[a] = v
             if hasattr(each_row,"id"):
                 with contextlib.suppress(Exception):
                     row_as_dict["id"] = each_row.id
@@ -857,7 +879,8 @@ class CustomEndpoint():
         try:
             if self._method == 'OPTIONS':
                 return json_
-            json_dict = json.loads(json_) if isinstance(json_, str) else json_
+            #TODO - fixup asscii to utf-8
+            json_dict = json.loads(json_) if isinstance(json_, bytes) else json_
             json_result = json_dict.get(key, json_dict) if key in json_dict else json_dict if isinstance(json_dict, list) else [json_dict]
         except Exception as ex:
             resource_logger.error(f"Transform Error on style {style} using key: {key} on {json_} error: {ex}")
@@ -872,7 +895,25 @@ class CustomEndpoint():
             result = newRes
         result = self.move_checksum(json_result)
         result if isinstance(result,list) else [result]
-        if style == "IMATIA":
+        
+        if style == "JSONAPI":
+            # Ontimize using the JSONAPI with the API Bridge
+            data = []
+            for row in result:
+                pkey = row[self.primaryKey] if self.primaryKey in row else None
+                if pkey is None:
+                    pkey = row["id"] if "id" in row else row["Id"] if "Id" in row else None
+                data.append({"attributes": row,"type": self._model_class_name, "id": pkey })
+            data = {"data": data,
+                "meta": {
+                    "count": len(result),
+                    "limit": self.pagesize,
+                    "total": len(result)
+                }        
+            }
+            result = data
+        elif style == "OntimizeEE":
+            #API Bridge - lets Ontimize work out-of-the-box
             recordsNumber = self.totalQueryRecordsNumber #if len(result) == 0 else self.startRecordIndex
             startRecord = self.startRecordIndex
             result = {"code":0,"totalQueryRecordsNumber": recordsNumber, "startRecordIndex": startRecord, "message":"ApiLogicServer","data": result ,"sqlTypes":{}}
@@ -931,7 +972,7 @@ class CustomEndpoint():
         for each_child_def in custom_endpoint_child_list:
             child_property_name = each_child_def.role_name
             if child_property_name == '':
-                child_property_name = "OrderList"  # FIXME default from class name
+                child_property_name = "OrderList"  # TODO default from class name
             if child_property_name.startswith('Product'):
                 debug = 'good breakpoint'
             row_dict_child_list = getattr(row, child_property_name)
@@ -983,7 +1024,7 @@ class CustomEndpoint():
             if child_property_name in row_dict:
                 row_dict_child_list = row_dict[child_property_name]
                 # row_as_dict[each_child_def.alias] = []  # set up row_dict child array
-                if each_child_def.isParent:  # FIXME not support (but TODO Lookup!)
+                if each_child_def.isParent:
                     #the_parent = getattr(row, child_property_name)
                     #the_parent_to_dict = self.to_dict(row = the_parent, current_endpoint = each_child_def)
                     #row_as_dict[each_child_def.alias].append(the_parent_to_dict)

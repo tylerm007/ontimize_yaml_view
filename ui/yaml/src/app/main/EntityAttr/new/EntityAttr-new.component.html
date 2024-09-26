@@ -1,7 +1,7 @@
-<o-breadcrumb [form]="EntityAttrForm" label-columns="" separator=" "></o-breadcrumb>
-<o-form #EntityAttrForm attr="EntityAttr_form_insert" service="EntityAttr" entity="EntityAttr" keys="entity_name;attr" fxLayout="column"
-        show-header="yes" header-actions="I" horizontal-scroll="yes" #oForm after-insert-mode="detail"
-        class="standalone-form-container">
+<o-form #EntityAttrForm attr="EntityAttr_form_insert" service="EntityAttr" entity="EntityAttr" 
+keys="entity_name;attr" fxLayout="column" show-header="yes" header-actions="I"
+horizontal-scroll="yes"
+after-insert-mode="new" class="standalone-form-container" (onInsertMode)="onInsertMode()">
 
         <o-row attr="row1" layout-align="start stretch">
                 <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">

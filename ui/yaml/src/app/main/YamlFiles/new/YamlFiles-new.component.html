@@ -1,7 +1,6 @@
 
-<o-breadcrumb [form]="YamlFilesForm" label-columns="" separator=" "></o-breadcrumb>
-<o-form #YamlFilesForm attr="YamlFiles_form_insert" service="YamlFiles" entity="YamlFiles"
-keys="name" fxLayout="column" show-header="yes" header-actions="I" show-header-title="yes" show-header-description="yes"
+<o-form #YamlFilesForm attr="YamlFiles_form_insert" service="YamlFiles" entity="YamlFiles" title="Import Yaml File" show-title="yes"
+keys="name" fxLayout="column" show-header="yes" header-actions="I" show-header-title="no" show-header-description="no"
 horizontal-scroll="no" show-header-navigation="no" after-insert-mode="home" class="standalone-form-container" (onInsertMode)="onInsertMode()">
 
 <o-row attr="row1" layout-align="start stretch">

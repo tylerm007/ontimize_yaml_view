@@ -119,6 +119,7 @@ def admin_events(flask_app: Flask, args: Args, validation_error: ValidationError
         if use_type == "mem":
             with open(f'ui/admin/{path}', "r") as f:  # path is admin.yaml for default url/app
                 content = f.read()
+
             if args.client_uri is not None:
                 content = content.replace(
                     '{http_type}://{swagger_host}:{port}',
@@ -192,18 +193,18 @@ def admin_events(flask_app: Flask, args: Args, validation_error: ValidationError
             "Access-Control-Allow-Origin"] = "*"  # <- You can change "*" for a domain for example "http://localhost"
         response.headers["Access-Control-Allow-Credentials"] = "true"
         response.headers["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS, PUT, DELETE, PATCH"
-        #response.headers["Access-Control-Allow-Headers"] = \
-        #    "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,  X-Requested-With, X-Auth-Token, Authorization, Access-Control-Allow-Origin"
+        response.headers["Access-Control-Allow-Headers"] = \
+            "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,  X-Requested-With, X-Auth-Token, Authorization, Access-Control-Allow-Origin"
                 #"access-control-allow-origin, authorization, content-type
         response.headers["Access-Control-Expose-Headers"] = "X-Auth-Token, Content-disposition, X-Requested-With"
         #response.headers["Content-Type"] = "application/json, text/html"
         
         # This is a short cut to auto login to Ontimize
         try:
-            from security.system.authentication import access_token
-            #access_token = request.headers.environ.get("HTTP_AUTHORIZATION")[7:]
-            if access_token:
-                response.headers["X-Auth-Token"] = access_token  # required for Ontimize (kludge alert)
+
+            from flask import g
+            if "access_token" in g:
+                response.headers["X-Auth-Token"] = g.access_token  # required for Ontimize (kludge alert)
         except:
             logging.error('\nadmin_loader - after_request - access_token not set\n')
 

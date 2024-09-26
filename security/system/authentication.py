@@ -37,7 +37,7 @@ authentication_provider : Abstract_Authentication_Provider = config.Config.SECUR
 # note: direct config access is disparaged, but used since args not set up when this imported
 
 security_logger = logging.getLogger(__name__)
-access_token = None
+
 JWT_EXCLUDE = 'jwt_exclude'
 
 def jwt_required(*args, **kwargs):
@@ -65,14 +65,17 @@ def configure_auth(flask_app: Flask, database: object, method_decorators: list[o
     """
     from config.config import Config
 
-    Config.SECURITY_PROVIDER.configure_auth(flask_app=flask_app)   # type-specific configuration
     
     flask_app.config["PROPAGATE_EXCEPTIONS"] = True
     flask_app.config["JWT_SECRET_KEY"] = "ApiLogicServerSecret"  # Change this!
     flask_app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=222)  #  change as you see fit
     flask_app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=30)
+
+    Config.SECURITY_PROVIDER.configure_auth(flask_app=flask_app)   # type-specific configuration
+
     jwt = JWTManager(flask_app)
     
+    @flask_app.route("/ontimizeweb/services/rest/auth/login", methods=["POST","OPTIONS"])
     @flask_app.route("/ontimizeweb/services/rest/users/login", methods=["POST","OPTIONS"])
     @flask_app.route("/api/auth/login", methods=["POST"])
     @cross_origin(supports_credentials=False)
@@ -84,8 +87,7 @@ def configure_auth(flask_app: Flask, database: object, method_decorators: list[o
             string: access token
         """
         if request.method == 'OPTIONS':
-            return jsonify(success=True)  
-        global access_token   
+            return jsonify(success=True)    
         try:   
             username = request.json.get("username", None)
             password = request.json.get("password", None)
@@ -108,8 +110,10 @@ def configure_auth(flask_app: Flask, database: object, method_decorators: list[o
         user = authentication_provider.get_user(username, password)
         if not user or not authentication_provider.check_password(user = user, password = password):
             return jsonify("Wrong username or password"), 401
-
+        
         access_token = create_access_token(identity=user)  # serialize and encode
+        from flask import g
+        g.access_token = access_token
         return jsonify(access_token=access_token)
     
     @jwt.user_identity_loader

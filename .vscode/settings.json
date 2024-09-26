@@ -9,7 +9,8 @@
         "proxied",
         "redef",
         "sqlalchemy",
-        "sqltypes"
+        "sqltypes",
+        "xlsxwriter"
     ],
     "[Log]": {
         "editor.wordWrap": "off"

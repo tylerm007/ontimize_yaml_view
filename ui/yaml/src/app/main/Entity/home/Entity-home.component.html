@@ -1,4 +1,4 @@
-<o-form attr="Entity" mode="tab" title="{{ 'ENTITY' | oTranslate }}" class="fill-form">
+<o-form-layout-manager attr="Entity" mode="tab" title="ENTITY">
     <div fxFill fxLayout="column" fxLayoutAlign="start">
         <o-table attr="EntityTable" service="Entity" entity="Entity" title="{{ 'ENTITY' | oTranslate }}" keys="name"
             columns="name;title;pkey;favorite;mode;menu_group;exclude;new_template;home_template;detail_template" header-actions="R;D"
@@ -35,4 +35,4 @@
             <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
         </o-table>
     </div>
-</o-form>
+</o-form-layout-manager>

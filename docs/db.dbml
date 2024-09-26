@@ -1,0 +1,198 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+
+Table Category {
+    Id INTEGER
+    CategoryName_ColumnName VARCHAR(8000)
+    Description VARCHAR(8000)
+    Client_id INTEGER
+    }
+
+Table Customer {
+    Id VARCHAR(8000)
+    CompanyName VARCHAR(8000)
+    ContactName VARCHAR(8000)
+    ContactTitle VARCHAR(8000)
+    Address VARCHAR(8000)
+    City VARCHAR(8000)
+    Region VARCHAR(8000)
+    PostalCode VARCHAR(8000)
+    Country VARCHAR(8000)
+    Phone VARCHAR(8000)
+    Fax VARCHAR(8000)
+    Balance DECIMAL
+    CreditLimit DECIMAL
+    OrderCount INTEGER
+    UnpaidOrderCount INTEGER
+    Client_id INTEGER
+    }
+
+Table CustomerDemographic {
+    Id VARCHAR(8000)
+    CustomerDesc VARCHAR(8000)
+    }
+
+Table Department {
+    Id INTEGER
+    DepartmentId INTEGER
+    DepartmentName VARCHAR(100)
+    SecurityLevel INTEGER
+    }
+
+Table Employee {
+    Id INTEGER
+    LastName VARCHAR(8000)
+    FirstName VARCHAR(8000)
+    Title VARCHAR(8000)
+    TitleOfCourtesy VARCHAR(8000)
+    BirthDate VARCHAR(8000)
+    HireDate VARCHAR(8000)
+    Address VARCHAR(8000)
+    City VARCHAR(8000)
+    Region VARCHAR(8000)
+    PostalCode VARCHAR(8000)
+    Country VARCHAR(8000)
+    HomePhone VARCHAR(8000)
+    Extension VARCHAR(8000)
+    Notes VARCHAR(8000)
+    ReportsTo INTEGER
+    PhotoPath VARCHAR(8000)
+    EmployeeType VARCHAR(16)
+    Salary DECIMAL
+    WorksForDepartmentId INTEGER
+    OnLoanDepartmentId INTEGER
+    UnionId INTEGER
+    Dues DECIMAL
+    }
+
+Table Union {
+    Id INTEGER
+    Name VARCHAR(80)
+    }
+
+Table EmployeeAudit {
+    Id INTEGER
+    Title VARCHAR
+    Salary DECIMAL
+    LastName VARCHAR
+    FirstName VARCHAR
+    EmployeeId INTEGER
+    CreatedOn TEXT
+    UpdatedOn TEXT
+    CreatedBy TEXT
+    UpdatedBy TEXT
+    }
+
+Table EmployeeTerritory {
+    Id VARCHAR(8000)
+    EmployeeId INTEGER
+    TerritoryId VARCHAR(8000)
+    }
+
+Table Territory {
+    Id VARCHAR(8000)
+    TerritoryDescription VARCHAR(8000)
+    RegionId INTEGER
+    }
+
+Table Location {
+    country VARCHAR(50)
+    city VARCHAR(50)
+    notes VARCHAR(256)
+    }
+
+Table Order {
+    Id INTEGER
+    CustomerId VARCHAR(8000)
+    EmployeeId INTEGER
+    OrderDate VARCHAR(8000)
+    RequiredDate DATE
+    ShippedDate VARCHAR(8000)
+    ShipVia INTEGER
+    Freight DECIMAL
+    ShipName VARCHAR(8000)
+    ShipAddress VARCHAR(8000)
+    ShipCity VARCHAR(8000)
+    ShipRegion VARCHAR(8000)
+    ShipPostalCode VARCHAR(8000)
+    ShipCountry VARCHAR(8000)
+    AmountTotal DECIMAL
+    Country VARCHAR(50)
+    City VARCHAR(50)
+    Ready BOOLEAN
+    OrderDetailCount INTEGER
+    CloneFromOrder INTEGER
+    }
+
+Table OrderDetail {
+    Id INTEGER
+    OrderId INTEGER
+    ProductId INTEGER
+    UnitPrice DECIMAL
+    Quantity INTEGER
+    Discount DOUBLE
+    Amount DECIMAL
+    ShippedDate VARCHAR(8000)
+    }
+
+Table Product {
+    Id INTEGER
+    ProductName VARCHAR(8000)
+    SupplierId INTEGER
+    CategoryId INTEGER
+    QuantityPerUnit VARCHAR(8000)
+    UnitPrice DECIMAL
+    UnitsInStock INTEGER
+    UnitsOnOrder INTEGER
+    ReorderLevel INTEGER
+    Discontinued INTEGER
+    UnitsShipped INTEGER
+    }
+
+Table Region {
+    Id INTEGER
+    RegionDescription VARCHAR(8000)
+    }
+
+Table SampleDBVersion {
+    Id INTEGER
+    Notes VARCHAR(800)
+    }
+
+Table Shipper {
+    Id INTEGER
+    CompanyName VARCHAR(8000)
+    Phone VARCHAR(8000)
+    }
+
+Table Supplier {
+    Id INTEGER
+    CompanyName VARCHAR(8000)
+    ContactName VARCHAR(8000)
+    ContactTitle VARCHAR(8000)
+    Address VARCHAR(8000)
+    City VARCHAR(8000)
+    Region VARCHAR(8000)
+    PostalCode VARCHAR(8000)
+    Country VARCHAR(8000)
+    Phone VARCHAR(8000)
+    Fax VARCHAR(8000)
+    HomePage VARCHAR(8000)
+    }
+
+
+
+// Relationships
+    Ref: Department.(DepartmentId) < Department.(Id)
+    Ref: Employee.(OnLoanDepartmentId) < Department.(Id)
+    Ref: Employee.(UnionId) < Union.(Id)
+    Ref: Employee.(WorksForDepartmentId) < Department.(Id)
+    Ref: EmployeeAudit.(EmployeeId) < Employee.(Id)
+    Ref: EmployeeTerritory.(EmployeeId) < Employee.(Id)
+    Ref: EmployeeTerritory.(TerritoryId) < Territory.(Id)
+    Ref: Order.(CloneFromOrder) < Order.(Id)
+    Ref: Order.(City, Country) < Location.(country, country)
+    Ref: Order.(CustomerId) < Customer.(Id)
+    Ref: Order.(EmployeeId) < Employee.(Id)
+    Ref: OrderDetail.(OrderId) < Order.(Id)
+    Ref: OrderDetail.(ProductId) < Product.(Id)

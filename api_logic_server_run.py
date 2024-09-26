@@ -15,8 +15,8 @@
 #
 ###############################################################################
 
-api_logic_server__version = '11.00.10'
-api_logic_server_created__on = 'August 06, 2024 09:48:29'
+api_logic_server__version = '11.02.00'
+api_logic_server_created__on = 'September 25, 2024 11:21:10'
 api_logic_server__host = 'localhost'
 api_logic_server__port = '5655'
 
@@ -119,9 +119,9 @@ if __name__ == "__main__":
                 f'.... with flask_host: {args.flask_host}\n'
                 f'.... and  swagger_port: {args.swagger_port}')
     if logic_alerts:
-        app_logger.info(f'\nAlert: These following are **Critical** to unlocking value:')
-        app_logger.info(f'.. see logic.declare_logic.py       -- {declare_logic_message}')
-        app_logger.info(f'.. see security.declare_security.py -- {declare_security_message}\n\n')
+        app_logger.info(f'\nAlert: These following are **Critical** to unlocking value for project: {project_name}:')
+        app_logger.info(f'.. see logic.declare_logic.py       -- {server_setup.declare_logic_message}')
+        app_logger.info(f'.. see security.declare_security.py -- {server_setup.declare_security_message}\n\n')
 
         app_logger.info(f'*************************************************************************')    
         app_logger.info(f'*   Startup Instructions: Open your Browser at: {args.http_scheme}://{args.swagger_host}:{args.port}   *')    
@@ -129,7 +129,7 @@ if __name__ == "__main__":
 
     flask_app.run(host=args.flask_host, threaded=True, port=args.port)
 else:
-    msg = f'API Logic Project Loaded (WSGI), version 11.00.10\n'
+    msg = f'API Logic Project Loaded (WSGI), version 11.02.00\n'
     msg += f'.. startup message: {start_up_message}\n'
 
     if server_setup.is_docker():
