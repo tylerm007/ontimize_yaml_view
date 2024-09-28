@@ -21,6 +21,20 @@ const routes: Routes = [
         }
     }
 },{
+    path: ':entity_name/RuleConstraint', loadChildren: () => import('../RuleConstraint/RuleConstraint.module').then(m => m.RuleConstraintModule),
+    data: {
+        oPermission: {
+            permissionId: 'RuleConstraint-detail-permissions'
+        }
+    }
+},{
+    path: ':entity_name/RuleEvent', loadChildren: () => import('../RuleEvent/RuleEvent.module').then(m => m.RuleEventModule),
+    data: {
+        oPermission: {
+            permissionId: 'RuleEvent-detail-permissions'
+        }
+    }
+},{
     path: ':entity_name/TabGroup', loadChildren: () => import('../TabGroup/TabGroup.module').then(m => m.TabGroupModule),
     data: {
         oPermission: {

@@ -1,7 +1,6 @@
-<div class="container">
-  <o-form-container breadcrumb="yes" breadcrumb-label-columns="entity_name" breadcrumb-separator=", " class="fill-form">
-    <o-form #form attr="RuleEvent_form_edit" service="RuleEvent" entity="RuleEvent" fxLayout="column" show-header="yes"
-      header-actions="R;I;U;D" #oDetailForm keys="id" keys-sql-types="INTEGER" show-header-navigation="yes"
+<o-form-container breadcrumb="yes" breadcrumb-label-columns="entity_name" breadcrumb-separator=", " class="fill-form">
+    <o-form #form attr="RuleEvent_form_edit" service="RuleEvent" entity="RuleEvent" title="Rule Event" fxLayout="column" show-header="yes"
+      header-actions="R;I;U;D" #oDetailForm keys="id" keys-sql-types="INTEGER" show-header-navigation="yes" show-title="yes"  
       (onDataLoaded)="onDataLoaded($event)">
 
       <o-row attr="row1" layout-align="start stretch">
@@ -30,4 +29,3 @@
 
     </o-form>
   </o-form-container>
-</div>

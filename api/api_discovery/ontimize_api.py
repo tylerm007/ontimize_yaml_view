@@ -867,7 +867,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         insert_styles(valuesYaml)
         insert_entities(valuesYaml)
         insert_root(valuesYaml)
-        insert_rules(valuesYaml)
+        insert_rules(valuesYaml) # this should be the source directory
     
         return jsonify(valuesYaml)
 
@@ -904,6 +904,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
             )
             m_entity.mode = get_value(each_entity, "mode", "tab")
             m_entity.menu_group = get_value(each_entity, "group", "data")
+
             try:
                 session.add(m_entity)
                 session.commit()
@@ -1040,6 +1041,8 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 m_entity_attr.visible = get_boolean(attr, "visible", True)
                 if get_value(attr, "default_value"):
                     m_entity_attr.default_value = get_value(attr, "default_value", "")
+                if get_value(attr, "rule"):
+                    m_entity_attr.rule = get_value(attr, "rule", "")
             try:
                 session.add(m_entity_attr)
                 session.commit()
@@ -1150,7 +1153,7 @@ def build_json(
             e["info_show"] = entity["info_show"]
         if entity.get("menu_group"):
             e["group"] = entity["menu_group"]
-
+            
         entity_list[entity_name] = e
 
         cols = []
@@ -1169,6 +1172,8 @@ def build_json(
                 col["visible"] = attr.get("visible", True)
                 if attr.get("default_value"):
                     col["default_value"] = attr.get("default_value")
+                if attr.get("rule"):
+                    col["rule"] = attr.get("rule")
                 cols.append(col)
         entity_list[entity_name]["columns"] = cols
         tab_group = []
