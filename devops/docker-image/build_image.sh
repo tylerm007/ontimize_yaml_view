@@ -11,7 +11,7 @@
 
 projectname="ontimize_repos"  # lower case, only
 repositoryname="tylerm007"
-version="1.0.14"
+version="11.02.00"
 
 debug() {
   debug="disabled"

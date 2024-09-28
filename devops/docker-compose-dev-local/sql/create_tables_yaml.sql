@@ -91,3 +91,35 @@ CREATE TABLE global_settings (
     description text,
     PRIMARY KEY (name)
 );
+
+CREATE TABLE rule_constraint (  
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    entity_name VARCHAR(80),
+    calling_fn VARCHAR(255),
+    as_condition VARCHAR(255),
+    err_msg VARCHAR(255),
+    error_attributes VARCHAR(80),
+    FOREIGN KEY (entity_name) REFERENCES entity(name)
+);
+
+CREATE TABLE rule_event (  
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    entity_name VARCHAR(80),
+    event_type VARCHAR(25),
+    calling_fn VARCHAR(255),
+    FOREIGN KEY (entity_name) REFERENCES entity(name)
+);
+CREATE TABLE rule_derivation (  
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    entity_name VARCHAR(80),
+    derive_column VARCHAR(80),
+    expression VARCHAR(255),
+    derivation_type VARCHAR(25),
+    as_child_entity VARCHAR(80),
+    child_role_name VARCHAR(80),
+    calling_fn VARCHAR(80),
+    where_clause VARCHAR(255),
+    insert_parent BOOLEAN,
+    FOREIGN KEY (entity_name,derive_column) REFERENCES entity_attr(entity_name,attr),
+    FOREIGN KEY (as_child_entity) REFERENCES entity(name)
+);

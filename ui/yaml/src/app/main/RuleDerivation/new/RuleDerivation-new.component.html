@@ -1,0 +1,51 @@
+<o-form #RuleDerivationForm attr="RuleDerivation_form_insert" service="RuleDerivation" entity="RuleDerivation" 
+keys="id" fxLayout="column" show-header="yes" header-actions="I"
+horizontal-scroll="yes"
+after-insert-mode="new" class="standalone-form-container" (onInsertMode)="onInsertMode()">
+
+<o-row attr="row1" layout-align="start stretch">
+  <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+    
+        <o-text-input #entity_name attr="entity_name" label=" entity_name*" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
+      
+        <o-list-picker 
+        attr="as_child_entity"
+        service="Entity" 
+        entity="EntityType"
+        fxFlex="30" 
+        query-on-init="no" 
+        query-on-bind="yes" 
+        required="no" 
+        enabled="yes" 
+        filter="yes"
+        value-column="name" 
+        value-column-type="VARCHAR"  
+        keys="name" 
+        columns="name;as_child_entity;name" 
+        title="as_child_entity"
+        visible-columns="name;name" 
+        separator=" - " width="680px" class="form-field">
+</o-list-picker>
+      
+        <o-text-input #derive_column attr="derive_column" label="derive_column" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
+      
+        <o-text-input #expression attr="expression" label="expression" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
+      
+        <o-text-input #derivation_type attr="derivation_type" label="derivation_type" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
+      
+        <o-text-input #child_role_name attr="child_role_name" label="child_role_name" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
+      
+        <o-text-input #calling_fn attr="calling_fn" label="calling_fn" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
+      
+        <o-text-input #where_clause attr="where_clause" label="where_clause" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
+      
+        <o-text-input #insert_parent attr="insert_parent" label="insert_parent" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
+      
+        <o-integer-input #id attr="id" label="id" type="integer" editable="no" required="no" ></o-integer-input>
+      
+</div>
+</o-row>
+
+<div layout-padding></div>
+
+</o-form>

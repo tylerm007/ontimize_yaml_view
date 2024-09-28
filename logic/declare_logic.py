@@ -80,7 +80,6 @@ def declare_logic():
                 
     Rule.row_event(models.YamlFiles, calling=export_yaml)
     Rule.constraint(models.YamlFiles, calling=validate_yaml, error_msg="Invalid app_model.yaml file")
-    
 
     app_logger.debug("..logic/declare_logic.py (logic == rules + code)")
 

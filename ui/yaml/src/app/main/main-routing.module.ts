@@ -16,6 +16,12 @@ export const routes: Routes = [
         { path: 'TabGroup', loadChildren: () => import('./TabGroup/TabGroup.module').then(m => m.TabGroupModule) },
 
         { path: 'GlobalSetting', loadChildren: () => import('./GlobalSetting/GlobalSetting.module').then(m => m.GlobalSettingModule) },
+        { path: 'RuleConstraint', loadChildren: () => import('./RuleConstraint/RuleConstraint.module').then(m => m.RuleConstraintModule) },
+    
+        { path: 'RuleDerivation', loadChildren: () => import('./RuleDerivation/RuleDerivation.module').then(m => m.RuleDerivationModule) },
+    
+        { path: 'RuleEvent', loadChildren: () => import('./RuleEvent/RuleEvent.module').then(m => m.RuleEventModule) },
+    
         { path: 'Template', loadChildren: () => import('./Template/Template.module').then(m => m.TemplateModule) },
     
         { path: 'YamlFiles', loadChildren: () => import('./YamlFiles/YamlFiles.module').then(m => m.YamlFilesModule) },

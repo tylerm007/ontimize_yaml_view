@@ -1,0 +1,36 @@
+<o-form #RuleConstraintForm attr="RuleConstraint_form_insert" service="RuleConstraint" entity="RuleConstraint" keys="id"
+        fxLayout="column" show-header="yes" header-actions="I" horizontal-scroll="yes" after-insert-mode="new"
+        class="standalone-form-container" (onInsertMode)="onInsertMode()">
+
+        <o-row attr="row1" layout-align="start stretch">
+                <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+
+                        <o-list-picker attr="entity_name" service="Entity" entity="EntityType" fxFlex="30"
+                                query-on-init="no" query-on-bind="yes" required="no" enabled="yes" filter="yes"
+                                value-column="name" value-column-type="VARCHAR" keys="name"
+                                columns="name;entity_name;name" title="entity_name" visible-columns="name;name"
+                                separator=" - " width="680px" class="form-field">
+                        </o-list-picker>
+
+
+                        <o-text-input #calling_fn attr="calling_fn" label="calling_fn" enabled="yes" required="no"
+                                fxFlex="20%" class="form-field"></o-text-input>
+
+                        <o-text-input #as_condition attr="as_condition" label="as_condition" enabled="yes" required="no"
+                                fxFlex="20%" class="form-field"></o-text-input>
+
+                        <o-text-input #err_msg attr="err_msg" label="err_msg" enabled="yes" required="no" fxFlex="20%"
+                                class="form-field"></o-text-input>
+
+                        <o-text-input #error_attributes attr="error_attributes" label="error_attributes" enabled="yes"
+                                required="no" fxFlex="20%" class="form-field"></o-text-input>
+
+                        <o-integer-input #id attr="id" label="id" type="integer" editable="no"
+                                required="no"></o-integer-input>
+
+                </div>
+        </o-row>
+
+        <div layout-padding></div>
+
+</o-form>

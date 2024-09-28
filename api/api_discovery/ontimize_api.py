@@ -859,11 +859,15 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         delete_sql(models.Entity)
         delete_sql(models.Template)
         delete_sql(models.Root)
+        delete_sql(models.RuleConstraint)
+        delete_sql(models.RuleDerivation)
+        delete_sql(models.RuleEvent)
 
         insert_template()
         insert_styles(valuesYaml)
         insert_entities(valuesYaml)
         insert_root(valuesYaml)
+        insert_rules(valuesYaml)
     
         return jsonify(valuesYaml)
 
@@ -970,6 +974,11 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
             except Exception as ex:
                 print(ex)
 
+    def insert_rules(valuesYaml):
+        from api.api_discovery.rule_parser import get_rules_from_file
+        rules_report = get_rules_from_file(_project_dir)
+        print(rules_report)
+        
     def get_value(obj: any, name: str, default: any = None):
         try:
             return obj[name]
