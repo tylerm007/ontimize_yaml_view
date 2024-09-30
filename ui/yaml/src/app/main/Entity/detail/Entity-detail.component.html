@@ -233,6 +233,25 @@
           </o-table>
         </div>
       </mat-tab>
+      <mat-tab label="Rule Derivations">
+        <div layout-padding>
+          <o-table attr="RuleDerivationTable" service="RuleDerivation" entity="RuleDerivation" keys="id" parent-keys="entity_name:name"
+            columns="entity_name;rule;id" horizontal-scroll="yes"
+            detail-form-route="RuleEvent" edit-form-route="RuleEvent"
+            visible-columns="rule" sort-columns="entity_name"
+            query-rows="25" quick-filter="yes" row-height="medium" select-all-checkbox="true" pageable="yes"
+            auto-adjust="true" virtual-scroll="yes" insert-button="yes" delete-button="yes" fixed-header="true"
+            class="vertical-padding-8" edition-mode="click" horizontal-scroll="yes" class="fill-form">
+
+  
+            <o-table-column #event_rule attr="rule" title="Derivation Rule" editable="no" required="no"
+              content-align="left"></o-table-column>
+
+
+            <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+          </o-table>
+        </div>
+      </mat-tab>
     </mat-tab-group>
   </o-form>
 </o-form-container>

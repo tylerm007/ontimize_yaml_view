@@ -156,6 +156,58 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         files = session.query(models.YamlFiles).all()
         return jsonify({"code": 0, "message": "Yaml Files", "data": files})
 
+    @app.route("/ontimizeweb/services/rest/merge_rules", methods=["GET", "POST", "DELETE", "OPTIONS"])  
+    @cross_origin()
+    @admin_required()
+    def merge_rules():
+        method = request.method
+        if method == "OPTIONS":
+            return jsonify(success=True)
+        #if method == "POST":
+        #    data = json.loads(request.data)
+        #    if data:
+        #        path = data.get("path")
+        #    else:
+        #        pass
+        path = "/Users/tylerband/ontimize/northwind-retool-jsonapi"
+        #parse the {path}/logic/declare_logic.py file
+        dir = f"{path}/logic/declare_logic.py"
+        from api.api_discovery.rule_parser import get_rules_from_file
+        rules = get_rules_from_file(path)
+        for rule in rules:  
+            print(rule)
+            if rule["entity"] == "all":
+                continue
+            if rule["type"] == "constraint":
+                sql_alchemy_row = models.RuleConstraint()
+                setattr(sql_alchemy_row, "rule", rule["rule"])
+                setattr(sql_alchemy_row, "entity_name", rule["entity"])
+                try:
+                    session.add(sql_alchemy_row)      
+                    session.commit()
+                except Exception as ex:
+                    print(f"Error adding constraint rule {rule} {ex}")
+            elif rule["type"].endswith("_event"):
+                sql_alchemy_row = models.RuleEvent()
+                setattr(sql_alchemy_row, "rule", rule["rule"])
+                setattr(sql_alchemy_row, "entity_name", rule["entity"])
+                try:
+                    session.add(sql_alchemy_row)      
+                    session.commit()
+                except Exception as ex:
+                    print(f"Error adding event rule {rule} {ex}")
+            else: 
+                sql_alchemy_row = models.RuleDerivation()
+                setattr(sql_alchemy_row, "rule", rule["rule"])
+                setattr(sql_alchemy_row, "entity_name", rule["entity"])
+                try:
+                    session.add(sql_alchemy_row)      
+                    session.commit()
+                except Exception as ex:
+                    print(f"Error adding derivations rule {rule} {ex}")
+                    
+        return jsonify({"code": 0, "message": "Merge Rules", "data": {}})      
+    
     @app.route(
         "/ontimizeweb/services/rest/YamlFiles/insertFile/<path:path>",
         methods=["GET", "POST", "DELETE", "OPTIONS"],
@@ -1002,9 +1054,6 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 except Exception as ex:
                     #session.rollback()
                     print(ex)
-        from api.api_discovery.rule_parser import get_rules_from_file
-        rules_report = get_rules_from_file(_project_dir)
-        print(rules_report)
         
     def get_value(obj: any, name: str, default: any = None):
         try:

@@ -1,52 +1,20 @@
-<o-form-layout-manager attr="RuleDerivation" mode="tab" title="Rule Derivation">
+<o-form-layout-manager attr="RuleDerivation" mode="dialog" title="Rule Derivation">
     <div fxFill fxLayout="column" fxLayoutAlign="start">
         <o-table attr="RuleDerivationTable" service="RuleDerivation" entity="RuleDerivation" title="Rule Derivation"
             keys="id"
-            columns="entity_name;as_child_entity;derive_column;expression;derivation_type;child_role_name;calling_fn;where_clause;insert_parent;id"
+            columns="entity_name;as_child_entity;derive_column;rule;expression;derivation_type;child_role_name;calling_fn;where_clause;insert_parent;id"
             header-actions="R;D"
-            visible-columns="entity_name;as_child_entity;derive_column;expression;derivation_type;child_role_name;calling_fn;where_clause;insert_parent"
+            visible-columns="entity_name;rule"
             sort-columns="entity_name" query-rows="20" quick-filter="yes" row-height="medium" select-all-checkbox="true"
             pageable="yes" auto-adjust="true" virtual-scroll="yes" edition-mode="dblclick" horizontal-scroll="yes"
             show-title="yes" export-button="yes">
 
             <o-table-column #entity_name attr="entity_name" title=" entity_name*" editable="no" required="no"
                 content-align="left">
-                <o-table-cell-renderer-service attr="entity_name" service="Entity" entity="EntityType"
-                        columns="name;name" parent-keys="id:entity_name" value-column="name" keys="entity_name"
-                        visible-columns="name" separator=" - " width="680px">
-                </o-table-cell-renderer-service>
             </o-table-column>
 
-            <o-table-column attr="as_child_entity" title="as_child_entity">
-                <o-table-cell-renderer-service attr="as_child_entity" service="Entity" entity="EntityType"
-                    columns="name;name" parent-keys="id:as_child_entity" value-column="name" keys="as_child_entity"
-                    visible-columns="name" separator=" - " width="680px">
-                </o-table-cell-renderer-service>
-            </o-table-column>
-
-            <o-table-column #derive_column attr="derive_column" title="derive_column" editable="no" required="no"
+            <o-table-column #derivation attr="rule" title="Rule Derivation" editable="no" required="no"
                 content-align="left"></o-table-column>
-
-            <o-table-column #expression attr="expression" title="expression" editable="no" required="no"
-                content-align="left"></o-table-column>
-
-            <o-table-column #derivation_type attr="derivation_type" title="derivation_type" editable="no" required="no"
-                content-align="left"></o-table-column>
-
-            <o-table-column #child_role_name attr="child_role_name" title="child_role_name" editable="no" required="no"
-                content-align="left"></o-table-column>
-
-            <o-table-column #calling_fn attr="calling_fn" title="calling_fn" editable="no" required="no"
-                content-align="left"></o-table-column>
-
-            <o-table-column #where_clause attr="where_clause" title="where_clause" editable="no" required="no"
-                content-align="left"></o-table-column>
-
-            <o-table-column #insert_parent attr="insert_parent" title="insert_parent" editable="no" required="no"
-                content-align="left"></o-table-column>
-
-            <o-table-column #id attr="id" title="id" type="integer" editable="no" required="no"
-                content-align="center"></o-table-column>
 
             <o-table-context-menu></o-table-context-menu>
             <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
