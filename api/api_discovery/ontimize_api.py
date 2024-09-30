@@ -666,8 +666,8 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         if clz_type == "importyaml":
             return load_yaml()
 
-        if clz_type == "exportyaml":
-            return dump_yaml()
+        #if clz_type == "exportyaml":
+        #    return dump_yaml()
 
         if clz_type == "upload":
             # TODO get full path and filename from request or store locally and read file
@@ -976,6 +976,32 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 print(ex)
 
     def insert_rules(valuesYaml):
+        
+        for entity in valuesYaml["entities"]:
+            rules = valuesYaml["entities"][entity]["rules"] if "rules" in valuesYaml["entities"][entity] else None
+            if rules:
+                for constraint in rules["contraints"]:
+                    m_rule = models.RuleConstraint()
+                    m_rule.entity_name = entity
+                    m_rule.rule = constraint
+                    
+                try:
+                    session.add(m_rule)
+                    session.commit()
+                except Exception as ex:
+                    #session.rollback()
+                    print(ex)
+                for event in rules["events"]:
+                    m_rule = models.RuleEvent()
+                    m_rule.entity_name = entity
+                    m_rule.rule = event
+                    
+                try:
+                    session.add(m_rule)
+                    session.commit()
+                except Exception as ex:
+                    #session.rollback()
+                    print(ex)
         from api.api_discovery.rule_parser import get_rules_from_file
         rules_report = get_rules_from_file(_project_dir)
         print(rules_report)
@@ -1078,8 +1104,10 @@ def export_yaml_to_file(project_dir: str):
     tabs = read(models.TabGroup)
     settings = read(models.GlobalSetting)
     root = read(models.Root)
+    rule_events = read(models.RuleEvent)
+    rule_constraints = read(models.RuleConstraint)
 
-    output = build_json(entities, attrs, tabs, settings, root)
+    output = build_json(entities, attrs, tabs, settings, root, rule_events, rule_constraints)
     fn = f"{project_dir}/ui/app_model_merge.yaml"
 
     return write_file(output, file_name=fn)
@@ -1115,7 +1143,7 @@ def read(clz) -> list:
 
 
 def build_json(
-    entities: list, attrs: list, tabs: list, settings: list, root: list
+    entities: list, attrs: list, tabs: list, settings: list, root: list, rule_events: list, rule_constraints: list
 ) -> any:
     output = {}
     for r in root:
@@ -1130,6 +1158,8 @@ def build_json(
     for entity in entities:
         entity_name = entity["name"]
         e = {}
+        constraints = []
+        events = []
         e["type"] = entity_name
         e["title"]  = entity["title"]
         e["primary_key"] = convert_list(entity["pkey"])
@@ -1153,6 +1183,17 @@ def build_json(
             e["info_show"] = entity["info_show"]
         if entity.get("menu_group"):
             e["group"] = entity["menu_group"]
+        for rule in rule_constraints:
+            if rule["entity_name"] == entity_name:
+                constraints.append(rule["rule"])
+        for rule in rule_events:
+            if rule["entity_name"] == entity_name:
+                events.append(rule["rule"])
+        if len(constraints) > 0 or len(events) > 0:
+            e["rules"] = {
+                "contraints": constraints,
+                "events": events    
+            }
             
         entity_list[entity_name] = e
 
@@ -1172,8 +1213,8 @@ def build_json(
                 col["visible"] = attr.get("visible", True)
                 if attr.get("default_value"):
                     col["default_value"] = attr.get("default_value")
-                if attr.get("rule"):
-                    col["rule"] = attr.get("rule")
+                if attr.get("derivation"):
+                    col["derivation"] = attr.get("derivation")  
                 cols.append(col)
         entity_list[entity_name]["columns"] = cols
         tab_group = []
