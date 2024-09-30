@@ -1041,8 +1041,8 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 m_entity_attr.visible = get_boolean(attr, "visible", True)
                 if get_value(attr, "default_value"):
                     m_entity_attr.default_value = get_value(attr, "default_value", "")
-                if get_value(attr, "rule"):
-                    m_entity_attr.rule = get_value(attr, "rule", "")
+                if get_value(attr, "derivation"):
+                    m_entity_attr.derivation = get_value(attr, "derivation", "")
             try:
                 session.add(m_entity_attr)
                 session.commit()
@@ -1058,7 +1058,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
             global_setting = models.GlobalSetting()
             print(f"{style}:{style_guide[style]}")
             global_setting.name = style
-            global_setting.value = style_guide[style]
+            global_setting.value = str(style_guide[style])
             session.add(global_setting)
         try:
             session.commit()

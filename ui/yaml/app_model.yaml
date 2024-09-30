@@ -72,11 +72,11 @@ entities:
       type: INTEGER
       rule: 'count(Order)'
     - default: '0'
-      info: derived as count(Order where: ShippedDate is None)
+      info: derived as count(Order where ShippedDate is None)
       name: UnpaidOrderCount
       template: integer
       type: INTEGER
-      rule: 'count(Order where: ShippedDate is None)'
+      rule: 'count(Order where ShippedDate is None)'
     - name: Client_id
       template: integer
       type: INTEGER
@@ -108,7 +108,7 @@ entities:
     - name: Fax
       template: text
       type: VARCHAR(8000)
-    rule: 'constraint(as_expr: lambda row: row.Balance <= row.CreditLimit, message: Balance ${Balance} may not exceed ${CreditLimit})'
+    rule: 'constraint(row.Balance <= row.CreditLimit, message = Balance  may not exceed CreditLimit)'
     detail_template: detail_template.html
     exclude: 'false'
     favorite: CompanyName

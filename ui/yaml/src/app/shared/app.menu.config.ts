@@ -32,7 +32,7 @@ export const MENU_CONFIG: MenuRootItem[] = [
         ] 
     }
     ,{ id: 'YamlFiles', name: '4. Download Yaml File', icon: 'download_file', route: '/main/DownloadYamlFiles' }
-    ,{id: 'rules', name: 'Rules', icon: 'edit_square', opened: false,
+    ,{id: 'rules', name: 'Rules', icon: 'edit_square', opened: true,
     items: [
         { id: 'RuleConstraint', name: 'Constraints', icon: 'view_list', route: '/main/RuleConstraint' }
         ,{ id: 'RuleDerivation', name: 'Derivations', icon: 'view_list', route: '/main/RuleDerivation' }

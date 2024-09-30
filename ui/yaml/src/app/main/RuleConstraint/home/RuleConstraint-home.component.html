@@ -1,29 +1,16 @@
 <o-form-layout-manager attr="RuleConstraint" mode="dialog" title="Rule Constraint">
     <div fxFill fxLayout="column" fxLayoutAlign="start">
         <o-table attr="RuleConstraintTable" service="RuleConstraint" entity="RuleConstraint" title="Rule Constraint"
-            keys="id" columns="entity_name;calling_fn;as_condition;err_msg;error_attributes;id"
+            keys="id" columns="entity_name;calling_fn;as_condition;err_msg;error_attributes;rule;id"
             header-actions="R;D"
-            visible-columns="entity_name;calling_fn;as_condition;err_msg;error_attributes"
+            visible-columns="entity_name;rule"
             sort-columns="entity_name" query-rows="20" quick-filter="yes" row-height="medium" select-all-checkbox="true"
             pageable="yes" auto-adjust="true" virtual-scroll="yes" edition-mode="dblclick" horizontal-scroll="yes"
             show-title="yes" export-button="yes">
 
             <o-table-column attr="entity_name" title="entity_name"></o-table-column>
 
-            <o-table-column #calling_fn attr="calling_fn" title="calling_fn" editable="no" required="no"
-                content-align="left"></o-table-column>
-
-            <o-table-column #as_condition attr="as_condition" title="as_condition" editable="no" required="no"
-                content-align="left"></o-table-column>
-
-            <o-table-column #err_msg attr="err_msg" title="err_msg" editable="no" required="no"
-                content-align="left"></o-table-column>
-
-            <o-table-column #error_attributes attr="error_attributes" title="error_attributes" editable="no"
-                required="no" content-align="left"></o-table-column>
-
-            <o-table-column #id attr="id" title="id" type="integer" editable="no" required="no"
-                content-align="center"></o-table-column>
+            <o-table-column attr="rule" title="Constraint Rule"></o-table-column>
 
             <o-table-context-menu></o-table-context-menu>
             <o-table-paginator page-size-options="24;48;96"></o-table-paginator>

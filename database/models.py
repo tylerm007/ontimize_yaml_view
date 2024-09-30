@@ -211,6 +211,7 @@ class EntityAttr(SAFRSBaseX, Base):
     exclude = Column(Boolean, server_default=text("false"))
     visible = Column(Boolean, server_default=text("true"))
     default_value = Column(String(100))
+    derivation = Column(String(255))
     allow_client_generated_ids = True
 
     # parent relationships (access parent)
@@ -244,6 +245,7 @@ class RuleConstraint(SAFRSBaseX, Base):
     as_condition = Column(String(255))
     err_msg = Column(String(255))
     error_attributes = Column(String(80))
+    rule = Column(String(255))
 
     # parent relationships (access parent)
     entity : Mapped["Entity"] = relationship(back_populates=("RuleConstraintList"))
@@ -272,6 +274,7 @@ class RuleEvent(SAFRSBaseX, Base):
     entity_name = Column(ForeignKey('entity.name'))
     event_type = Column(String(25))
     calling_fn = Column(String(255))
+    rule = Column(String(255))
 
     # parent relationships (access parent)
     entity : Mapped["Entity"] = relationship(back_populates=("RuleEventList"))
@@ -342,6 +345,7 @@ class RuleDerivation(SAFRSBaseX, Base):
     calling_fn = Column(String(80))
     where_clause = Column(String(255))
     insert_parent = Column(Boolean)
+    rule = Column(String(255))
 
     # parent relationships (access parent)
     entity : Mapped["Entity"] = relationship(back_populates=("RuleDerivationList"))
