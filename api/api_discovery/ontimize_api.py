@@ -891,11 +891,12 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         insert_styles(valuesYaml)
         insert_entities(valuesYaml)
         insert_root(valuesYaml)
-        #insert_rules(valuesYaml) # this should be the source directory
         if rule_content:
             from api.api_discovery.rule_parser import get_rules_from_content
             rules = get_rules_from_content(rule_content)
             insert_rules(rules)
+        else:
+            insert_rules_from_yaml(valuesYaml)
         return jsonify(valuesYaml)
 
     def delete_sql(clz):
@@ -1066,6 +1067,8 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                     m_rule = models.RuleEvent()
                     m_rule.entity_name = entity
                     m_rule.rule = event
+                    type = event.split("Rule.")[1].split("(")[0]
+                    m_rule.event_type = type
                     
                 try:
                     session.add(m_rule)
@@ -1073,6 +1076,21 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 except Exception as ex:
                     #session.rollback()
                     print(ex)
+            for column in valuesYaml["entities"][entity]["columns"]:
+                rule = column["derivation"] if "derivation" in column else None
+                if rule:
+                    m_rule = models.RuleDerivation()
+                    m_rule.entity_name = entity
+                    m_rule.rule = rule
+                    type = rule.split("Rule.")[1].split("(")[0]
+                    m_rule.derivation_type = type
+                        
+                    try:
+                        session.add(m_rule)
+                        session.commit()
+                    except Exception as ex:
+                        #session.rollback()
+                        print(ex)
         
     def get_value(obj: any, name: str, default: any = None):
         try:
