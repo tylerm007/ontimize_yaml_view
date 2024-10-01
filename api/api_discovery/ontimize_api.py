@@ -163,48 +163,15 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         method = request.method
         if method == "OPTIONS":
             return jsonify(success=True)
-        #if method == "POST":
-        #    data = json.loads(request.data)
-        #    if data:
-        #        path = data.get("path")
-        #    else:
-        #        pass
-        path = "/Users/tylerband/ontimize/northwind-retool-jsonapi"
+        if method == "POST":
+            data = json.loads(request.data)
+            path = data.get("path")
+        else:
+            path = "/Users/tylerband/ontimize/northwind-retool-jsonapi"
         #parse the {path}/logic/declare_logic.py file
         dir = f"{path}/logic/declare_logic.py"
-        from api.api_discovery.rule_parser import get_rules_from_file
-        rules = get_rules_from_file(path)
-        for rule in rules:  
-            print(rule)
-            if rule["entity"] == "all":
-                continue
-            if rule["type"] == "constraint":
-                sql_alchemy_row = models.RuleConstraint()
-                setattr(sql_alchemy_row, "rule", rule["rule"])
-                setattr(sql_alchemy_row, "entity_name", rule["entity"])
-                try:
-                    session.add(sql_alchemy_row)      
-                    session.commit()
-                except Exception as ex:
-                    print(f"Error adding constraint rule {rule} {ex}")
-            elif rule["type"].endswith("_event"):
-                sql_alchemy_row = models.RuleEvent()
-                setattr(sql_alchemy_row, "rule", rule["rule"])
-                setattr(sql_alchemy_row, "entity_name", rule["entity"])
-                try:
-                    session.add(sql_alchemy_row)      
-                    session.commit()
-                except Exception as ex:
-                    print(f"Error adding event rule {rule} {ex}")
-            else: 
-                sql_alchemy_row = models.RuleDerivation()
-                setattr(sql_alchemy_row, "rule", rule["rule"])
-                setattr(sql_alchemy_row, "entity_name", rule["entity"])
-                try:
-                    session.add(sql_alchemy_row)      
-                    session.commit()
-                except Exception as ex:
-                    print(f"Error adding derivations rule {rule} {ex}")
+        from api.api_discovery.rule_parser import insert_rules_from_file
+        insert_rules_from_file(dir)
                     
         return jsonify({"code": 0, "message": "Merge Rules", "data": {}})      
     
@@ -375,7 +342,8 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                         yaml_content = resp.downloaded if resp.downloaded != None and clz_type == "reloadyaml" else resp.content
                         #yaml_content = request.data.decode("utf-8")
                         valuesYaml = yaml.safe_load(yaml_content)
-                        process_yaml(valuesYaml=valuesYaml)
+                        process_yaml(valuesYaml=valuesYaml, rule_content=resp.rule_content)
+                        
                     
                     return jsonify({"code": 0, "totalQueryRecordsNumber": 1, "startRecordIndex": 1,"message": f"Yaml file {clz_type}", "data": yaml_content})
                 # GET (sent as POST)
@@ -647,6 +615,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
             yaml_content = data and data.content
                 ##if not data.content.startswith('b')
                 ##else str(b64decode(data.content), encoding=encoding)
+            rule_content = data and data.rule_content
             
             if yaml_content:
                 try:
@@ -655,6 +624,8 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                     return jsonify({"code": 0, "message": "Yaml file loaded", "data": None})
                 except yaml.YAMLError as exc:
                     return jsonify({"code": 1, "message": f"Error loading yaml: {exc}"})
+            if rule_content:
+                merge_rules(rule_content)
         elif request.method == "POST":
             data = (
                 session.query(models.YamlFiles)
@@ -662,9 +633,10 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 .one()
             )
             yaml_content = data and data.content
+            rule_content = data and data.rule_content
             #yaml_content = request.data.decode("utf-8")
             valuesYaml = yaml.safe_load(yaml_content)
-            process_yaml(valuesYaml=valuesYaml)
+            process_yaml(valuesYaml=valuesYaml, rule_content=rule_content)
             return jsonify({"code": 0, "message": "Yaml file loaded", "data": None})
 
     def _gen_report(request) -> any:
@@ -902,7 +874,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                         )  # .strftime('%Y-%m-%d %H:%M:%S')
 
     # Process the yaml file (load SQLite)
-    def process_yaml(valuesYaml: str):
+    def process_yaml(valuesYaml: str, rule_content: str = None):
         # Clean the database out - this is destructive
 
         delete_sql(models.TabGroup)
@@ -919,8 +891,11 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         insert_styles(valuesYaml)
         insert_entities(valuesYaml)
         insert_root(valuesYaml)
-        insert_rules(valuesYaml) # this should be the source directory
-    
+        #insert_rules(valuesYaml) # this should be the source directory
+        if rule_content:
+            from api.api_discovery.rule_parser import get_rules_from_content
+            rules = get_rules_from_content(rule_content)
+            insert_rules(rules)
         return jsonify(valuesYaml)
 
     def delete_sql(clz):
@@ -1027,8 +1002,52 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
             except Exception as ex:
                 print(ex)
 
-    def insert_rules(valuesYaml):
-        
+    def insert_rules(rules: list):
+        for rule in rules:  
+            print(rule)
+            if rule["entity"] == "all":
+                continue
+            if rule["type"] == "constraint":
+                sql_alchemy_row = models.RuleConstraint()
+                setattr(sql_alchemy_row, "rule", rule["rule"])
+                setattr(sql_alchemy_row, "entity_name", rule["entity"])
+                try:
+                    session.add(sql_alchemy_row)      
+                    session.commit()
+                except Exception as ex:
+                    print(f"Error adding constraint rule {rule} {ex}")
+            elif rule["type"].endswith("_event"):
+                sql_alchemy_row = models.RuleEvent()
+                setattr(sql_alchemy_row, "rule", rule["rule"])
+                setattr(sql_alchemy_row, "entity_name", rule["entity"])
+                setattr(sql_alchemy_row, "event_type", rule["type"])
+                try:
+                    session.add(sql_alchemy_row)      
+                    session.commit()
+                except Exception as ex:
+                    print(f"Error adding event rule {rule} {ex}")
+            else: 
+                sql_alchemy_row = models.RuleDerivation()
+                setattr(sql_alchemy_row, "rule", rule["rule"])
+                setattr(sql_alchemy_row, "entity_name", rule["entity"])
+                setattr(sql_alchemy_row, "derivation_type", rule["type"])
+                try:
+                    session.add(sql_alchemy_row)      
+                    session.commit()
+                except Exception as ex:
+                    print(f"Error adding derivations rule {rule} {ex}")
+
+                if rule['attr']:
+                    update_entity_attr(rule["entity"], rule["rule"], rule['attr'])
+    
+    def update_entity_attr(entity: str, derivation: str, rule_attr: str):
+        entity_attr = session.query(models.EntityAttr).filter(models.EntityAttr.entity_name == entity).all()
+        for attr in entity_attr:
+            if attr.label == rule_attr:
+                attr.derivation = derivation
+                session.add(attr)
+                session.commit()                
+    def insert_rules_from_yaml(valuesYaml: dict):
         for entity in valuesYaml["entities"]:
             rules = valuesYaml["entities"][entity]["rules"] if "rules" in valuesYaml["entities"][entity] else None
             if rules:

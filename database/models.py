@@ -174,6 +174,7 @@ class YamlFiles(SAFRSBaseX, Base):
     download_flag = Column(Boolean, server_default=text("FALSE"))
     size = Column(Integer)
     downloaded = Column(Text)
+    rule_content = Column(Text)
     allow_client_generated_ids = True
 
     # parent relationships (access parent)

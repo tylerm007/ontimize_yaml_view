@@ -62,11 +62,13 @@ def declare_logic():
                     row.upload_flag = False
                     row.download_flag = False
                     row.content = yaml_content
-                    return True
                 except yaml.YAMLError as exc:
                     row.content = None
-                    return False    
-            return False
+                    return False
+                
+            if row.rule_content:  
+                row.rule_content = str(b64decode(row.rule_content), encoding=encoding) if row.rule_content else None
+            
         return True
 
             

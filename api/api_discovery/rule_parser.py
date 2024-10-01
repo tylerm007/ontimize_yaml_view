@@ -132,7 +132,44 @@ def get_rules_report(project_dir: str = None) -> any:
             rule_type[type].append(rule["rule"])
     return rule_group, rule_type
             
+def get_rules_from_content(content: str) -> list:
+    rule_list = []
+    results = []
+    start = False
+    count_left_parents, count_right_parents = 0, 0
+    for line in content.split("\n"):
+            this_line = clean(line)
+            if this_line.startswith('Rule.'):
+                rule_line = ""
+                start = True
+            if start:
+                count_left_parents += this_line.count('(')
+                count_right_parents += this_line.count(')')
+                rule_line += this_line
+            if count_left_parents == count_right_parents and start:
+                rule_list.append(rule_line.strip())
+                start = False
+                rule_line = ""
+                count_left_parents, count_right_parents = 0, 0
+    
+    for rule in rule_list:
+        print(rule)
+        type = rule.split("Rule.")[1].split("(")[0]
+        if type == "early_row_event_all_classes":
+            entity = "all"
+        else:
+            entity = rule.split("Rule.")[1].split("(")[1].split(",")[0].split(".")[1]
 
+        row = {"type": type, "entity": entity, "rule": rule, "attr": parse_rule_for_attr(rule, type)}
+        
+        results.append(row)
+        
+    return results
+
+def parse_rule_for_attr(rule: str, type: str) -> str:
+    if type == "constraint" or type.endswith("_event"):
+        return None
+    return rule.split("Rule.")[1].split("(")[1].split(",")[0].split(".")[-1]
 def get_rules_from_file(project_dir: str = None) -> list:
     rule_list = parse_rules(project_dir)
     results = []

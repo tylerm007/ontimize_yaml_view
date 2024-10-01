@@ -95,8 +95,9 @@ entities:
       template: text
       type: VARCHAR(8000)
       visible: true
-    - derivation: Rule.sum(Orders)
-      enabled: true
+    - derivation: 'Rule.sum(derive=models.Customer.Balance,        as_sum_of=models.Order.AmountTotal,where=lambda
+        row: row.ShippedDate is None and row.Ready == True)'
+      enabled: false
       exclude: false
       label: 'Balance '
       name: Balance
@@ -116,7 +117,7 @@ entities:
       template: text
       type: DECIMAL
       visible: true
-    - derivation: Rule.count(Order)
+    - derivation: Rule.count(derive=models.Customer.OrderCount, as_count_of=models.Order)
       enabled: true
       exclude: false
       label: 'Ordercount '
@@ -127,7 +128,9 @@ entities:
       template: integer
       type: INTEGER
       visible: true
-    - enabled: true
+    - derivation: 'Rule.count(derive=models.Customer.UnpaidOrderCount,as_count_of=models.Order,where=lambda
+        row: row.ShippedDate is None)'
+      enabled: true
       exclude: false
       label: 'Unpaidordercount '
       name: UnpaidOrderCount
@@ -271,9 +274,11 @@ entities:
     - Id
     rules:
       contraints:
-      - Rule.constraint(Customer, calling-foo)
+      - 'Rule.constraint(validate=models.Customer,       as_condition=lambda row:
+        row.Balance <= row.CreditLimit,error_msg="balance ({round(row.Balance, 2)})
+        exceeds credit ({round(row.CreditLimit, 2)})")'
       events:
-      - Rule.commit-event(calling=ffoo)
+      - Rule.early_row_event(on_class=models.Customer, calling=customer_defaults)
     tab_groups:
     - direction: tomany
       exclude: false
@@ -638,7 +643,7 @@ entities:
     exclude: false
     favorite: LastName
     group: data
-    home_template: home_template.html
+    home_template: grid_template.html
     info_list: <h1>Show When</h1> Support for <a target="_blank" href="https://apilogicserver.github.io/Docs/Admin-Customization/#show_when">Show
       When</a> means you can define expressions that determine when a field is shown
       or hidden.  On this page... <ul> <li> Click <strong>Suyama</strong> and note
@@ -649,15 +654,21 @@ entities:
       New'">Dues</span> field </li> </ul> </li> <li> Observe the same effect on Update
       / Insert screens as you alter the value of <span style="font-family:'Courier
       New'">EmployeeType</span></li> </ul> <h1>Images</h1> Observe that "show" pages
-      support images. <h1>Virtual Relationships</h1> Observe that your API includes
-      Manages and Manager.<br> These foreign keys are *not* defined in the database,
-      but in <span style="font-family:'Courier New'">database/customize_models.py</span>.<br>
+      support images. <h1>Virtual Relationships</h1> Observe that "show" pages have
+      tabs for Manages and Manager.<br> These foreign keys are *not* defined in the
+      database, but in <span style="font-family:'Courier New'">database/customize_models.py</span>.<br>
       <h1>Derived Attributes</h1> <span style="font-family:'Courier New'">ProperSalary</span>
       is not defined in the database.<br> See <span style="font-family:'Courier New'">database/customize_models.py</span>.<br>
     mode: tab
     new_template: new_template.html
     primary_key:
     - Id
+    rules:
+      contraints:
+      - Rule.constraint(validate=models.Employee,calling=raise_over_20_percent,error_msg="{row.LastName}
+        needs a more meaningful raise")
+      events:
+      - Rule.commit_row_event(on_class=models.Employee, calling=audit_by_event)
     tab_groups:
     - direction: tomany
       exclude: false
@@ -967,7 +978,9 @@ entities:
       template: text
       type: VARCHAR(8000)
       visible: true
-    - enabled: true
+    - derivation: 'Rule.formula(derive=models.Order.OrderDate,as_expression=lambda
+        row: datetime.datetime.now())'
+      enabled: true
       exclude: false
       label: 'Orderdate '
       name: OrderDate
@@ -977,7 +990,8 @@ entities:
       template: text
       type: DATE
       visible: true
-    - enabled: true
+    - derivation: Rule.sum(derive=models.Order.AmountTotal,       as_sum_of=models.OrderDetail.Amount)
+      enabled: true
       exclude: false
       label: 'Amounttotal '
       name: AmountTotal
@@ -1007,7 +1021,8 @@ entities:
       template: integer
       type: INTEGER
       visible: true
-    - enabled: true
+    - derivation: Rule.count(derive=models.Order.OrderDetailCount, as_count_of=models.OrderDetail)
+      enabled: true
       exclude: false
       label: 'Orderdetailcount '
       name: OrderDetailCount
@@ -1158,6 +1173,16 @@ entities:
     new_template: new_template.html
     primary_key:
     - Id
+    rules:
+      contraints:
+      - Rule.constraint(validate=models.Order,       calling=ship_ready_orders_only,error_msg="Cannot
+        Ship Order that is not Ready")
+      events:
+      - Rule.after_flush_row_event(on_class=models.Order, calling=send_order_to_shipping)
+      - Rule.commit_row_event(on_class=models.Order, calling=congratulate_sales_rep)
+      - Rule.commit_row_event(on_class=models.Order, calling=do_not_ship_empty_orders)
+      - Rule.early_row_event(on_class=models.Order, calling=order_defaults)
+      - Rule.row_event(on_class=models.Order, calling=clone_order)
     tab_groups:
     - direction: tomany
       exclude: false
@@ -1222,7 +1247,8 @@ entities:
       template: integer
       type: INTEGER
       visible: true
-    - enabled: true
+    - derivation: Rule.copy(derive=models.OrderDetail.UnitPrice,  from_parent=models.Product.UnitPrice)
+      enabled: true
       exclude: false
       label: 'Unitprice '
       name: UnitPrice
@@ -1252,7 +1278,9 @@ entities:
       template: real
       type: DOUBLE
       visible: true
-    - enabled: true
+    - derivation: 'Rule.formula(derive=models.OrderDetail.Amount,  as_expression=lambda
+        row: row.UnitPrice * row.Quantity)'
+      enabled: true
       exclude: false
       label: 'Amount '
       name: Amount
@@ -1262,7 +1290,8 @@ entities:
       template: text
       type: DECIMAL
       visible: true
-    - enabled: true
+    - derivation: Rule.formula(derive=models.OrderDetail.ShippedDate,  as_exp="row.Order.ShippedDate")
+      enabled: true
       exclude: false
       label: 'Shippeddate '
       name: ShippedDate
@@ -1281,6 +1310,10 @@ entities:
     new_template: new_template.html
     primary_key:
     - Id
+    rules:
+      contraints: []
+      events:
+      - Rule.early_row_event(on_class=models.OrderDetail, calling=order_detail_defaults)
     tab_groups:
     - direction: toone
       exclude: false
@@ -1330,7 +1363,8 @@ entities:
       template: text
       type: DECIMAL
       visible: true
-    - enabled: true
+    - derivation: Rule.formula(derive=models.Product.UnitsInStock, calling=units_in_stock)
+      enabled: true
       exclude: false
       label: 'Unitsinstock '
       name: UnitsInStock
@@ -1370,7 +1404,9 @@ entities:
       template: integer
       type: INTEGER
       visible: true
-    - enabled: true
+    - derivation: 'Rule.sum(derive=models.Product.UnitsShipped,as_sum_of=models.OrderDetail.Quantity,where=lambda
+        row: row.ShippedDate is None)'
+      enabled: true
       exclude: false
       label: 'Unitsshipped '
       name: UnitsShipped
@@ -1732,7 +1768,6 @@ entities:
     type: Union
 settings:
   style_guide:
-    applicationLocales: '[''en'', ''es'']'
     currency_symbol: $
     currency_symbol_position: left
     date_format: LL
@@ -1744,13 +1779,10 @@ settings:
     keycloak_client_id: alsclient
     keycloak_realm: kcals
     keycloak_url: http://localhost:8080
-    locale: en
     max_decimal_digits: '4'
     min_decimal_digits: '2'
     mode: tab
     pick_style: list
-    serviceType: OntimizeEE
-    startSessionPath: /auth/login
     style: light
     thousand_separator: ','
     use_keycloak: false

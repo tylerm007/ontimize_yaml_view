@@ -11,6 +11,7 @@ export class YamlFilesDetailComponent implements OnInit  {
   protected service: OntimizeService;
   public data: any;
   public content: string;
+  public rule_content: string;
   public downloaded: string;
 
   @ViewChild('oDetailForm') form: OFormComponent;
@@ -31,10 +32,10 @@ export class YamlFilesDetailComponent implements OnInit  {
     this.service.configureService(conf);
   }
   onDataLoaded(e: object) {
-
     this.data = e;
     //console.log("OnDataLoad: " + JSON.stringify(this.data));
     this.content = this.data.content;
+    this.rule_content = this.data.rule_content;
     this.downloaded = this.data.downloaded;
   }
   getContent(): string {
@@ -43,6 +44,13 @@ export class YamlFilesDetailComponent implements OnInit  {
       return "foo bar";
     }
     return this.content;
+  }
+  getRuleContent(): string {
+    //console.log("getValue " + this.content);
+    if (!this.rule_content) {
+      return "foo bar";
+    }
+    return this.rule_content;
   }
   getConverted(): string {
     //console.log("getValue " + this.content);
@@ -73,7 +81,7 @@ export class YamlFilesDetailComponent implements OnInit  {
     showInfo() {
         if (this.dialogService) {
         this.dialogService.info('Yaml Processing Complete',
-            'Entities, Attributes, and Relationships have been created from the Yaml "original content"',);
+            'Entities, Attributes, Relationships and Rules have been created from the Yaml "original content"',);
         }
     }
 }

@@ -2,7 +2,7 @@
     <div fxFill fxLayout="column" fxLayoutAlign="start">
         <o-table attr="RuleEventTable" service="RuleEvent" entity="RuleEvent" title="Rule Event" keys="id"
             columns="entity_name;rule;event_type;calling_fn;id" header-actions="R;D"
-            visible-columns="entity_name;rule;event_type;calling_fn" sort-columns="entity_name" query-rows="20"
+            visible-columns="entity_name;event_type;rule" sort-columns="entity_name" query-rows="20"
             quick-filter="yes" row-height="medium" select-all-checkbox="true" pageable="yes" auto-adjust="true"
             virtual-scroll="yes" edition-mode="dblclick" horizontal-scroll="yes" show-title="yes" export-button="yes">
 
@@ -13,10 +13,10 @@
                 </o-table-cell-renderer-service -->
             </o-table-column>
 
-            <o-table-column #rule_event attr="rule" title="Rule" editable="no" required="no"
-                content-align="left"></o-table-column>
+            <o-table-column #event_type attr="event_type" title="Event Type" editable="no" required="no"
+            content-align="left"></o-table-column>
 
-            <o-table-column #event_type attr="event_type" title="event_type" editable="no" required="no"
+            <o-table-column #rule_event attr="rule" title="Rule" editable="no" required="no"
                 content-align="left"></o-table-column>
 
             <o-table-column #calling_fn attr="calling_fn" title="calling_fn" editable="no" required="no"
