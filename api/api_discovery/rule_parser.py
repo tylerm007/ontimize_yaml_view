@@ -209,7 +209,10 @@ def parse_rules(project_dir: str = None) -> list:
     return result
                 
 def clean(line) -> str:
-    l = line.strip()        
+    # strip comments and empty lines or comment lines
+    l = line.strip()    
+    if l and len(l) > 1 and l[0] == "#":
+        return ""
     if l and len(l) > 6 and l.find("#") > 0:
         return l[:l.find("#")]
     return l

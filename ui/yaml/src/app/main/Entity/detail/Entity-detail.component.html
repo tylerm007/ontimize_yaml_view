@@ -219,11 +219,13 @@
           <o-table attr="RuleEventTable" service="RuleEvent" entity="RuleEvent" keys="id" parent-keys="entity_name:name"
             columns="entity_name;rule;event_type;calling_fn;id" horizontal-scroll="yes"
             detail-form-route="RuleEvent" edit-form-route="RuleEvent"
-            visible-columns="rule" sort-columns="entity_name"
+            visible-columns="event_type;rule" sort-columns="entity_name"
             query-rows="25" quick-filter="yes" row-height="medium" select-all-checkbox="true" pageable="yes"
             auto-adjust="true" virtual-scroll="yes" insert-button="yes" delete-button="yes" fixed-header="true"
             class="vertical-padding-8" edition-mode="click" horizontal-scroll="yes" class="fill-form">
-
+            
+            <o-table-column #event_type attr="event_type" title="Event Type" editable="no" required="no"
+            content-align="left"></o-table-column>
   
             <o-table-column #event_rule attr="rule" title="Event Rule" editable="no" required="no"
               content-align="left"></o-table-column>
@@ -236,15 +238,17 @@
       <mat-tab label="Rule Derivations">
         <div layout-padding>
           <o-table attr="RuleDerivationTable" service="RuleDerivation" entity="RuleDerivation" keys="id" parent-keys="entity_name:name"
-            columns="entity_name;rule;id" horizontal-scroll="yes"
+            columns="entity_name;rule;derivation_type;id" horizontal-scroll="yes"
             detail-form-route="RuleEvent" edit-form-route="RuleEvent"
-            visible-columns="rule" sort-columns="entity_name"
+            visible-columns="rule;derivation_type" sort-columns="entity_name"
             query-rows="25" quick-filter="yes" row-height="medium" select-all-checkbox="true" pageable="yes"
             auto-adjust="true" virtual-scroll="yes" insert-button="yes" delete-button="yes" fixed-header="true"
             class="vertical-padding-8" edition-mode="click" horizontal-scroll="yes" class="fill-form">
 
-  
-            <o-table-column #event_rule attr="rule" title="Derivation Rule" editable="no" required="no"
+            <o-table-column #derivation_type attr="derivation_type" title="Derivation Type" editable="no" required="no"
+            content-align="left"></o-table-column>
+
+            <o-table-column #rule attr="rule" title="Derivation Rule" editable="no" required="no"
               content-align="left"></o-table-column>
 
 
