@@ -28,6 +28,20 @@ const routes: Routes = [
         }
     }
 },{
+    path: ':as_child_entity/RuleDerivation', loadChildren: () => import('../RuleDerivation/RuleDerivation.module').then(m => m.RuleDerivationModule),
+    data: {
+        oPermission: {
+            permissionId: 'RuleDerivation-detail-permissions'
+        }
+    }
+},{
+    path: ':entity_name/RuleDerivation', loadChildren: () => import('../RuleDerivation/RuleDerivation.module').then(m => m.RuleDerivationModule),
+    data: {
+        oPermission: {
+            permissionId: 'RuleDerivation-detail-permissions'
+        }
+    }
+},{
     path: ':entity_name/RuleEvent', loadChildren: () => import('../RuleEvent/RuleEvent.module').then(m => m.RuleEventModule),
     data: {
         oPermission: {

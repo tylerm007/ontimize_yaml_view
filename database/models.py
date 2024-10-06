@@ -10,9 +10,9 @@ from sqlalchemy.ext.declarative import declarative_base
 # Alter this file per your database maintenance policy
 #    See https://apilogicserver.github.io/Docs/Project-Rebuild/#rebuilding
 #
-# Created:  September 27, 2024 14:49:18
-# Database: sqlite:////Users/tylerband/ontimize/ontimize_yaml_view/database/db.sqlite
-# Dialect:  sqlite
+# Created:  October 06, 2024 10:14:57
+# Database: postgresql://postgres:p@127.0.0.1:5432/yaml
+# Dialect:  postgresql
 #
 # mypy: ignore-errors
 ########################################################################################################################
@@ -34,7 +34,7 @@ metadata = Base.metadata
 #NullType = db.String  # datatype fixup
 #TIMESTAMP= db.TIMESTAMP
 
-from sqlalchemy.dialects.sqlite import *
+from sqlalchemy.dialects.postgresql import *
 
 
 
@@ -62,10 +62,11 @@ class Entity(SAFRSBaseX, Base):
     # child relationships (access children)
     EntityAttrList : Mapped[List["EntityAttr"]] = relationship(back_populates="entity")
     RuleConstraintList : Mapped[List["RuleConstraint"]] = relationship(back_populates="entity")
+    RuleDerivationList : Mapped[List["RuleDerivation"]] = relationship(foreign_keys='[RuleDerivation.as_child_entity]', back_populates="entity")
+    RuleDerivationList1 : Mapped[List["RuleDerivation"]] = relationship(foreign_keys='[RuleDerivation.entity_name]', back_populates="entity1")
     RuleEventList : Mapped[List["RuleEvent"]] = relationship(back_populates="entity")
     TabGroupList : Mapped[List["TabGroup"]] = relationship(foreign_keys='[TabGroup.entity_name]', back_populates="entity")
     TabGroupList1 : Mapped[List["TabGroup"]] = relationship(foreign_keys='[TabGroup.tab_entity]', back_populates="entity1")
-    RuleDerivationList : Mapped[List["RuleDerivation"]] = relationship(back_populates="entity")
 
     @jsonapi_attr
     def _check_sum_(self):  # type: ignore [no-redef]
@@ -118,6 +119,7 @@ class Root(SAFRSBaseX, Base):
     api_auth_type = Column(String(100))
     api_auth = Column(String(1000))
     about_date = Column(String(100))
+    allow_client_generated_ids = True
 
     # parent relationships (access parent)
 
@@ -220,7 +222,6 @@ class EntityAttr(SAFRSBaseX, Base):
     template : Mapped["Template"] = relationship(back_populates=("EntityAttrList"))
 
     # child relationships (access children)
-    RuleDerivationList : Mapped[List["RuleDerivation"]] = relationship(back_populates="entity_attr")
 
     @jsonapi_attr
     def _check_sum_(self):  # type: ignore [no-redef]
@@ -240,7 +241,7 @@ class RuleConstraint(SAFRSBaseX, Base):
     _s_collection_name = 'RuleConstraint'  # type: ignore
     __bind_key__ = 'None'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, server_default=text("nextval('rule_constraint_id_seq'::regclass)"), primary_key=True)
     entity_name = Column(ForeignKey('entity.name'))
     calling_fn = Column(String(255))
     as_condition = Column(String(255))
@@ -266,12 +267,48 @@ class RuleConstraint(SAFRSBaseX, Base):
     S_CheckSum = _check_sum_
 
 
+class RuleDerivation(SAFRSBaseX, Base):
+    __tablename__ = 'rule_derivation'
+    _s_collection_name = 'RuleDerivation'  # type: ignore
+    __bind_key__ = 'None'
+
+    id = Column(Integer, server_default=text("nextval('rule_derivation_id_seq'::regclass)"), primary_key=True)
+    entity_name = Column(ForeignKey('entity.name'))
+    derive_column = Column(String(80))
+    expression = Column(String(255))
+    derivation_type = Column(String(25))
+    as_child_entity = Column(ForeignKey('entity.name'))
+    child_role_name = Column(String(80))
+    calling_fn = Column(String(80))
+    where_clause = Column(String(255))
+    rule = Column(String(255))
+    insert_parent = Column(Boolean)
+
+    # parent relationships (access parent)
+    entity : Mapped["Entity"] = relationship(foreign_keys='[RuleDerivation.as_child_entity]', back_populates=("RuleDerivationList"))
+    entity1 : Mapped["Entity"] = relationship(foreign_keys='[RuleDerivation.entity_name]', back_populates=("RuleDerivationList1"))
+
+    # child relationships (access children)
+
+    @jsonapi_attr
+    def _check_sum_(self):  # type: ignore [no-redef]
+        return None if isinstance(self, flask_sqlalchemy.model.DefaultMeta) \
+            else self._check_sum_property if hasattr(self,"_check_sum_property") \
+                else None  # property does not exist during initialization
+
+    @_check_sum_.setter
+    def _check_sum_(self, value):  # type: ignore [no-redef]
+        self._check_sum_property = value
+
+    S_CheckSum = _check_sum_
+
+
 class RuleEvent(SAFRSBaseX, Base):
     __tablename__ = 'rule_event'
     _s_collection_name = 'RuleEvent'  # type: ignore
     __bind_key__ = 'None'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, server_default=text("nextval('rule_event_id_seq'::regclass)"), primary_key=True)
     entity_name = Column(ForeignKey('entity.name'))
     event_type = Column(String(25))
     calling_fn = Column(String(255))
@@ -312,45 +349,6 @@ class TabGroup(SAFRSBaseX, Base):
     # parent relationships (access parent)
     entity : Mapped["Entity"] = relationship(foreign_keys='[TabGroup.entity_name]', back_populates=("TabGroupList"))
     entity1 : Mapped["Entity"] = relationship(foreign_keys='[TabGroup.tab_entity]', back_populates=("TabGroupList1"))
-
-    # child relationships (access children)
-
-    @jsonapi_attr
-    def _check_sum_(self):  # type: ignore [no-redef]
-        return None if isinstance(self, flask_sqlalchemy.model.DefaultMeta) \
-            else self._check_sum_property if hasattr(self,"_check_sum_property") \
-                else None  # property does not exist during initialization
-
-    @_check_sum_.setter
-    def _check_sum_(self, value):  # type: ignore [no-redef]
-        self._check_sum_property = value
-
-    S_CheckSum = _check_sum_
-
-
-class RuleDerivation(SAFRSBaseX, Base):
-    __tablename__ = 'rule_derivation'
-    _s_collection_name = 'RuleDerivation'  # type: ignore
-    __bind_key__ = 'None'
-    __table_args__ = (
-        ForeignKeyConstraint(['entity_name', 'derive_column'], ['entity_attr.entity_name', 'entity_attr.attr']),
-    )
-
-    id = Column(Integer, primary_key=True)
-    entity_name = Column(String(80))
-    derive_column = Column(String(80))
-    expression = Column(String(255))
-    derivation_type = Column(String(25))
-    as_child_entity = Column(ForeignKey('entity.name'))
-    child_role_name = Column(String(80))
-    calling_fn = Column(String(80))
-    where_clause = Column(String(255))
-    insert_parent = Column(Boolean)
-    rule = Column(String(255))
-
-    # parent relationships (access parent)
-    entity : Mapped["Entity"] = relationship(back_populates=("RuleDerivationList"))
-    entity_attr : Mapped["EntityAttr"] = relationship(back_populates=("RuleDerivationList"))
 
     # child relationships (access children)
 

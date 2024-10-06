@@ -30,6 +30,7 @@ Table EntityAttr {
     exclude BOOLEAN
     visible BOOLEAN
     default_value VARCHAR(100)
+    derivation VARCHAR(25)
     }
 
 Table Template {
@@ -59,6 +60,7 @@ Table RuleConstraint {
     as_condition VARCHAR(255)
     err_msg VARCHAR(255)
     error_attributes VARCHAR(80)
+    rule VARCHAR(255)
     }
 
 Table RuleDerivation {
@@ -71,6 +73,7 @@ Table RuleDerivation {
     child_role_name VARCHAR(80)
     calling_fn VARCHAR(80)
     where_clause VARCHAR(255)
+    rule VARCHAR(255)
     insert_parent BOOLEAN
     }
 
@@ -79,6 +82,7 @@ Table RuleEvent {
     entity_name VARCHAR(80)
     event_type VARCHAR(25)
     calling_fn VARCHAR(255)
+    rule VARCHAR(255)
     }
 
 Table TabGroup {
@@ -98,6 +102,7 @@ Table YamlFile {
     download_flag BOOLEAN
     size INTEGER
     downloaded TEXT
+    rule_content TEXT
     }
 
 
@@ -107,7 +112,7 @@ Table YamlFile {
     Ref: EntityAttr.(template_name) < Template.(name)
     Ref: RuleConstraint.(entity_name) < Entity.(name)
     Ref: RuleDerivation.(as_child_entity) < Entity.(name)
-    Ref: RuleDerivation.(derive_column, entity_name) < EntityAttr.(entity_name, entity_name)
+    Ref: RuleDerivation.(entity_name) < Entity.(name)
     Ref: RuleEvent.(entity_name) < Entity.(name)
     Ref: TabGroup.(entity_name) < Entity.(name)
     Ref: TabGroup.(tab_entity) < Entity.(name)

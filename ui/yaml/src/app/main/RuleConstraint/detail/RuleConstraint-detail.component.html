@@ -6,13 +6,13 @@
     <o-row attr="row1" layout-align="start stretch">
       <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
 
-        <o-list-picker attr="entity_name" service="Entity" entity="EntityType" fxFlex="30" query-on-init="no"
+        <o-list-picker attr="entity_name" service="Entity" entity="EntityType" fxFlex="20" query-on-init="no"
           query-on-bind="yes" required="no" enabled="yes" filter="yes" value-column="name" value-column-type="VARCHAR"
           keys="name" columns="name;entity_name;name" title="entity_name" visible-columns="name;name" separator=" - "
           width="680px" class="form-field">
         </o-list-picker>
 
-        <o-textarea-input #constraint_rule attr="rule" label="Rule" enabled="yes" required="no" fxFlex="50%"
+        <o-textarea-input #constraint_rule attr="rule" label="Rule" enabled="yes" required="no" fxFlex="60%"
         class="form-field"></o-textarea-input>
 
         <o-text-input #calling_fn attr="calling_fn" label="calling_fn" enabled="yes" required="no" fxFlex="20%"

@@ -1,6 +1,3 @@
-DROP DATABASE IF EXISTS yaml;
-CREATE DATABASE yaml;
-\c yaml;
 
 DROP TABLE IF EXISTS entity;
 DROP TABLE IF EXISTS entity_attr;
@@ -8,6 +5,14 @@ DROP TABLE IF EXISTS tab_group;
 DROP TABLE IF EXISTS global_settings;
 DROP TABLE IF EXISTS template;
 DROP TABLE IF EXISTS root;
+
+DROP TABLE IF EXISTS yaml_files;
+
+DROP TABLE IF EXISTS rule_constraint;   
+
+DROP TABLE IF EXISTS rule_event;
+
+DROP TABLE IF EXISTS rule_derivation;
 
 CREATE TABLE entity (
     name varchar(80) not null,
@@ -45,6 +50,7 @@ CREATE TABLE entity_attr (
     isenabled boolean default true,
     exclude boolean default false,
     visible boolean default true, default_value VARCHAR(100),
+    derivation VARCHAR(255),
     PRIMARY KEY (entity_name, attr),
     FOREIGN KEY (entity_name) REFERENCES entity(name),
     FOREIGN KEY (template_name) REFERENCES template(name)
@@ -69,9 +75,9 @@ CREATE TABLE yaml_files(
     content TEXT,
     upload_flag BOOLEAN DEFAULT FALSE,
     download_flag    BOOLEAN DEFAULT FALSE, 
-    size INT, 
-    directory BOOLEAN NOT NULL DEFAULT FALSE, 
+    size INT,
     downloaded text,
+    rule_content TEXT,
     PRIMARY KEY(name)
 );
 
@@ -93,24 +99,26 @@ CREATE TABLE global_settings (
 );
 
 CREATE TABLE rule_constraint (  
-    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    id SERIAL PRIMARY KEY,
     entity_name VARCHAR(80),
     calling_fn VARCHAR(255),
     as_condition VARCHAR(255),
     err_msg VARCHAR(255),
     error_attributes VARCHAR(80),
+    rule VARCHAR(255),
     FOREIGN KEY (entity_name) REFERENCES entity(name)
 );
 
 CREATE TABLE rule_event (  
-    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    id SERIAL PRIMARY KEY,
     entity_name VARCHAR(80),
     event_type VARCHAR(25),
     calling_fn VARCHAR(255),
+    rule VARCHAR(255),
     FOREIGN KEY (entity_name) REFERENCES entity(name)
 );
 CREATE TABLE rule_derivation (  
-    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    id SERIAL PRIMARY KEY,
     entity_name VARCHAR(80),
     derive_column VARCHAR(80),
     expression VARCHAR(255),
@@ -119,7 +127,8 @@ CREATE TABLE rule_derivation (
     child_role_name VARCHAR(80),
     calling_fn VARCHAR(80),
     where_clause VARCHAR(255),
+    rule VARCHAR(255),
     insert_parent BOOLEAN,
-    FOREIGN KEY (entity_name,derive_column) REFERENCES entity_attr(entity_name,attr),
+    FOREIGN KEY (entity_name) REFERENCES entity(name),
     FOREIGN KEY (as_child_entity) REFERENCES entity(name)
 );

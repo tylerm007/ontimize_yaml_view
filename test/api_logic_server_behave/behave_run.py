@@ -3,10 +3,16 @@
 # -*- coding: utf-8 -*-
 # ASSUMPTION: behave is installed.
 
+# presumes cwd is at ${workspaceFolder}/test/api_logic_server_behave
+# if not, sets cwd to __file__.parent (5/29/2024)
+
+# 9/2/2021: added log file check to force fail if 'Assertion Failed' in log file
+
 # shoutout: https://github.com/behave/behave/issues/709
 
 import sys, os
 import datetime
+from pathlib import Path
 
 try:
     from behave.__main__ import main as behave_main  # behave is pip'd...
@@ -17,7 +23,16 @@ except:
     raise Exception(f"\nbehave_run - unable to find behave.  PYTHONPATH..\n{python_path}") 
 
 if __name__ == "__main__":
-    print("\nbehave_run started at:", os.getcwd())
+    # uses cwd, eg, ${workspaceFolder}/test/api_logic_server_behave
+    print("\nbehave_run 1.0 started at:", os.getcwd())
+    cwd = Path(os.getcwd())
+    features_path = cwd.joinpath('features')
+    if not features_path.exists():
+        api_logic_server_behave_path = (Path(__file__).parent).absolute()
+        print(f".. Fixing CWD to parent of: {__file__}...")
+        print(f".. .. {api_logic_server_behave_path}")
+        os.chdir(str(api_logic_server_behave_path))  # fails if does not exist
+    pass
 
     behave_result = behave_main()
 
@@ -37,5 +52,13 @@ if __name__ == "__main__":
             log_file.write(f'&nbsp;&nbsp;')
             log_file.write(f'')
             log_file.write(f'\n{__file__} completed at {date_time}')
-    print(f'\Behave Run Exit -- {__file__} at {date_time}, result: {behave_result}\n\n')
+        with open(log_file_name, 'r') as log_file:
+            """ force a fail if 'Assertion Failed' in log file
+            evidently behave eats the exceptions, so we need to check the log file
+            """
+            log_file_data = log_file.read()
+            if behave_result == 0 and 'Assertion Failed' in log_file_data:  
+                print(f'\nBehave Run detects Assertion Failed in log file: {log_file_name}\n')
+                behave_result = 1
+    print(f'\nBehave Run Exit -- {__file__} at {date_time}, result: {behave_result}\n\n')
     sys.exit(behave_result)

@@ -332,6 +332,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                         yaml_content = export_yaml_to_file(_project_dir)
                         try:
                             setattr(resp, "downloaded", yaml_content)
+                            setattr(resp, "download_flag", True)
                             session.add(resp)
                             session.commit()
                         except Exception as ex:
@@ -464,8 +465,8 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         # rows = session.query(text(sql)).all()
         # rows = session.query(models.Account.ACCOUNTTYPEID,func.count(models.Account.AccountID)).group_by(models.Account.ACCOUNTTYPEID).all()
         return data
-
-    def get_rows(request: any, api_clz, filter, order_by, columns, pagesize, offset):
+    
+    def get_rows(request: any, api_clz, filter: str, order_by: str, columns: list, pagesize: int, offset: int):
         # New Style
         key = api_clz.__name__.lower()
         resources = getMetaData(api_clz.__name__)
@@ -879,13 +880,14 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
 
         delete_sql(models.TabGroup)
         delete_sql(models.GlobalSetting)
+        delete_sql(models.RuleDerivation)
         delete_sql(models.EntityAttr)
+        delete_sql(models.RuleConstraint)
+        delete_sql(models.RuleEvent)
         delete_sql(models.Entity)
         delete_sql(models.Template)
         delete_sql(models.Root)
-        delete_sql(models.RuleConstraint)
-        delete_sql(models.RuleDerivation)
-        delete_sql(models.RuleEvent)
+        
 
         insert_template()
         insert_styles(valuesYaml)
@@ -1046,8 +1048,12 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         for attr in entity_attr:
             if attr.label == rule_attr:
                 attr.derivation = derivation
-                session.add(attr)
-                session.commit()                
+                try:
+                    session.add(attr)      
+                    session.commit()
+                except Exception as ex:
+                    print(f"Error adding derivations rule {attr} {ex}")
+    
     def insert_rules_from_yaml(valuesYaml: dict):
         for entity in valuesYaml["entities"]:
             rules = valuesYaml["entities"][entity]["rules"] if "rules" in valuesYaml["entities"][entity] else None

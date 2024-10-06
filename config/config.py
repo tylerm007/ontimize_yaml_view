@@ -94,7 +94,7 @@ class Config:
     project_abs_dir = running_at.parent.absolute()
 
     # Database
-    SQLALCHEMY_DATABASE_URI : typing.Optional[str] = f"sqlite:///../database/db.sqlite"
+    SQLALCHEMY_DATABASE_URI : typing.Optional[str] = f"postgresql://postgres:p@127.0.0.1:5432/yaml"
     # override SQLALCHEMY_DATABASE_URI here as required
 
     BACKTIC_AS_QUOTE = False # use backtic as quote for table names for API Bridge

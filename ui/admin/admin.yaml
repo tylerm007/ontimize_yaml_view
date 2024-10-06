@@ -1,5 +1,5 @@
 about:
-  date: September 27, 2024 15:03:47
+  date: October 06, 2024 11:12:55
   recent_changes: works with modified safrs-react-admin
   version: 0.0.0
 api_root: '{http_type}://{swagger_host}:{port}/{api}'
@@ -47,6 +47,11 @@ resources:
     - direction: tomany
       fks:
       - entity_name
+      name: RuleDerivationList1
+      resource: RuleDerivation
+    - direction: tomany
+      fks:
+      - entity_name
       name: RuleEventList
       resource: RuleEvent
     - direction: tomany
@@ -82,15 +87,10 @@ resources:
     - name: exclude
     - name: visible
     - name: default_value
+    - name: derivation
     - name: isrequired
     - name: isenabled
     tab_groups:
-    - direction: tomany
-      fks:
-      - derive_column
-      - entity_name
-      name: RuleDerivationList
-      resource: RuleDerivation
     - direction: toone
       fks:
       - entity_name
@@ -139,6 +139,7 @@ resources:
     - name: as_condition
     - name: err_msg
     - name: error_attributes
+    - name: rule
     - name: id
     tab_groups:
     - direction: toone
@@ -155,12 +156,14 @@ resources:
       search: true
       sort: true
     - name: as_child_entity
+    - name: entity_name
     - name: derive_column
     - name: expression
     - name: derivation_type
     - name: child_role_name
     - name: calling_fn
     - name: where_clause
+    - name: rule
     - name: insert_parent
     - name: id
     tab_groups:
@@ -171,10 +174,9 @@ resources:
       resource: Entity
     - direction: toone
       fks:
-      - derive_column
       - entity_name
-      name: entity_attr
-      resource: EntityAttr
+      name: entity1
+      resource: Entity
     type: RuleDerivation
     user_key: entity_name
   RuleEvent:
@@ -186,6 +188,7 @@ resources:
     - name: entity_name
     - name: event_type
     - name: calling_fn
+    - name: rule
     - name: id
     tab_groups:
     - direction: toone
@@ -253,6 +256,7 @@ resources:
     - name: upload_flag
     - name: download_flag
     - name: size
+    - name: rule_content
     - name: downloaded
     type: YamlFile
     user_key: name
