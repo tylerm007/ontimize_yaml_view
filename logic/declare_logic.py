@@ -10,6 +10,7 @@ import logging
 from base64 import b64decode
 from requests import get, post
 import yaml
+from database.models import YamlFiles
 
 app_logger = logging.getLogger(__name__)
 encoding = 'utf-8'
@@ -49,7 +50,7 @@ def declare_logic():
 
     Rule.early_row_event_all_classes(early_row_event_all_classes=handle_all)
 
-    def validate_yaml(row:models.YamlFiles, old_row:models.YamlFiles, logic_row:LogicRow):
+    def validate_yaml(row: YamlFiles, old_row: YamlFiles, logic_row:LogicRow):
         if logic_row.ins_upd_dlt in ["ins"] and (row.download_flag is None or row.download_flag == False):
             if row.content:
                 yaml_content = str(b64decode(row.content), encoding=encoding) if row.content else None 
@@ -72,7 +73,7 @@ def declare_logic():
         return True
 
             
-    def export_yaml(row:models.YamlFiles, old_row:models.YamlFiles, logic_row:LogicRow):
+    def export_yaml(row: YamlFiles, old_row: YamlFiles, logic_row:LogicRow):
         if logic_row.is_updated and row.download_flag and old_row.download_flag == False and row.content != None:
             from api.api_discovery.ontimize_api import export_yaml_to_file
             from pathlib import Path
@@ -80,8 +81,8 @@ def declare_logic():
             project_dir = running_at.parent.parent
             row.downloaded = export_yaml_to_file(project_dir=project_dir)
                 
-    Rule.row_event(models.YamlFiles, calling=export_yaml)
-    Rule.constraint(models.YamlFiles, calling=validate_yaml, error_msg="Invalid app_model.yaml file")
+    Rule.row_event(YamlFiles, calling=export_yaml)
+    Rule.constraint(YamlFiles, calling=validate_yaml, error_msg="Invalid app_model.yaml file")
     
     app_logger.debug("..logic/declare_logic.py (logic == rules + code)")
 
