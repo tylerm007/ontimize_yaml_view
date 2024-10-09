@@ -9,6 +9,36 @@ entities:
     columns:
     - enabled: true
       exclude: false
+      label: 'Accountid '
+      name: ACCOUNTID
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Entityid '
+      name: ENTITYID
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Officeid '
+      name: OFFICEID
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
       label: 'A C C O U N T T Y P E N A M E* '
       name: ACCOUNTTYPENAME
       required: false
@@ -66,36 +96,6 @@ entities:
       sort: false
       template: currency
       type: NUMERIC(15, 2)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Accountid '
-      name: ACCOUNTID
-      required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Entityid '
-      name: ENTITYID
-      required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Officeid '
-      name: OFFICEID
-      required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
       visible: true
     - enabled: true
       exclude: false

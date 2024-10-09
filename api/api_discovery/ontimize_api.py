@@ -1183,7 +1183,15 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         except Exception as ex:
             raise ex
 
-def write_file(source: str, file_name: str) -> any:
+def write_file(source: list, file_name: str) -> any:
+    with open(file_name, "w") as file:
+        for l in source:
+            file.writelines(f"{l}\n")
+    with open(file_name, "r") as file:
+        return file.read()
+    return None
+
+def write_yaml_file(source: str, file_name: str) -> any:
     with open(file_name, "w") as file:
         yaml.safe_dump(source, file, default_flow_style=False)
         # file.write(source)
@@ -1198,11 +1206,14 @@ def export_yaml_to_file(project_dir: str):
     root = read(models.Root)
     rule_events = read(models.RuleEvent)
     rule_constraints = read(models.RuleConstraint)
+    rule_derivations = read(models.RuleDerivation)
 
     output = build_json(entities, attrs, tabs, settings, root, rule_events, rule_constraints)
-    fn = f"{project_dir}/ui/app_model_merge.yaml"
-
-    return write_file(output, file_name=fn)
+    yaml_fn = f"{project_dir}/ui/app_model_merge.yaml"
+    logic_fn = f"{project_dir}/ui/declare_logic_merge.py1"
+    logic_output = build_logic(attrs, rule_constraints, rule_events, rule_derivations)
+    write_file(logic_output, file_name=logic_fn)
+    return write_yaml_file(output, file_name=yaml_fn)
 
 def rows_to_dict(result: any) -> list:
     """
@@ -1233,7 +1244,20 @@ def rows_to_dict(result: any) -> list:
 def read(clz) -> list:
     return rows_to_dict(session.query(clz).all())
 
+def clean(rule: str) -> str:
+    rule = rule.replace('"', "'", 10)
+    rule = rule.replace('\n', "", 10)
+    return f"    {rule}" 
+def build_logic(attrs, rule_constraints, rule_events, rule_derivations) -> str:
+    logic = ['from logic_bank.logic_bank import Rule','#def calling_fn(row: model.EntityName, old_row: model.EntityName, logic_row:LogicRow):','#   pass','# Constraints']
+    logic.extend(clean(rule['rule']) for rule in rule_constraints)
+    logic.append("# Events")
+    logic.extend(clean(rule['rule']) for rule in rule_events)
+    logic.append("# Derivations")   
+    logic.extend(clean(rule['rule']) for rule in rule_derivations)
+    logic.extend(clean(attr['derivation']) for attr in attrs if attr["derivation"])
 
+    return logic
 def build_json(
     entities: list, attrs: list, tabs: list, settings: list, root: list, rule_events: list, rule_constraints: list
 ) -> any:

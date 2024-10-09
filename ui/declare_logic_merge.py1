@@ -1,0 +1,21 @@
+from logic_bank.logic_bank import Rule
+#def calling_fn(row: model.EntityName, old_row: model.EntityName, logic_row:LogicRow):
+#   pass
+# Constraints
+    Rule.constraint(validate=models.Account,as_condition=lambda row: row.BALANCE >= 0,error_msg='Account balance {row.BALANCE} cannot be less than zero')
+    Rule.constraint(validate=models.Transaction,as_condition=lambda row: row.Deposit >= 0,error_msg='Deposit {row.Deposit} must be a positive amount')
+    Rule.constraint(validate=models.Transaction,as_condition=lambda row: row.Withdrawl >= 0,error_msg='Withdrawl {row.Withdrawl} must be a positive amount')
+    Rule.constraint(validate=models.Transfer,as_condition=lambda row: row.FromAccountID != row.ToAccountID,error_msg='FromAccount {row.FromAccountID} must be different from ToAccount {row.ToAccountID}')
+# Events
+    Rule.commit_row_event(on_class=models.Account,calling=fn_overdraft)
+    Rule.early_row_event(on_class=models.Customer, calling=fn_default_customer)
+    Rule.early_row_event(on_class=models.Account, calling=fn_default_account)
+    Rule.early_row_event(on_class=models.Transaction, calling=fn_default_transaction)
+    Rule.early_row_event(on_class=models.Transfer, calling=fn_default_transfer)
+    Rule.commit_row_event(on_class=models.Transfer, calling=fn_transfer_funds)
+    Rule.after_flush_row_event(on_class=models.Transfer,calling=send_kafka_message)
+# Derivations
+    Rule.sum(derive=models.Account.BALANCE,as_sum_of=models.Transaction.TotalAmount)
+    Rule.formula(derive=models.Transaction.TotalAmount,as_expression=lambda row: row.Deposit - row.Withdrawl)
+    Rule.sum(derive=models.Account.BALANCE,as_sum_of=models.Transaction.TotalAmount)
+    Rule.formula(derive=models.Transaction.TotalAmount,as_expression=lambda row: row.Deposit - row.Withdrawl)
