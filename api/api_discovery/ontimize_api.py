@@ -1248,8 +1248,36 @@ def clean(rule: str) -> str:
     rule = rule.replace('"', "'", 10)
     rule = rule.replace('\n', "", 10)
     return f"    {rule}" 
+def append_calling_logic(rule_constraints, rule_events, rule_derivations) -> list:
+    # Placeholder function to append calling logic
+    # You can implement the actual logic here
+    
+    logic = []
+    logic.extend(find_fn(rule['rule']) for rule in rule_constraints)
+    logic.extend(find_fn(rule['rule']) for rule in rule_events)
+    logic.extend(find_fn(rule['rule']) for rule in rule_derivations)
+    result = ["# Rule Function Calling"]
+    for l in logic:
+        if len(l) > 0:
+            result.extend((l, '           pass'))
+    return result
+def find_fn(rule: str) -> str:
+    event = []
+    #['#def calling_fn(row: model.EntityName, old_row: model.EntityName, logic_row:LogicRow):','#   pass']
+    entity_name = ""
+    for part in rule.split("="):
+        if part.split(",")[0].startswith("models."):
+            entity_name=part.split(",")[0].split(".")[1].strip()
+            break
+    for part in rule.split(","):
+        if "calling" in part:
+            fn_name=part.split("=")[1].strip()
+            event = f'    def {fn_name[:-1]}(row: model.{entity_name}, old_row: model.{entity_name}, logic_row:LogicRow):'
+    return event
 def build_logic(attrs, rule_constraints, rule_events, rule_derivations) -> str:
-    logic = ['from logic_bank.logic_bank import Rule','#def calling_fn(row: model.EntityName, old_row: model.EntityName, logic_row:LogicRow):','#   pass','# Constraints']
+    logic = ['from logic_bank.logic_bank import Rule']
+    logic.extend(append_calling_logic(rule_constraints, rule_events, rule_derivations))   
+    logic.append("# Constraints")
     logic.extend(clean(rule['rule']) for rule in rule_constraints)
     logic.append("# Events")
     logic.extend(clean(rule['rule']) for rule in rule_events)

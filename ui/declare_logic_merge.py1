@@ -1,6 +1,19 @@
 from logic_bank.logic_bank import Rule
-#def calling_fn(row: model.EntityName, old_row: model.EntityName, logic_row:LogicRow):
-#   pass
+# Rule Function Calling
+    def fn_overdraft(row: model.Account, old_row: model.Account, logic_row:LogicRow):
+           pass
+    def fn_default_customer(row: model.Customer, old_row: model.Customer, logic_row:LogicRow):
+           pass
+    def fn_default_account(row: model.Account, old_row: model.Account, logic_row:LogicRow):
+           pass
+    def fn_default_transaction(row: model.Transaction, old_row: model.Transaction, logic_row:LogicRow):
+           pass
+    def fn_default_transfer(row: model.Transfer, old_row: model.Transfer, logic_row:LogicRow):
+           pass
+    def fn_transfer_funds(row: model.Transfer, old_row: model.Transfer, logic_row:LogicRow):
+           pass
+    def send_kafka_message(row: model.Transfer, old_row: model.Transfer, logic_row:LogicRow):
+           pass
 # Constraints
     Rule.constraint(validate=models.Account,as_condition=lambda row: row.BALANCE >= 0,error_msg='Account balance {row.BALANCE} cannot be less than zero')
     Rule.constraint(validate=models.Transaction,as_condition=lambda row: row.Deposit >= 0,error_msg='Deposit {row.Deposit} must be a positive amount')

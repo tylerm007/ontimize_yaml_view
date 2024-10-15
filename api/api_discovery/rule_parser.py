@@ -121,15 +121,15 @@ def get_rules_report(project_dir: str = None) -> any:
     rule_type = {}
     for rule in get_rules_from_file(project_dir):
         entity = rule["entity"]
-        type = rule["rule"].split("Rule.")[1].split("(")[0]
+        _type = rule["rule"].split("Rule.")[1].split("(")[0]
         if entity not in rule_group:
             rule_group[entity] = [rule["rule"]]
         else:
             rule_group[entity].append(rule["rule"])
-        if type not in rule_type:
-            rule_type[type] = [rule["rule"]]
+        if _type not in rule_type:
+            rule_type[_type] = [rule["rule"]]
         else:
-            rule_type[type].append(rule["rule"])
+            rule_type[_type].append(rule["rule"])
     return rule_group, rule_type
             
 def get_rules_from_content(content: str) -> list:
@@ -154,20 +154,20 @@ def get_rules_from_content(content: str) -> list:
     
     for rule in rule_list:
         print(rule)
-        type = rule.split("Rule.")[1].split("(")[0]
-        if type == "early_row_event_all_classes":
+        _type = rule.split("Rule.")[1].split("(")[0]
+        if _type == "early_row_event_all_classes":
             entity = "all"
         else:
             entity = rule.split("Rule.")[1].split("(")[1].split(",")[0].split(".")[1]
 
-        row = {"type": type, "entity": entity, "rule": rule, "attr": parse_rule_for_attr(rule, type)}
+        row = {"type": _type, "entity": entity, "rule": rule, "attr": parse_rule_for_attr(rule, _type)}
         
         results.append(row)
         
     return results
 
-def parse_rule_for_attr(rule: str, type: str) -> str:
-    if type == "constraint" or type.endswith("_event"):
+def parse_rule_for_attr(rule: str, _type: str) -> str:
+    if _type == "constraint" or _type.endswith("_event"):
         return None
     return rule.split("Rule.")[1].split("(")[1].split(",")[0].split(".")[-1]
 def get_rules_from_file(project_dir: str = None) -> list:
@@ -175,12 +175,12 @@ def get_rules_from_file(project_dir: str = None) -> list:
     results = []
     for rule in rule_list:
         print(rule)
-        type = rule.split("Rule.")[1].split("(")[0]
-        if type == "early_row_event_all_classes":
+        _type = rule.split("Rule.")[1].split("(")[0]
+        if _type == "early_row_event_all_classes":
             entity = "all"
         else:
             entity = rule.split("Rule.")[1].split("(")[1].split(",")[0].split(".")[1]
-        row = {"type": type, "entity": entity, "rule": rule}
+        row = {"type": _type, "entity": entity, "rule": rule}
         results.append(row)
         
     return results
