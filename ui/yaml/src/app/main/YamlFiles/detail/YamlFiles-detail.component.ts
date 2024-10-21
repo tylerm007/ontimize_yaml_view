@@ -33,7 +33,7 @@ export class YamlFilesDetailComponent implements OnInit  {
   }
   onDataLoaded(e: object) {
     this.data = e;
-    //console.log("OnDataLoad: " + JSON.stringify(this.data));
+    console.log("OnDataLoad: " + JSON.stringify(this.data));
     this.content = this.data.content;
     this.rule_content = this.data.rule_content;
     this.downloaded = this.data.downloaded;

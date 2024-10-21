@@ -329,10 +329,11 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                         .one()
                         )
                     if clz_type == "downloadyaml":
-                        yaml_content = export_yaml_to_file(_project_dir)
+                        yaml_content, rule_content = export_yaml_to_file(_project_dir)
                         try:
                             setattr(resp, "downloaded", yaml_content)
                             setattr(resp, "download_flag", True)
+                            setattr(resp, "rule_content", rule_content)
                             session.add(resp)
                             session.commit()
                         except Exception as ex:
@@ -345,8 +346,8 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                         valuesYaml = yaml.safe_load(yaml_content)
                         process_yaml(valuesYaml=valuesYaml, rule_content=resp.rule_content)
                         
-                    
-                    return jsonify({"code": 0, "totalQueryRecordsNumber": 1, "startRecordIndex": 1,"message": f"Yaml file {clz_type}", "data": yaml_content})
+                    data = {"downloaded": valuesYaml, "rule_content": resp.rule_content}
+                    return jsonify({"code": 0, "totalQueryRecordsNumber": 1, "startRecordIndex": 1,"message": f"Yaml file {clz_type}", "data": data})
                 # GET (sent as POST)
                 # rows = get_rows_by_query(api_clz, filter, orderBy, columns, pagesize, offset)
                 if "TypeAggregate" in clz_type:
@@ -577,13 +578,15 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         # Write the yaml to disk and update the database if name is found
         # GET curl "http://localhost:5656/exportyaml/{YamlFiles.name}"
 
-        yaml_file = export_yaml_to_file(_project_dir)
+        yaml_file, rule_content = export_yaml_to_file(_project_dir)
         try:
             sql_alchemy_row = (
                 session.query(models.YamlFiles).filter(models.YamlFiles.name == key).one_or_none()
             )
             if sql_alchemy_row and sql_alchemy_row.downloaded is None:
                 setattr(sql_alchemy_row, "downloaded", yaml_file)
+                if rule_content:
+                    setattr(sql_alchemy_row, "rule_content", rule_content)
                 session.add(sql_alchemy_row)
                 session.commit()
         except Exception as ex:
@@ -591,7 +594,8 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
             session.rollback()
             #return jsonify({"code": 1, "message": f"{ex}", "data": None})
         app_logger.debug(f"Yaml file written to ui/app_model_merge.yaml")
-        return yaml_file
+        app_logger.debug(f"Rule content written to ui/declare_logic_merge.py1")
+        return {"downloaded":yaml_file,"rule_content": rule_content}
 
 
     @app.route("/importyaml/<key>", methods=["GET", "POST", "OPTIONS"])
@@ -1212,8 +1216,9 @@ def export_yaml_to_file(project_dir: str):
     yaml_fn = f"{project_dir}/ui/app_model_merge.yaml"
     logic_fn = f"{project_dir}/ui/declare_logic_merge.py1"
     logic_output = build_logic(attrs, rule_constraints, rule_events, rule_derivations)
-    write_file(logic_output, file_name=logic_fn)
-    return write_yaml_file(output, file_name=yaml_fn)
+    lo = write_file(logic_output, file_name=logic_fn)
+    yo = write_yaml_file(output, file_name=yaml_fn)
+    return yo, lo
 
 def rows_to_dict(result: any) -> list:
     """

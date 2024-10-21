@@ -12,6 +12,7 @@ export class DownloadYamlFilesDetailComponent implements OnInit {
   public data: any;
   public content: string;
   public downloaded: string;
+  public rule_content: string;
 
   @ViewChild('yamlFile') yamlFile: OFormComponent;
   @ViewChild('downloadedFile') downloadedFile: OTextareaInputComponent;
@@ -36,6 +37,7 @@ export class DownloadYamlFilesDetailComponent implements OnInit {
     //console.log("OnDataLoad: " + JSON.stringify(this.data));
     this.content = this.data.content;
     this.downloaded = this.data.downloaded;
+    this.rule_content = this.data.rule_content;
   }
   getContent(): string {
     //console.log("getValue " + this.content);
@@ -51,6 +53,12 @@ export class DownloadYamlFilesDetailComponent implements OnInit {
     }
     return this.downloaded;
   }
+  getRuleContent(): string {  
+    if (!this.rule_content) {
+      return "foo bar";
+    }
+    return this.rule_content;
+  } 
   download_yaml() {
     console.log("download_yaml");
     //this.service.update({ 'name': this.data.name }, { 'download_flag': true }, "YamlFiles").subscribe((resp) => {

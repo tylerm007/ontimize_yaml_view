@@ -9,7 +9,7 @@
         <o-button o-grid-toolbar position="end" (click)="download_yaml()" 
         label="4. Download Yaml (after 3. editing, the download content below can be merged into your app_model.yaml)"
         icon="download_file"></o-button>
-        <o-button o-grid-toolbar position="end" (click)="reload_yaml()" label="2. Reload Yaml from downloaded content (loads all entities, attributes, relationships)" type="STROKED"
+        <o-button o-grid-toolbar position="end" (click)="reload_yaml()" label="2. Reload Yaml from downloaded yaml and rule content (reloads all entities, attributes, relationships, and rules)" type="STROKED"
         icon="upload_file"></o-button>
   
       <o-row attr="row1" layout-align="start stretch">
@@ -19,6 +19,9 @@
               class="form-field"></o-text-input>
             <o-text-input attr="size" label=" Size" enabled="no" required="no" fxFlex="20%"
               class="form-field"></o-text-input>
+            </div>
+          </o-row>
+          <o-row attr="row1" layout-align="start stretch">
             <!-- o-checkbox attr="upload_flag" label="Yaml file Processed" tooltip="import to ui/app_model.yaml"
               enabled="no" required="no" fxFlex="20%" class="form-field"></o-checkbox -->
             <!-- o-checkbox attr="download_flag" label="Downloaded Yaml file" tooltip="exported to ui/admin_model_merge.yaml or cut and paste"
@@ -26,13 +29,15 @@
             <!-- a href="/download/yamlfile" download="app_model_merge.yaml">Download link</a -->
             <!-- o-textarea-input attr="content" label="Original Content" [data]="getContent()" read-only="true" rows="30"
               content-align="left" fxFlex="40%" class="form-field"></o-textarea-input -->
+            <div fxLayout="no wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
             <o-textarea-input #downloaded attr="downloaded" label="Downloaded Content" [data]="getConverted()" read-only="true"
-              rows="30" content-align="left" fxFlex="60%" class="form-field"></o-textarea-input>
+              rows="30" content-align="left" fxFlex="40%" class="form-field"></o-textarea-input>
             <!-- -text-input attr="id" label=" Id*" type="INTEGER" enabled="no" required="yes" fxFlex="20%"
               class="form-field"></o-text-input -->
-
-    </div>
-  </o-row>
+              <o-textarea-input #rule_content attr="rule_content" label="Logic Content" [data]="getConverted()" read-only="true"
+              rows="30" content-align="left" fxFlex="40%" class="form-field"></o-textarea-input>
+            </div>
+          </o-row>
       
     </o-form>
   </o-form-container>
