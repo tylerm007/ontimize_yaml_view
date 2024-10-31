@@ -1,5 +1,5 @@
 about:
-  date: October 06, 2024 11:12:55
+  date: October 25, 2024 10:07:34
   recent_changes: works with modified safrs-react-admin
   version: 0.0.0
 api_root: '{http_type}://{swagger_host}:{port}/{api}'
@@ -275,6 +275,7 @@ settings:
     decimal_separator: .
     detail_mode: tab
     edit_on_mode: dblclick
+    exclude_listpicker: false
     include_translation: 'false'
     keycloak_client_id: alsclient
     keycloak_realm: kcals

@@ -1,34 +1,70 @@
 from logic_bank.logic_bank import Rule
 # Rule Function Calling
-    def fn_overdraft(row: model.Account, old_row: model.Account, logic_row:LogicRow):
+    def fn_targetarea_validation_validation_7(row: model.TargetArea, old_row: model.TargetArea, logic_row:LogicRow):
            pass
-    def fn_default_customer(row: model.Customer, old_row: model.Customer, logic_row:LogicRow):
+    def fn_recastset_validation_validation_4(row: model.RecastSet, old_row: model.RecastSet, logic_row:LogicRow):
            pass
-    def fn_default_account(row: model.Account, old_row: model.Account, logic_row:LogicRow):
+    def fn_recastset_validation_validation_4(row: model.RecastSet, old_row: model.RecastSet, logic_row:LogicRow):
            pass
-    def fn_default_transaction(row: model.Transaction, old_row: model.Transaction, logic_row:LogicRow):
+    def fn_assembledfirstlevel_formula_formula_eliminationBalance(row: model.AssembledFirstLevel, old_row: model.AssembledFirstLevel, logic_row:LogicRow):
            pass
-    def fn_default_transfer(row: model.Transfer, old_row: model.Transfer, logic_row:LogicRow):
+    def fn_leafjctnsecondlevel_formula_formula_balance(row: model.LeafJctnSecondLevel, old_row: model.LeafJctnSecondLevel, logic_row:LogicRow):
            pass
-    def fn_transfer_funds(row: model.Transfer, old_row: model.Transfer, logic_row:LogicRow):
+    def fn_valuesforreport_formula_formula_letterGrade(row: model.ValuesForReport, old_row: model.ValuesForReport, logic_row:LogicRow):
            pass
-    def send_kafka_message(row: model.Transfer, old_row: model.Transfer, logic_row:LogicRow):
+    def fn_recastset_formula_formula_recastSetCode(row: model.RecastSet, old_row: model.RecastSet, logic_row:LogicRow):
            pass
 # Constraints
-    Rule.constraint(validate=models.Account,as_condition=lambda row: row.BALANCE >= 0,error_msg='Account balance {row.BALANCE} cannot be less than zero')
-    Rule.constraint(validate=models.Transaction,as_condition=lambda row: row.Deposit >= 0,error_msg='Deposit {row.Deposit} must be a positive amount')
-    Rule.constraint(validate=models.Transaction,as_condition=lambda row: row.Withdrawl >= 0,error_msg='Withdrawl {row.Withdrawl} must be a positive amount')
-    Rule.constraint(validate=models.Transfer,as_condition=lambda row: row.FromAccountID != row.ToAccountID,error_msg='FromAccount {row.FromAccountID} must be different from ToAccount {row.ToAccountID}')
+    Rule.constraint(validate=models.TargetArea,calling=fn_targetarea_validation_validation_72,error_msg='The area code must be a single digit 0-9')
+    Rule.constraint(validate=models.RecastSet,calling=fn_recastset_validation_validation_42,error_msg='Please enter a valid four-digit year.')
+    Rule.constraint(validate=models.RecastSet,calling=fn_recastset_validation_validation_43,error_msg='Please enter a number between (0-100).')
 # Events
-    Rule.commit_row_event(on_class=models.Account,calling=fn_overdraft)
-    Rule.early_row_event(on_class=models.Customer, calling=fn_default_customer)
-    Rule.early_row_event(on_class=models.Account, calling=fn_default_account)
-    Rule.early_row_event(on_class=models.Transaction, calling=fn_default_transaction)
-    Rule.early_row_event(on_class=models.Transfer, calling=fn_default_transfer)
-    Rule.commit_row_event(on_class=models.Transfer, calling=fn_transfer_funds)
-    Rule.after_flush_row_event(on_class=models.Transfer,calling=send_kafka_message)
 # Derivations
-    Rule.sum(derive=models.Account.BALANCE,as_sum_of=models.Transaction.TotalAmount)
-    Rule.formula(derive=models.Transaction.TotalAmount,as_expression=lambda row: row.Deposit - row.Withdrawl)
-    Rule.sum(derive=models.Account.BALANCE,as_sum_of=models.Transaction.TotalAmount)
-    Rule.formula(derive=models.Transaction.TotalAmount,as_expression=lambda row: row.Deposit - row.Withdrawl)
+    Rule.sum(derive=models.AssembledFirstLevel.eliminationBalanceList,as_sum_of=models.EliminationFirstLevel.amount)
+    Rule.sum(derive=models.AssembledFirstLevel.alteredBalChildren,as_sum_of=models.AssembledSecondLevel.alteredBalance,where=lambda row: row.balance is not None)
+    Rule.formula(derive=models.AssembledFirstLevel.eliminationBalance,calling=fn_assembledfirstlevel_formula_formula_eliminationBalance)
+    Rule.sum(derive=models.AssembledFirstLevel.combinedBalChildren,as_sum_of=models.AssembledSecondLevel.combinedBalance,where=lambda row: row.balance is not None)
+    Rule.sum(derive=models.AssembledFirstLevel.eliminateBalChildren,as_sum_of=models.AssembledSecondLevel.eliminationBalance,where=lambda row: row.balance is not None)
+    Rule.sum(derive=models.AssembledFirstLevel.combinedBalanceList,as_sum_of=models.LeafJctnFirstLevel.balance)
+    Rule.formula(derive=models.AssembledFirstLevel.alteredBalance,as_expression=lambda row:  (row.leaf)  if  row.alteredBalance  else  row.alteredBalChildren)
+    Rule.formula(derive=models.AssembledFirstLevel.balance,as_expression=lambda row:  row.combinedBalance + row.eliminationBalance + row.alteredBalance)
+    Rule.formula(derive=models.AssembledFirstLevel.locked,as_expression=lambda row:  row.recastSet.locked)
+    Rule.formula(derive=models.AssembledFirstLevel.combinedBalance,as_expression=lambda row:  (row.leaf)  if  row.combinedBalanceList  else  row.combinedBalChildren)
+    Rule.formula(derive=models.LeafJctnSecondLevel.balance,calling=fn_leafjctnsecondlevel_formula_formula_balance)
+    Rule.formula(derive=models.LeafJctnSecondLevel.locked,as_expression=lambda row:  row.assembledSecondLevel.locked)
+    Rule.formula(derive=models.ValuesForReport.letterGrade,calling=fn_valuesforreport_formula_formula_letterGrade)
+    Rule.sum(derive=models.AssembledSubArea.elimBalSecond,as_sum_of=models.AssembledFirstLevel.eliminateBalChildren)
+    Rule.sum(derive=models.AssembledSubArea.combinedBalFirst,as_sum_of=models.AssembledFirstLevel.combinedBalanceList)
+    Rule.sum(derive=models.AssembledSubArea.altBalFirst,as_sum_of=models.AssembledFirstLevel.alteredBalance,where=lambda row: row.leaf == 1)
+    Rule.sum(derive=models.AssembledSubArea.elimBalFirst,as_sum_of=models.AssembledFirstLevel.eliminationBalanceList)
+    Rule.sum(derive=models.AssembledSubArea.combinedBalSecond,as_sum_of=models.AssembledFirstLevel.combinedBalChildren)
+    Rule.sum(derive=models.AssembledSubArea.altBalSecond,as_sum_of=models.AssembledFirstLevel.alteredBalChildren)
+    Rule.count(derive=models.RecastSet.scenarioMemberCount,as_count_of=models.RecastSetMembership)
+    Rule.formula(derive=models.RecastSet.eliminationBalance,as_expression=lambda row:  row.elimBalAE - row.elimBalLQR)
+    Rule.formula(derive=models.RecastSet.recastSetCode,calling=fn_recastset_formula_formula_recastSetCode)
+    Rule.sum(derive=models.RecastSet.elimBalLQR,as_sum_of=models.AssembledArea.eliminationBalance,where=lambda row: row.areaCode != 1 and row.aeaCode != 5)
+    Rule.sum(derive=models.RecastSet.elimBalAE,as_sum_of=models.AssembledArea.eliminationBalance,where=lambda row: row.areaCode == 1 or row.areaCode  == 5)
+    Rule.formula(derive=models.AssembledFirstLevel.alteredBalance,as_expression=lambda row:  (row.leaf)  if  row.alteredBalance  else  row.alteredBalChildren)
+    Rule.sum(derive=models.AssembledSubArea.elimBalSecond,as_sum_of=models.AssembledFirstLevel.eliminateBalChildren)
+    Rule.sum(derive=models.AssembledSubArea.combinedBalFirst,as_sum_of=models.AssembledFirstLevel.combinedBalanceList)
+    Rule.sum(derive=models.AssembledSubArea.elimBalFirst,as_sum_of=models.AssembledFirstLevel.eliminationBalanceList)
+    Rule.sum(derive=models.AssembledFirstLevel.combinedBalChildren,as_sum_of=models.AssembledSecondLevel.combinedBalance,where=lambda row: row.balance is not None)
+    Rule.formula(derive=models.AssembledFirstLevel.locked,as_expression=lambda row:  row.recastSet.locked)
+    Rule.sum(derive=models.AssembledSubArea.combinedBalSecond,as_sum_of=models.AssembledFirstLevel.combinedBalChildren)
+    Rule.sum(derive=models.RecastSet.elimBalLQR,as_sum_of=models.AssembledArea.eliminationBalance,where=lambda row: row.areaCode != 1 and row.aeaCode != 5)
+    Rule.sum(derive=models.AssembledFirstLevel.eliminationBalanceList,as_sum_of=models.EliminationFirstLevel.amount)
+    Rule.sum(derive=models.AssembledFirstLevel.alteredBalChildren,as_sum_of=models.AssembledSecondLevel.alteredBalance,where=lambda row: row.balance is not None)
+    Rule.formula(derive=models.AssembledFirstLevel.eliminationBalance,calling=fn_assembledfirstlevel_formula_formula_eliminationBalance)
+    Rule.sum(derive=models.AssembledFirstLevel.eliminateBalChildren,as_sum_of=models.AssembledSecondLevel.eliminationBalance,where=lambda row: row.balance is not None)
+    Rule.sum(derive=models.AssembledFirstLevel.combinedBalanceList,as_sum_of=models.LeafJctnFirstLevel.balance)
+    Rule.formula(derive=models.AssembledFirstLevel.balance,as_expression=lambda row:  row.combinedBalance + row.eliminationBalance + row.alteredBalance)
+    Rule.formula(derive=models.AssembledFirstLevel.combinedBalance,as_expression=lambda row:  (row.leaf)  if  row.combinedBalanceList  else  row.combinedBalChildren)
+    Rule.formula(derive=models.LeafJctnSecondLevel.balance,calling=fn_leafjctnsecondlevel_formula_formula_balance)
+    Rule.formula(derive=models.LeafJctnSecondLevel.locked,as_expression=lambda row:  row.assembledSecondLevel.locked)
+    Rule.sum(derive=models.AssembledSubArea.altBalFirst,as_sum_of=models.AssembledFirstLevel.alteredBalance,where=lambda row: row.leaf == 1)
+    Rule.sum(derive=models.AssembledSubArea.altBalSecond,as_sum_of=models.AssembledFirstLevel.alteredBalChildren)
+    Rule.count(derive=models.RecastSet.scenarioMemberCount,as_count_of=models.RecastSetMembership)
+    Rule.formula(derive=models.RecastSet.eliminationBalance,as_expression=lambda row:  row.elimBalAE - row.elimBalLQR)
+    Rule.formula(derive=models.RecastSet.recastSetCode,calling=fn_recastset_formula_formula_recastSetCode)
+    Rule.sum(derive=models.RecastSet.elimBalAE,as_sum_of=models.AssembledArea.eliminationBalance,where=lambda row: row.areaCode == 1 or row.areaCode  == 5)
+    Rule.formula(derive=models.ValuesForReport.letterGrade,calling=fn_valuesforreport_formula_formula_letterGrade)

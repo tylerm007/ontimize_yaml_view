@@ -71,8 +71,8 @@ def declare_logic():
                 row.rule_content = str(b64decode(row.rule_content), encoding=encoding) if row.rule_content else None
             
         return True
-
-            
+    
+    
     def export_yaml(row: YamlFiles, old_row: YamlFiles, logic_row:LogicRow):
         if logic_row.is_updated and row.download_flag and old_row.download_flag == False and row.content != None:
             from api.api_discovery.ontimize_api import export_yaml_to_file
@@ -83,6 +83,6 @@ def declare_logic():
                 
     Rule.row_event(YamlFiles, calling=export_yaml)
     Rule.constraint(YamlFiles, calling=validate_yaml, error_msg="Invalid app_model.yaml file")
-    
+    #Rule.row_event(on_class=models.RuleDerivation, calling=parse_derivation_rule)
     app_logger.debug("..logic/declare_logic.py (logic == rules + code)")
 

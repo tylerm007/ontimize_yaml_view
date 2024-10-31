@@ -268,25 +268,56 @@ To make customizations easy to explore, **search for:**
 | ```integration``` | Consume Kafka Messages             | ```integration/kafka/kafka_consumer.py```          |  [Application Integration](https://apilogicserver.github.io/Docs/Sample-Integration/)                                          |
 | ```tests``` | Behave Test Suite              | ```tests/api_logic_server_behave/features```          | Declare and implement [Behave Tests](https://apilogicserver.github.io/Docs/Behave/)                                          |
 
-> Note: API Logic Server CLI provides commands you can use to ugrade your project, e.g., to add security.  Discover the CLI commands with `ApiLogicServer`.
+<br>
+
+Notes:
+
+1. API Logic Server **CLI** provides commands you can use to ugrade your project, e.g., to add security.  See the next section.
+2. You will observe the project is small.  That is because the app, logic and api are represented as **models:**
+    * The [web app](ui/admin/admin.yaml) is a YAML file (about 150 lines - no html or JavaScript)
+    * The [api](api/expose_api_models.py) is essentially 1 line per data model (table)
 
 &nbsp;
 
-# 4. Project Requirements
+# 3. Procedures
+
+Several **CLI commands** are provided to operate on your current project.  
+
+1. Use your IDE's terminal window to access these
+2. Use `ApiLogicServer --help` to discover these
+
+<br>
+
+| Procedures               | Notes                              |
+|:-------------------------|:-----------------------------------|
+| 1. **Database Migration** | See [alembic](database/alembic/readme.md) for database migration procedures.     |
+| 1. **Activating Security** | See [Security Activation](https://apilogicserver.github.io/Docs/Security-Activation/) for activating security.     |
+
+&nbsp;
+
+# 4. Deployment
+
+The `devops` directory contains several scripts for creating container images, testing them, and deploying them.
+
+Since API Logic Server creates working software (UI, API), you can do this after creating your project, to [collaborate with your team](https://apilogicserver.github.io/Docs/DevOps-Containers-Preview/).
+
+&nbsp;
+
+# 5. Project Requirements
 
 Optionally, you can **document requirements** as part of an **executable test plan**.  Test plan execution creates documentation (in markdown), including **requirements traceability** into implementation.  [See example here](test/api_logic_server_behave/reports/Behave%20Logic%20Report%20Sample.md).
 
 &nbsp;
 
-# 5. Project Information
+# 6. Project Information
 
 This API Logic Project was created with the `ApiLogicServer create` command.
 For information on Managing API Logic Projects, [click here](https://apilogicserver.github.io/Docs/Project-Structure).
 
 | About                    | Info                               |
 |:-------------------------|:-----------------------------------|
-| Created                  | April 26, 2024 11:18:59                      |
-| API Logic Server Version | 10.03.84           |
+| Created                  | October 25, 2024 10:07:34                      |
+| API Logic Server Version | 12.00.03           |
 | Created in directory     | ontimize |
 | API Name                 | api          |
 | Execution begins with    | `api_logic_server_run.py`          |

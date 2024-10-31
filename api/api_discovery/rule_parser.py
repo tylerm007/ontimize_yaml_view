@@ -167,9 +167,16 @@ def get_rules_from_content(content: str) -> list:
     return results
 
 def parse_rule_for_attr(rule: str, _type: str) -> str:
-    if _type == "constraint" or _type.endswith("_event"):
-        return None
-    return rule.split("Rule.")[1].split("(")[1].split(",")[0].split(".")[-1]
+    derive_column = None
+    if _type == "constraint" or _type.endswith("_event") or _type == "early_row_event_all_classes":
+        return derive_column
+    if rule.index("derive=") > 0:
+            derive_column = rule.split("derive=")[1].split(",")[0].split(".")[2]
+    elif rule.index("models.") > 0:
+        derive_column = rule.split("models.")[1].split(".")[1].split(",")[0] 
+    return derive_column
+
+
 def get_rules_from_file(project_dir: str = None) -> list:
     rule_list = parse_rules(project_dir)
     results = []
@@ -185,7 +192,26 @@ def get_rules_from_file(project_dir: str = None) -> list:
         
     return results
         
-    
+def parse_derivation_rule(rule: str):
+    if not rule:
+        return None, None
+    if rule.index("derive=") > 0:
+        derive_column = rule.split("=")[1].split(",")[0] 
+    elif rule.index("models.") > 0:
+        derive_column = rule.split("models.")[1].split(".")[1].split(",")[0] 
+    expression = None
+    try:
+        if rule.derivation_type == "sum":
+            expression = rule.split("as_sum_of")[1].replace("=models.","").replace(")","")
+        elif rule.derivation_type == "count":
+            expression = rule.split("where")[0].replace("=models.","").replace(")","")
+        elif rule.derivation_type == "formula":
+            expression = rule.split("as_expression")[1].replace("=models.","").replace(")","")
+        elif rule.derivation_type == "copy":  #from_parent
+            expression = rule.split("from_parent=")[1].replace(")","")
+    except Exception as e:
+        print(e)    
+    return {"derive_column": derive_column, "expression": expression}
 def parse_rules(project_dir: str = None) -> list:
     result = []
     rule_line = ""

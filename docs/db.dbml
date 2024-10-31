@@ -1,108 +1,109 @@
 // Copy this text, paste to https://dbdiagram.io/d
 // Or, https://databasediagram.com/app
+// Or, view in VSCode with extension: "DBML Live Preview"
 
 Table Entity {
-    name VARCHAR(80)
-    title VARCHAR(100)
-    pkey VARCHAR(100)
-    favorite VARCHAR(100)
-    info_list TEXT
-    info_show TEXT
-    exclude BOOLEAN
-    new_template VARCHAR(80)
-    home_template VARCHAR(80)
-    detail_template VARCHAR(80)
-    mode VARCHAR(10)
-    menu_group VARCHAR(25)
+    name VARCHAR(80) [primary key]
+    title VARCHAR(100) 
+    pkey VARCHAR(100) 
+    favorite VARCHAR(100) 
+    info_list TEXT 
+    info_show TEXT 
+    exclude BOOLEAN 
+    new_template VARCHAR(80) 
+    home_template VARCHAR(80) 
+    detail_template VARCHAR(80) 
+    mode VARCHAR(10) 
+    menu_group VARCHAR(25) 
     }
 
 Table EntityAttr {
-    entity_name VARCHAR(80)
-    attr VARCHAR(80)
-    label VARCHAR(100)
-    issearch BOOLEAN
-    issort BOOLEAN
-    thistype VARCHAR(50)
-    template_name VARCHAR(100)
-    tooltip TEXT
-    isrequired BOOLEAN
-    isenabled BOOLEAN
-    exclude BOOLEAN
-    visible BOOLEAN
-    default_value VARCHAR(100)
-    derivation VARCHAR(25)
+    entity_name VARCHAR(80) [primary key]
+    attr VARCHAR(80) 
+    label VARCHAR(100) 
+    issearch BOOLEAN 
+    issort BOOLEAN 
+    thistype VARCHAR(50) 
+    template_name VARCHAR(100) 
+    tooltip TEXT 
+    isrequired BOOLEAN 
+    isenabled BOOLEAN 
+    exclude BOOLEAN 
+    visible BOOLEAN 
+    default_value VARCHAR(100) 
+    derivation VARCHAR(255) 
     }
 
 Table Template {
-    name VARCHAR(100)
-    description TEXT
+    name VARCHAR(100) [primary key]
+    description TEXT 
     }
 
 Table GlobalSetting {
-    name VARCHAR(100)
-    value VARCHAR(8000)
-    description TEXT
+    name VARCHAR(100) [primary key]
+    value VARCHAR(8000) 
+    description TEXT 
     }
 
 Table Root {
-    id INTEGER
-    about_changes TEXT
-    api_root VARCHAR(1000)
-    api_auth_type VARCHAR(100)
-    api_auth VARCHAR(1000)
-    about_date VARCHAR(100)
+    id INTEGER [primary key]
+    about_changes TEXT 
+    api_root VARCHAR(1000) 
+    api_auth_type VARCHAR(100) 
+    api_auth VARCHAR(1000) 
+    about_date VARCHAR(100) 
     }
 
 Table RuleConstraint {
-    id INTEGER
-    entity_name VARCHAR(80)
-    calling_fn VARCHAR(255)
-    as_condition VARCHAR(255)
-    err_msg VARCHAR(255)
-    error_attributes VARCHAR(80)
-    rule VARCHAR(255)
+    id INTEGER [primary key]
+    entity_name VARCHAR(80) 
+    calling_fn VARCHAR(255) 
+    as_condition VARCHAR(255) 
+    err_msg VARCHAR(255) 
+    error_attributes VARCHAR(80) 
+    rule VARCHAR(255) 
     }
 
 Table RuleDerivation {
-    id INTEGER
-    entity_name VARCHAR(80)
-    derive_column VARCHAR(80)
-    expression VARCHAR(255)
-    derivation_type VARCHAR(25)
-    as_child_entity VARCHAR(80)
-    child_role_name VARCHAR(80)
-    calling_fn VARCHAR(80)
-    where_clause VARCHAR(255)
-    rule VARCHAR(255)
-    insert_parent BOOLEAN
+    id INTEGER [primary key]
+    entity_name VARCHAR(80) 
+    derive_column VARCHAR(80) 
+    expression VARCHAR(255) 
+    derivation_type VARCHAR(25) 
+    as_child_entity VARCHAR(80) 
+    child_role_name VARCHAR(80) 
+    calling_fn VARCHAR(80) 
+    where_clause VARCHAR(255) 
+    rule VARCHAR(255) 
+    insert_parent BOOLEAN 
     }
 
 Table RuleEvent {
-    id INTEGER
-    entity_name VARCHAR(80)
-    event_type VARCHAR(25)
-    calling_fn VARCHAR(255)
-    rule VARCHAR(255)
+    id INTEGER [primary key]
+    entity_name VARCHAR(80) 
+    event_type VARCHAR(25) 
+    calling_fn VARCHAR(255) 
+    rule VARCHAR(255) 
     }
 
 Table TabGroup {
-    entity_name VARCHAR(80)
-    tab_entity VARCHAR(80)
-    direction VARCHAR(6)
-    fkeys VARCHAR(80)
-    name VARCHAR(80)
-    label VARCHAR(80)
-    exclude BOOLEAN
+    entity_name VARCHAR(80) [primary key]
+    tab_entity VARCHAR(80) 
+    direction VARCHAR(6) 
+    fkeys VARCHAR(80) 
+    name VARCHAR(80) 
+    label VARCHAR(80) 
+    exclude BOOLEAN 
     }
 
 Table YamlFile {
-    name VARCHAR(100)
-    content TEXT
-    upload_flag BOOLEAN
-    download_flag BOOLEAN
-    size INTEGER
-    downloaded TEXT
-    rule_content TEXT
+    name VARCHAR(100) [primary key]
+    content TEXT 
+    upload_flag BOOLEAN 
+    download_flag BOOLEAN 
+    size INTEGER 
+    downloaded TEXT 
+    rule_content TEXT 
     }
 
 

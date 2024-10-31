@@ -1,18 +1,15 @@
 
-DROP TABLE IF EXISTS entity;
+
 DROP TABLE IF EXISTS entity_attr;
 DROP TABLE IF EXISTS tab_group;
 DROP TABLE IF EXISTS global_settings;
 DROP TABLE IF EXISTS template;
 DROP TABLE IF EXISTS root;
-
 DROP TABLE IF EXISTS yaml_files;
-
-DROP TABLE IF EXISTS rule_constraint;   
-
+DROP TABLE IF EXISTS rule_constraint;
 DROP TABLE IF EXISTS rule_event;
-
 DROP TABLE IF EXISTS rule_derivation;
+DROP TABLE IF EXISTS entity;
 
 CREATE TABLE entity (
     name varchar(80) not null,
@@ -105,7 +102,7 @@ CREATE TABLE rule_constraint (
     as_condition VARCHAR(255),
     err_msg VARCHAR(255),
     error_attributes VARCHAR(80),
-    rule VARCHAR(255),
+    rule VARCHAR(1000),
     FOREIGN KEY (entity_name) REFERENCES entity(name)
 );
 
@@ -114,7 +111,7 @@ CREATE TABLE rule_event (
     entity_name VARCHAR(80),
     event_type VARCHAR(25),
     calling_fn VARCHAR(255),
-    rule VARCHAR(255),
+    rule VARCHAR(1000),
     FOREIGN KEY (entity_name) REFERENCES entity(name)
 );
 CREATE TABLE rule_derivation (  
@@ -127,7 +124,7 @@ CREATE TABLE rule_derivation (
     child_role_name VARCHAR(80),
     calling_fn VARCHAR(80),
     where_clause VARCHAR(255),
-    rule VARCHAR(255),
+    rule VARCHAR(1000),
     insert_parent BOOLEAN,
     FOREIGN KEY (entity_name) REFERENCES entity(name),
     FOREIGN KEY (as_child_entity) REFERENCES entity(name)

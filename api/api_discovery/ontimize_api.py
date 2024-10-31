@@ -346,7 +346,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                         valuesYaml = yaml.safe_load(yaml_content)
                         process_yaml(valuesYaml=valuesYaml, rule_content=resp.rule_content)
                         
-                    data = {"downloaded": valuesYaml, "rule_content": resp.rule_content}
+                    data = {"downloaded": yaml_content, "rule_content": resp.rule_content}
                     return jsonify({"code": 0, "totalQueryRecordsNumber": 1, "startRecordIndex": 1,"message": f"Yaml file {clz_type}", "data": data})
                 # GET (sent as POST)
                 # rows = get_rows_by_query(api_clz, filter, orderBy, columns, pagesize, offset)
@@ -892,14 +892,15 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         delete_sql(models.Template)
         delete_sql(models.Root)
         
-
-        insert_template()
-        insert_styles(valuesYaml)
-        insert_entities(valuesYaml)
-        insert_root(valuesYaml)
+        rules = []
         if rule_content:
             from api.api_discovery.rule_parser import get_rules_from_content
             rules = get_rules_from_content(rule_content)
+        insert_template()
+        insert_styles(valuesYaml)
+        insert_entities(valuesYaml, rules)
+        insert_root(valuesYaml)
+        if rule_content:
             insert_rules(rules)
         else:
             insert_rules_from_yaml(valuesYaml)
@@ -914,7 +915,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
             db.session.rollback()
             raise ex
 
-    def insert_entities(valuesYaml):
+    def insert_entities(valuesYaml, rules):
         entities = valuesYaml["entities"]
         for entity in entities:
             m_entity = models.Entity()
@@ -950,7 +951,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         for entity in entities:
             each_entity_yaml = valuesYaml["entities"][entity]
             entity_type = entities[entity]["type"]
-            insert_entity_attrs(entity, entity_type, each_entity_yaml)
+            insert_entity_attrs(entity, entity_type, each_entity_yaml, rules)
 
         # Tab Groups
         for entity in entities:
@@ -1023,6 +1024,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                     session.commit()
                 except Exception as ex:
                     print(f"Error adding constraint rule {rule} {ex}")
+                    continue
             elif rule["type"].endswith("_event"):
                 sql_alchemy_row = models.RuleEvent()
                 setattr(sql_alchemy_row, "rule", rule["rule"])
@@ -1033,20 +1035,44 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                     session.commit()
                 except Exception as ex:
                     print(f"Error adding event rule {rule} {ex}")
+                    continue
             else: 
                 sql_alchemy_row = models.RuleDerivation()
+                
                 setattr(sql_alchemy_row, "rule", rule["rule"])
                 setattr(sql_alchemy_row, "entity_name", rule["entity"])
                 setattr(sql_alchemy_row, "derivation_type", rule["type"])
+                setattr(sql_alchemy_row, "derive_column", rule["attr"])
                 try:
                     session.add(sql_alchemy_row)      
                     session.commit()
+                    #if rule['attr']:
+                        # update_entity_attr(rule["entity"], rule["rule"], rule['attr'])
                 except Exception as ex:
                     print(f"Error adding derivations rule {rule} {ex}")
+                    continue
 
-                if rule['attr']:
-                    update_entity_attr(rule["entity"], rule["rule"], rule['attr'])
-    
+                
+    def parse_derivation_rule(rule: dict) -> str:
+        derive_column,expression = None
+        if not rule:
+            return derive_column,expression 
+        if rule.index("derive=") > 0:
+            derive_column = rule.split("=")[1].split(",")[0] 
+        elif rule.index("models.") > 0:
+            derive_column = rule.split("models.")[1].split(".")[1].split(",")[0] 
+        try:
+            if rule["type"] == "sum":
+                expression = rule.split("as_sum_of")[1].replace("=models.","").replace(")","")
+            elif rule["type"] == "count":
+                expression = rule.split("where")[0].replace("=models.","").replace(")","")
+            elif rule["type"] == "formula":
+                expression = rule.split("as_expression")[1].replace("=models.","").replace(")","")
+            elif rule["type"] == "copy":  #from_parent
+                expression = rule.split("from_parent=")[1].replace(")","")
+        except Exception as e:
+            print(e)
+        return derive_column,expression 
     def update_entity_attr(entity: str, derivation: str, rule_attr: str):
         entity_attr = session.query(models.EntityAttr).filter(models.EntityAttr.entity_name == entity).all()
         for attr in entity_attr:
@@ -1055,6 +1081,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 try:
                     session.add(attr)      
                     session.commit()
+                    return
                 except Exception as ex:
                     print(f"Error adding derivations rule {attr} {ex}")
     
@@ -1073,6 +1100,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 except Exception as ex:
                     #session.rollback()
                     print(ex)
+                    
                 for event in rules["events"]:
                     m_rule = models.RuleEvent()
                     m_rule.entity_name = entity
@@ -1086,6 +1114,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 except Exception as ex:
                     #session.rollback()
                     print(ex)
+                    
             for column in valuesYaml["entities"][entity]["columns"]:
                 rule = column["derivation"] if "derivation" in column else None
                 if rule:
@@ -1094,6 +1123,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                     m_rule.rule = rule
                     type = rule.split("Rule.")[1].split("(")[0]
                     m_rule.derivation_type = type
+                    #derviation, expression = parse_derivation_rule(rule)
                         
                     try:
                         session.add(m_rule)
@@ -1142,7 +1172,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 print(ex)
 
 
-    def insert_entity_attrs(entity, entity_type, each_entity_yaml):
+    def insert_entity_attrs(entity, entity_type, each_entity_yaml, rules):
         columns = []
         for attr in each_entity_yaml["columns"]:
             if attr not in columns:
@@ -1164,7 +1194,15 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 if get_value(attr, "default_value"):
                     m_entity_attr.default_value = get_value(attr, "default_value", "")
                 if get_value(attr, "derivation"):
-                    m_entity_attr.derivation = get_value(attr, "derivation", "")
+                    derivation = get_value(attr, "derivation", "")
+                else:
+                    derivation = None
+                    for rule in rules:
+                        if rule["entity"] == entity and rule["attr"] == attr["name"]:
+                            derivation = rule["rule"]
+                            derivation = derivation if derivation is not None else ""
+                            break
+                m_entity_attr.derivation = get_value(attr, "derivation", derivation)
             try:
                 session.add(m_entity_attr)
                 session.commit()
@@ -1172,6 +1210,11 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 session.rollback()
                 # raise ex
                 print(ex)
+
+                #parse_derivation_rule(sql_alchemy_row)
+                #if rule['attr']:
+                #        update_entity_attr(rule["entity"], rule["rule"], rule['attr'])
+
 
     def insert_styles(valuesYaml):
         style_guide = valuesYaml["settings"]["style_guide"]

@@ -172,8 +172,8 @@ class YamlFiles(SAFRSBaseX, Base):
 
     name = Column(String(100), primary_key=True)
     content = Column(Text)
-    upload_flag = Column(Boolean, server_default=text("FALSE"))
-    download_flag = Column(Boolean, server_default=text("FALSE"))
+    upload_flag = Column(Boolean, server_default=text("false"))
+    download_flag = Column(Boolean, server_default=text("false"))
     size = Column(Integer)
     downloaded = Column(Text)
     rule_content = Column(Text)
@@ -281,7 +281,7 @@ class RuleDerivation(SAFRSBaseX, Base):
     child_role_name = Column(String(80))
     calling_fn = Column(String(80))
     where_clause = Column(String(255))
-    rule = Column(String(255))
+    rule = Column(String(525))
     insert_parent = Column(Boolean)
 
     # parent relationships (access parent)
