@@ -18,7 +18,7 @@ export const CONFIG: Config = {
   uuid: 'com.ontimize.web.ngx.jee.seed15x',
 
   // Title of the app
-  title: 'ApiLogicServer seed',
+  title: 'ApiLogicServer Yaml Editor',
 
   //  Language of the application.
   locale: 'en',

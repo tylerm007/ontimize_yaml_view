@@ -25,21 +25,21 @@ export const MENU_CONFIG: MenuRootItem[] = [
     { id: 'YamlFiles', name: '2. Process Yaml File', icon: 'upload_file', route: '/main/YamlFiles' },
     { id: 'data', name: '3. Edit Yaml Data', icon: 'edit_square', opened: true,
     items: [
-        { id: 'Entity', name: 'Entities', icon: 'view_list', route: '/main/Entity' }
-        ,{ id: 'EntityAttr', name: 'Attributes', icon: 'view_list', route: '/main/EntityAttr' }
-        ,{ id: 'TabGroup', name: 'Relationships', icon: 'view_list', route: '/main/TabGroup' }
+        { id: 'Entity', name: 'Entities', icon: 'view_list', route: '/main/Entity' , component: EntityCardComponent}
+        ,{ id: 'EntityAttr', name: 'Attributes', icon: 'view_list', route: '/main/EntityAttr' , component: EntityAttrCardComponent}
+        ,{ id: 'TabGroup', name: 'Relationships', icon: 'view_list', route: '/main/TabGroup', component: TabGroupCardComponent}
     
         ] 
     }
-    ,{ id: 'YamlFiles', name: '4. Download Yaml File', icon: 'download_file', route: '/main/DownloadYamlFiles' }
     ,{id: 'rules', name: 'Rules', icon: 'edit_square', opened: true,
     items: [
         { id: 'RuleConstraint', name: 'Constraints', icon: 'view_list', route: '/main/RuleConstraint' }
         ,{ id: 'RuleDerivation', name: 'Derivations', icon: 'view_list', route: '/main/RuleDerivation' }
         ,{ id: 'RuleEvent', name: 'Events', icon: 'view_list', route: '/main/RuleEvent' }
         ] 
-    },
-    { id: 'other', name: 'Global Settings', icon: 'remove_red_eye', opened: false,
+    }
+    ,{ id: 'YamlFiles', name: '4. Download Yaml File', icon: 'download_file', route: '/main/DownloadYamlFiles' }
+    ,{ id: 'other', name: 'Global Settings', icon: 'remove_red_eye', opened: false,
         items: [        
             { id: 'GlobalSetting', name: 'Global Settings', icon: 'view_list', route: '/main/GlobalSetting' }
             ,{ id: 'Template', name: 'TEMPLATE', icon: 'view_list', route: '/main/Template' }
