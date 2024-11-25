@@ -108,9 +108,11 @@ def get_grants(role_content: str = None) -> list:
             if s1[0] == "on_entity":
                 row["on_entity"] = s1[1].replace("'", "", 2).replace("models.", "")
             if s1[0] == "filter":
-                row["filter"] = s1[1].replace("'", "", 2)
+                s = rbac.split("filter=")
+                row["filter"] = s[1].replace("'", "", 2)[:-1]
             if s1[0] == "filter_debug":
-                row["filter_debug"] = s1[1].replace("'", "", 2)
+                s = rbac.split("filter_debug=")
+                row["filter_debug"] = s[1].replace("'", "", 2)[:-1]
 
         results.append(row)
 

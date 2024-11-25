@@ -1003,6 +1003,26 @@ entities:
     columns:
     - enabled: true
       exclude: false
+      label: 'Name* '
+      name: name
+      required: true
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(64)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Fieldsonactorform '
+      name: fieldsOnActorForm
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
       label: 'Inactive '
       name: inactive
       required: true
@@ -1026,26 +1046,6 @@ entities:
       label: 'Id '
       name: id
       required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Name* '
-      name: name
-      required: true
-      search: true
-      sort: false
-      template: text
-      type: VARCHAR(64)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Fieldsonactorform '
-      name: fieldsOnActorForm
-      required: true
       search: false
       sort: false
       template: integer
@@ -1219,10 +1219,10 @@ entities:
     columns:
     - enabled: true
       exclude: false
-      label: 'Id* '
-      name: id
-      required: false
-      search: true
+      label: 'Clientid '
+      name: clientId
+      required: true
+      search: false
       sort: false
       template: integer
       type: INTEGER
@@ -1319,16 +1319,6 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Clientid '
-      name: clientId
-      required: true
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'Alterationtype '
       name: alterationType
       required: true
@@ -1403,6 +1393,16 @@ entities:
       name: destLeafFirstLvlId
       required: false
       search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Id* '
+      name: id
+      required: false
+      search: true
       sort: false
       template: integer
       type: INTEGER
@@ -1649,6 +1649,16 @@ entities:
       visible: true
     - enabled: true
       exclude: false
+      label: 'Name* '
+      name: name
+      required: true
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(64)
+      visible: true
+    - enabled: true
+      exclude: false
       label: 'Instructions '
       name: instructions
       required: false
@@ -1686,16 +1696,6 @@ entities:
       sort: false
       template: integer
       type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Name* '
-      name: name
-      required: true
-      search: true
-      sort: false
-      template: text
-      type: VARCHAR(64)
       visible: true
     detail_template: detail_template.html
     exclude: false
@@ -2384,6 +2384,28 @@ entities:
       visible: true
     - enabled: true
       exclude: false
+      label: 'Deletedts '
+      name: deletedTs
+      required: false
+      search: false
+      sort: false
+      template: date
+      type: TIMESTAMP
+      visible: true
+    - derivation: 'Rule.formula(derive=models.AssembledFirstLevel.locked,as_expression=lambda
+        row:  row.recastSet.locked)'
+      enabled: true
+      exclude: false
+      label: 'Locked '
+      name: locked
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: TINYINT
+      visible: true
+    - enabled: true
+      exclude: false
       label: 'Name* '
       name: name
       required: true
@@ -2531,28 +2553,6 @@ entities:
       template: integer
       type: INTEGER
       visible: true
-    - enabled: true
-      exclude: false
-      label: 'Deletedts '
-      name: deletedTs
-      required: false
-      search: false
-      sort: false
-      template: date
-      type: TIMESTAMP
-      visible: true
-    - derivation: 'Rule.formula(derive=models.AssembledFirstLevel.locked,as_expression=lambda
-        row:  row.recastSet.locked)'
-      enabled: true
-      exclude: false
-      label: 'Locked '
-      name: locked
-      required: true
-      search: false
-      sort: false
-      template: text
-      type: TINYINT
-      visible: true
     detail_template: detail_template.html
     exclude: false
     favorite: name
@@ -2623,6 +2623,46 @@ entities:
     type: AssembledFirstLevel
   AssembledSecondLevel:
     columns:
+    - enabled: true
+      exclude: false
+      label: 'Assembledfirstid '
+      name: assembledFirstId
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Recastsetid '
+      name: recastSetId
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Targetidstructured '
+      name: targetIdStructured
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Accountseconduniquenum '
+      name: accountSecondUniqueNum
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
     - enabled: true
       exclude: false
       label: 'Name* '
@@ -2726,45 +2766,17 @@ entities:
       template: date
       type: TIMESTAMP
       visible: true
-    - enabled: true
+    - derivation: 'Rule.formula(derive=models.AssembledSecondLevel.locked,as_expression=lambda
+        row:  row.recastSet.locked)'
+      enabled: true
       exclude: false
-      label: 'Assembledfirstid '
-      name: assembledFirstId
+      label: 'Locked '
+      name: locked
       required: true
       search: false
       sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Recastsetid '
-      name: recastSetId
-      required: true
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Targetidstructured '
-      name: targetIdStructured
-      required: true
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Accountseconduniquenum '
-      name: accountSecondUniqueNum
-      required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
+      template: text
+      type: TINYINT
       visible: true
     - enabled: true
       exclude: false
@@ -2826,18 +2838,6 @@ entities:
       sort: false
       template: integer
       type: INTEGER
-      visible: true
-    - derivation: 'Rule.formula(derive=models.AssembledSecondLevel.locked,as_expression=lambda
-        row:  row.recastSet.locked)'
-      enabled: true
-      exclude: false
-      label: 'Locked '
-      name: locked
-      required: true
-      search: false
-      sort: false
-      template: text
-      type: TINYINT
       visible: true
     detail_template: detail_template.html
     exclude: false
@@ -2902,6 +2902,141 @@ entities:
     type: AssembledSecondLevel
   AssembledSubArea:
     columns:
+    - enabled: true
+      exclude: false
+      label: 'Assembledareaid '
+      name: assembledAreaId
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Recastsetid '
+      name: recastSetId
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Targetidstructured '
+      name: targetIdStructured
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Subareacode '
+      name: subAreaCode
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Balfirst '
+      name: balFirst
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(16, 2)
+      visible: true
+    - derivation: Rule.sum(derive=models.AssembledSubArea.combinedBalFirst,as_sum_of=models.AssembledFirstLevel.combinedBalanceList)
+      enabled: true
+      exclude: false
+      label: 'Combinedbalfirst '
+      name: combinedBalFirst
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(16, 2)
+      visible: true
+    - derivation: Rule.sum(derive=models.AssembledSubArea.elimBalFirst,as_sum_of=models.AssembledFirstLevel.eliminationBalanceList)
+      enabled: true
+      exclude: false
+      label: 'Elimbalfirst '
+      name: elimBalFirst
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(16, 2)
+      visible: true
+    - derivation: 'Rule.sum(derive=models.AssembledSubArea.altBalFirst,as_sum_of=models.AssembledFirstLevel.alteredBalance,where=lambda
+        row: row.leaf == 1)'
+      enabled: true
+      exclude: false
+      label: 'Altbalfirst '
+      name: altBalFirst
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(16, 2)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Inactive '
+      name: inactive
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: TINYINT
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Modifiedts '
+      name: modifiedTs
+      required: true
+      search: false
+      sort: false
+      template: date
+      type: TIMESTAMP
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Id '
+      name: id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Balsecond '
+      name: balSecond
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(16, 2)
+      visible: true
+    - derivation: Rule.sum(derive=models.AssembledSubArea.elimBalSecond,as_sum_of=models.AssembledFirstLevel.eliminateBalChildren)
+      enabled: true
+      exclude: false
+      label: 'Elimbalsecond '
+      name: elimBalSecond
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(16, 2)
+      visible: true
     - enabled: true
       exclude: false
       label: 'Name* '
@@ -3044,141 +3179,6 @@ entities:
       template: currency
       type: DECIMAL(16, 2)
       visible: true
-    - enabled: true
-      exclude: false
-      label: 'Assembledareaid '
-      name: assembledAreaId
-      required: true
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Recastsetid '
-      name: recastSetId
-      required: true
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Targetidstructured '
-      name: targetIdStructured
-      required: true
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Subareacode '
-      name: subAreaCode
-      required: true
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Balfirst '
-      name: balFirst
-      required: false
-      search: false
-      sort: false
-      template: currency
-      type: DECIMAL(16, 2)
-      visible: true
-    - derivation: Rule.sum(derive=models.AssembledSubArea.combinedBalFirst,as_sum_of=models.AssembledFirstLevel.combinedBalanceList)
-      enabled: true
-      exclude: false
-      label: 'Combinedbalfirst '
-      name: combinedBalFirst
-      required: false
-      search: false
-      sort: false
-      template: currency
-      type: DECIMAL(16, 2)
-      visible: true
-    - derivation: Rule.sum(derive=models.AssembledSubArea.elimBalFirst,as_sum_of=models.AssembledFirstLevel.eliminationBalanceList)
-      enabled: true
-      exclude: false
-      label: 'Elimbalfirst '
-      name: elimBalFirst
-      required: false
-      search: false
-      sort: false
-      template: currency
-      type: DECIMAL(16, 2)
-      visible: true
-    - derivation: 'Rule.sum(derive=models.AssembledSubArea.altBalFirst,as_sum_of=models.AssembledFirstLevel.alteredBalance,where=lambda
-        row: row.leaf == 1)'
-      enabled: true
-      exclude: false
-      label: 'Altbalfirst '
-      name: altBalFirst
-      required: false
-      search: false
-      sort: false
-      template: currency
-      type: DECIMAL(16, 2)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Inactive '
-      name: inactive
-      required: true
-      search: false
-      sort: false
-      template: text
-      type: TINYINT
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Modifiedts '
-      name: modifiedTs
-      required: true
-      search: false
-      sort: false
-      template: date
-      type: TIMESTAMP
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Id '
-      name: id
-      required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Balsecond '
-      name: balSecond
-      required: false
-      search: false
-      sort: false
-      template: currency
-      type: DECIMAL(16, 2)
-      visible: true
-    - derivation: Rule.sum(derive=models.AssembledSubArea.elimBalSecond,as_sum_of=models.AssembledFirstLevel.eliminateBalChildren)
-      enabled: true
-      exclude: false
-      label: 'Elimbalsecond '
-      name: elimBalSecond
-      required: false
-      search: false
-      sort: false
-      template: currency
-      type: DECIMAL(16, 2)
-      visible: true
     detail_template: detail_template.html
     exclude: false
     favorite: name
@@ -3235,86 +3235,6 @@ entities:
     type: AssembledSubArea
   Client:
     columns:
-    - enabled: true
-      exclude: false
-      label: 'Altcontactid '
-      name: altContactId
-      required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Alias '
-      name: alias
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(64)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Description '
-      name: description
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(64)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Enddate '
-      name: endDate
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: DATE
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Comment '
-      name: comment
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: TEXT
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Lon '
-      name: lon
-      required: false
-      search: false
-      sort: false
-      template: currency
-      type: DECIMAL(16, 10)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Createdts '
-      name: createdTs
-      required: true
-      search: false
-      sort: false
-      template: date
-      type: TIMESTAMP
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Deletedts '
-      name: deletedTs
-      required: false
-      search: false
-      sort: false
-      template: date
-      type: TIMESTAMP
-      visible: true
     - enabled: true
       exclude: false
       label: 'Name* '
@@ -3404,6 +3324,86 @@ entities:
       sort: false
       template: integer
       type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Altcontactid '
+      name: altContactId
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Alias '
+      name: alias
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(64)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Description '
+      name: description
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(64)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Enddate '
+      name: endDate
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DATE
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Comment '
+      name: comment
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: TEXT
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Lon '
+      name: lon
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(16, 10)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Createdts '
+      name: createdTs
+      required: true
+      search: false
+      sort: false
+      template: date
+      type: TIMESTAMP
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Deletedts '
+      name: deletedTs
+      required: false
+      search: false
+      sort: false
+      template: date
+      type: TIMESTAMP
       visible: true
     detail_template: detail_template.html
     exclude: false
@@ -3657,217 +3657,6 @@ entities:
     columns:
     - enabled: true
       exclude: false
-      label: 'Report Name* '
-      name: reportName
-      required: true
-      search: true
-      sort: false
-      template: text
-      type: VARCHAR(64)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Clientpersonid '
-      name: clientPersonId
-      required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Teamcoachid '
-      name: teamCoachId
-      required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Entrypersondisplayname '
-      name: entryPersonDisplayName
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(64)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Companydisplayname '
-      name: companyDisplayName
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(64)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Isbenchmarkable '
-      name: isBenchmarkable
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: TINYINT
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Classification '
-      name: classification
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(256)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Draftwritten '
-      name: draftWritten
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: DATE
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Deliveredtoclient '
-      name: deliveredToClient
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: DATE
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Hassignificantnoncrop '
-      name: hasSignificantNonCrop
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: TINYINT
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Isasiclient '
-      name: isAsiClient
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: TINYINT
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Ffginvesteddate '
-      name: ffgInvestedDate
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: DATE
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Acreagecropable '
-      name: acreageCropable
-      required: false
-      search: false
-      sort: false
-      template: currency
-      type: DECIMAL(10, 2)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Ffstartyear '
-      name: ffStartYear
-      required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Accountingbasis '
-      name: accountingBasis
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(64)
-      visible: true
-    - derivation: Rule.sum(derive=models.ClientReportDetail.gradeCumulativePoints,as_sum_of=models.ValuesForReport.grade)
-      enabled: true
-      exclude: false
-      label: 'Gradecumulativepoints '
-      name: gradeCumulativePoints
-      required: false
-      search: false
-      sort: false
-      template: currency
-      type: DECIMAL(10, 6)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Comment '
-      name: comment
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(256)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Modifiedts '
-      name: modifiedTs
-      required: true
-      search: false
-      sort: false
-      template: date
-      type: TIMESTAMP
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Id '
-      name: id
-      required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Dataadjustmentsprocessed '
-      name: dataAdjustmentsProcessed
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: DATE
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Deliveryapproved '
-      name: deliveryApproved
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: DATE
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'Clientid '
       name: clientId
       required: true
@@ -4077,6 +3866,217 @@ entities:
       template: text
       type: DATE
       visible: true
+    - enabled: true
+      exclude: false
+      label: 'Report Name* '
+      name: reportName
+      required: true
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(64)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Clientpersonid '
+      name: clientPersonId
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Teamcoachid '
+      name: teamCoachId
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Entrypersondisplayname '
+      name: entryPersonDisplayName
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(64)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Companydisplayname '
+      name: companyDisplayName
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(64)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Isbenchmarkable '
+      name: isBenchmarkable
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: TINYINT
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Classification '
+      name: classification
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(256)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Draftwritten '
+      name: draftWritten
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DATE
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Deliveredtoclient '
+      name: deliveredToClient
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DATE
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Hassignificantnoncrop '
+      name: hasSignificantNonCrop
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: TINYINT
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Isasiclient '
+      name: isAsiClient
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: TINYINT
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Ffginvesteddate '
+      name: ffgInvestedDate
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DATE
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Acreagecropable '
+      name: acreageCropable
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(10, 2)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Ffstartyear '
+      name: ffStartYear
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Accountingbasis '
+      name: accountingBasis
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(64)
+      visible: true
+    - derivation: Rule.sum(derive=models.ClientReportDetail.gradeCumulativePoints,as_sum_of=models.ValuesForReport.grade)
+      enabled: true
+      exclude: false
+      label: 'Gradecumulativepoints '
+      name: gradeCumulativePoints
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(10, 6)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Comment '
+      name: comment
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(256)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Modifiedts '
+      name: modifiedTs
+      required: true
+      search: false
+      sort: false
+      template: date
+      type: TIMESTAMP
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Id '
+      name: id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Dataadjustmentsprocessed '
+      name: dataAdjustmentsProcessed
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DATE
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Deliveryapproved '
+      name: deliveryApproved
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: DATE
+      visible: true
     detail_template: detail_template.html
     exclude: false
     favorite: reportName
@@ -4133,46 +4133,6 @@ entities:
     type: ClientReportDetail
   EliminationFirstLevel:
     columns:
-    - enabled: true
-      exclude: false
-      label: 'Id* '
-      name: id
-      required: false
-      search: true
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Clientid '
-      name: clientId
-      required: true
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Recastsetid '
-      name: recastSetId
-      required: true
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Designation '
-      name: designation
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(256)
-      visible: true
     - enabled: true
       exclude: false
       label: 'Assembledfirstid '
@@ -4242,6 +4202,46 @@ entities:
       sort: false
       template: text
       type: TINYINT
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Id* '
+      name: id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Clientid '
+      name: clientId
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Recastsetid '
+      name: recastSetId
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Designation '
+      name: designation
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(256)
       visible: true
     - enabled: true
       exclude: false
@@ -4323,13 +4323,63 @@ entities:
     columns:
     - enabled: true
       exclude: false
-      label: 'Locked '
-      name: locked
+      label: 'Id* '
+      name: id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Clientid '
+      name: clientId
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Recastsetid '
+      name: recastSetId
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Designation '
+      name: designation
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(256)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Waseliminationtarget '
+      name: wasEliminationTarget
       required: true
       search: false
       sort: false
       template: text
       type: TINYINT
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Createdts '
+      name: createdTs
+      required: true
+      search: false
+      sort: false
+      template: date
+      type: TIMESTAMP
       visible: true
     - enabled: true
       exclude: false
@@ -4393,63 +4443,13 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Id* '
-      name: id
-      required: false
-      search: true
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Clientid '
-      name: clientId
-      required: true
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Recastsetid '
-      name: recastSetId
-      required: true
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Designation '
-      name: designation
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(256)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Waseliminationtarget '
-      name: wasEliminationTarget
+      label: 'Locked '
+      name: locked
       required: true
       search: false
       sort: false
       template: text
       type: TINYINT
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Createdts '
-      name: createdTs
-      required: true
-      search: false
-      sort: false
-      template: date
-      type: TIMESTAMP
       visible: true
     - enabled: true
       exclude: false
@@ -4531,36 +4531,6 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Name* '
-      name: name
-      required: true
-      search: true
-      sort: false
-      template: text
-      type: VARCHAR(64)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Clientid '
-      name: clientId
-      required: true
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Entitynumber '
-      name: entityNumber
-      required: true
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'Firstyear '
       name: firstYear
       required: false
@@ -4618,6 +4588,36 @@ entities:
       sort: false
       template: text
       type: DATE
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Name* '
+      name: name
+      required: true
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(64)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Clientid '
+      name: clientId
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Entitynumber '
+      name: entityNumber
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
       visible: true
     - enabled: true
       exclude: false
@@ -5155,6 +5155,56 @@ entities:
     columns:
     - enabled: true
       exclude: false
+      label: 'Exclude Template Remark '
+      name: exclude_template_remark
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: TINYINT
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Modifiedts '
+      name: modifiedTs
+      required: true
+      search: false
+      sort: false
+      template: date
+      type: TIMESTAMP
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Verbiage Applied Id '
+      name: verbiage_applied_id
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: BIGINT
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Report Employed '
+      name: report_employed
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Report Element Id '
+      name: report_element_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
       label: 'User Name* '
       name: user_name
       required: false
@@ -5323,56 +5373,6 @@ entities:
       template: text
       type: VARCHAR(50)
       visible: true
-    - enabled: true
-      exclude: false
-      label: 'Exclude Template Remark '
-      name: exclude_template_remark
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: TINYINT
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Modifiedts '
-      name: modifiedTs
-      required: true
-      search: false
-      sort: false
-      template: date
-      type: TIMESTAMP
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Verbiage Applied Id '
-      name: verbiage_applied_id
-      required: true
-      search: false
-      sort: false
-      template: integer
-      type: BIGINT
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Report Employed '
-      name: report_employed
-      required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Report Element Id '
-      name: report_element_id
-      required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
     detail_template: detail_template.html
     exclude: false
     favorite: user_name
@@ -5408,136 +5408,6 @@ entities:
     type: HpaVerbiageApplied
   HpaVerbiageDefault:
     columns:
-    - enabled: true
-      exclude: false
-      label: 'Remark Name* '
-      name: remark_name
-      required: false
-      search: true
-      sort: false
-      template: text
-      type: VARCHAR(25)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Remark Version '
-      name: remark_version
-      required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Hpa Report Section '
-      name: hpa_report_section
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(25)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Remark Threshold Low '
-      name: remark_threshold_low
-      required: false
-      search: false
-      sort: false
-      template: currency
-      type: DECIMAL(21, 9)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Remark '
-      name: remark
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: TEXT
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Hpa Report Section Order '
-      name: hpa_report_section_order
-      required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Stmt 997 Oper '
-      name: stmt_997_oper
-      required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Stmt 997 Liq '
-      name: stmt_997_liq
-      required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Stmt 997 Perf '
-      name: stmt_997_perf
-      required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Createdts '
-      name: createdTs
-      required: true
-      search: false
-      sort: false
-      template: date
-      type: TIMESTAMP
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Deletedts '
-      name: deletedTs
-      required: false
-      search: false
-      sort: false
-      template: date
-      type: TIMESTAMP
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Remark Icon Id '
-      name: remark_icon_id
-      required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Report Element Id '
-      name: report_element_id
-      required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
     - enabled: true
       exclude: false
       label: 'Is Inactive Status '
@@ -5668,51 +5538,20 @@ entities:
       template: integer
       type: INTEGER
       visible: true
-    detail_template: detail_template.html
-    exclude: false
-    favorite: remark_name
-    group: data
-    home_template: home_template.html
-    mode: tab
-    new_template: new_template.html
-    primary_key:
-    - verbiage_default_id
-    tab_groups:
-    - direction: tomany
-      exclude: false
-      fks:
-      - verbiage_default_id
-      label: HpaVerbiageAppliedList
-      name: HpaVerbiageAppliedList
-      resource: HpaVerbiageApplied
-    title: HpaVerbiageDefault
-    type: HpaVerbiageDefault
-  Impact:
-    columns:
     - enabled: true
       exclude: false
-      label: 'Name* '
-      name: name
-      required: true
+      label: 'Remark Name* '
+      name: remark_name
+      required: false
       search: true
       sort: false
       template: text
-      type: VARCHAR(64)
+      type: VARCHAR(25)
       visible: true
     - enabled: true
       exclude: false
-      label: 'Clientid '
-      name: clientId
-      required: true
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Impactfunctionid '
-      name: impactFunctionId
+      label: 'Remark Version '
+      name: remark_version
       required: false
       search: false
       sort: false
@@ -5721,18 +5560,28 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Impactareasub '
-      name: impactAreaSub
-      required: true
+      label: 'Hpa Report Section '
+      name: hpa_report_section
+      required: false
       search: false
       sort: false
-      template: integer
-      type: INTEGER
+      template: text
+      type: VARCHAR(25)
       visible: true
     - enabled: true
       exclude: false
-      label: 'Description '
-      name: description
+      label: 'Remark Threshold Low '
+      name: remark_threshold_low
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(21, 9)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Remark '
+      name: remark
       required: false
       search: false
       sort: false
@@ -5741,113 +5590,43 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Impactrate '
-      name: impactRate
-      required: true
-      search: false
-      sort: false
-      template: currency
-      type: DECIMAL(16, 10)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Impactbase '
-      name: impactBase
-      required: true
-      search: false
-      sort: false
-      template: currency
-      type: DECIMAL(16, 6)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Impactvartwo '
-      name: impactVarTwo
+      label: 'Hpa Report Section Order '
+      name: hpa_report_section_order
       required: false
       search: false
       sort: false
-      template: currency
-      type: DECIMAL(16, 6)
+      template: integer
+      type: INTEGER
       visible: true
     - enabled: true
       exclude: false
-      label: 'Impactvarfour '
-      name: impactVarFour
+      label: 'Stmt 997 Oper '
+      name: stmt_997_oper
       required: false
       search: false
       sort: false
-      template: currency
-      type: DECIMAL(16, 6)
+      template: integer
+      type: INTEGER
       visible: true
     - enabled: true
       exclude: false
-      label: 'Impactvarsix '
-      name: impactVarSix
+      label: 'Stmt 997 Liq '
+      name: stmt_997_liq
       required: false
       search: false
       sort: false
-      template: currency
-      type: DECIMAL(16, 6)
+      template: integer
+      type: INTEGER
       visible: true
     - enabled: true
       exclude: false
-      label: 'Impactvareight '
-      name: impactVarEight
+      label: 'Stmt 997 Perf '
+      name: stmt_997_perf
       required: false
       search: false
       sort: false
-      template: currency
-      type: DECIMAL(16, 6)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Impactone '
-      name: impactOne
-      required: true
-      search: false
-      sort: false
-      template: currency
-      type: DECIMAL(16, 2)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Impactthree '
-      name: impactThree
-      required: true
-      search: false
-      sort: false
-      template: currency
-      type: DECIMAL(16, 2)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Impactfive '
-      name: impactFive
-      required: true
-      search: false
-      sort: false
-      template: currency
-      type: DECIMAL(16, 2)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Impactseven '
-      name: impactSeven
-      required: true
-      search: false
-      sort: false
-      template: currency
-      type: DECIMAL(16, 2)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Impactnine '
-      name: impactNine
-      required: true
-      search: false
-      sort: false
-      template: currency
-      type: DECIMAL(16, 2)
+      template: integer
+      type: INTEGER
       visible: true
     - enabled: true
       exclude: false
@@ -5869,6 +5648,47 @@ entities:
       template: date
       type: TIMESTAMP
       visible: true
+    - enabled: true
+      exclude: false
+      label: 'Remark Icon Id '
+      name: remark_icon_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Report Element Id '
+      name: report_element_id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: remark_name
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - verbiage_default_id
+    tab_groups:
+    - direction: tomany
+      exclude: false
+      fks:
+      - verbiage_default_id
+      label: HpaVerbiageAppliedList
+      name: HpaVerbiageAppliedList
+      resource: HpaVerbiageApplied
+    title: HpaVerbiageDefault
+    type: HpaVerbiageDefault
+  Impact:
+    columns:
     - enabled: true
       exclude: false
       label: 'Actorid '
@@ -5962,8 +5782,28 @@ entities:
       visible: true
     - enabled: true
       exclude: false
+      label: 'Impactvarsix '
+      name: impactVarSix
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(16, 6)
+      visible: true
+    - enabled: true
+      exclude: false
       label: 'Impactvarseven '
       name: impactVarSeven
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(16, 6)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Impactvareight '
+      name: impactVarEight
       required: false
       search: false
       sort: false
@@ -5982,8 +5822,28 @@ entities:
       visible: true
     - enabled: true
       exclude: false
+      label: 'Impactone '
+      name: impactOne
+      required: true
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(16, 2)
+      visible: true
+    - enabled: true
+      exclude: false
       label: 'Impacttwo '
       name: impactTwo
+      required: true
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(16, 2)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Impactthree '
+      name: impactThree
       required: true
       search: false
       sort: false
@@ -6002,8 +5862,28 @@ entities:
       visible: true
     - enabled: true
       exclude: false
+      label: 'Impactfive '
+      name: impactFive
+      required: true
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(16, 2)
+      visible: true
+    - enabled: true
+      exclude: false
       label: 'Impactsix '
       name: impactSix
+      required: true
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(16, 2)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Impactseven '
+      name: impactSeven
       required: true
       search: false
       sort: false
@@ -6022,6 +5902,16 @@ entities:
       visible: true
     - enabled: true
       exclude: false
+      label: 'Impactnine '
+      name: impactNine
+      required: true
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(16, 2)
+      visible: true
+    - enabled: true
+      exclude: false
       label: 'Impactten '
       name: impactTen
       required: true
@@ -6032,9 +5922,29 @@ entities:
       visible: true
     - enabled: true
       exclude: false
+      label: 'Createdts '
+      name: createdTs
+      required: true
+      search: false
+      sort: false
+      template: date
+      type: TIMESTAMP
+      visible: true
+    - enabled: true
+      exclude: false
       label: 'Modifiedts '
       name: modifiedTs
       required: true
+      search: false
+      sort: false
+      template: date
+      type: TIMESTAMP
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Deletedts '
+      name: deletedTs
+      required: false
       search: false
       sort: false
       template: date
@@ -6060,6 +5970,96 @@ entities:
       template: integer
       type: INTEGER
       visible: true
+    - enabled: true
+      exclude: false
+      label: 'Impactvartwo '
+      name: impactVarTwo
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(16, 6)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Name* '
+      name: name
+      required: true
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(64)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Clientid '
+      name: clientId
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Impactfunctionid '
+      name: impactFunctionId
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Impactareasub '
+      name: impactAreaSub
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Description '
+      name: description
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: TEXT
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Impactrate '
+      name: impactRate
+      required: true
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(16, 10)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Impactbase '
+      name: impactBase
+      required: true
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(16, 6)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Impactvarfour '
+      name: impactVarFour
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(16, 6)
+      visible: true
     detail_template: detail_template.html
     exclude: false
     favorite: name
@@ -6071,10 +6071,10 @@ entities:
     - id
     rules:
       contraints:
-      - Rule.constraint(validate=models.Impact,calling=fn_impact_validation_validation_30,error_msg="Select
-        a year between 2000 and 2100.  Enter four digits.")
       - Rule.constraint(validate=models.Impact,calling=fn_impact_validation_validation_31,error_msg="Your
         impact cannot start in the base year or before.  Choose a later year")
+      - Rule.constraint(validate=models.Impact,calling=fn_impact_validation_validation_30,error_msg="Select
+        a year between 2000 and 2100.  Enter four digits.")
       events:
       - Rule.row_event(on_class=models.Impact,calling=fn_impact_event_event_32)
     tab_groups:
@@ -6129,8 +6129,28 @@ entities:
       visible: true
     - enabled: true
       exclude: false
+      label: 'Impactareaclassid '
+      name: impactAreaClassId
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
       label: 'Impactaccountarea '
       name: impactAccountArea
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(64)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Impactaccountstmt '
+      name: impactAccountStmt
       required: false
       search: false
       sort: false
@@ -6149,56 +6169,6 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Inactive '
-      name: inactive
-      required: true
-      search: false
-      sort: false
-      template: text
-      type: TINYINT
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Modifiedts '
-      name: modifiedTs
-      required: true
-      search: false
-      sort: false
-      template: date
-      type: TIMESTAMP
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Id '
-      name: id
-      required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Impactareaclassid '
-      name: impactAreaClassId
-      required: true
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Impactaccountstmt '
-      name: impactAccountStmt
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(64)
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'Description '
       name: description
       required: false
@@ -6209,8 +6179,28 @@ entities:
       visible: true
     - enabled: true
       exclude: false
+      label: 'Inactive '
+      name: inactive
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: TINYINT
+      visible: true
+    - enabled: true
+      exclude: false
       label: 'Createdts '
       name: createdTs
+      required: true
+      search: false
+      sort: false
+      template: date
+      type: TIMESTAMP
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Modifiedts '
+      name: modifiedTs
       required: true
       search: false
       sort: false
@@ -6226,6 +6216,16 @@ entities:
       sort: false
       template: date
       type: TIMESTAMP
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Id '
+      name: id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
       visible: true
     detail_template: detail_template.html
     exclude: false
@@ -6264,46 +6264,6 @@ entities:
     columns:
     - enabled: true
       exclude: false
-      label: 'Description '
-      name: description
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(512)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Accountstmt '
-      name: accountStmt
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(64)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Createdts '
-      name: createdTs
-      required: true
-      search: false
-      sort: false
-      template: date
-      type: TIMESTAMP
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Deletedts '
-      name: deletedTs
-      required: false
-      search: false
-      sort: false
-      template: date
-      type: TIMESTAMP
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'Name* '
       name: name
       required: true
@@ -6314,8 +6274,28 @@ entities:
       visible: true
     - enabled: true
       exclude: false
+      label: 'Description '
+      name: description
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(512)
+      visible: true
+    - enabled: true
+      exclude: false
       label: 'Accountarea '
       name: accountArea
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(64)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Accountstmt '
+      name: accountStmt
       required: false
       search: false
       sort: false
@@ -6331,6 +6311,16 @@ entities:
       sort: false
       template: text
       type: TINYINT
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Createdts '
+      name: createdTs
+      required: true
+      search: false
+      sort: false
+      template: date
+      type: TIMESTAMP
       visible: true
     - enabled: true
       exclude: false
@@ -6351,6 +6341,16 @@ entities:
       sort: false
       template: integer
       type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Deletedts '
+      name: deletedTs
+      required: false
+      search: false
+      sort: false
+      template: date
+      type: TIMESTAMP
       visible: true
     detail_template: detail_template.html
     exclude: false
@@ -7481,6 +7481,82 @@ entities:
       template: text
       type: TINYINT
       visible: true
+    - derivation: 'Rule.formula(derive=models.MappedFirstLevel.balance,as_expression=lambda
+        row:  (row.leaf)  if  row.balance  else  row.balanceChildren)'
+      enabled: true
+      exclude: false
+      label: 'Balance '
+      name: balance
+      required: true
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(16, 2)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Debitbalance '
+      name: debitBalance
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(16, 2)
+      visible: true
+    - derivation: 'Rule.formula(derive=models.MappedFirstLevel.accrualBalance,as_expression=lambda
+        row:  (row.leaf)  if  row.accrualBalance  else  row.accrualBalChildren)'
+      enabled: true
+      exclude: false
+      label: 'Accrualbalance '
+      name: accrualBalance
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(16, 2)
+      visible: true
+    - derivation: 'Rule.sum(derive=models.MappedFirstLevel.mappedBalChildren,as_sum_of=models.MappedSecondLevel.mappedBalance,where=lambda
+        row: row.balance is not None)'
+      enabled: true
+      exclude: false
+      label: 'Mappedbalchildren '
+      name: mappedBalChildren
+      required: true
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(16, 2)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Inactive '
+      name: inactive
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: TINYINT
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Createdts '
+      name: createdTs
+      required: true
+      search: false
+      sort: false
+      template: date
+      type: TIMESTAMP
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Deletedts '
+      name: deletedTs
+      required: false
+      search: false
+      sort: false
+      template: date
+      type: TIMESTAMP
+      visible: true
     - enabled: true
       exclude: false
       label: 'Name* '
@@ -7572,82 +7648,6 @@ entities:
       sort: false
       template: currency
       type: DECIMAL(16, 2)
-      visible: true
-    - derivation: 'Rule.formula(derive=models.MappedFirstLevel.balance,as_expression=lambda
-        row:  (row.leaf)  if  row.balance  else  row.balanceChildren)'
-      enabled: true
-      exclude: false
-      label: 'Balance '
-      name: balance
-      required: true
-      search: false
-      sort: false
-      template: currency
-      type: DECIMAL(16, 2)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Debitbalance '
-      name: debitBalance
-      required: false
-      search: false
-      sort: false
-      template: currency
-      type: DECIMAL(16, 2)
-      visible: true
-    - derivation: 'Rule.formula(derive=models.MappedFirstLevel.accrualBalance,as_expression=lambda
-        row:  (row.leaf)  if  row.accrualBalance  else  row.accrualBalChildren)'
-      enabled: true
-      exclude: false
-      label: 'Accrualbalance '
-      name: accrualBalance
-      required: false
-      search: false
-      sort: false
-      template: currency
-      type: DECIMAL(16, 2)
-      visible: true
-    - derivation: 'Rule.sum(derive=models.MappedFirstLevel.mappedBalChildren,as_sum_of=models.MappedSecondLevel.mappedBalance,where=lambda
-        row: row.balance is not None)'
-      enabled: true
-      exclude: false
-      label: 'Mappedbalchildren '
-      name: mappedBalChildren
-      required: true
-      search: false
-      sort: false
-      template: currency
-      type: DECIMAL(16, 2)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Inactive '
-      name: inactive
-      required: true
-      search: false
-      sort: false
-      template: text
-      type: TINYINT
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Createdts '
-      name: createdTs
-      required: true
-      search: false
-      sort: false
-      template: date
-      type: TIMESTAMP
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Deletedts '
-      name: deletedTs
-      required: false
-      search: false
-      sort: false
-      template: date
-      type: TIMESTAMP
       visible: true
     - derivation: 'Rule.sum(derive=models.MappedFirstLevel.balanceChildren,as_sum_of=models.MappedSecondLevel.balance,where=lambda
         row: row.balance is not None)'
@@ -7802,6 +7802,36 @@ entities:
       visible: true
     - enabled: true
       exclude: false
+      label: 'Clientid '
+      name: clientId
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Mappedfirstid '
+      name: mappedFirstId
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Targetid '
+      name: targetId
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
       label: 'Scenarioyearid '
       name: scenarioYearId
       required: true
@@ -7899,36 +7929,6 @@ entities:
       sort: false
       template: date
       type: TIMESTAMP
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Clientid '
-      name: clientId
-      required: true
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Mappedfirstid '
-      name: mappedFirstId
-      required: true
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Targetid '
-      name: targetId
-      required: true
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
       visible: true
     - enabled: true
       exclude: false
@@ -9271,37 +9271,6 @@ entities:
     columns:
     - enabled: true
       exclude: false
-      label: 'Name* '
-      name: name
-      required: true
-      search: true
-      sort: false
-      template: text
-      type: VARCHAR(64)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Recastsettypename '
-      name: recastSetTypeName
-      required: true
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(64)
-      visible: true
-    - derivation: Rule.count(derive=models.RecastSet.scenarioMemberCount,as_count_of=models.RecastSetMembership)
-      enabled: true
-      exclude: false
-      label: 'Scenariomembercount '
-      name: scenarioMemberCount
-      required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'Clientid '
       name: clientId
       required: true
@@ -9405,6 +9374,37 @@ entities:
       visible: true
     - enabled: true
       exclude: false
+      label: 'Name* '
+      name: name
+      required: true
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(64)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Recastsettypename '
+      name: recastSetTypeName
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(64)
+      visible: true
+    - derivation: Rule.count(derive=models.RecastSet.scenarioMemberCount,as_count_of=models.RecastSetMembership)
+      enabled: true
+      exclude: false
+      label: 'Scenariomembercount '
+      name: scenarioMemberCount
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
       label: 'Recastsetseq '
       name: recastSetSeq
       required: true
@@ -9488,10 +9488,10 @@ entities:
     - id
     rules:
       contraints:
-      - Rule.constraint(validate=models.RecastSet,calling=fn_recastset_validation_validation_43,error_msg="Please
-        enter a number between (0-100).")
       - Rule.constraint(validate=models.RecastSet,calling=fn_recastset_validation_validation_42,error_msg="Please
         enter a valid four-digit year.")
+      - Rule.constraint(validate=models.RecastSet,calling=fn_recastset_validation_validation_43,error_msg="Please
+        enter a number between (0-100).")
       events: []
     tab_groups:
     - direction: tomany
@@ -9587,6 +9587,26 @@ entities:
       visible: true
     - enabled: true
       exclude: false
+      label: 'Name* '
+      name: name
+      required: true
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(64)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Scenarioyearid '
+      name: scenarioYearId
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
       label: 'Analysisyear '
       name: analysisYear
       required: false
@@ -9619,26 +9639,6 @@ entities:
       exclude: false
       label: 'Clientid '
       name: clientId
-      required: true
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Name* '
-      name: name
-      required: true
-      search: true
-      sort: false
-      template: text
-      type: VARCHAR(64)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Scenarioyearid '
-      name: scenarioYearId
       required: true
       search: false
       sort: false
@@ -10896,6 +10896,126 @@ entities:
       visible: true
     - enabled: true
       exclude: false
+      label: 'Modifiedbyuserid '
+      name: modifiedByUserId
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Prioryear '
+      name: priorYear
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Forecasttype '
+      name: forecastType
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(64)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Costofgoods '
+      name: costOfGoods
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(16, 2)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Netinterest '
+      name: netInterest
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(16, 2)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Currentassets '
+      name: currentAssets
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(16, 2)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Noncurrentassets '
+      name: nonCurrentAssets
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(16, 2)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Creditlimit '
+      name: creditLimit
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(16, 2)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Comment '
+      name: comment
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(512)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Createdts '
+      name: createdTs
+      required: true
+      search: false
+      sort: false
+      template: date
+      type: TIMESTAMP
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Deletedts '
+      name: deletedTs
+      required: false
+      search: false
+      sort: false
+      template: date
+      type: TIMESTAMP
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Head '
+      name: head
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL(16, 2)
+      visible: true
+    - enabled: true
+      exclude: false
       label: 'Id* '
       name: id
       required: false
@@ -11024,126 +11144,6 @@ entities:
       template: text
       type: BIT
       visible: true
-    - enabled: true
-      exclude: false
-      label: 'Modifiedbyuserid '
-      name: modifiedByUserId
-      required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Prioryear '
-      name: priorYear
-      required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Forecasttype '
-      name: forecastType
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(64)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Costofgoods '
-      name: costOfGoods
-      required: false
-      search: false
-      sort: false
-      template: currency
-      type: DECIMAL(16, 2)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Netinterest '
-      name: netInterest
-      required: false
-      search: false
-      sort: false
-      template: currency
-      type: DECIMAL(16, 2)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Currentassets '
-      name: currentAssets
-      required: false
-      search: false
-      sort: false
-      template: currency
-      type: DECIMAL(16, 2)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Noncurrentassets '
-      name: nonCurrentAssets
-      required: false
-      search: false
-      sort: false
-      template: currency
-      type: DECIMAL(16, 2)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Creditlimit '
-      name: creditLimit
-      required: false
-      search: false
-      sort: false
-      template: currency
-      type: DECIMAL(16, 2)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Comment '
-      name: comment
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(512)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Createdts '
-      name: createdTs
-      required: true
-      search: false
-      sort: false
-      template: date
-      type: TIMESTAMP
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Deletedts '
-      name: deletedTs
-      required: false
-      search: false
-      sort: false
-      template: date
-      type: TIMESTAMP
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Head '
-      name: head
-      required: false
-      search: false
-      sort: false
-      template: currency
-      type: DECIMAL(16, 2)
-      visible: true
     detail_template: detail_template.html
     exclude: false
     favorite: id
@@ -11209,6 +11209,16 @@ entities:
     columns:
     - enabled: true
       exclude: false
+      label: 'Targetid '
+      name: targetId
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
       label: 'Name* '
       name: name
       required: true
@@ -11266,16 +11276,6 @@ entities:
       sort: false
       template: date
       type: TIMESTAMP
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Targetid '
-      name: targetId
-      required: true
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
       visible: true
     - enabled: true
       exclude: false
@@ -11579,11 +11579,11 @@ entities:
     - id
     rules:
       contraints:
+      - Rule.constraint(validate=models.TargetFirstLevel,calling=fn_targetfirstlevel_validation_validation_73,error_msg="The
+        account first code must be a number 0-99")
       - Rule.constraint(validate=models.TargetFirstLevel,calling=fn_targetfirstlevel_validation_validation_74,error_msg="You
         can only target Revenue or Expense accounts.  Enter 4 for Revenue and 5 for
         Expense.")
-      - Rule.constraint(validate=models.TargetFirstLevel,calling=fn_targetfirstlevel_validation_validation_73,error_msg="The
-        account first code must be a number 0-99")
       events: []
     tab_groups:
     - direction: tomany
@@ -11823,11 +11823,11 @@ entities:
     - id
     rules:
       contraints:
+      - Rule.constraint(validate=models.TargetSecondLevel,calling=fn_targetsecondlevel_validation_validation_75,error_msg="The
+        account second code must be a number 0-99.")
       - Rule.constraint(validate=models.TargetSecondLevel,calling=fn_targetsecondlevel_validation_validation_76,error_msg="You
         can only target Revenue or Expense accounts.  Enter 4 for Revenue and 5 for
         Expense.")
-      - Rule.constraint(validate=models.TargetSecondLevel,calling=fn_targetsecondlevel_validation_validation_75,error_msg="The
-        account second code must be a number 0-99.")
       events: []
     tab_groups:
     - direction: tomany
@@ -12833,7 +12833,7 @@ grants:
     can_insert: true
     can_read: true
     can_update: true
-    filter: lambda:models.ClientReportDetail.clientId
+    filter: ' lambda: models.ClientReportDetail.clientId == Security.current_user().clientId'
     filter_debug: null
   ClientReportDetail_recaster:
     can_delete: false
@@ -12861,7 +12861,7 @@ grants:
     can_insert: false
     can_read: true
     can_update: false
-    filter: lambda:models.Client.id
+    filter: ' lambda: models.Client.id == Security.current_user().clientId'
     filter_debug: null
   Client_masterPlanner:
     can_delete: false
@@ -13085,7 +13085,7 @@ grants:
     can_insert: false
     can_read: true
     can_update: false
-    filter: lambda:models.Report.isClientUserSafe
+    filter: ' lambda: models.Report.isClientUserSafe == True'
     filter_debug: null
   ScenarioYear_backoffice:
     can_delete: false
@@ -13141,7 +13141,7 @@ grants:
     can_insert: true
     can_read: true
     can_update: true
-    filter: lambda:models.SourceDatum.clientId
+    filter: ' lambda: models.SourceDatum.clientId == Security.current_user().clientId'
     filter_debug: null
   SourceDatum_masterPlanner:
     can_delete: false
@@ -13183,7 +13183,7 @@ grants:
     can_insert: false
     can_read: true
     can_update: false
-    filter: lambda:models.User.clientId
+    filter: ' lambda: models.User.clientId == Security.current_user().clientId'
     filter_debug: null
   User_masterPlanner:
     can_delete: false
@@ -13204,7 +13204,7 @@ grants:
     can_insert: true
     can_read: true
     can_update: true
-    filter: lambda:models.ValuesForReport.clientId
+    filter: ' lambda: models.ValuesForReport.clientId == Security.current_user().clientId'
     filter_debug: null
   ValuesForReport_recaster:
     can_delete: false
