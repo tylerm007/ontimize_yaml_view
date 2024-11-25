@@ -10,8 +10,8 @@ from sqlalchemy.ext.declarative import declarative_base
 # Alter this file per your database maintenance policy
 #    See https://apilogicserver.github.io/Docs/Project-Rebuild/#rebuilding
 #
-# Created:  October 06, 2024 10:14:57
-# Database: postgresql://postgres:p@127.0.0.1:5432/yaml
+# Created:  November 18, 2024 11:06:36
+# Database: postgresql://postgres:postgres@127.0.0.1:5432/yaml
 # Dialect:  postgresql
 #
 # mypy: ignore-errors
@@ -38,6 +38,35 @@ from sqlalchemy.dialects.postgresql import *
 
 
 
+class Application(SAFRSBaseX, Base):
+    __tablename__ = 'application'
+    _s_collection_name = 'Application'  # type: ignore
+    __bind_key__ = 'None'
+
+    name = Column(String(100), primary_key=True)
+    app_short_name = Column(String(100))
+    description = Column(Text)
+    app_yaml = Column(Text)
+    allow_client_generated_ids = True
+
+    # parent relationships (access parent)
+
+    # child relationships (access children)
+    ApplicationEntityList : Mapped[List["ApplicationEntity"]] = relationship(back_populates="application")
+
+    @jsonapi_attr
+    def _check_sum_(self):  # type: ignore [no-redef]
+        return None if isinstance(self, flask_sqlalchemy.model.DefaultMeta) \
+            else self._check_sum_property if hasattr(self,"_check_sum_property") \
+                else None  # property does not exist during initialization
+
+    @_check_sum_.setter
+    def _check_sum_(self, value):  # type: ignore [no-redef]
+        self._check_sum_property = value
+
+    S_CheckSum = _check_sum_
+
+
 class Entity(SAFRSBaseX, Base):
     __tablename__ = 'entity'
     _s_collection_name = 'Entity'  # type: ignore
@@ -60,7 +89,9 @@ class Entity(SAFRSBaseX, Base):
     # parent relationships (access parent)
 
     # child relationships (access children)
+    ApplicationEntityList : Mapped[List["ApplicationEntity"]] = relationship(back_populates="entity")
     EntityAttrList : Mapped[List["EntityAttr"]] = relationship(back_populates="entity")
+    GrantRoleList : Mapped[List["GrantRole"]] = relationship(back_populates="entity")
     RuleConstraintList : Mapped[List["RuleConstraint"]] = relationship(back_populates="entity")
     RuleDerivationList : Mapped[List["RuleDerivation"]] = relationship(foreign_keys='[RuleDerivation.as_child_entity]', back_populates="entity")
     RuleDerivationList1 : Mapped[List["RuleDerivation"]] = relationship(foreign_keys='[RuleDerivation.entity_name]', back_populates="entity1")
@@ -165,6 +196,37 @@ class Template(SAFRSBaseX, Base):
     S_CheckSum = _check_sum_
 
 
+class RbacRole(SAFRSBaseX, Base):
+    __tablename__ = 'rbac_role'
+    _s_collection_name = 'RbacRole'  # type: ignore
+    __bind_key__ = 'None'
+
+    name = Column(String(80), primary_key=True)
+    description = Column(Text)
+    can_read = Column(Boolean, server_default=text("true"))
+    can_insert = Column(Boolean, server_default=text("true"))
+    can_update = Column(Boolean, server_default=text("true"))
+    can_delete = Column(Boolean, server_default=text("true"))
+    allow_client_generated_ids = True
+
+    # parent relationships (access parent)
+
+    # child relationships (access children)
+    GrantRoleList : Mapped[List["GrantRole"]] = relationship(back_populates="rbac_role")
+
+    @jsonapi_attr
+    def _check_sum_(self):  # type: ignore [no-redef]
+        return None if isinstance(self, flask_sqlalchemy.model.DefaultMeta) \
+            else self._check_sum_property if hasattr(self,"_check_sum_property") \
+                else None  # property does not exist during initialization
+
+    @_check_sum_.setter
+    def _check_sum_(self, value):  # type: ignore [no-redef]
+        self._check_sum_property = value
+
+    S_CheckSum = _check_sum_
+
+
 class YamlFiles(SAFRSBaseX, Base):
     __tablename__ = 'yaml_files'
     _s_collection_name = 'YamlFile'  # type: ignore
@@ -177,9 +239,39 @@ class YamlFiles(SAFRSBaseX, Base):
     size = Column(Integer)
     downloaded = Column(Text)
     rule_content = Column(Text)
+    role_content = Column(Text)
+    application_content = Column(Text)
     allow_client_generated_ids = True
 
     # parent relationships (access parent)
+
+    # child relationships (access children)
+
+    @jsonapi_attr
+    def _check_sum_(self):  # type: ignore [no-redef]
+        return None if isinstance(self, flask_sqlalchemy.model.DefaultMeta) \
+            else self._check_sum_property if hasattr(self,"_check_sum_property") \
+                else None  # property does not exist during initialization
+
+    @_check_sum_.setter
+    def _check_sum_(self, value):  # type: ignore [no-redef]
+        self._check_sum_property = value
+
+    S_CheckSum = _check_sum_
+
+
+class ApplicationEntity(SAFRSBaseX, Base):
+    __tablename__ = 'application_entity'
+    _s_collection_name = 'ApplicationEntity'  # type: ignore
+    __bind_key__ = 'None'
+
+    application_name = Column(ForeignKey('application.name'), primary_key=True, nullable=False)
+    entity_name = Column(ForeignKey('entity.name'), primary_key=True, nullable=False)
+    allow_client_generated_ids = True
+
+    # parent relationships (access parent)
+    application : Mapped["Application"] = relationship(back_populates=("ApplicationEntityList"))
+    entity : Mapped["Entity"] = relationship(back_populates=("ApplicationEntityList"))
 
     # child relationships (access children)
 
@@ -207,7 +299,7 @@ class EntityAttr(SAFRSBaseX, Base):
     issearch = Column(Boolean, server_default=text("false"))
     issort = Column(Boolean, server_default=text("false"))
     thistype = Column(String(50), nullable=False)
-    template_name = Column(ForeignKey('template.name'), server_default=text("'text'"))
+    template_name = Column(ForeignKey('template.name'), server_default=text("'text'::character varying"))
     tooltip = Column(Text)
     isrequired = Column(Boolean, server_default=text("true"))
     isenabled = Column(Boolean, server_default=text("true"))
@@ -236,6 +328,40 @@ class EntityAttr(SAFRSBaseX, Base):
     S_CheckSum = _check_sum_
 
 
+class GrantRole(SAFRSBaseX, Base):
+    __tablename__ = 'grant_role'
+    _s_collection_name = 'GrantRole'  # type: ignore
+    __bind_key__ = 'None'
+
+    entity_name = Column(ForeignKey('entity.name'), primary_key=True, nullable=False)
+    role_name = Column(ForeignKey('rbac_role.name'), primary_key=True, nullable=False)
+    can_read = Column(Boolean, server_default=text("true"))
+    can_insert = Column(Boolean, server_default=text("false"))
+    can_update = Column(Boolean, server_default=text("false"))
+    can_delete = Column(Boolean, server_default=text("false"))
+    filter = Column(Text)
+    filter_debug = Column(Text)
+    allow_client_generated_ids = True
+
+    # parent relationships (access parent)
+    entity : Mapped["Entity"] = relationship(back_populates=("GrantRoleList"))
+    rbac_role : Mapped["RbacRole"] = relationship(back_populates=("GrantRoleList"))
+
+    # child relationships (access children)
+
+    @jsonapi_attr
+    def _check_sum_(self):  # type: ignore [no-redef]
+        return None if isinstance(self, flask_sqlalchemy.model.DefaultMeta) \
+            else self._check_sum_property if hasattr(self,"_check_sum_property") \
+                else None  # property does not exist during initialization
+
+    @_check_sum_.setter
+    def _check_sum_(self, value):  # type: ignore [no-redef]
+        self._check_sum_property = value
+
+    S_CheckSum = _check_sum_
+
+
 class RuleConstraint(SAFRSBaseX, Base):
     __tablename__ = 'rule_constraint'
     _s_collection_name = 'RuleConstraint'  # type: ignore
@@ -247,7 +373,7 @@ class RuleConstraint(SAFRSBaseX, Base):
     as_condition = Column(String(255))
     err_msg = Column(String(255))
     error_attributes = Column(String(80))
-    rule = Column(String(255))
+    rule = Column(String(1000))
 
     # parent relationships (access parent)
     entity : Mapped["Entity"] = relationship(back_populates=("RuleConstraintList"))
@@ -281,7 +407,7 @@ class RuleDerivation(SAFRSBaseX, Base):
     child_role_name = Column(String(80))
     calling_fn = Column(String(80))
     where_clause = Column(String(255))
-    rule = Column(String(525))
+    rule = Column(String(1000))
     insert_parent = Column(Boolean)
 
     # parent relationships (access parent)
@@ -312,7 +438,7 @@ class RuleEvent(SAFRSBaseX, Base):
     entity_name = Column(ForeignKey('entity.name'))
     event_type = Column(String(25))
     calling_fn = Column(String(255))
-    rule = Column(String(255))
+    rule = Column(String(1000))
 
     # parent relationships (access parent)
     entity : Mapped["Entity"] = relationship(back_populates=("RuleEventList"))

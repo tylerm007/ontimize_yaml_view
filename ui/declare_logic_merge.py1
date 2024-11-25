@@ -1,10 +1,74 @@
 from logic_bank.logic_bank import Rule
 # Rule Function Calling
+    def fn_recastset_validation_validation_4(row: model.RecastSet, old_row: model.RecastSet, logic_row:LogicRow):
+           pass
+    def fn_accountupload_validation_validation_(row: model.AccountUpload, old_row: model.AccountUpload, logic_row:LogicRow):
+           pass
+    def fn_targetsubarea_validation_validation_7(row: model.TargetSubArea, old_row: model.TargetSubArea, logic_row:LogicRow):
+           pass
+    def fn_targetfirstlevel_validation_validation_7(row: model.TargetFirstLevel, old_row: model.TargetFirstLevel, logic_row:LogicRow):
+           pass
+    def fn_targetsecondlevel_validation_validation_7(row: model.TargetSecondLevel, old_row: model.TargetSecondLevel, logic_row:LogicRow):
+           pass
+    def fn_analysistemplate_validation_validation_(row: model.AnalysisTemplate, old_row: model.AnalysisTemplate, logic_row:LogicRow):
+           pass
+    def fn_scenarioyear_validation_validation_4(row: model.ScenarioYear, old_row: model.ScenarioYear, logic_row:LogicRow):
+           pass
+    def fn_client_validation_validation_2(row: model.Client, old_row: model.Client, logic_row:LogicRow):
+           pass
+    def fn_impact_validation_validation_3(row: model.Impact, old_row: model.Impact, logic_row:LogicRow):
+           pass
     def fn_targetarea_validation_validation_7(row: model.TargetArea, old_row: model.TargetArea, logic_row:LogicRow):
            pass
     def fn_recastset_validation_validation_4(row: model.RecastSet, old_row: model.RecastSet, logic_row:LogicRow):
            pass
-    def fn_recastset_validation_validation_4(row: model.RecastSet, old_row: model.RecastSet, logic_row:LogicRow):
+    def fn_entity_validation_validation_2(row: model.Entity, old_row: model.Entity, logic_row:LogicRow):
+           pass
+    def fn_targetfirstlevel_validation_validation_7(row: model.TargetFirstLevel, old_row: model.TargetFirstLevel, logic_row:LogicRow):
+           pass
+    def fn_targetsecondlevel_validation_validation_7(row: model.TargetSecondLevel, old_row: model.TargetSecondLevel, logic_row:LogicRow):
+           pass
+    def fn_eliminationfirstlevel_validation_validation_2(row: model.EliminationFirstLevel, old_row: model.EliminationFirstLevel, logic_row:LogicRow):
+           pass
+    def fn_eliminationsecondlevel_validation_validation_2(row: model.EliminationSecondLevel, old_row: model.EliminationSecondLevel, logic_row:LogicRow):
+           pass
+    def fn_scenarioyear_validation_validation_5(row: model.ScenarioYear, old_row: model.ScenarioYear, logic_row:LogicRow):
+           pass
+    def fn_scenarioyear_validation_validation_5(row: model.ScenarioYear, old_row: model.ScenarioYear, logic_row:LogicRow):
+           pass
+    def fn_actor_validation_validation_(row: model.Actor, old_row: model.Actor, logic_row:LogicRow):
+           pass
+    def fn_impact_validation_validation_3(row: model.Impact, old_row: model.Impact, logic_row:LogicRow):
+           pass
+    def fn_sourcebenchmarkdata_event_event_59(row: model.SourceBenchmarkDatum, old_row: model.SourceBenchmarkDatum, logic_row:LogicRow):
+           pass
+    def fn_scenarioyear_commitEvent_eventCommit_52(row: model.ScenarioYear, old_row: model.ScenarioYear, logic_row:LogicRow):
+           pass
+    def fn_sourcedatafeedsforbenchmark_event_event_61(row: model.SourceDataFeedsForBenchmark, old_row: model.SourceDataFeedsForBenchmark, logic_row:LogicRow):
+           pass
+    def fn_sourcedatafeedsforbenchmark_event_event_66(row: model.SourceDataFeedsForBenchmark, old_row: model.SourceDataFeedsForBenchmark, logic_row:LogicRow):
+           pass
+    def fn_sourcedatafeedsforbenchmark_event_event_70(row: model.SourceDataFeedsForBenchmark, old_row: model.SourceDataFeedsForBenchmark, logic_row:LogicRow):
+           pass
+    def fn_sourcedatafeedsforbenchmark_event_event_71(row: model.SourceDataFeedsForBenchmark, old_row: model.SourceDataFeedsForBenchmark, logic_row:LogicRow):
+           pass
+    def fn_sourcedatafeedsforbenchmark_event_event_67(row: model.SourceDataFeedsForBenchmark, old_row: model.SourceDataFeedsForBenchmark, logic_row:LogicRow):
+           pass
+    def fn_sourcedatafeedsforbenchmark_event_event_68(row: model.SourceDataFeedsForBenchmark, old_row: model.SourceDataFeedsForBenchmark, logic_row:LogicRow):
+           pass
+    def fn_sourcedatafeedsforbenchmark_event_event_64(row: model.SourceDataFeedsForBenchmark, old_row: model.SourceDataFeedsForBenchmark, logic_row:LogicRow):
+           pass
+    def fn_sourcedatafeedsforbenchmark_event_event_65(row: model.SourceDataFeedsForBenchmark, old_row: model.SourceDataFeedsForBenchmark, logic_row:LogicRow):
+           pass
+    def fn_sourcedatafeedsforbenchmark_event_event_69(row: model.SourceDataFeedsForBenchmark, old_row: model.SourceDataFeedsForBenchmark, logic_row:LogicRow):
+           pass
+    def fn_sourcedatafeedsforbenchmark_event_event_62(row: model.SourceDataFeedsForBenchmark, old_row: model.SourceDataFeedsForBenchmark, logic_row:LogicRow):
+           pass
+    def fn_sourcedatafeedsforbenchmark_event_event_63(row: model.SourceDataFeedsForBenchmark, old_row: model.SourceDataFeedsForBenchmark, logic_row:LogicRow):
+           pass
+    def fn_impact_event_event_32(row: model.Impact, old_row: model.Impact, logic_row:LogicRow):
+           pass
+    def fn_recastsetmembership_event_event_48(row: model.RecastSetMembership, old_row: model.RecastSetMembership, logic_row:LogicRow):
            pass
     def fn_assembledfirstlevel_formula_formula_eliminationBalance(row: model.AssembledFirstLevel, old_row: model.AssembledFirstLevel, logic_row:LogicRow):
            pass
@@ -14,11 +78,51 @@ from logic_bank.logic_bank import Rule
            pass
     def fn_recastset_formula_formula_recastSetCode(row: model.RecastSet, old_row: model.RecastSet, logic_row:LogicRow):
            pass
+    def fn_clientreportdetail_formula_formula_letterGrade(row: model.ClientReportDetail, old_row: model.ClientReportDetail, logic_row:LogicRow):
+           pass
+    def fn_leafjctnfirstlevel_formula_formula_balance(row: model.LeafJctnFirstLevel, old_row: model.LeafJctnFirstLevel, logic_row:LogicRow):
+           pass
+    def fn_scenarioyear_formula_formula_uid(row: model.ScenarioYear, old_row: model.ScenarioYear, logic_row:LogicRow):
+           pass
+    def fn_scenarioyear_formula_formula_scenarioCode(row: model.ScenarioYear, old_row: model.ScenarioYear, logic_row:LogicRow):
+           pass
 # Constraints
+    Rule.constraint(validate=models.RecastSet,calling=fn_recastset_validation_validation_43,error_msg='Please enter a number between (0-100).')
+    Rule.constraint(validate=models.AccountUpload,calling=fn_accountupload_validation_validation_1,error_msg='The data you are attempting to load does not have a valid unique permission id.  You must be provided a valid, active, unused key prior to upload.  Please contact support.')
+    Rule.constraint(validate=models.TargetSubArea,calling=fn_targetsubarea_validation_validation_77,error_msg='subAreaCode must be a two-digit number 0-99.')
+    Rule.constraint(validate=models.TargetFirstLevel,calling=fn_targetfirstlevel_validation_validation_74,error_msg='You can only target Revenue or Expense accounts.  Enter 4 for Revenue and 5 for Expense.')
+    Rule.constraint(validate=models.TargetSecondLevel,calling=fn_targetsecondlevel_validation_validation_76,error_msg='You can only target Revenue or Expense accounts.  Enter 4 for Revenue and 5 for Expense.')
+    Rule.constraint(validate=models.AnalysisTemplate,calling=fn_analysistemplate_validation_validation_5,error_msg='If not left blank (null), the year must be between 2000 and 2100.')
+    Rule.constraint(validate=models.ScenarioYear,calling=fn_scenarioyear_validation_validation_49,error_msg='Please enter a valid four digit year (2000-2100).')
+    Rule.constraint(validate=models.Client,calling=fn_client_validation_validation_24,error_msg='The client Id must be a four digit number.')
+    Rule.constraint(validate=models.Impact,calling=fn_impact_validation_validation_30,error_msg='Select a year between 2000 and 2100.  Enter four digits.')
     Rule.constraint(validate=models.TargetArea,calling=fn_targetarea_validation_validation_72,error_msg='The area code must be a single digit 0-9')
     Rule.constraint(validate=models.RecastSet,calling=fn_recastset_validation_validation_42,error_msg='Please enter a valid four-digit year.')
-    Rule.constraint(validate=models.RecastSet,calling=fn_recastset_validation_validation_43,error_msg='Please enter a number between (0-100).')
+    Rule.constraint(validate=models.Entity,calling=fn_entity_validation_validation_29,error_msg='You must enter a number between 0 and 100.')
+    Rule.constraint(validate=models.TargetFirstLevel,calling=fn_targetfirstlevel_validation_validation_73,error_msg='The account first code must be a number 0-99')
+    Rule.constraint(validate=models.TargetSecondLevel,calling=fn_targetsecondlevel_validation_validation_75,error_msg='The account second code must be a number 0-99.')
+    Rule.constraint(validate=models.EliminationFirstLevel,calling=fn_eliminationfirstlevel_validation_validation_27,error_msg='This Recast Set has been locked.  You are not allowed to add or modify elimination entries once a set is locked.  Contact Support.')
+    Rule.constraint(validate=models.EliminationSecondLevel,calling=fn_eliminationsecondlevel_validation_validation_28,error_msg='This Recast Set is locked.  You are not allowed to add or modify elimination entries once a set has been locked.  Contact Support.')
+    Rule.constraint(validate=models.ScenarioYear,calling=fn_scenarioyear_validation_validation_50,error_msg='This must be a number between zero and 99')
+    Rule.constraint(validate=models.ScenarioYear,calling=fn_scenarioyear_validation_validation_51,error_msg='The entity that you have selected is not for the client your have entered.')
+    Rule.constraint(validate=models.Actor,calling=fn_actor_validation_validation_2,error_msg='The year must be between 2000 and 2100')
+    Rule.constraint(validate=models.Impact,calling=fn_impact_validation_validation_31,error_msg='Your impact cannot start in the base year or before.  Choose a later year')
 # Events
+    Rule.row_event(on_class=models.SourceBenchmarkDatum,calling=fn_sourcebenchmarkdata_event_event_59)
+    Rule.commit_row_event(on_class=models.ScenarioYear,calling=fn_scenarioyear_commitEvent_eventCommit_52)
+    Rule.row_event(on_class=models.SourceDataFeedsForBenchmark,calling=fn_sourcedatafeedsforbenchmark_event_event_61)
+    Rule.row_event(on_class=models.SourceDataFeedsForBenchmark,calling=fn_sourcedatafeedsforbenchmark_event_event_66)
+    Rule.row_event(on_class=models.SourceDataFeedsForBenchmark,calling=fn_sourcedatafeedsforbenchmark_event_event_70)
+    Rule.row_event(on_class=models.SourceDataFeedsForBenchmark,calling=fn_sourcedatafeedsforbenchmark_event_event_71)
+    Rule.row_event(on_class=models.SourceDataFeedsForBenchmark,calling=fn_sourcedatafeedsforbenchmark_event_event_67)
+    Rule.row_event(on_class=models.SourceDataFeedsForBenchmark,calling=fn_sourcedatafeedsforbenchmark_event_event_68)
+    Rule.row_event(on_class=models.SourceDataFeedsForBenchmark,calling=fn_sourcedatafeedsforbenchmark_event_event_64)
+    Rule.row_event(on_class=models.SourceDataFeedsForBenchmark,calling=fn_sourcedatafeedsforbenchmark_event_event_65)
+    Rule.row_event(on_class=models.SourceDataFeedsForBenchmark,calling=fn_sourcedatafeedsforbenchmark_event_event_69)
+    Rule.row_event(on_class=models.SourceDataFeedsForBenchmark,calling=fn_sourcedatafeedsforbenchmark_event_event_62)
+    Rule.row_event(on_class=models.SourceDataFeedsForBenchmark,calling=fn_sourcedatafeedsforbenchmark_event_event_63)
+    Rule.row_event(on_class=models.Impact,calling=fn_impact_event_event_32)
+    Rule.row_event(on_class=models.RecastSetMembership,calling=fn_recastsetmembership_event_event_48)
 # Derivations
     Rule.sum(derive=models.AssembledFirstLevel.eliminationBalanceList,as_sum_of=models.EliminationFirstLevel.amount)
     Rule.sum(derive=models.AssembledFirstLevel.alteredBalChildren,as_sum_of=models.AssembledSecondLevel.alteredBalance,where=lambda row: row.balance is not None)
@@ -44,27 +148,101 @@ from logic_bank.logic_bank import Rule
     Rule.formula(derive=models.RecastSet.recastSetCode,calling=fn_recastset_formula_formula_recastSetCode)
     Rule.sum(derive=models.RecastSet.elimBalLQR,as_sum_of=models.AssembledArea.eliminationBalance,where=lambda row: row.areaCode != 1 and row.aeaCode != 5)
     Rule.sum(derive=models.RecastSet.elimBalAE,as_sum_of=models.AssembledArea.eliminationBalance,where=lambda row: row.areaCode == 1 or row.areaCode  == 5)
-    Rule.formula(derive=models.AssembledFirstLevel.alteredBalance,as_expression=lambda row:  (row.leaf)  if  row.alteredBalance  else  row.alteredBalChildren)
-    Rule.sum(derive=models.AssembledSubArea.elimBalSecond,as_sum_of=models.AssembledFirstLevel.eliminateBalChildren)
-    Rule.sum(derive=models.AssembledSubArea.combinedBalFirst,as_sum_of=models.AssembledFirstLevel.combinedBalanceList)
-    Rule.sum(derive=models.AssembledSubArea.elimBalFirst,as_sum_of=models.AssembledFirstLevel.eliminationBalanceList)
+    Rule.formula(derive=models.ClientReportDetail.letterGrade,calling=fn_clientreportdetail_formula_formula_letterGrade)
+    Rule.sum(derive=models.ClientReportDetail.gradeCumulativePoints,as_sum_of=models.ValuesForReport.grade)
+    Rule.formula(derive=models.LeafJctnFirstLevel.balance,calling=fn_leafjctnfirstlevel_formula_formula_balance)
+    Rule.formula(derive=models.LeafJctnFirstLevel.locked,as_expression=lambda row:  row.assembledFirstLevel.locked)
+    Rule.sum(derive=models.MappedSubArea.mappedBalance,as_sum_of=models.MappedFirstLevel.mappedBalance)
+    Rule.sum(derive=models.MappedSubArea.accrualBalance,as_sum_of=models.MappedFirstLevel.accrualBalance)
+    Rule.sum(derive=models.MappedSubArea.balance,as_sum_of=models.MappedFirstLevel.balance)
+    Rule.sum(derive=models.MappedFirstLevel.mappedBalChildren,as_sum_of=models.MappedSecondLevel.mappedBalance,where=lambda row: row.balance is not None)
+    Rule.formula(derive=models.MappedFirstLevel.accrualBalance,as_expression=lambda row:  (row.leaf)  if  row.accrualBalance  else  row.accrualBalChildren)
+    Rule.sum(derive=models.MappedFirstLevel.accrualBalChildren,as_sum_of=models.MappedSecondLevel.accrualBalance,where=lambda row: row.balance is not None )
+    Rule.formula(derive=models.MappedFirstLevel.mappedBalance,as_expression=lambda row:  (row.leaf)  if  row.mappedBalance  else  row.mappedBalChildren)
+    Rule.formula(derive=models.MappedFirstLevel.balance,as_expression=lambda row:  (row.leaf)  if  row.balance  else  row.balanceChildren)
+    Rule.sum(derive=models.MappedFirstLevel.balanceChildren,as_sum_of=models.MappedSecondLevel.balance,where=lambda row: row.balance is not None)
+    Rule.sum(derive=models.MappedArea.mappedBalance,as_sum_of=models.MappedSubArea.mappedBalance)
+    Rule.sum(derive=models.MappedArea.accrualBalance,as_sum_of=models.MappedSubArea.accrualBalance)
+    Rule.sum(derive=models.MappedArea.balance,as_sum_of=models.MappedSubArea.balance)
+    Rule.formula(derive=models.AssembledSecondLevel.balance,as_expression=lambda row:  row.combinedBalance + row.eliminationBalance + row.alteredBalance)
+    Rule.formula(derive=models.AssembledSecondLevel.locked,as_expression=lambda row:  row.recastSet.locked)
+    Rule.formula(derive=models.ScenarioYear.uid,calling=fn_scenarioyear_formula_formula_uid)
+    Rule.formula(derive=models.ScenarioYear.scenarioCode,calling=fn_scenarioyear_formula_formula_scenarioCode)
+    Rule.copy(derive=models.ScenarioYear.fiscalYearEnd,from_parent=models.Entity.fiscalYearEnd)
+    Rule.sum(derive=models.AssembledArea.combinedBalFirst,as_sum_of=models.AssembledSubArea.combinedBalFirst)
+    Rule.sum(derive=models.AssembledArea.elimBalFirst,as_sum_of=models.AssembledSubArea.elimBalFirst)
+    Rule.sum(derive=models.AssembledArea.altBalSecond,as_sum_of=models.AssembledSubArea.altBalSecond)
+    Rule.count(derive=models.Actor.actorCount,as_count_of=models.MotivatedActor)
+    Rule.copy(derive=models.Impact.baseDataYear,from_parent=models.Actor.baseDataYear)
+    Rule.count(derive=models.Motivation.motivationCount,as_count_of=models.MotivatedActor)
+    Rule.sum(derive=models.AssembledSecondLevel.combinedBalance,as_sum_of=models.LeafJctnSecondLevel.balance)
+    Rule.sum(derive=models.AssembledSecondLevel.eliminationBalance,as_sum_of=models.EliminationSecondLevel.amount)
+    Rule.copy(derive=models.ScenarioYear.costMarket,from_parent=models.Entity.costMarket)
+    Rule.copy(derive=models.ScenarioYear.cashAccrual,from_parent=models.Entity.cashAccrual)
+    Rule.count(derive=models.ScenarioYear.countUploaded,as_count_of=models.AccountUpload)
+    Rule.sum(derive=models.ScenarioYear.accrualBalance,as_sum_of=models.MappedArea.accrualBalance)
+    Rule.sum(derive=models.AssembledArea.elimBalSecond,as_sum_of=models.AssembledSubArea.elimBalSecond)
+    Rule.sum(derive=models.AssembledArea.altBalFirst,as_sum_of=models.AssembledSubArea.altBalFirst)
+    Rule.sum(derive=models.AssembledArea.combinedBalSecond,as_sum_of=models.AssembledSubArea.combinedBalSecond)
+    Rule.copy(derive=models.Actor.baseDataYear,from_parent=models.SourceDatum.dataYear)
+    Rule.sum(derive=models.AssembledArea.combinedBalSecond,as_sum_of=models.AssembledSubArea.combinedBalSecond)
+    Rule.sum(derive=models.AssembledArea.altBalSecond,as_sum_of=models.AssembledSubArea.altBalSecond)
     Rule.sum(derive=models.AssembledFirstLevel.combinedBalChildren,as_sum_of=models.AssembledSecondLevel.combinedBalance,where=lambda row: row.balance is not None)
-    Rule.formula(derive=models.AssembledFirstLevel.locked,as_expression=lambda row:  row.recastSet.locked)
-    Rule.sum(derive=models.AssembledSubArea.combinedBalSecond,as_sum_of=models.AssembledFirstLevel.combinedBalChildren)
-    Rule.sum(derive=models.RecastSet.elimBalLQR,as_sum_of=models.AssembledArea.eliminationBalance,where=lambda row: row.areaCode != 1 and row.aeaCode != 5)
-    Rule.sum(derive=models.AssembledFirstLevel.eliminationBalanceList,as_sum_of=models.EliminationFirstLevel.amount)
     Rule.sum(derive=models.AssembledFirstLevel.alteredBalChildren,as_sum_of=models.AssembledSecondLevel.alteredBalance,where=lambda row: row.balance is not None)
     Rule.formula(derive=models.AssembledFirstLevel.eliminationBalance,calling=fn_assembledfirstlevel_formula_formula_eliminationBalance)
-    Rule.sum(derive=models.AssembledFirstLevel.eliminateBalChildren,as_sum_of=models.AssembledSecondLevel.eliminationBalance,where=lambda row: row.balance is not None)
     Rule.sum(derive=models.AssembledFirstLevel.combinedBalanceList,as_sum_of=models.LeafJctnFirstLevel.balance)
-    Rule.formula(derive=models.AssembledFirstLevel.balance,as_expression=lambda row:  row.combinedBalance + row.eliminationBalance + row.alteredBalance)
-    Rule.formula(derive=models.AssembledFirstLevel.combinedBalance,as_expression=lambda row:  (row.leaf)  if  row.combinedBalanceList  else  row.combinedBalChildren)
+    Rule.copy(derive=models.Impact.baseDataYear,from_parent=models.Actor.baseDataYear)
     Rule.formula(derive=models.LeafJctnSecondLevel.balance,calling=fn_leafjctnsecondlevel_formula_formula_balance)
     Rule.formula(derive=models.LeafJctnSecondLevel.locked,as_expression=lambda row:  row.assembledSecondLevel.locked)
-    Rule.sum(derive=models.AssembledSubArea.altBalFirst,as_sum_of=models.AssembledFirstLevel.alteredBalance,where=lambda row: row.leaf == 1)
+    Rule.sum(derive=models.MappedArea.mappedBalance,as_sum_of=models.MappedSubArea.mappedBalance)
+    Rule.sum(derive=models.AssembledArea.combinedBalFirst,as_sum_of=models.AssembledSubArea.combinedBalFirst)
+    Rule.sum(derive=models.AssembledArea.elimBalFirst,as_sum_of=models.AssembledSubArea.elimBalFirst)
+    Rule.sum(derive=models.AssembledArea.altBalFirst,as_sum_of=models.AssembledSubArea.altBalFirst)
+    Rule.sum(derive=models.AssembledArea.elimBalSecond,as_sum_of=models.AssembledSubArea.elimBalSecond)
+    Rule.sum(derive=models.AssembledFirstLevel.eliminateBalChildren,as_sum_of=models.AssembledSecondLevel.eliminationBalance,where=lambda row: row.balance is not None)
+    Rule.formula(derive=models.AssembledFirstLevel.balance,as_expression=lambda row:  row.combinedBalance + row.eliminationBalance + row.alteredBalance)
+    Rule.formula(derive=models.AssembledFirstLevel.combinedBalance,as_expression=lambda row:  (row.leaf)  if  row.combinedBalanceList  else  row.combinedBalChildren)
+    Rule.formula(derive=models.AssembledFirstLevel.alteredBalance,as_expression=lambda row:  (row.leaf)  if  row.alteredBalance  else  row.alteredBalChildren)
+    Rule.sum(derive=models.AssembledFirstLevel.eliminationBalanceList,as_sum_of=models.EliminationFirstLevel.amount)
+    Rule.formula(derive=models.AssembledSecondLevel.balance,as_expression=lambda row:  row.combinedBalance + row.eliminationBalance + row.alteredBalance)
+    Rule.sum(derive=models.AssembledSecondLevel.eliminationBalance,as_sum_of=models.EliminationSecondLevel.amount)
+    Rule.formula(derive=models.LeafJctnFirstLevel.balance,calling=fn_leafjctnfirstlevel_formula_formula_balance)
+    Rule.formula(derive=models.LeafJctnFirstLevel.locked,as_expression=lambda row:  row.assembledFirstLevel.locked)
+    Rule.sum(derive=models.MappedArea.balance,as_sum_of=models.MappedSubArea.balance)
+    Rule.sum(derive=models.MappedArea.accrualBalance,as_sum_of=models.MappedSubArea.accrualBalance)
+    Rule.formula(derive=models.MappedFirstLevel.mappedBalance,as_expression=lambda row:  (row.leaf)  if  row.mappedBalance  else  row.mappedBalChildren)
+    Rule.formula(derive=models.AssembledFirstLevel.locked,as_expression=lambda row:  row.recastSet.locked)
+    Rule.sum(derive=models.AssembledSecondLevel.combinedBalance,as_sum_of=models.LeafJctnSecondLevel.balance)
+    Rule.sum(derive=models.AssembledSubArea.combinedBalSecond,as_sum_of=models.AssembledFirstLevel.combinedBalChildren)
     Rule.sum(derive=models.AssembledSubArea.altBalSecond,as_sum_of=models.AssembledFirstLevel.alteredBalChildren)
+    Rule.sum(derive=models.ClientReportDetail.gradeCumulativePoints,as_sum_of=models.ValuesForReport.grade)
+    Rule.formula(derive=models.MappedFirstLevel.balance,as_expression=lambda row:  (row.leaf)  if  row.balance  else  row.balanceChildren)
+    Rule.formula(derive=models.MappedFirstLevel.accrualBalance,as_expression=lambda row:  (row.leaf)  if  row.accrualBalance  else  row.accrualBalChildren)
+    Rule.sum(derive=models.MappedFirstLevel.mappedBalChildren,as_sum_of=models.MappedSecondLevel.mappedBalance,where=lambda row: row.balance is not None)
+    Rule.sum(derive=models.MappedSubArea.balance,as_sum_of=models.MappedFirstLevel.balance)
+    Rule.sum(derive=models.MappedSubArea.accrualBalance,as_sum_of=models.MappedFirstLevel.accrualBalance)
+    Rule.sum(derive=models.MappedFirstLevel.balanceChildren,as_sum_of=models.MappedSecondLevel.balance,where=lambda row: row.balance is not None)
+    Rule.sum(derive=models.MappedFirstLevel.accrualBalChildren,as_sum_of=models.MappedSecondLevel.accrualBalance,where=lambda row: row.balance is not None )
+    Rule.sum(derive=models.MappedSubArea.mappedBalance,as_sum_of=models.MappedFirstLevel.mappedBalance)
+    Rule.count(derive=models.Motivation.motivationCount,as_count_of=models.MotivatedActor)
     Rule.count(derive=models.RecastSet.scenarioMemberCount,as_count_of=models.RecastSetMembership)
-    Rule.formula(derive=models.RecastSet.eliminationBalance,as_expression=lambda row:  row.elimBalAE - row.elimBalLQR)
     Rule.formula(derive=models.RecastSet.recastSetCode,calling=fn_recastset_formula_formula_recastSetCode)
     Rule.sum(derive=models.RecastSet.elimBalAE,as_sum_of=models.AssembledArea.eliminationBalance,where=lambda row: row.areaCode == 1 or row.areaCode  == 5)
+    Rule.copy(derive=models.ScenarioYear.fiscalYearEnd,from_parent=models.Entity.fiscalYearEnd)
+    Rule.formula(derive=models.RecastSet.eliminationBalance,as_expression=lambda row:  row.elimBalAE - row.elimBalLQR)
+    Rule.sum(derive=models.RecastSet.elimBalLQR,as_sum_of=models.AssembledArea.eliminationBalance,where=lambda row: row.areaCode != 1 and row.aeaCode != 5)
+    Rule.copy(derive=models.ScenarioYear.cashAccrual,from_parent=models.Entity.cashAccrual)
+    Rule.copy(derive=models.ScenarioYear.costMarket,from_parent=models.Entity.costMarket)
+    Rule.formula(derive=models.ScenarioYear.scenarioCode,calling=fn_scenarioyear_formula_formula_scenarioCode)
+    Rule.sum(derive=models.ScenarioYear.accrualBalance,as_sum_of=models.MappedArea.accrualBalance)
+    Rule.formula(derive=models.ScenarioYear.uid,calling=fn_scenarioyear_formula_formula_uid)
+    Rule.count(derive=models.ScenarioYear.countUploaded,as_count_of=models.AccountUpload)
     Rule.formula(derive=models.ValuesForReport.letterGrade,calling=fn_valuesforreport_formula_formula_letterGrade)
+    Rule.formula(derive=models.AssembledSecondLevel.locked,as_expression=lambda row:  row.recastSet.locked)
+    Rule.sum(derive=models.AssembledSubArea.combinedBalFirst,as_sum_of=models.AssembledFirstLevel.combinedBalanceList)
+    Rule.sum(derive=models.AssembledSubArea.elimBalFirst,as_sum_of=models.AssembledFirstLevel.eliminationBalanceList)
+    Rule.sum(derive=models.AssembledSubArea.altBalFirst,as_sum_of=models.AssembledFirstLevel.alteredBalance,where=lambda row: row.leaf == 1)
+    Rule.sum(derive=models.AssembledSubArea.elimBalSecond,as_sum_of=models.AssembledFirstLevel.eliminateBalChildren)
+    Rule.formula(derive=models.ClientReportDetail.letterGrade,calling=fn_clientreportdetail_formula_formula_letterGrade)
+    Rule.count(derive=models.Actor.actorCount,as_count_of=models.MotivatedActor)
+    Rule.copy(derive=models.Actor.baseDataYear,from_parent=models.SourceDatum.dataYear)

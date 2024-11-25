@@ -1,0 +1,50 @@
+<div class="container">
+  <o-form-container breadcrumb="yes" breadcrumb-label-columns="entity_name" breadcrumb-separator=", " class="fill-form">
+    <o-form #form attr="GrantRole_form_edit" service="GrantRole" entity="GrantRole" fxLayout="column" show-header="yes"
+      header-actions="R;I;U;D" #oDetailForm keys="entity_name;role_name" keys-sql-types="VARCHAR;VARCHAR"
+      show-header-navigation="yes" (onDataLoaded)="onDataLoaded($event)">
+
+      <o-row attr="row1" layout-align="start stretch">
+
+          <o-list-picker attr="entity_name" service="Entity" entity="EntityType" fxFlex="30" query-on-init="no"
+            query-on-bind="yes" required="yes" enabled="yes" filter="yes" value-column="name"
+            value-column-type="VARCHAR" keys="name" columns="name;entity_name;name" title="entity_name"
+            visible-columns="name;name" separator=" - " width="680px" class="form-field">
+          </o-list-picker>
+
+          <o-list-picker attr="role_name" service="RbacRole" entity="RbacRoleType" fxFlex="30" query-on-init="no"
+            query-on-bind="yes" required="yes" enabled="yes" filter="yes" value-column="name"
+            value-column-type="VARCHAR" keys="name" columns="name;role_name;name" title="role_name"
+            visible-columns="name;name" separator=" - " width="680px" class="form-field">
+          </o-list-picker>
+        </o-row>
+        <o-row attr="row1" layout-align="start stretch">
+          <o-textarea-input #filter attr="filter" label="filter" enabled="yes" required="no" fxFlex="40%"
+            class="form-field"></o-textarea-input>
+
+          <o-textarea-input #filter_debug attr="filter_debug" label="filter_debug" enabled="yes" required="no" fxFlex="40%"
+            class="form-field"></o-textarea-input>
+        </o-row>
+        <o-row attr="row1" layout-align="start stretch">
+          <o-checkbox #can_read attr="can_read" label="can_read" enabled="yes" required="no" fxFlex="10%"
+            class="form-field"></o-checkbox>
+
+          <o-checkbox #can_insert attr="can_insert" label="can_insert" enabled="yes" required="no" fxFlex="10%"
+            class="form-field"></o-checkbox>
+
+          <o-checkbox #can_update attr="can_update" label="can_update" editable="no" required="no"  fxFlex="10%"
+            class="form-field"></o-checkbox>
+
+          <o-checkbox #can_delete attr="can_delete" label="can_delete" enabled="yes" required="no" fxFlex="10%"
+            class="form-field"></o-checkbox>
+
+
+      </o-row>
+
+      <mat-tab-group fxFill>
+
+      </mat-tab-group>
+
+    </o-form>
+  </o-form-container>
+</div>

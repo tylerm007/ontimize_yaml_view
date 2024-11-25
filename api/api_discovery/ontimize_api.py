@@ -25,7 +25,8 @@ from api.system.expression_parser import parsePayload
 from api.system.gen_pdf_report import gen_report
 from api.system.gen_csv_report import gen_report as csv_gen_report
 from api.system.gen_pdf_report import export_pdf
-#from api.gen_xlsx_report import xlsx_gen_report
+
+# from api.gen_xlsx_report import xlsx_gen_report
 
 # This is the Ontimize Bridge API - all endpoints will be prefixed with /ontimizeweb/services/rest
 # called by api_logic_server_run.py, to customize api (new end points, services).
@@ -39,6 +40,7 @@ session = db.session
 _project_dir = None
 app_logger.debug("api/api_discovery/ontimize_api.py - services for ontimize")
 
+
 class DotDict(dict):
     """dot.notation access to dictionary attributes"""
 
@@ -48,17 +50,18 @@ class DotDict(dict):
     __delattr__ = dict.__delitem__
 
 
-def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_decorators=[]):
+def add_service(
+    app, api, project_dir, swagger_host: str, PORT: str, method_decorators=[]
+):
     # def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
     # sourcery skip: avoid-builtin-shadow
-    """ Ontimize API - new end points for services 
-    
-        Brief background: see readme_customize_api.md
-    
+    """Ontimize API - new end points for services
+
+    Brief background: see readme_customize_api.md
+
     """
     _project_dir = project_dir
     pass
-
 
     def admin_required():
         """
@@ -78,7 +81,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         return wrapper
 
     def gen_export(request) -> any:
-        payload = json.loads(request.data) if request.data != b'' else {}
+        payload = json.loads(request.data) if request.data != b"" else {}
         type = payload.get("type") or "csv"
         entity = payload.get("dao")
         queryParm = payload.get("queryParm") or {}
@@ -90,17 +93,27 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         api_clz = resource["model"]
         resources = getMetaData(api_clz.__name__)
         attributes = resources["resources"][api_clz.__name__]["attributes"]
-        if type in ["csv",'CSV']:
-            return csv_gen_report(api_clz, request, entity, queryParm, columns, columnTitles, attributes) 
-        elif type == "pdf": 
+        if type in ["csv", "CSV"]:
+            return csv_gen_report(
+                api_clz, request, entity, queryParm, columns, columnTitles, attributes
+            )
+        elif type == "pdf":
             payload["entity"] = entity
-            return export_pdf(api_clz, request, entity, queryParm, columns, columnTitles, attributes) 
-        #elif type == "xlsx":
+            return export_pdf(
+                api_clz, request, entity, queryParm, columns, columnTitles, attributes
+            )
+        # elif type == "xlsx":
         #    return xlsx_gen_report(api_clz, request, entity, queryParm, columns, columnTitles, attributes)
-        
-        return jsonify({"code":1,"message":f"Unknown export type {type}","data":None,"sqlTypes":None})   
-    
-    
+
+        return jsonify(
+            {
+                "code": 1,
+                "message": f"Unknown export type {type}",
+                "data": None,
+                "sqlTypes": None,
+            }
+        )
+
     def _gen_report(request) -> any:
         payload = json.loads(request.data)
 
@@ -115,35 +128,35 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
 
         return gen_report(api_clz, request, _project_dir, payload, attributes)
 
-    @app.route("/api/export/csv", methods=['POST','OPTIONS'])
-    @app.route("/api/export/pdf", methods=['POST','OPTIONS'])
-    @app.route("/ontimizeweb/services/rest/export/pdf", methods=['POST','OPTIONS'])
-    @app.route("/ontimizeweb/services/rest/export/csv", methods=['POST','OPTIONS'])
+    @app.route("/api/export/csv", methods=["POST", "OPTIONS"])
+    @app.route("/api/export/pdf", methods=["POST", "OPTIONS"])
+    @app.route("/ontimizeweb/services/rest/export/pdf", methods=["POST", "OPTIONS"])
+    @app.route("/ontimizeweb/services/rest/export/csv", methods=["POST", "OPTIONS"])
     @cross_origin()
     @admin_required()
     def export():
         print(f"export {request.path}")
-        #if request.method == "OPTIONS":
+        # if request.method == "OPTIONS":
         #    return jsonify(success=True)
         return gen_export(request)
-    
-    @app.route("/api/dynamicjasper", methods=['POST','OPTIONS'])
-    @app.route("/ontimizeweb/services/rest/dynamicjasper", methods=['POST','OPTIONS'])
+
+    @app.route("/api/dynamicjasper", methods=["POST", "OPTIONS"])
+    @app.route("/ontimizeweb/services/rest/dynamicjasper", methods=["POST", "OPTIONS"])
     @cross_origin()
     @admin_required()
     def dynamicjasper():
         if request.method == "OPTIONS":
             return jsonify(success=True)
         return _gen_report(request)
-    
-    @app.route("/api/bundle", methods=['POST','OPTIONS'])
-    @app.route("/ontimizeweb/services/rest/bundle", methods=['POST','OPTIONS'])
+
+    @app.route("/api/bundle", methods=["POST", "OPTIONS"])
+    @app.route("/ontimizeweb/services/rest/bundle", methods=["POST", "OPTIONS"])
     @cross_origin()
     @admin_required()
     def bundle():
         if request.method == "OPTIONS":
             return jsonify(success=True)
-        return jsonify({"code":0,"data":{},"message": None})
+        return jsonify({"code": 0, "data": {}, "message": None})
 
     @app.route("/main/YamlFiles", methods=["GET", "POST", "DELETE", "OPTIONS"])
     @cross_origin()
@@ -156,7 +169,10 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         files = session.query(models.YamlFiles).all()
         return jsonify({"code": 0, "message": "Yaml Files", "data": files})
 
-    @app.route("/ontimizeweb/services/rest/merge_rules", methods=["GET", "POST", "DELETE", "OPTIONS"])  
+    @app.route(
+        "/ontimizeweb/services/rest/merge_rules",
+        methods=["GET", "POST", "DELETE", "OPTIONS"],
+    )
     @cross_origin()
     @admin_required()
     def merge_rules():
@@ -168,13 +184,14 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
             path = data.get("path")
         else:
             path = "/Users/tylerband/ontimize/northwind-retool-jsonapi"
-        #parse the {path}/logic/declare_logic.py file
+        # parse the {path}/logic/declare_logic.py file
         dir = f"{path}/logic/declare_logic.py"
         from api.api_discovery.rule_parser import insert_rules_from_file
+
         insert_rules_from_file(dir)
-                    
-        return jsonify({"code": 0, "message": "Merge Rules", "data": {}})      
-    
+
+        return jsonify({"code": 0, "message": "Merge Rules", "data": {}})
+
     @app.route(
         "/ontimizeweb/services/rest/YamlFiles/insertFile/<path:path>",
         methods=["GET", "POST", "DELETE", "OPTIONS"],
@@ -246,8 +263,10 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
     def api_search(path):
         s = path.split("/")
         clz_name = s[0]
-        clz_type = None if len(s) == 1 else s[1] #[2] TODO customerType search advancedSearch defer(photo)customerTypeAggregate
-        isSearch = s[len(s) -1] == "search"
+        clz_type = (
+            None if len(s) == 1 else s[1]
+        )  # [2] TODO customerType search advancedSearch defer(photo)customerTypeAggregate
+        isSearch = s[len(s) - 1] == "search"
         method = request.method
         rows = []
         # CORS
@@ -256,11 +275,12 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
 
         if clz_name == "endsession":
             from flask import g
+
             sessionid = request.args.get("sessionid")
             if "access_token" in g and g.access_token == sessionid:
                 g.pop("access_token")
-            return jsonify({"code":0,"data":{},"message": None})
-        
+            return jsonify({"code": 0, "data": {}, "message": None})
+
         if clz_name == "dynamicjasper":
             return _gen_report(request)
 
@@ -269,7 +289,6 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
 
         if clz_name == "export":
             return gen_export(request)
-
 
         if request.path == "/ontimizeweb/services/rest/users/login":
             return login(request)
@@ -280,18 +299,22 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
             return jsonify(
                 {"code": 1, "message": f"Resource {clz_name} not found", "data": None}
             )
-            
+
         api_attributes = resource["attributes"]
         api_clz = resource["model"]
-        
-        payload = '{}' if request.data == b'' else json.loads(request.data)
-        expressions, filter, columns, sqltypes, offset, pagesize, orderBy, data = parsePayload(api_clz, payload)
+
+        payload = "{}" if request.data == b"" else json.loads(request.data)
+        expressions, filter, columns, sqltypes, offset, pagesize, orderBy, data = (
+            parsePayload(api_clz, payload)
+        )
         result = {}
-        if method == 'GET':
-            pagesize = 999 #if isSearch else pagesize
-            return get_rows(request, api_clz, filter, orderBy, columns, pagesize, offset)
-        
-        if method in ['PUT','PATCH']:
+        if method == "GET":
+            pagesize = 999  # if isSearch else pagesize
+            return get_rows(
+                request, api_clz, filter, orderBy, columns, pagesize, offset
+            )
+
+        if method in ["PUT", "PATCH"]:
             sql_alchemy_row = session.query(api_clz).filter(text(filter)).one()
             for key in DotDict(data):
                 setattr(sql_alchemy_row, key, DotDict(data)[key])
@@ -319,35 +342,69 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 # stmt = insert(api_clz).values(data)
 
             else:
-                if clz_name == "YamlFiles" and clz_type in ["importyaml", "reloadyaml", "downloadyaml"]:
-                    key = filter.split("=")[1] if filter and "name" in filter else "app_model.yaml"
-                    key = key.replace("'","",2).strip()
-                    key = key.replace('"',"",2)
+                if clz_name == "YamlFiles" and clz_type in [
+                    "importyaml",
+                    "reloadyaml",
+                    "downloadyaml",
+                ]:
+                    key = (
+                        filter.split("=")[1]
+                        if filter and "name" in filter
+                        else "app_model.yaml"
+                    )
+                    key = key.replace("'", "", 2).strip()
+                    key = key.replace('"', "", 2)
                     resp = (
                         session.query(models.YamlFiles)
                         .filter(models.YamlFiles.name == str(key))
                         .one()
-                        )
+                    )
                     if clz_type == "downloadyaml":
-                        yaml_content, rule_content = export_yaml_to_file(_project_dir)
+                        yaml_content, rule_content, security_content = (
+                            export_yaml_to_file(_project_dir)
+                        )
                         try:
                             setattr(resp, "downloaded", yaml_content)
                             setattr(resp, "download_flag", True)
                             setattr(resp, "rule_content", rule_content)
+                            setattr(resp, "role_content", security_content)
                             session.add(resp)
                             session.commit()
                         except Exception as ex:
                             session.rollback()
-                            return jsonify({"code": 1, "message": f"Yaml file {clz_type} error {ex}", "data": None})
-    
+                            return jsonify(
+                                {
+                                    "code": 1,
+                                    "message": f"Yaml file {clz_type} error {ex}",
+                                    "data": None,
+                                }
+                            )
+
                     else:
-                        yaml_content = resp.downloaded if resp.downloaded != None and clz_type == "reloadyaml" else resp.content
-                        #yaml_content = request.data.decode("utf-8")
+                        yaml_content = (
+                            resp.downloaded
+                            if resp.downloaded != None and clz_type == "reloadyaml"
+                            else resp.content
+                        )
+                        # yaml_content = request.data.decode("utf-8")
                         valuesYaml = yaml.safe_load(yaml_content)
-                        process_yaml(valuesYaml=valuesYaml, rule_content=resp.rule_content)
-                        
-                    data = {"downloaded": yaml_content, "rule_content": resp.rule_content}
-                    return jsonify({"code": 0, "totalQueryRecordsNumber": 1, "startRecordIndex": 1,"message": f"Yaml file {clz_type}", "data": data})
+                        process_yaml(
+                            valuesYaml=valuesYaml, rule_content=resp.rule_content, role_content=resp.role_content
+                        )
+
+                    data = {
+                        "downloaded": yaml_content,
+                        "rule_content": resp.rule_content,
+                    }
+                    return jsonify(
+                        {
+                            "code": 0,
+                            "totalQueryRecordsNumber": 1,
+                            "startRecordIndex": 1,
+                            "message": f"Yaml file {clz_type}",
+                            "data": data,
+                        }
+                    )
                 # GET (sent as POST)
                 # rows = get_rows_by_query(api_clz, filter, orderBy, columns, pagesize, offset)
                 if "TypeAggregate" in clz_type:
@@ -377,41 +434,60 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
             if resource == clz_name:
                 return resources[resource]
         return None
-    
+
     def login(request):
         url = f"{request.scheme}://{request.host}/api/auth/login"
         # no data is passed - uses basic auth in header
-        #requests.post(url=url, headers=request.headers, json = {})
-        username = ''
-        password = ''
+        # requests.post(url=url, headers=request.headers, json = {})
+        username = ""
+        password = ""
         auth = request.headers.get("Authorization", None)
         if auth and auth.startswith("Basic"):  # support basic auth
             import base64
+
             base64_message = auth[6:]
             print(f"auth found: {auth}")
-            #base64_message = 'UHl0aG9uIGlzIGZ1bg=='
-            base64_bytes = base64_message.encode('ascii')
+            # base64_message = 'UHl0aG9uIGlzIGZ1bg=='
+            base64_bytes = base64_message.encode("ascii")
             message_bytes = base64.b64decode(base64_bytes)
-            message = message_bytes.decode('ascii')
+            message = message_bytes.decode("ascii")
             s = message.split(":")
             username = s[0]
             password = s[1]
-        from security.authentication_provider.abstract_authentication_provider import Abstract_Authentication_Provider
+        from security.authentication_provider.abstract_authentication_provider import (
+            Abstract_Authentication_Provider,
+        )
         from security.system.authentication import create_access_token
-        
-        authentication_provider : Abstract_Authentication_Provider = Config.SECURITY_PROVIDER 
+
+        authentication_provider: Abstract_Authentication_Provider = (
+            Config.SECURITY_PROVIDER
+        )
         if not authentication_provider:
-            return jsonify({"code":1,"message":"No authentication provider configured"}), 401
+            return (
+                jsonify(
+                    {"code": 1, "message": "No authentication provider configured"}
+                ),
+                401,
+            )
         user = authentication_provider.get_user(username, password)
-        if not user or not authentication_provider.check_password(user = user, password = password):
-            return jsonify({"code":1,"message":"Wrong username or password"}), 401
-        
+        if not user or not authentication_provider.check_password(
+            user=user, password=password
+        ):
+            return jsonify({"code": 1, "message": "Wrong username or password"}), 401
+
         access_token = create_access_token(identity=user)  # serialize and encode
         from flask import g
+
         g.access_token = access_token
-        #return jsonify(access_token=access_token)
-        return jsonify({"code":0,"message":"Login Successful","data":{"access_token":access_token}})
-    
+        # return jsonify(access_token=access_token)
+        return jsonify(
+            {
+                "code": 0,
+                "message": "Login Successful",
+                "data": {"access_token": access_token},
+            }
+        )
+
     def get_rows_agg(request: any, api_clz, agg_type, filter, columns):
         key = api_clz.__name__
         resources = getMetaData(key)
@@ -466,8 +542,16 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         # rows = session.query(text(sql)).all()
         # rows = session.query(models.Account.ACCOUNTTYPEID,func.count(models.Account.AccountID)).group_by(models.Account.ACCOUNTTYPEID).all()
         return data
-    
-    def get_rows(request: any, api_clz, filter: str, order_by: str, columns: list, pagesize: int, offset: int):
+
+    def get_rows(
+        request: any,
+        api_clz,
+        filter: str,
+        order_by: str,
+        columns: list,
+        pagesize: int,
+        offset: int,
+    ):
         # New Style
         key = api_clz.__name__.lower()
         resources = getMetaData(api_clz.__name__)
@@ -497,8 +581,10 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         )
         result = r.execute(request=request)
         service_type: str = Config.ONTIMIZE_SERVICE_TYPE
-        return r.transform(service_type, key, result) # JSONAPI or LAC or OntimizeEE ARGS.service_type
-    
+        return r.transform(
+            service_type, key, result
+        )  # JSONAPI or LAC or OntimizeEE ARGS.service_type
+
     def get_rows_by_query(api_clz, filter, orderBy, columns, pagesize, offset):
         # Old Style
         rows = []
@@ -581,7 +667,9 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         yaml_file, rule_content = export_yaml_to_file(_project_dir)
         try:
             sql_alchemy_row = (
-                session.query(models.YamlFiles).filter(models.YamlFiles.name == key).one_or_none()
+                session.query(models.YamlFiles)
+                .filter(models.YamlFiles.name == key)
+                .one_or_none()
             )
             if sql_alchemy_row and sql_alchemy_row.downloaded is None:
                 setattr(sql_alchemy_row, "downloaded", yaml_file)
@@ -592,11 +680,10 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         except Exception as ex:
             print(ex)
             session.rollback()
-            #return jsonify({"code": 1, "message": f"{ex}", "data": None})
+            # return jsonify({"code": 1, "message": f"{ex}", "data": None})
         app_logger.debug(f"Yaml file written to ui/app_model_merge.yaml")
         app_logger.debug(f"Rule content written to ui/declare_logic_merge.py1")
-        return {"downloaded":yaml_file,"rule_content": rule_content}
-
+        return {"downloaded": yaml_file, "rule_content": rule_content}
 
     @app.route("/importyaml/<key>", methods=["GET", "POST", "OPTIONS"])
     def load_yaml(key: str = "app_model.yaml"):
@@ -618,15 +705,17 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 .one()
             )
             yaml_content = data and data.content
-                ##if not data.content.startswith('b')
-                ##else str(b64decode(data.content), encoding=encoding)
+            ##if not data.content.startswith('b')
+            ##else str(b64decode(data.content), encoding=encoding)
             rule_content = data and data.rule_content
-            
+
             if yaml_content:
                 try:
                     valuesYaml = yaml.safe_load(yaml_content)
                     process_yaml(valuesYaml=valuesYaml)
-                    return jsonify({"code": 0, "message": "Yaml file loaded", "data": None})
+                    return jsonify(
+                        {"code": 0, "message": "Yaml file loaded", "data": None}
+                    )
                 except yaml.YAMLError as exc:
                     return jsonify({"code": 1, "message": f"Error loading yaml: {exc}"})
             if rule_content:
@@ -639,9 +728,15 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
             )
             yaml_content = data and data.content
             rule_content = data and data.rule_content
-            #yaml_content = request.data.decode("utf-8")
+            app_content = data and data.app_content
+            rbac_content = data and data.rbac_content
+            # yaml_content = request.data.decode("utf-8")
             valuesYaml = yaml.safe_load(yaml_content)
-            process_yaml(valuesYaml=valuesYaml, rule_content=rule_content)
+            process_yaml(
+                valuesYaml=valuesYaml,
+                rule_content=rule_content,
+                rbac_content=rbac_content,
+            )
             return jsonify({"code": 0, "message": "Yaml file loaded", "data": None})
 
     def _gen_report(request) -> any:
@@ -695,7 +790,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         if clz_type == "importyaml":
             return load_yaml()
 
-        #if clz_type == "exportyaml":
+        # if clz_type == "exportyaml":
         #    return dump_yaml()
 
         if clz_type == "upload":
@@ -827,6 +922,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         # rows = session.query(text(sql)).all()
         # rows = session.query(models.Account.ACCOUNTTYPEID,func.count(models.Account.AccountID)).group_by(models.Account.ACCOUNTTYPEID).all()
         return data
+
     def get_rows_by_query(api_clz, filter, orderBy, columns, pagesize, offset):
         # Old Style
         rows = []
@@ -879,7 +975,9 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                         )  # .strftime('%Y-%m-%d %H:%M:%S')
 
     # Process the yaml file (load SQLite)
-    def process_yaml(valuesYaml: str, rule_content: str = None):
+    def process_yaml(
+        valuesYaml: str, rule_content: str = None, role_content: str = None
+    ):
         # Clean the database out - this is destructive
 
         delete_sql(models.TabGroup)
@@ -888,22 +986,41 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         delete_sql(models.EntityAttr)
         delete_sql(models.RuleConstraint)
         delete_sql(models.RuleEvent)
-        delete_sql(models.Entity)
         delete_sql(models.Template)
         delete_sql(models.Root)
-        
+        delete_sql(models.GrantRole)
+        delete_sql(models.RbacRole)
+        delete_sql(models.ApplicationEntity)
+        delete_sql(models.Application)
+        delete_sql(models.Entity)
+
         rules = []
         if rule_content:
             from api.api_discovery.rule_parser import get_rules_from_content
             rules = get_rules_from_content(rule_content)
+        if role_content:
+            from api.api_discovery.security_parser import get_security
+            roles = get_security(role_content)  
+            from api.api_discovery.security_parser import get_grants
+            grants = get_grants(role_content)
+            
         insert_template()
         insert_styles(valuesYaml)
         insert_entities(valuesYaml, rules)
         insert_root(valuesYaml)
+        
         if rule_content:
             insert_rules(rules)
         else:
             insert_rules_from_yaml(valuesYaml)
+            
+        if role_content:
+            insert_roles(roles)
+            insert_grants(grants)
+        else:
+            insert_roles_from_yaml(valuesYaml)
+            insert_grants_from_yaml(valuesYaml)
+
         return jsonify(valuesYaml)
 
     def delete_sql(clz):
@@ -922,7 +1039,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
             each_entity = valuesYaml["entities"][entity]
             print(entity, each_entity)
             m_entity.name = each_entity["type"]
-            m_entity.title =  get_value(each_entity, "title", entity)
+            m_entity.title = get_value(each_entity, "title", entity)
             m_entity.favorite = get_value(each_entity, "favorite")
             m_entity.pkey = str(get_value(each_entity, "primary_key"))
             m_entity.info_list = get_value(each_entity, "info_list")
@@ -969,7 +1086,11 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         root.about_changes = about["recent_changes"]
         root.api_root = api_root
         root.api_auth_type = "endpoint"
-        root.api_auth = authentication["endpoint"] if "endpoint" in authentication else authentication
+        root.api_auth = (
+            authentication["endpoint"]
+            if "endpoint" in authentication
+            else authentication
+        )
         try:
             session.add(root)
             session.commit()
@@ -1009,9 +1130,40 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 session.commit()
             except Exception as ex:
                 print(ex)
-
+    
+    def insert_roles(roles: list):
+        for role in roles:
+            m_role = models.RbacRole()
+            setattr(m_role,"name" , role["to_role"])
+            setattr(m_role,"can_read" , role["can_read"]== True)
+            setattr(m_role,"can_insert" , role["can_insert"]== True)
+            setattr(m_role,"can_update" , role["can_update"]== True)
+            setattr(m_role,"can_delete" , role["can_delete"]== True)
+            try:
+                session.add(m_role)
+                session.commit()
+            except Exception as ex:
+                print(ex)
+    def insert_grants(grants: list):
+        for role in grants:
+            m_role = models.GrantRole()
+            setattr(m_role,"entity_name" , role["on_entity"])
+            setattr(m_role,"role_name" , role["to_role"])
+            setattr(m_role,"can_read" , role["can_read"]== True)
+            setattr(m_role,"can_insert" , role["can_insert"]== True)
+            setattr(m_role,"can_update" , role["can_update"]== True)
+            setattr(m_role,"can_delete" , role["can_delete"]== True)
+            if role["filter"] != "":
+                setattr(m_role,"filter" , role["filter"])
+            if role["filter_debug"] != "":
+                setattr(m_role,"filter_debug" , role["filter_debug"])
+            try:
+                session.add(m_role)
+                session.commit()
+            except Exception as ex:
+                print(ex)
     def insert_rules(rules: list):
-        for rule in rules:  
+        for rule in rules:
             print(rule)
             if rule["entity"] == "all":
                 continue
@@ -1020,7 +1172,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 setattr(sql_alchemy_row, "rule", rule["rule"])
                 setattr(sql_alchemy_row, "entity_name", rule["entity"])
                 try:
-                    session.add(sql_alchemy_row)      
+                    session.add(sql_alchemy_row)
                     session.commit()
                 except Exception as ex:
                     print(f"Error adding constraint rule {rule} {ex}")
@@ -1031,90 +1183,135 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 setattr(sql_alchemy_row, "entity_name", rule["entity"])
                 setattr(sql_alchemy_row, "event_type", rule["type"])
                 try:
-                    session.add(sql_alchemy_row)      
+                    session.add(sql_alchemy_row)
                     session.commit()
                 except Exception as ex:
                     print(f"Error adding event rule {rule} {ex}")
                     continue
-            else: 
+            else:
                 sql_alchemy_row = models.RuleDerivation()
-                
+
                 setattr(sql_alchemy_row, "rule", rule["rule"])
                 setattr(sql_alchemy_row, "entity_name", rule["entity"])
                 setattr(sql_alchemy_row, "derivation_type", rule["type"])
                 setattr(sql_alchemy_row, "derive_column", rule["attr"])
                 try:
-                    session.add(sql_alchemy_row)      
+                    session.add(sql_alchemy_row)
                     session.commit()
-                    #if rule['attr']:
-                        # update_entity_attr(rule["entity"], rule["rule"], rule['attr'])
+                    # if rule['attr']:
+                    # update_entity_attr(rule["entity"], rule["rule"], rule['attr'])
                 except Exception as ex:
                     print(f"Error adding derivations rule {rule} {ex}")
                     continue
 
-                
     def parse_derivation_rule(rule: dict) -> str:
-        derive_column,expression = None
+        derive_column, expression = None
         if not rule:
-            return derive_column,expression 
+            return derive_column, expression
         if rule.index("derive=") > 0:
-            derive_column = rule.split("=")[1].split(",")[0] 
+            derive_column = rule.split("=")[1].split(",")[0]
         elif rule.index("models.") > 0:
-            derive_column = rule.split("models.")[1].split(".")[1].split(",")[0] 
+            derive_column = rule.split("models.")[1].split(".")[1].split(",")[0]
         try:
             if rule["type"] == "sum":
-                expression = rule.split("as_sum_of")[1].replace("=models.","").replace(")","")
+                expression = (
+                    rule.split("as_sum_of")[1].replace("=models.", "").replace(")", "")
+                )
             elif rule["type"] == "count":
-                expression = rule.split("where")[0].replace("=models.","").replace(")","")
+                expression = (
+                    rule.split("where")[0].replace("=models.", "").replace(")", "")
+                )
             elif rule["type"] == "formula":
-                expression = rule.split("as_expression")[1].replace("=models.","").replace(")","")
-            elif rule["type"] == "copy":  #from_parent
-                expression = rule.split("from_parent=")[1].replace(")","")
+                expression = (
+                    rule.split("as_expression")[1]
+                    .replace("=models.", "")
+                    .replace(")", "")
+                )
+            elif rule["type"] == "copy":  # from_parent
+                expression = rule.split("from_parent=")[1].replace(")", "")
         except Exception as e:
             print(e)
-        return derive_column,expression 
+        return derive_column, expression
+
     def update_entity_attr(entity: str, derivation: str, rule_attr: str):
-        entity_attr = session.query(models.EntityAttr).filter(models.EntityAttr.entity_name == entity).all()
+        entity_attr = (
+            session.query(models.EntityAttr)
+            .filter(models.EntityAttr.entity_name == entity)
+            .all()
+        )
         for attr in entity_attr:
             if attr.label == rule_attr:
                 attr.derivation = derivation
                 try:
-                    session.add(attr)      
+                    session.add(attr)
                     session.commit()
                     return
                 except Exception as ex:
                     print(f"Error adding derivations rule {attr} {ex}")
-    
+
+    def insert_roles_from_yaml(valuesYaml: dict):
+        for role in valuesYaml["roles"]:
+            m_role = models.RbacRole()
+            setattr(m_role,"name" , role["to_role"])
+            setattr(m_role,"can_read" , role["can_read"])
+            setattr(m_role,"can_insert" , role["can_insert"])
+            setattr(m_role,"can_update" , role["can_update"])
+            setattr(m_role,"can_delete" , role["can_delete"])
+            try:
+                session.add(m_role)
+                session.commit()
+            except Exception as ex:
+                print(ex)
+    def insert_grants_from_yaml(valuesYaml: dict):
+        for role in valuesYaml["grants"]:
+            m_role = models.GrantRole()
+            setattr(m_role,"entity_name" , role["on_entity"])
+            setattr(m_role,"role_name" , role["to_role"])
+            setattr(m_role,"can_read" , role["can_read"])
+            setattr(m_role,"can_insert" , role["can_insert"])
+            setattr(m_role,"can_update" , role["can_update"])
+            setattr(m_role,"can_delete" , role["can_delete"])
+            setattr(m_role,"filter" , role["filter"])
+            setattr(m_role,"filter_debug" , role["filter_debug"])
+            try:
+                session.add(m_role)
+                session.commit()
+            except Exception as ex:
+                print(ex)
     def insert_rules_from_yaml(valuesYaml: dict):
         for entity in valuesYaml["entities"]:
-            rules = valuesYaml["entities"][entity]["rules"] if "rules" in valuesYaml["entities"][entity] else None
+            rules = (
+                valuesYaml["entities"][entity]["rules"]
+                if "rules" in valuesYaml["entities"][entity]
+                else None
+            )
             if rules:
                 for constraint in rules["contraints"]:
                     m_rule = models.RuleConstraint()
                     m_rule.entity_name = entity
                     m_rule.rule = constraint
-                    
+
                 try:
                     session.add(m_rule)
                     session.commit()
                 except Exception as ex:
-                    #session.rollback()
+                    # session.rollback()
                     print(ex)
-                    
+
                 for event in rules["events"]:
                     m_rule = models.RuleEvent()
                     m_rule.entity_name = entity
                     m_rule.rule = event
                     type = event.split("Rule.")[1].split("(")[0]
                     m_rule.event_type = type
-                    
+
                 try:
                     session.add(m_rule)
                     session.commit()
                 except Exception as ex:
-                    #session.rollback()
+                    # session.rollback()
                     print(ex)
-                    
+
             for column in valuesYaml["entities"][entity]["columns"]:
                 rule = column["derivation"] if "derivation" in column else None
                 if rule:
@@ -1123,15 +1320,15 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                     m_rule.rule = rule
                     type = rule.split("Rule.")[1].split("(")[0]
                     m_rule.derivation_type = type
-                    #derviation, expression = parse_derivation_rule(rule)
-                        
+                    # derviation, expression = parse_derivation_rule(rule)
+
                     try:
                         session.add(m_rule)
                         session.commit()
                     except Exception as ex:
-                        #session.rollback()
+                        # session.rollback()
                         print(ex)
-        
+
     def get_value(obj: any, name: str, default: any = None):
         try:
             return obj[name]
@@ -1149,9 +1346,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
 
     def insert_tab_groups(entity, entity_type, each_entity_yaml):
         tab_groups = (
-            each_entity_yaml["tab_groups"]
-            if "tab_groups" in each_entity_yaml
-            else []
+            each_entity_yaml["tab_groups"] if "tab_groups" in each_entity_yaml else []
         )
         for tab_group in tab_groups:
             m_tab_group = models.TabGroup()
@@ -1171,7 +1366,6 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 session.rollback()
                 print(ex)
 
-
     def insert_entity_attrs(entity, entity_type, each_entity_yaml, rules):
         columns = []
         for attr in each_entity_yaml["columns"]:
@@ -1189,7 +1383,9 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 m_entity_attr.isort = get_boolean(attr, "sort", False)
                 m_entity_attr.isenabled = get_boolean(attr, "enabled", True)
                 m_entity_attr.exclude = get_boolean(attr, "exclude", False)
-                m_entity_attr.tooltip = get_value(attr, "tooltip", f'Insert {attr["name"]}')
+                m_entity_attr.tooltip = get_value(
+                    attr, "tooltip", f'Insert {attr["name"]}'
+                )
                 m_entity_attr.visible = get_boolean(attr, "visible", True)
                 if get_value(attr, "default_value"):
                     m_entity_attr.default_value = get_value(attr, "default_value", "")
@@ -1211,10 +1407,9 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 # raise ex
                 print(ex)
 
-                #parse_derivation_rule(sql_alchemy_row)
-                #if rule['attr']:
+                # parse_derivation_rule(sql_alchemy_row)
+                # if rule['attr']:
                 #        update_entity_attr(rule["entity"], rule["rule"], rule['attr'])
-
 
     def insert_styles(valuesYaml):
         style_guide = valuesYaml["settings"]["style_guide"]
@@ -1230,6 +1425,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         except Exception as ex:
             raise ex
 
+
 def write_file(source: list, file_name: str) -> any:
     with open(file_name, "w") as file:
         for l in source:
@@ -1238,6 +1434,7 @@ def write_file(source: list, file_name: str) -> any:
         return file.read()
     return None
 
+
 def write_yaml_file(source: str, file_name: str) -> any:
     with open(file_name, "w") as file:
         yaml.safe_dump(source, file, default_flow_style=False)
@@ -1245,6 +1442,8 @@ def write_yaml_file(source: str, file_name: str) -> any:
     with open(file_name, "r") as file:
         return file.read()
     return None
+
+
 def export_yaml_to_file(project_dir: str):
     entities = read(models.Entity)
     attrs = read(models.EntityAttr)
@@ -1254,14 +1453,23 @@ def export_yaml_to_file(project_dir: str):
     rule_events = read(models.RuleEvent)
     rule_constraints = read(models.RuleConstraint)
     rule_derivations = read(models.RuleDerivation)
+    rbac_content = read(models.RbacRole)
+    grant_content = read(models.GrantRole)
+    security_output = build_security_json(rbac_content, grant_content)
 
-    output = build_json(entities, attrs, tabs, settings, root, rule_events, rule_constraints)
+    output = build_json(
+        entities, attrs, tabs, settings, root, rule_events, rule_constraints, security_output
+    )
     yaml_fn = f"{project_dir}/ui/app_model_merge.yaml"
     logic_fn = f"{project_dir}/ui/declare_logic_merge.py1"
+    security_fn = f"{project_dir}/ui/declare_security.py1"
     logic_output = build_logic(attrs, rule_constraints, rule_events, rule_derivations)
+    security_output = build_security(output["user_roles"], output["grants"])
     lo = write_file(logic_output, file_name=logic_fn)
     yo = write_yaml_file(output, file_name=yaml_fn)
-    return yo, lo
+    so = write_file(security_output, file_name=security_fn)
+    return yo, lo, so
+
 
 def rows_to_dict(result: any) -> list:
     """
@@ -1292,51 +1500,142 @@ def rows_to_dict(result: any) -> list:
 def read(clz) -> list:
     return rows_to_dict(session.query(clz).all())
 
+
 def clean(rule: str) -> str:
     rule = rule.replace('"', "'", 10)
-    rule = rule.replace('\n', "", 10)
-    return f"    {rule}" 
+    rule = rule.replace("\n", "", 10)
+    return f"    {rule}"
+
+
 def append_calling_logic(rule_constraints, rule_events, rule_derivations) -> list:
     # Placeholder function to append calling logic
     # You can implement the actual logic here
-    
+
     logic = []
-    logic.extend(find_fn(rule['rule']) for rule in rule_constraints)
-    logic.extend(find_fn(rule['rule']) for rule in rule_events)
-    logic.extend(find_fn(rule['rule']) for rule in rule_derivations)
+    logic.extend(find_fn(rule["rule"]) for rule in rule_constraints)
+    logic.extend(find_fn(rule["rule"]) for rule in rule_events)
+    logic.extend(find_fn(rule["rule"]) for rule in rule_derivations)
     result = ["# Rule Function Calling"]
     for l in logic:
         if len(l) > 0:
-            result.extend((l, '           pass'))
+            result.extend((l, "           pass"))
     return result
+
+
 def find_fn(rule: str) -> str:
     event = []
-    #['#def calling_fn(row: model.EntityName, old_row: model.EntityName, logic_row:LogicRow):','#   pass']
+    # ['#def calling_fn(row: model.EntityName, old_row: model.EntityName, logic_row:LogicRow):','#   pass']
     entity_name = ""
     for part in rule.split("="):
         if part.split(",")[0].startswith("models."):
-            entity_name=part.split(",")[0].split(".")[1].strip()
+            entity_name = part.split(",")[0].split(".")[1].strip()
             break
     for part in rule.split(","):
         if "calling" in part:
-            fn_name=part.split("=")[1].strip()
-            event = f'    def {fn_name[:-1]}(row: model.{entity_name}, old_row: model.{entity_name}, logic_row:LogicRow):'
+            fn_name = part.split("=")[1].strip()
+            event = f"    def {fn_name[:-1]}(row: model.{entity_name}, old_row: model.{entity_name}, logic_row:LogicRow):"
     return event
+
+def build_security(rbac_content: list, grant_content: list) -> str:
+    security = ["from security.system.authorization import Grant, Security, Security, DefaultRolePermission, GlobalFilter"]
+    security.append("class Roles():")
+    for role in rbac_content:
+        security.append(f'    {role} = "{role}"')
+    security.append("# Roles")
+    for r in rbac_content:
+        role = rbac_content[r]
+        security.append(f"DefaultRolePermission(to_role=Roles.{r}, can_read={role['can_read']}, can_insert={role['can_insert']}, can_update={role['can_update']}, can_delete={role['can_delete']})")
+    security.append("# Grants")
+    for g in grant_content:
+        grant = grant_content[g]
+        s = g.split("_")
+        entity_name = s[0]
+        role_name = s[1]
+        security.append(f"Grant(models.{entity_name}, to_role=Roles.{role_name}, can_read={grant['can_read']}, can_insert={grant['can_insert']}, can_update={grant['can_update']}, can_delete={grant['can_delete']}, filter={grant['filter']}, filter_debug={grant['filter_debug']})")   
+        
+    return security
+    
 def build_logic(attrs, rule_constraints, rule_events, rule_derivations) -> str:
-    logic = ['from logic_bank.logic_bank import Rule']
-    logic.extend(append_calling_logic(rule_constraints, rule_events, rule_derivations))   
+    logic = ["from logic_bank.logic_bank import Rule"]
+    logic.extend(append_calling_logic(rule_constraints, rule_events, rule_derivations))
     logic.append("# Constraints")
-    logic.extend(clean(rule['rule']) for rule in rule_constraints)
+    logic.extend(clean(rule["rule"]) for rule in rule_constraints)
     logic.append("# Events")
-    logic.extend(clean(rule['rule']) for rule in rule_events)
-    logic.append("# Derivations")   
-    logic.extend(clean(rule['rule']) for rule in rule_derivations)
-    logic.extend(clean(attr['derivation']) for attr in attrs if attr["derivation"])
+    logic.extend(clean(rule["rule"]) for rule in rule_events)
+    logic.append("# Derivations")
+    logic.extend(clean(rule["rule"]) for rule in rule_derivations)
+    logic.extend(clean(attr["derivation"]) for attr in attrs if attr["derivation"])
 
     return logic
+
+
+def build_security_json(rbac_content: list, grant_content: list) -> dict:
+    """
+    Builds a security JSON structure from role-based access control (RBAC) and grant content.
+
+    This function takes two lists: one containing role definitions and another containing grant definitions. It constructs a JSON object that organizes roles and grants, detailing their permissions and attributes.
+
+    Args:
+        rbac_content (list): A list of dictionaries representing roles, each containing keys such as 'name', 'description', 'can_read', 'can_insert', 'can_update', and 'can_delete'.
+        grant_content (list): A list of dictionaries representing grants, each containing keys such as 'entity_name', 'role_name', 'description', 'can_read', 'can_insert', 'can_update', 'can_delete', 'filter', and 'filter_debug'.
+
+    Returns:
+        dict: A dictionary containing two keys: 'roles' and 'grants', each mapping to their respective structured data.
+    """
+
+    output = {}
+    output["roles"] = {
+        r["name"]: {
+            "can_read": r["can_read"] == True,
+            "can_insert": r["can_insert"] == True,
+            "can_update": r["can_update"] == True,
+            "can_delete": r["can_delete"] == True,
+        }
+        for r in rbac_content
+    }
+    output["grants"] = {
+        f'{r["entity_name"]}_{r["role_name"]}': {
+            "can_read": r["can_read"] == True,
+            "can_insert": r["can_insert"] == True,
+            "can_update": r["can_update"] == True,
+            "can_delete": r["can_delete"] == True,
+            "filter": r["filter"],
+            "filter_debug": r["filter_debug"],
+        }
+        for r in grant_content
+    }
+    return output
+
 def build_json(
-    entities: list, attrs: list, tabs: list, settings: list, root: list, rule_events: list, rule_constraints: list
+    entities: list,
+    attrs: list,
+    tabs: list,
+    settings: list,
+    root: list,
+    rule_events: list,
+    rule_constraints: list,
+    security_output: dict,
 ) -> any:
+    """
+    Constructs a structured JSON representation of various application entities and their attributes.
+
+    This function aggregates information from multiple sources, including entities, attributes, tabs, settings, and rules, to create a comprehensive JSON output. The resulting structure is intended for use in API responses, providing detailed metadata about the application's configuration and capabilities.
+
+    Args:
+        entities (list): A list of dictionaries representing entities, each containing keys such as 'name', 'title', 'pkey', and optional template and configuration fields.
+        attrs (list): A list of dictionaries representing attributes associated with entities, including keys like 'entity_name', 'attr', 'label', 'template_name', and various flags.
+        tabs (list): A list of dictionaries representing tab groups for entities, including keys such as 'entity_name', 'direction', 'tab_entity', and foreign keys.
+        settings (list): A list of dictionaries representing application settings, each containing keys like 'name' and 'value'.
+        root (list): A list of dictionaries containing root-level metadata, including keys such as 'about_date', 'about_changes', 'api_root', 'api_auth_type', and 'api_auth'.
+        rule_events (list): A list of dictionaries representing event rules associated with entities.
+        rule_constraints (list): A list of dictionaries representing constraint rules associated with entities.
+        security_output (dict): A dictionary containing structured information about roles and grants, organized for API consumption.
+            roles (list): A list of dictionaries representing role-based access control (RBAC) DefaultRolePermission definitions.
+            grants (list): A list of dictionaries representing Grant definitions.
+    Returns:
+        dict: A dictionary containing structured information about entities, settings, and rules, organized for API consumption.
+    """
+
     output = {}
     for r in root:
         output["about"] = {
@@ -1345,6 +1644,7 @@ def build_json(
         }
         output["api_root"] = r["api_root"]
         output["authentication"] = {r["api_auth_type"]: r["api_auth"]}
+        break
 
     entity_list = {}
     for entity in entities:
@@ -1353,7 +1653,7 @@ def build_json(
         constraints = []
         events = []
         e["type"] = entity_name
-        e["title"]  = entity["title"]
+        e["title"] = entity["title"]
         e["primary_key"] = convert_list(entity["pkey"])
         if entity.get("new_template"):
             e["new_template"] = entity["new_template"]
@@ -1368,7 +1668,7 @@ def build_json(
         if entity.get("exclude"):
             e["exclude"] = entity["exclude"]
         else:
-            e["exclude"]= False
+            e["exclude"] = False
         if entity.get("info_list"):
             e["info_list"] = entity["info_list"]
         if entity.get("info_show"):
@@ -1382,11 +1682,8 @@ def build_json(
             if rule["entity_name"] == entity_name:
                 events.append(rule["rule"])
         if len(constraints) > 0 or len(events) > 0:
-            e["rules"] = {
-                "contraints": constraints,
-                "events": events    
-            }
-            
+            e["rules"] = {"contraints": constraints, "events": events}
+
         entity_list[entity_name] = e
 
         cols = []
@@ -1406,7 +1703,7 @@ def build_json(
                 if attr.get("default_value"):
                     col["default_value"] = attr.get("default_value")
                 if attr.get("derivation"):
-                    col["derivation"] = attr.get("derivation")  
+                    col["derivation"] = attr.get("derivation")
                 cols.append(col)
         entity_list[entity_name]["columns"] = cols
         tab_group = []
@@ -1439,11 +1736,18 @@ def build_json(
         else:
             sg[name] = s["value"]
         style_guide.update(sg)
+        
+    output["user_roles"] = {}
+    output["user_roles"] = security_output["roles"]
 
+    output["grants"] = {}
+    output["grants"] = security_output["grants"]
+    
     output["settings"] = {}
     output["settings"]["style_guide"] = style_guide
 
     return output
+
 
 def fixup(label) -> str:
     label = label.replace("dlr_", "Dealer ")
@@ -1464,6 +1768,7 @@ def fixup(label) -> str:
             result += f"{t.capitalize()} "
 
     return result
+
 
 def convert_list(key: str) -> list:
     k = key.replace("'", "", 20)

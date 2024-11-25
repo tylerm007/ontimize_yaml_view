@@ -1,0 +1,57 @@
+<o-form-layout-manager attr="RbacRole" mode="tab" title="RBACROLE">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="RbacRoleTable" 
+            service="RbacRole" 
+            entity="RbacRole" 
+            title="RBACROLE"
+            keys="name"
+            columns="name;description;can_insert;can_update;can_delete;can_read" 
+            header-actions="R;D"
+            visible-columns="name;description;can_insert;can_update;can_delete;can_read"  
+            sort-columns="name" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #name attr="name" title=" name*" editable="no" required="yes" content-align="left"></o-table-column>
+            
+            <o-table-column #description attr="description" title="description" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column #can_insert attr="can_insert" title="can_insert" editable="no" required="no" content-align="left">
+                <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
+                render-type="icon" boolean-type="boolean" true-value="true"
+                false-value="false"></o-table-cell-renderer-boolean>
+            </o-table-column>
+            
+            <o-table-column #can_update attr="can_update" type="timestamp" label="can_update" editable="no" required="no" format="LL" fxFlex="20%" class="form-field">
+                <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
+                render-type="icon" boolean-type="boolean" true-value="true"
+                false-value="false"></o-table-cell-renderer-boolean>
+            </o-table-column>
+            
+            <o-table-column #can_delete attr="can_delete" title="can_delete" editable="no" required="no" content-align="left">
+                <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
+                render-type="icon" boolean-type="boolean" true-value="true"
+                false-value="false"></o-table-cell-renderer-boolean>
+            </o-table-column>
+            
+            <o-table-column #can_read attr="can_read" title="can_read" editable="no" required="no" content-align="left">
+                <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
+                render-type="icon" boolean-type="boolean" true-value="true"
+                false-value="false"></o-table-cell-renderer-boolean>
+            </o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

@@ -2,22 +2,26 @@
 
 ###############################################################################
 #
-#    This file initializes and starts the API Logic Server (v 11.00.10, August 06, 2024 09:48:29):
+#    This file initializes and starts the API Logic Server, e.g.:
+#        $ Use your IDE Run Configurations (for debug)
+#        $ sh run.sh
 #        $ python3 api_logic_server_run.py [--help]
+#        $ gunicorn --log-level=info -b 0.0.0.0:5656 -w2 --reload api_logic_server_run:flask_app
 #
 #    Then, access the Admin App and API via the Browser, eg:  
 #        http://localhost:5656
 #
-#    You typically do not customize this file,
+#    You typically do not customize this file.
 #
-#    (v 11.02.05, October 06, 2024 10:14:57)
+#    (v 12.01.22, November 18, 2024 11:06:36)
+#
 #    See Main Code (at end).
 #        Use log messages to understand API and Logic activation.
 #
 ###############################################################################
 
-api_logic_server__version = '11.02.05'
-api_logic_server_created__on = 'October 06, 2024 10:14:57'
+api_logic_server__version = '12.01.22'
+api_logic_server_created__on = 'November 18, 2024 11:06:36'
 api_logic_server__host = 'localhost'
 api_logic_server__port = '5655'
 
@@ -111,12 +115,14 @@ if __name__ == "__main__":
         app_logger.info(f'==> Customizable API Logic Project created and running:\n'
                     f'..Open it with your IDE at {project_dir}\n')
 
+    start_up_message = f'{args.http_scheme}://{args.swagger_host}:{args.port}   *'
     if os.getenv('CODESPACES'):
         app_logger.info(f'API Logic Project (name: {project_name}) starting on Codespaces:\n'
                 f'..Explore data and API on codespaces, swagger_host: {args.http_scheme}://{args.swagger_host}/\n')
+        start_up_message = f'{args.http_scheme}://{args.swagger_host}'
     else:
         app_logger.info(f'API Logic Project (name: {project_name}) starting:\n'
-                f'..Explore data and API at http_scheme://swagger_host:port {args.http_scheme}://{args.swagger_host}:{args.port}\n'
+                f'..Explore data and API at http_scheme://swagger_host:port {start_up_message}\n'
                 f'.... with flask_host: {args.flask_host}\n'
                 f'.... and  swagger_port: {args.swagger_port}')
     if logic_alerts:
@@ -125,12 +131,12 @@ if __name__ == "__main__":
         app_logger.info(f'.. see security.declare_security.py -- {server_setup.declare_security_message}\n\n')
 
         app_logger.info(f'*************************************************************************')    
-        app_logger.info(f'*   Startup Instructions: Open your Browser at: {args.http_scheme}://{args.swagger_host}:{args.port}   *')    
+        app_logger.info(f'*   Startup Instructions: Open your Browser at: {start_up_message}')    
         app_logger.info(f'*************************************************************************\n')    
 
     flask_app.run(host=args.flask_host, threaded=True, port=args.port)
 else:
-    msg = f'API Logic Project Loaded (WSGI), version 11.02.05\n'
+    msg = f'API Logic Project Loaded (WSGI), version 12.01.22\n'
     msg += f'.. startup message: {start_up_message}\n'
 
     if server_setup.is_docker():

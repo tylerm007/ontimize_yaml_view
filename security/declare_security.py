@@ -40,3 +40,5 @@ DefaultRolePermission(to_role=Roles.teller, can_read=True, can_insert=True,can_u
 DefaultRolePermission(to_role=Roles.customer, can_read=True, can_insert=True,can_update=True, can_delete=False)
 DefaultRolePermission(to_role=Roles.read_only, can_read=True, can_insert=False,can_update=False, can_delete=False)
 DefaultRolePermission(to_role=Roles.public, can_read=True, can_insert=False,can_update=False, can_delete=False)
+
+#Grant(role=Roles.sa, entity=models.Application, can_read=True, can_update=True, can_insert=True, can_delete=True, filter=GlobalFilter())

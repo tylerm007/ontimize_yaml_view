@@ -23,6 +23,7 @@ export class YamlFilesNewComponent {
       const output = document.querySelector("ul");
       const {files} = event.target as HTMLInputElement;
       let declare_logic;
+      let declare_security;
       let app_model;
       let project_name = "ApiLogicServer";
       if (files && output) {
@@ -36,20 +37,14 @@ export class YamlFilesNewComponent {
             });
           }
           if (files[i].type == "text/x-python-script" && files[i].name == "declare_logic.py") {
-            //console.log(URL.createObjectURL(files[i]));
-            //console.log(files[i].name, files[i].webkitRelativePath);
-            //const item = document.createElement("li");
-            //item.innerHTML = files[i].webkitRelativePath;
-            //output.appendChild(item);
             declare_logic = await files[i].text();
             
           }
+          if (files[i].type == "text/x-python-script" && files[i].name == "declare_security.py") {
+            declare_security = await files[i].text();
+            
+          }
           if (files[i].type == "application/x-yaml" && files[i].name == "app_model.yaml") {
-            //console.log(URL.createObjectURL(files[i]));
-            //console.log(files[i].name, files[i].type, files[i].webkitRelativePath);
-            //const item = document.createElement("li");
-            //item.innerHTML = files[i].webkitRelativePath;
-            //output.appendChild(item);
             app_model = await files[i].text();
           }
         }
@@ -57,7 +52,8 @@ export class YamlFilesNewComponent {
           console.log(declare_logic, app_model);
           const encodedAppModel = btoa(app_model);
           const encodedLogicModel = btoa(declare_logic);
-          this.form.setFieldValues({ "name": project_name, "content": encodedAppModel, "rule_content": encodedLogicModel });
+          const encodedSecurityModel = btoa(declare_security);
+          this.form.setFieldValues({ "name": project_name, "content": encodedAppModel, "rule_content": encodedLogicModel, "role_content": encodedSecurityModel });
             const field = this.form.getFieldValue('content');
             if (field) {
               field.visible = false;
@@ -66,8 +62,12 @@ export class YamlFilesNewComponent {
             if (field2) {
               field2.visible = false;
             }
+            const field3 = this.form.getFieldValue('role_content');
+            if (field3) {
+              field3.visible = false;
+            }
         } else {
-          alert("Please select an ApiLogicServer project folder");
+          alert("Please select a root ApiLogicServer project folder");
         }
       }
     }, false);

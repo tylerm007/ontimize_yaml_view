@@ -2,6 +2,18 @@
 // Or, https://databasediagram.com/app
 // Or, view in VSCode with extension: "DBML Live Preview"
 
+Table Application {
+    name VARCHAR(100) [primary key]
+    app_short_name VARCHAR(100) 
+    description TEXT 
+    app_yaml TEXT 
+    }
+
+Table ApplicationEntity {
+    application_name VARCHAR(100) [primary key]
+    entity_name VARCHAR(80) 
+    }
+
 Table Entity {
     name VARCHAR(80) [primary key]
     title VARCHAR(100) 
@@ -45,6 +57,26 @@ Table GlobalSetting {
     description TEXT 
     }
 
+Table GrantRole {
+    entity_name VARCHAR(80) [primary key]
+    role_name VARCHAR(80) 
+    can_read BOOLEAN 
+    can_insert BOOLEAN 
+    can_update BOOLEAN 
+    can_delete BOOLEAN 
+    filter TEXT 
+    filter_debug TEXT 
+    }
+
+Table UserRole {
+    name VARCHAR(80) [primary key]
+    description TEXT 
+    can_read BOOLEAN 
+    can_insert BOOLEAN 
+    can_update BOOLEAN 
+    can_delete BOOLEAN 
+    }
+
 Table Root {
     id INTEGER [primary key]
     about_changes TEXT 
@@ -61,7 +93,7 @@ Table RuleConstraint {
     as_condition VARCHAR(255) 
     err_msg VARCHAR(255) 
     error_attributes VARCHAR(80) 
-    rule VARCHAR(255) 
+    rule VARCHAR(1000) 
     }
 
 Table RuleDerivation {
@@ -74,7 +106,7 @@ Table RuleDerivation {
     child_role_name VARCHAR(80) 
     calling_fn VARCHAR(80) 
     where_clause VARCHAR(255) 
-    rule VARCHAR(255) 
+    rule VARCHAR(1000) 
     insert_parent BOOLEAN 
     }
 
@@ -83,7 +115,7 @@ Table RuleEvent {
     entity_name VARCHAR(80) 
     event_type VARCHAR(25) 
     calling_fn VARCHAR(255) 
-    rule VARCHAR(255) 
+    rule VARCHAR(1000) 
     }
 
 Table TabGroup {
@@ -109,8 +141,12 @@ Table YamlFile {
 
 
 // Relationships
+    Ref: ApplicationEntity.(application_name) < Application.(name)
+    Ref: ApplicationEntity.(entity_name) < Entity.(name)
     Ref: EntityAttr.(entity_name) < Entity.(name)
     Ref: EntityAttr.(template_name) < Template.(name)
+    Ref: GrantRole.(entity_name) < Entity.(name)
+    Ref: GrantRole.(role_name) < UserRole.(name)
     Ref: RuleConstraint.(entity_name) < Entity.(name)
     Ref: RuleDerivation.(as_child_entity) < Entity.(name)
     Ref: RuleDerivation.(entity_name) < Entity.(name)

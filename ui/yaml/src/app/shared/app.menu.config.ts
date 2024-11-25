@@ -31,12 +31,24 @@ export const MENU_CONFIG: MenuRootItem[] = [
     
         ] 
     }
-    ,{id: 'rules', name: 'Rules', icon: 'edit_square', opened: true,
+    ,{id: 'rules', name: 'Rules', icon: 'edit_square', opened: false,
     items: [
         { id: 'RuleConstraint', name: 'Constraints', icon: 'view_list', route: '/main/RuleConstraint' }
         ,{ id: 'RuleDerivation', name: 'Derivations', icon: 'view_list', route: '/main/RuleDerivation' }
         ,{ id: 'RuleEvent', name: 'Events', icon: 'view_list', route: '/main/RuleEvent' }
         ] 
+    }
+    ,{id:'security', name: 'Security', icon: 'security', opened: false,
+    items: [
+            { id: 'Role', name: 'User Roles', icon: 'view_list', route: '/main/RbacRole' }
+            ,{ id: 'GrantRole', name: 'Grants', icon: 'view_list', route: '/main/GrantRole' }
+        ]
+    }
+    ,{ id: 'Application', name: 'Application', icon: 'view_list', route: '/main/Application', opened: false,
+    items: [
+        { id: 'Application', name: 'Applications', icon: 'view_list', route: '/main/Application'}
+        ,{ id: 'ApplicationEntity', name: 'Application Entities', icon: 'view_list', route: '/main/ApplicationEntity'}
+    ]
     }
     ,{ id: 'YamlFiles', name: '4. Download Yaml File', icon: 'download_file', route: '/main/DownloadYamlFiles' }
     ,{ id: 'other', name: 'Global Settings', icon: 'remove_red_eye', opened: false,

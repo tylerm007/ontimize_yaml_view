@@ -9,8 +9,11 @@ DROP TABLE IF EXISTS yaml_files;
 DROP TABLE IF EXISTS rule_constraint;
 DROP TABLE IF EXISTS rule_event;
 DROP TABLE IF EXISTS rule_derivation;
+DROP TABLE IF EXISTS grant_role;
+DROP TABLE IF EXISTS rbac_role;
+DROP TABLE IF EXISTS application_entity;
+DROP TABLE IF EXISTS application;
 DROP TABLE IF EXISTS entity;
-
 CREATE TABLE entity (
     name varchar(80) not null,
     title varchar(100) not null,
@@ -75,6 +78,8 @@ CREATE TABLE yaml_files(
     size INT,
     downloaded text,
     rule_content TEXT,
+    role_content TEXT,
+    application_content TEXT,
     PRIMARY KEY(name)
 );
 
@@ -128,4 +133,45 @@ CREATE TABLE rule_derivation (
     insert_parent BOOLEAN,
     FOREIGN KEY (entity_name) REFERENCES entity(name),
     FOREIGN KEY (as_child_entity) REFERENCES entity(name)
+);
+
+
+CREATE TABLE rbac_role (
+    name varchar(80) not null,
+    description TEXT,
+    can_read BOOLEAN DEFAULT TRUE,
+    can_insert  BOOLEAN DEFAULT TRUE,
+    can_update  BOOLEAN DEFAULT TRUE,
+    can_delete BOOLEAN DEFAULT TRUE,
+    PRIMARY KEY (name)
+);
+
+CREATE TABLE grant_role (
+    entity_name varchar(80) not null,
+    role_name varchar(80) not null,
+    can_read BOOLEAN DEFAULT TRUE,
+    can_insert  BOOLEAN DEFAULT FALSE,
+    can_update  BOOLEAN DEFAULT FALSE,
+    can_delete BOOLEAN DEFAULT FALSE,
+    filter TEXT,
+    filter_debug TEXT,
+    PRIMARY KEY (entity_name, role_name),
+    FOREIGN KEY (entity_name) REFERENCES entity(name),
+    FOREIGN KEY (role_name) REFERENCES rbac_role(name)
+);
+
+CREATE TABLE application (
+    name VARCHAR(100) NOT NULL,
+    app_short_name VARCHAR(100),
+    description TEXT,
+    app_yaml TEXT,
+    PRIMARY KEY(name)
+);
+
+CREATE TABLE application_entity (
+    application_name VARCHAR(100) NOT NULL,
+    entity_name VARCHAR(100) NOT NULL,
+    PRIMARY KEY(application_name, entity_name),
+    FOREIGN KEY (entity_name) REFERENCES entity(name),
+    FOREIGN KEY (application_name) REFERENCES application(name)
 );

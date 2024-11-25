@@ -1,14 +1,52 @@
 about:
-  date: October 25, 2024 10:07:34
+  date: November 18, 2024 11:37:41
   recent_changes: works with modified safrs-react-admin
   version: 0.0.0
 api_root: '{http_type}://{swagger_host}:{port}/{api}'
 authentication: '{system-default}'
 info:
-  number_relationships: 8
-  number_tables: 10
+  number_relationships: 12
+  number_tables: 14
 info_toggle_checked: true
 resources:
+  Application:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: app_short_name
+    - name: description
+    - name: app_yaml
+    tab_groups:
+    - direction: tomany
+      fks:
+      - application_name
+      name: ApplicationEntityList
+      resource: ApplicationEntity
+    type: Application
+    user_key: name
+  ApplicationEntity:
+    attributes:
+    - label: ' application_name*'
+      name: application_name
+      required: true
+      search: true
+      sort: true
+    tab_groups:
+    - direction: toone
+      fks:
+      - application_name
+      name: application
+      resource: Application
+    - direction: toone
+      fks:
+      - entity_name
+      name: entity
+      resource: Entity
+    type: ApplicationEntity
+    user_key: application_name
   Entity:
     attributes:
     - label: ' name*'
@@ -23,6 +61,7 @@ resources:
     - name: info_list
     - name: info_show
     - name: exclude
+      type: Boolean
     - name: new_template
     - name: home_template
     - name: detail_template
@@ -32,8 +71,18 @@ resources:
     - direction: tomany
       fks:
       - entity_name
+      name: ApplicationEntityList
+      resource: ApplicationEntity
+    - direction: tomany
+      fks:
+      - entity_name
       name: EntityAttrList
       resource: EntityAttr
+    - direction: tomany
+      fks:
+      - entity_name
+      name: GrantRoleList
+      resource: GrantRole
     - direction: tomany
       fks:
       - entity_name
@@ -80,16 +129,22 @@ resources:
       required: true
     - name: label
     - name: issearch
+      type: Boolean
     - name: issort
+      type: Boolean
     - name: thistype
       required: true
     - name: tooltip
     - name: exclude
+      type: Boolean
     - name: visible
+      type: Boolean
     - name: default_value
     - name: derivation
     - name: isrequired
+      type: Boolean
     - name: isenabled
+      type: Boolean
     tab_groups:
     - direction: toone
       fks:
@@ -114,6 +169,62 @@ resources:
       required: true
     - name: description
     type: GlobalSetting
+    user_key: name
+  GrantRole:
+    attributes:
+    - label: ' entity_name*'
+      name: entity_name
+      required: true
+      search: true
+      sort: true
+    - name: role_name
+      required: true
+    - name: can_insert
+      type: Boolean
+    - name: can_update
+      type: Boolean
+    - name: can_delete
+      type: Boolean
+    - name: filter
+    - name: filter_debug
+    - name: can_read
+      type: Boolean
+    tab_groups:
+    - direction: toone
+      fks:
+      - entity_name
+      name: entity
+      resource: Entity
+    - direction: toone
+      fks:
+      - role_name
+      name: rbac_role
+      resource: RbacRole
+    type: GrantRole
+    user_key: entity_name
+  RbacRole:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: description
+    - name: can_insert
+      type: Boolean
+    - name: can_update
+      type: Boolean
+    - name: can_delete
+      type: Boolean
+    - name: can_read
+      type: Boolean
+    tab_groups:
+    - direction: tomany
+      fks:
+      - role_name
+      name: GrantRoleList
+      resource: GrantRole
+    type: RbacRole
     user_key: name
   Root:
     attributes:
@@ -165,6 +276,7 @@ resources:
     - name: where_clause
     - name: rule
     - name: insert_parent
+      type: Boolean
     - name: id
     tab_groups:
     - direction: toone
@@ -216,6 +328,7 @@ resources:
     - name: label
       required: true
     - name: exclude
+      type: Boolean
     tab_groups:
     - direction: toone
       fks:
@@ -245,7 +358,7 @@ resources:
       resource: EntityAttr
     type: Template
     user_key: name
-  YamlFile:
+  YamlFiles:
     attributes:
     - label: ' name*'
       name: name
@@ -254,11 +367,13 @@ resources:
       sort: true
     - name: content
     - name: upload_flag
+      type: Boolean
     - name: download_flag
+      type: Boolean
     - name: size
     - name: rule_content
     - name: downloaded
-    type: YamlFile
+    type: YamlFiles
     user_key: name
 settings:
   HomeJS: /admin-app/home.js

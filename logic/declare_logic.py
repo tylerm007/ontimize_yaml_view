@@ -69,6 +69,8 @@ def declare_logic():
                 
             if row.rule_content:  
                 row.rule_content = str(b64decode(row.rule_content), encoding=encoding) if row.rule_content else None
+            if row.role_content:
+                row.role_content = str(b64decode(row.role_content), encoding=encoding) if row.role_content else None    
             
         return True
     

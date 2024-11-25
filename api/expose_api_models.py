@@ -23,10 +23,14 @@ def expose_models(api, method_decorators = []):
         You typically do not customize this file 
         - See https://apilogicserver.github.io/Docs/Tutorial/#customize-and-debug 
     """
+    api.expose_object(database.models.Application, method_decorators= method_decorators)
+    api.expose_object(database.models.ApplicationEntity, method_decorators= method_decorators)
     api.expose_object(database.models.Entity, method_decorators= method_decorators)
     api.expose_object(database.models.EntityAttr, method_decorators= method_decorators)
     api.expose_object(database.models.Template, method_decorators= method_decorators)
     api.expose_object(database.models.GlobalSetting, method_decorators= method_decorators)
+    api.expose_object(database.models.GrantRole, method_decorators= method_decorators)
+    api.expose_object(database.models.RbacRole, method_decorators= method_decorators)
     api.expose_object(database.models.Root, method_decorators= method_decorators)
     api.expose_object(database.models.RuleConstraint, method_decorators= method_decorators)
     api.expose_object(database.models.RuleDerivation, method_decorators= method_decorators)

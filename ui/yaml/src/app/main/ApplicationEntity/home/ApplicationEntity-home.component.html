@@ -1,0 +1,56 @@
+<o-form-layout-manager attr="ApplicationEntity" mode="tab" title="APPLICATIONENTITY">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="ApplicationEntityTable" 
+            service="ApplicationEntity" 
+            entity="ApplicationEntity" 
+            title="APPLICATIONENTITY"
+            keys="application_name;entity_name"
+            columns="application_name;application_name;entity_name" 
+            header-actions="R;D"
+            visible-columns="application_name;application_name;entity_name"  
+            sort-columns="application_name" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column attr="application_name" title="application_name">
+    <o-table-cell-renderer-service attr="application_name" 
+        service="Application" entity="ApplicationType" columns="name;name"
+        parent-keys="application_name:application_name"
+        value-column="name" keys="application_name"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column attr="application_name" title="application_name">
+    <o-table-cell-renderer-service attr="application_name" 
+        service="Application" entity="ApplicationType" columns="name;name"
+        parent-keys="application_name:application_name"
+        value-column="name" keys="application_name"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column attr="entity_name" title="entity_name">
+    <o-table-cell-renderer-service attr="entity_name" 
+        service="Entity" entity="EntityType" columns="name;name"
+        parent-keys="application_name:entity_name"
+        value-column="name" keys="entity_name"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

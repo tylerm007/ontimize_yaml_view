@@ -11,10 +11,21 @@ export const routes: Routes = [
         { path: 'about', loadChildren: () => import('./about/about.module').then(m => m.AboutModule) },
         { path: 'home', loadChildren: () => import('./home/home.module').then(m => m.HomeModule) },
         { path: 'settings', loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule) },
+      
+    
+        { path: 'Application', loadChildren: () => import('./Application/Application.module').then(m => m.ApplicationModule) },
+    
+        { path: 'ApplicationEntity', loadChildren: () => import('./ApplicationEntity/ApplicationEntity.module').then(m => m.ApplicationEntityModule) },
+    
         { path: 'Entity', loadChildren: () => import('./Entity/Entity.module').then(m => m.EntityModule) },
         { path: 'EntityAttr', loadChildren: () => import('./EntityAttr/EntityAttr.module').then(m => m.EntityAttrModule) },
         { path: 'TabGroup', loadChildren: () => import('./TabGroup/TabGroup.module').then(m => m.TabGroupModule) },
         { path: 'GlobalSetting', loadChildren: () => import('./GlobalSetting/GlobalSetting.module').then(m => m.GlobalSettingModule) },
+    
+        { path: 'GrantRole', loadChildren: () => import('./GrantRole/GrantRole.module').then(m => m.GrantRoleModule) },
+    
+        { path: 'RbacRole', loadChildren: () => import('./RbacRole/RbacRole.module').then(m => m.RbacRoleModule) },
+    
         { path: 'RuleConstraint', loadChildren: () => import('./RuleConstraint/RuleConstraint.module').then(m => m.RuleConstraintModule) },
         { path: 'RuleDerivation', loadChildren: () => import('./RuleDerivation/RuleDerivation.module').then(m => m.RuleDerivationModule) },
         { path: 'RuleEvent', loadChildren: () => import('./RuleEvent/RuleEvent.module').then(m => m.RuleEventModule) },
