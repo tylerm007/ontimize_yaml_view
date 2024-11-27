@@ -4,11 +4,11 @@
             attr="ApplicationEntityTable" 
             service="ApplicationEntity" 
             entity="ApplicationEntity" 
-            title="APPLICATIONENTITY"
+            title="Application Entity"
             keys="application_name;entity_name"
-            columns="application_name;application_name;entity_name" 
+            columns="application_name;entity_name" 
             header-actions="R;D"
-            visible-columns="application_name;application_name;entity_name"  
+            visible-columns="application_name;entity_name"  
             sort-columns="application_name" 
             query-rows="20" 
             quick-filter="yes"
@@ -23,30 +23,10 @@
             export-button="yes">
             
             <o-table-column attr="application_name" title="application_name">
-    <o-table-cell-renderer-service attr="application_name" 
-        service="Application" entity="ApplicationType" columns="name;name"
-        parent-keys="application_name:application_name"
-        value-column="name" keys="application_name"
-        visible-columns="name" separator=" - " width="680px">
-    </o-table-cell-renderer-service>
 </o-table-column>
             
-            <o-table-column attr="application_name" title="application_name">
-    <o-table-cell-renderer-service attr="application_name" 
-        service="Application" entity="ApplicationType" columns="name;name"
-        parent-keys="application_name:application_name"
-        value-column="name" keys="application_name"
-        visible-columns="name" separator=" - " width="680px">
-    </o-table-cell-renderer-service>
-</o-table-column>
             
             <o-table-column attr="entity_name" title="entity_name">
-    <o-table-cell-renderer-service attr="entity_name" 
-        service="Entity" entity="EntityType" columns="name;name"
-        parent-keys="application_name:entity_name"
-        value-column="name" keys="entity_name"
-        visible-columns="name" separator=" - " width="680px">
-    </o-table-cell-renderer-service>
 </o-table-column>
             
             <o-table-context-menu></o-table-context-menu>
