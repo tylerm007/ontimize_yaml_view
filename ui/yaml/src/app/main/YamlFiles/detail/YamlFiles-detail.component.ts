@@ -1,5 +1,5 @@
 import { Injector, ViewChild, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { OFormComponent, OntimizeService, OListPickerComponent, OTableComponent, ORealPipe, ONIFInputComponent } from 'ontimize-web-ngx';
+import { OFormComponent, OntimizeService, SnackBarService, OSnackBarConfig } from 'ontimize-web-ngx';
 import { DialogService } from 'ontimize-web-ngx';
 
 @Component({
@@ -13,13 +13,15 @@ export class YamlFilesDetailComponent implements OnInit  {
   public content: string;
   public rule_content: string;
   public downloaded: string;
+  public snackBarService: SnackBarService;
+  public snackBarConfig: OSnackBarConfig;
 
   @ViewChild('oDetailForm') form: OFormComponent;
   
   constructor(protected injector: Injector,
     protected dialogService: DialogService)  {
     this.service = this.injector.get(OntimizeService);
-  
+    this.snackBarService = this.injector.get(SnackBarService);
   }
 
   ngOnInit() {
@@ -61,6 +63,13 @@ export class YamlFilesDetailComponent implements OnInit  {
   }
   process_yaml() {
     console.log("process_yaml");
+    const configuration: OSnackBarConfig = {
+      action: 'Ok',
+      milliseconds: 7000,
+      icon: 'check_circle',
+      iconPosition: 'left'
+    }
+    this.snackBarService.open("Please wait, Processing files..", configuration);
     this.service.query({ 'name': this.data.name }, [],"importyaml").subscribe((resp) => {
         console.log("res: " + JSON.stringify(resp));
         if (resp.code === 0) {
@@ -79,6 +88,7 @@ export class YamlFilesDetailComponent implements OnInit  {
       });
     }
     showInfo() {
+        //if (this.snackBarService) {this.snackBarService.dismiss();}
         if (this.dialogService) {
         this.dialogService.info('Yaml Processing Complete',
             'Entities, Attributes, Relationships and Rules have been created from the Yaml "original content"',);

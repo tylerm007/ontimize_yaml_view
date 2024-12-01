@@ -39,6 +39,10 @@ http://localhost:5655 (user: admin password: p)
 # Run as Docker container
 
 ```
+# Build Image
+ sh devops/docker-image/build_image.sh .
+
+# Run Docker
 docker compose -f devops/docker-compose-dev-local/docker-compose-yaml.yml up -d
 
 in a browser
@@ -50,9 +54,9 @@ After you install and start the ApiLogicServer (f5) and (cd ui/yaml) npm install
 http://localhost:4298 (user: admin password: p)
 ```
 ## 1. Import Yaml File 
-The Import will allow you to select an Ontimize/ApiLogicServer app_model.yaml file to upload.  You can import different projects into the editor, but only 1 file can be processed for editing Entities, Attributes, and Relationships. Simply enter the id number, a name, and the app_model.yaml file.
+The Import will allow you to select an Ontimize/ApiLogicServer app_model.yaml file to upload.  You can import different projects into the editor, but only 1 project can be processed for editing Entities, Attributes, and Relationships. If you select the project root folder - the files for app, security, and logic will be parsed.
 
-![](ui/templates/NewYaml.png)
+![](ui/templates/UploadYaml.png)
 
 ## 2. Process Yaml File 
 Go to the "2. Process Yaml Files" then select the app_model.yaml files you wish to process.
@@ -64,13 +68,12 @@ Use the Home page and select the row and click [2. Process Yaml] - this will loa
 
 
 ## 3. Edit Yaml Data
-Once your yaml file has been imported and processed you can now edit Entities, Attributes, and Relationships. This is the same as manually editing the yaml file directly. See the valid field values below for each object.
+Once your yaml file has been imported and processed you can now edit Entities, Attributes, Relationships, Rules, and Security. This is the same as manually editing the yaml file directly. See the valid field values below for each object. When you have finished editing - step 4 - will create files that can be manually merged back into your existing project.
 
 ## 4. Download Yaml File
-Once you have completed your edits - select Process Yaml Files - select the imported row from the list and click the button 'Download Yaml' it will write to disk and display in the 'downloaded content' window
-reflecting all the new edits to your yaml.  Copy this to your app_model.yaml in your project. (you may need to press refresh)
+Once you have completed your edits - select Process Yaml Files - select the imported row from the list and click the button 'Download Yaml' it will write to disk and display in the 'downloaded content' window reflecting all the new edits to your yaml.  Copy this to your app_model.yaml in your project. (you may need to press refresh a couple of times).  The security and logic are also exported which can be manually edited back into your existing project. 
 
-![](ui/templates/DownloadYaml.png)
+![](ui/templates/ProcessDownload.png)
 
 ### Download using curl file back to disk (ui/app_model_merge.yaml)
 This will write back the modified SQL back to disk as yaml.  Use compare files to merge or replace the merge file for the new ui/app_model_merge.yaml in your application.
@@ -113,7 +116,7 @@ Use the Ontimize editor to change the label, tooltip, exclude selected attribute
 
 ## Relationships (TabGroup)
 Use the Ontimize editor to exclude tab on detail page (tomany) or change the tile used to display.
-![](ui/templates/TabGroup.png)
+![](ui/templates/Relationship.png)
 ### Edit Tab Groups
 |field|Description|
 :------|:---------------|
@@ -136,6 +139,26 @@ These values are injected into the various entity and attribute to provide and s
 
 ## Attribute Templates
 This is a list of defined column templates.  If new templates are created - they can be added here and must be copied to the ui/{ontimize_app_name}/templates directory.
+
+# Logic
+## Derivations
+Logic derivations are applied to attributes (sums, counts, formula, copy) 
+![](ui/templates/Derivation.png)
+## Constraints
+Logic constraints are applied to entities and prevent transactions from completion if one or more constraints fail the logic test (return false).
+![](ui/templates/Constraint.png)
+## Events
+Logic events are applied to state change on entities and usually involve a special function call written in Python (send email, produce Kafka shipping message, push notification, etc).
+![](ui/templates/Event.png)
+
+# Security
+## Roles 
+ApiLogicServer uses role based access control - you may define one or more roles and assign defaults settings for each role.
+![](ui/templates/Roles.png)
+## Grants
+Grants are applied to roles for a specific entity.  The can be used to add CRUD settings to a role or apply row level filters.
+![](ui/templates/Grants.png)
+
 
 # Quick Start
 

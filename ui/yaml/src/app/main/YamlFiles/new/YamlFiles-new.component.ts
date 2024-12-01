@@ -1,18 +1,18 @@
 import { Component, Injector, ViewChild } from '@angular/core';
-import { NavigationService, OFormComponent } from 'ontimize-web-ngx';
-
+import { NavigationService, OFormComponent, SnackBarService } from 'ontimize-web-ngx';
+//import {MAT_SNACK_BAR_DATA} from '@angular/material/snack-bar';
 @Component({
   selector: 'YamlFiles-new',
   templateUrl: './YamlFiles-new.component.html',
   styleUrls: ['./YamlFiles-new.component.scss']
 })
+
 export class YamlFilesNewComponent {
   @ViewChild('YamlFilesForm') form: OFormComponent;
-
+  protected snackBarService: SnackBarService
   constructor(protected injector: Injector) {
     this.injector.get(NavigationService).initialize();
   }
-
   onInsertMode() {
     const default_values = { "name": "app_model.yaml" };
     this.form.setFieldValues(default_values);
@@ -66,6 +66,7 @@ export class YamlFilesNewComponent {
             if (field3) {
               field3.visible = false;
             }
+            this.snackBarService.open('Uploading files...');
         } else {
           alert("Please select a root ApiLogicServer project folder");
         }
