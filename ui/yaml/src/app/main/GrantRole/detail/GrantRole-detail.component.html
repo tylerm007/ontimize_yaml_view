@@ -8,21 +8,21 @@
 
           <o-list-picker attr="entity_name" service="Entity" entity="EntityType" fxFlex="30" query-on-init="no"
             query-on-bind="yes" required="yes" enabled="yes" filter="yes" value-column="name"
-            value-column-type="VARCHAR" keys="name" columns="name;entity_name;name" title="entity_name"
+            value-column-type="VARCHAR" keys="name" columns="name;entity_name" label="Entity Name"
             visible-columns="name;name" separator=" - " width="680px" class="form-field">
           </o-list-picker>
-
+          <div layout-padding></div>
           <o-list-picker attr="role_name" service="RbacRole" entity="RbacRoleType" fxFlex="30" query-on-init="no"
             query-on-bind="yes" required="yes" enabled="yes" filter="yes" value-column="name"
-            value-column-type="VARCHAR" keys="name" columns="name;role_name;name" title="role_name"
+            value-column-type="VARCHAR" keys="name" columns="name;role_name" label="Role Name"
             visible-columns="name;name" separator=" - " width="680px" class="form-field">
           </o-list-picker>
         </o-row>
         <o-row attr="row1" layout-align="start stretch">
-          <o-textarea-input #filter attr="filter" label="filter" enabled="yes" required="no" fxFlex="40%"
+          <o-textarea-input #filter attr="filter" label="Filter" enabled="yes" required="no" fxFlex="40%"
             class="form-field"></o-textarea-input>
-
-          <o-textarea-input #filter_debug attr="filter_debug" label="filter_debug" enabled="yes" required="no" fxFlex="40%"
+            <div layout-padding></div>
+          <o-textarea-input #filter_debug attr="filter_debug" label="Filter Debug" enabled="yes" required="no" fxFlex="40%"
             class="form-field"></o-textarea-input>
         </o-row>
         <o-row attr="row1" layout-align="start stretch">

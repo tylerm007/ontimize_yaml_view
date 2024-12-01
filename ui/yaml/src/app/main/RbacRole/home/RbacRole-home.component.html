@@ -1,14 +1,14 @@
-<o-form-layout-manager attr="RbacRole" mode="tab" title="RBACROLE">
+<o-form-layout-manager attr="RbacRole" mode="tab" title="User Role">
     <div fxFill fxLayout="column" fxLayoutAlign="start">
         <o-table 
             attr="RbacRoleTable" 
             service="RbacRole" 
             entity="RbacRole" 
-            title="RBACROLE"
+            title="User Roles"
             keys="name"
             columns="name;description;can_insert;can_update;can_delete;can_read" 
             header-actions="R;D"
-            visible-columns="name;description;can_insert;can_update;can_delete;can_read"  
+            visible-columns="name;description;can_read;can_insert;can_update;can_delete"  
             sort-columns="name" 
             query-rows="20" 
             quick-filter="yes"
@@ -22,9 +22,9 @@
             show-title="yes"
             export-button="yes">
             
-            <o-table-column #name attr="name" title=" name*" editable="no" required="yes" content-align="left"></o-table-column>
+            <o-table-column #name attr="name" title="Role Name*" editable="no" required="yes" content-align="left"></o-table-column>
             
-            <o-table-column #description attr="description" title="description" editable="no" required="no" content-align="left"></o-table-column>
+            <o-table-column #description attr="description" title="Description" editable="no" required="no" content-align="left"></o-table-column>
             
             <o-table-column #can_insert attr="can_insert" title="can_insert" editable="no" required="no" content-align="left">
                 <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"

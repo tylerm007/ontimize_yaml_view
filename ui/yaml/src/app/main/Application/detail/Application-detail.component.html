@@ -41,7 +41,10 @@
 
               <o-table-column attr="entity_name" title="entity_name">
               </o-table-column>
-
+              <o-checkbox #include_parent  label="Include Parent" enabled="yes" required="no" fxFlex="10%"
+                class="form-field"></o-checkbox>
+              <o-checkbox #include_children  label="Include Children" enabled="yes" required="no" fxFlex="10%"
+                class="form-field"></o-checkbox>
               <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
             </o-table>
           </div>

@@ -4,17 +4,17 @@
             keys="entity_name;role_name"
             columns="entity_name;role_name;can_insert;can_update;can_delete;filter;filter_debug;can_read"
             header-actions="R;D"
-            visible-columns="entity_name;role_name;can_read;can_insert;can_update;can_delete;filter;filter_debug"
+            visible-columns="entity_name;role_name;can_read;can_insert;can_update;can_delete;filter"
             sort-columns="entity_name" query-rows="20" quick-filter="yes" row-height="medium" select-all-checkbox="true"
             pageable="yes" auto-adjust="true" virtual-scroll="yes" edition-mode="dblclick" horizontal-scroll="yes"
             show-title="yes" export-button="yes">
 
-            <o-table-column attr="entity_name" title="entity_name">
+            <o-table-column attr="entity_name" title="Entity Name">
             </o-table-column>
 
 
 
-            <o-table-column attr="role_name" title="role_name">
+            <o-table-column attr="role_name" title="Role Name">
             </o-table-column>
             <o-table-column #can_read attr="can_read" title="can_read" editable="no" required="no" content-align="left">
                 <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
@@ -41,11 +41,11 @@
                     false-value="false"></o-table-cell-renderer-boolean>
             </o-table-column>
 
-            <o-table-column #filter attr="filter" title="filter" editable="no" required="no"
+            <o-table-column #filter attr="filter" title="Filter" editable="no" required="no"
                 content-align="left"></o-table-column>
 
-            <o-table-column #filter_debug attr="filter_debug" title="filter_debug" editable="no" required="no"
-                content-align="left"></o-table-column>
+            <!--o-table-column #filter_debug attr="filter_debug" title="Filter Debug" editable="no" required="no"
+                content-align="left"></o-table-column -->
 
 
             <o-table-context-menu></o-table-context-menu>

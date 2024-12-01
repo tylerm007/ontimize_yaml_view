@@ -7,12 +7,15 @@
       <o-row attr="row1" layout-align="start stretch">
         <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
 
-          <o-text-input #name attr="name" label=" name*" enabled="yes" required="yes" fxFlex="20%"
+          <o-text-input #name attr="name" label="Role Name*" enabled="yes" required="yes" fxFlex="20%"
             class="form-field"></o-text-input>
 
-          <o-text-input #description attr="description" label="description" enabled="yes" required="no" fxFlex="20%"
-            class="form-field"></o-text-input>
-    
+          <o-textarea-input #description attr="description" label="Description" enabled="yes" required="no" fxFlex="40%"
+            class="form-field"></o-textarea-input>
+        </div>
+      </o-row>
+      <o-row attr="row1" layout-align="start stretch">
+        <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
 
           <o-checkbox #can_read attr="can_read" label="can_read" enabled="yes" required="no" fxFlex="10%"
             class="form-field"></o-checkbox>
@@ -20,8 +23,8 @@
           <o-checkbox #can_insert attr="can_insert" label="can_insert" enabled="yes" required="no" fxFlex="10%"
             class="form-field"></o-checkbox>
 
-          <o-checkbox #can_update attr="can_update" label="can_update" editable="no" required="no"fxFlex="10%"
-          class="form-field"></o-checkbox>
+          <o-checkbox #can_update attr="can_update" label="can_update" editable="no" required="no" fxFlex="10%"
+            class="form-field"></o-checkbox>
 
           <o-checkbox #can_delete attr="can_delete" label="can_delete" enabled="yes" required="no" fxFlex="10%"
             class="form-field"></o-checkbox>
@@ -31,14 +34,14 @@
 
       <mat-tab-group fxFill>
 
-        <mat-tab label="GRANTROLE-role_name">
+        <mat-tab label="Grants">
           <div layout-padding>
             <o-table attr="GrantRoleTable" service="GrantRole" entity="GrantRole" keys="entity_name;role_name"
               parent-keys="role_name:name"
-              columns="entity_name;role_name;can_insert;can_update;can_delete;filter;filter_debug;can_read"
+              columns="entity_name;role_name;can_read;can_insert;can_update;can_delete;filter"
               horizontal-scroll="yes" detail-form-route="GrantRole" edit-form-route="GrantRole"
-              visible-columns="entity_name;role_name;can_insert;can_update;can_delete;filter;filter_debug;can_read"
-              sort-columns="entity_name" query-rows="25" quick-filter="yes" row-height="medium"
+              visible-columns="entity_name;role_name;can_read;can_insert;can_update;can_delete;filter"
+              sort-columns="entity_name" query-rows="25" quick-filter="yes" row-height="small"
               select-all-checkbox="true" pageable="yes" auto-adjust="true" virtual-scroll="yes" insert-button="yes"
               delete-button="yes" fixed-header="true" class="vertical-padding-8" edition-mode="dblclick"
               horizontal-scroll="yes" class="fill-form">
@@ -64,8 +67,8 @@
                   false-value="false"></o-table-cell-renderer-boolean>
               </o-table-column>
 
-              <o-table-column #can_update attr="can_update" label="can_update" editable="no"
-                required="no" content-align="left">
+              <o-table-column #can_update attr="can_update" label="can_update" editable="no" required="no"
+                content-align="left">
                 <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
                   render-type="icon" boolean-type="boolean" true-value="true"
                   false-value="false"></o-table-cell-renderer-boolean>
@@ -81,8 +84,8 @@
               <o-table-column #filter attr="filter" title="filter" editable="no" required="no"
                 content-align="left"></o-table-column>
 
-              <o-table-column #filter_debug attr="filter_debug" title="filter_debug" editable="no" required="no"
-                content-align="left"></o-table-column>
+              <!--o-table-column #filter_debug attr="filter_debug" title="filter_debug" editable="no" required="no"
+                content-align="left"></o-table-column -->
 
 
 

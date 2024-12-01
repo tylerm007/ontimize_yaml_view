@@ -1,22 +1,31 @@
-<o-form #ApplicationForm attr="Application_form_insert" service="Application" entity="Application" 
-keys="name" fxLayout="column" show-header="yes" header-actions="I"
-horizontal-scroll="yes"
-after-insert-mode="new" class="standalone-form-container" (onInsertMode)="onInsertMode()">
+<o-form #ApplicationForm attr="Application_form_insert" service="Application" entity="Application" keys="name"
+  fxLayout="column" show-header="yes" header-actions="I" horizontal-scroll="yes" after-insert-mode="new"
+  class="standalone-form-container" (onInsertMode)="onInsertMode()">
 
-<o-row attr="row1" layout-align="start stretch">
-  <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
-    
-        <o-text-input #name attr="name" label=" name*" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
-      
-        <o-text-input #app_short_name attr="app_short_name" label="app_short_name" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
-      
-        <o-text-input #description attr="description" label="description" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
-      
-        <o-text-input #app_yaml attr="app_yaml" label="app_yaml" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
-      
-</div>
-</o-row>
+  <o-row attr="row1" layout-align="start stretch">
+    <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
 
-<div layout-padding></div>
+      <o-text-input #name attr="name" label=" name*" enabled="yes" required="yes" fxFlex="20%"
+        class="form-field"></o-text-input>
+
+      <o-text-input #app_short_name attr="app_short_name" label="app_short_name" enabled="yes" required="no"
+        fxFlex="20%" class="form-field"></o-text-input>
+
+      <o-textarea-input #description attr="description" label="description" enabled="yes" required="no" fxFlex="40%"
+        class="form-field"></o-textarea-input>
+
+    </div>
+  </o-row>
+    <o-row attr="row2" layout-align="start stretch">
+      <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+        <!-- o-text-input #app_yaml attr="app_yaml" label="app_yaml" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input -->
+        <o-checkbox #include_parent label="Include Parent" enabled="yes" required="no" fxFlex="10%"
+          class="form-field"></o-checkbox>
+        <o-checkbox #include_children label="Include Children" enabled="yes" required="no" fxFlex="10%"
+          class="form-field"></o-checkbox>
+      </div>
+    </o-row>
+
+    <div layout-padding></div>
 
 </o-form>

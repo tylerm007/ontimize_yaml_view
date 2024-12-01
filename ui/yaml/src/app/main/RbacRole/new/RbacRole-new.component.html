@@ -1,26 +1,34 @@
-<o-form #RbacRoleForm attr="RbacRole_form_insert" service="RbacRole" entity="RbacRole" 
-keys="name" fxLayout="column" show-header="yes" header-actions="I"
-horizontal-scroll="yes"
-after-insert-mode="new" class="standalone-form-container" (onInsertMode)="onInsertMode()">
+<o-form #RbacRoleForm attr="RbacRole_form_insert" service="RbacRole" entity="RbacRole" keys="name" fxLayout="column"
+  show-header="yes" header-actions="I" horizontal-scroll="yes" after-insert-mode="new" class="standalone-form-container"
+  (onInsertMode)="onInsertMode()">
 
-<o-row attr="row1" layout-align="start stretch">
-  <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
-    
-        <o-text-input #name attr="name" label=" name*" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
-      
-        <o-text-input #description attr="description" label="description" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
-      
-        <o-text-input #can_insert attr="can_insert" label="can_insert" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
-      
-        <o-date-input #can_update attr="can_update" type="timestamp" label="can_update" editable="no" required="no" format="LL" fxFlex="20%" class="form-field"></o-date-input>
-      
-        <o-text-input #can_delete attr="can_delete" label="can_delete" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
-      
-        <o-text-input #can_read attr="can_read" label="can_read" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
-      
-</div>
-</o-row>
+  <o-row attr="row1" layout-align="start stretch">
+    <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
 
-<div layout-padding></div>
+      <o-text-input #name attr="name" label=" Role Name*" enabled="yes" required="yes" fxFlex="20%"
+        class="form-field"></o-text-input>
+
+      <o-textarea-input #description attr="description" label="Description" enabled="yes" required="no" fxFlex="40%"
+        class="form-field"></o-textarea-input>
+    </div>
+  </o-row>
+  <o-row attr="row1" layout-align="start stretch">
+    <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+      <o-checkbox #can_insert attr="can_insert" label="can_insert" enabled="yes" required="no" fxFlex="20%"
+        class="form-field"></o-checkbox>
+
+      <o-checkbox #can_update attr="can_update" label="can_update" editable="no" required="no" fxFlex="20%"
+        class="form-field"></o-checkbox>
+
+      <o-checkbox #can_delete attr="can_delete" label="can_delete" enabled="yes" required="no" fxFlex="20%"
+        class="form-field"></o-checkbox>
+
+      <o-checkbox #can_read attr="can_read" label="can_read" enabled="yes" required="no" fxFlex="20%"
+        class="form-field"></o-checkbox>
+
+    </div>
+  </o-row>
+
+  <div layout-padding></div>
 
 </o-form>
