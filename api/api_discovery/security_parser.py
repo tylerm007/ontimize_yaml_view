@@ -81,7 +81,7 @@ def get_security(role_content: str = None) -> list:
             if s1[0] == "can_delete":
                 row["can_delete"] = s1[1] == "True"
             if s1[0] == "to_role":
-                row["to_role"] = s1[1].replace("'", "", 2)
+                row["to_role"] = s1[1].replace("'", "", 2).replace("Roles.","")
 
         results.append(row)
 
