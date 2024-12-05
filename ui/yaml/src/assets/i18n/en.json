@@ -101,5 +101,7 @@
   "download_flag": "Download Yaml",
   "size": "size",
   "rule_content": "rule_content",
+  "role_content": "role_content",
+  "application_content": "application_content",
   "downloaded": "downloaded"
 }

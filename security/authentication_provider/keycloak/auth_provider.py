@@ -1,5 +1,6 @@
 from security.authentication_provider.abstract_authentication_provider import Abstract_Authentication_Provider
 import sqlalchemy as sqlalchemy
+import database.database_discovery.authentication_models as authentication_models
 from flask import Flask
 import safrs
 from safrs.errors import JsonapiError
@@ -47,7 +48,7 @@ class DotMapX(DotMap):
 
 class Authentication_Provider(Abstract_Authentication_Provider):
 
-    @staticmethod  #val - option for auth provider setup
+    @staticmethod
     def configure_auth(flask_app: Flask):
         """ Called by authentication.py on server start, to 
         - initialize jwt
@@ -60,8 +61,8 @@ class Authentication_Provider(Abstract_Authentication_Provider):
         Returns:
             _type_: (no return)
         """
-        flask_app.config["JWT_PUBLIC_KEY"] = Authentication_Provider.get_jwt_public_key()
         flask_app.config['JWT_ALGORITHM'] = 'RS256'
+        flask_app.config["JWT_PUBLIC_KEY"] = Authentication_Provider.get_jwt_public_key('RS256')
         do_priv_key = False
         if do_priv_key:
             flask_app.config["JWT_PRIVATE_KEY"] = \
@@ -69,24 +70,34 @@ class Authentication_Provider(Abstract_Authentication_Provider):
         return
 
     @staticmethod
-    def get_jwt_public_key():
+    def get_jwt_public_key(alg, kid=None):
+        """
+            Retrieve the public key of the JWK keypair used by keycloak to sign the JWTs.
+            JWTs signed with this key are trusted by ALS.
+        """
         from flask import jsonify, request
-        #jwks_uri = 'https://kc.hardened.be/realms/master/protocol/openid-connect/certs'
-        # TODO use env variable instead of localhost
-        jwks_uri = 'http://localhost:8080/realms/kcals/protocol/openid-connect/certs'
+        from config.config import Args  # circular import error if at top
+        
+        jwks_uri = Args.instance.keycloak_base + '/protocol/openid-connect/certs'
         for i in range(100):
+            # we retry a couple of times in case there are connection problems
             try:
-                oidc_jwks_uri = requests.get(jwks_uri, verify=False).json()
+                keys = requests.get(jwks_uri).json()['keys']
                 break
             except:
-                # waiting .. container may still be sleeping
+                # waiting .. keycloak may still be sleeping
                 time.sleep(1)
         else:
             print(f'Failed to load jwks_uri {jwks_uri}')
             sys.exit(1)
-        return_result = RSAAlgorithm.from_jwk(json.dumps(oidc_jwks_uri["keys"][1]))
-        return return_result  # is this an rsa-aware callback??   It's not a jwt
-        
+        for key in keys:
+            # loop over all keys until we find the one we're looking for
+            if key['alg'] == alg or key['kid'] == kid:
+                logger.info(f"Found JWK: {key['kid']}")
+                return RSAAlgorithm.from_jwk(json.dumps(key))
+        print(f"Couldn't find key with ALG {alg} or kid {kid}")
+        exit(1)
+
     # @jwt_required   # so, maybe jwt requires no pwd?
     def get_jwt_user(id: str) -> object:  # for experiment: jwt_get_raw_jwt
         from flask_jwt_extended import get_jwt
@@ -118,9 +129,11 @@ class Authentication_Provider(Abstract_Authentication_Provider):
         rtn_user.password_hash = None
 
         # get extended properties (e.g, client_id in sample app)
-        attributes = jwt_data['attributes']
-        for each_name, each_value in attributes.items():
-            rtn_user[each_name] = each_value
+        if  "attributes" in jwt_data:
+            # return rtn_user
+            attributes = jwt_data['attributes']
+            for each_name, each_value in attributes.items():
+                rtn_user[each_name] = each_value
 
         rtn_user.UserRoleList = []
         role_names = jwt_data["realm_access"]["roles"]
@@ -130,22 +143,6 @@ class Authentication_Provider(Abstract_Authentication_Provider):
             each_user_role.role_name = each_role_name
             rtn_user.UserRoleList.append(each_user_role)
         return rtn_user
-
-    @staticmethod
-    def check_password(user: object, password: str = "") -> bool:
-        """checks whether user-supplied password matches database
-
-        This hides implementation (eg, delegated or now) from authentication caller
-
-        Args:
-            user (object): DotMap or SQLAlchemy row containing id attribute
-            password (str, optional): password as entered by user. Defaults to "".
-
-        Returns:
-            bool: _description_
-        """
-        # return user.check_password(password = password)  TODO: review
-        return True
     
     @staticmethod
     def get_user(id: str, password: str = "") -> object:
@@ -204,7 +201,7 @@ class Authentication_Provider(Abstract_Authentication_Provider):
             user_identity = DotMapX()
             user_identity.id = id
             user_identity.password = password
-            # FIXME fails: JWT_PRIVATE_KEY must be set to use asymmetric cryptography algorithm "RS256"
+            # JWT_PRIVATE_KEY must be set to use asymmetric cryptography algorithm "RS256"
             access_token = create_access_token(identity=user_identity)
             # now decode for user/roles info; also see jwt.io
             jswon_jwt = jsonify(access_token=user)  # this returns something with SQLAlchemy row
@@ -219,7 +216,6 @@ class Authentication_Provider(Abstract_Authentication_Provider):
             Authentication_Provider.get_jwt_user(id=id)
             pass
         elif try_kc == 'api':  # get jwt for user info & roles
-            KC_BASE = 'http://localhost:8080/realms/kcals'
             KC_BASE = Args.instance.keycloak_base
             data = {
                 "grant_type": "password",

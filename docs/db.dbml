@@ -68,7 +68,7 @@ Table GrantRole {
     filter_debug TEXT 
     }
 
-Table UserRole {
+Table RbacRole {
     name VARCHAR(80) [primary key]
     description TEXT 
     can_read BOOLEAN 
@@ -136,6 +136,8 @@ Table YamlFile {
     size INTEGER 
     downloaded TEXT 
     rule_content TEXT 
+    role_content TEXT 
+    application_content TEXT 
     }
 
 
@@ -146,7 +148,7 @@ Table YamlFile {
     Ref: EntityAttr.(entity_name) < Entity.(name)
     Ref: EntityAttr.(template_name) < Template.(name)
     Ref: GrantRole.(entity_name) < Entity.(name)
-    Ref: GrantRole.(role_name) < UserRole.(name)
+    Ref: GrantRole.(role_name) < RbacRole.(name)
     Ref: RuleConstraint.(entity_name) < Entity.(name)
     Ref: RuleDerivation.(as_child_entity) < Entity.(name)
     Ref: RuleDerivation.(entity_name) < Entity.(name)
