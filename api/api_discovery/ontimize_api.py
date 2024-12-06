@@ -361,7 +361,7 @@ def add_service(
                     )
                     if clz_type == "downloadyaml":
                         yaml_content, rule_content, security_content = (
-                            export_yaml_to_file(_project_dir)
+                            export_yaml_to_file(_project_dir, resp)
                         )
                         try:
                             setattr(resp, "downloaded", yaml_content)
@@ -995,14 +995,22 @@ def add_service(
         delete_sql(models.Entity)
 
         rules = []
-        if rule_content:
-            from api.api_discovery.rule_parser import get_rules_from_content
-            rules = get_rules_from_content(rule_content)
-        if role_content:
-            from api.api_discovery.security_parser import get_security
-            roles = get_security(role_content)  
-            from api.api_discovery.security_parser import get_grants
-            grants = get_grants(role_content)
+        roles = []
+        grants = []
+        try:
+            if rule_content:
+                from api.api_discovery.rule_parser import get_rules_from_content
+                rules = get_rules_from_content(rule_content)
+        except Exception as ex:
+            print(f"<<<<Rules {ex} >>>>>")
+        try:
+            if role_content:
+                from api.api_discovery.security_parser import get_security
+                roles = get_security(role_content)  
+                from api.api_discovery.security_parser import get_grants
+                grants = get_grants(role_content)
+        except Exception as ex:
+            print(f"<<<< Security {ex} >>>>>")
             
         insert_template()
         insert_styles(valuesYaml)
@@ -1124,13 +1132,16 @@ def add_service(
         for name, value in templates:
             m_template = models.Template()
             m_template.name = name
-            m_template.description = value
+            m_template.file_name = value
+            m_template.description = get_template(name, value)
             try:
                 session.add(m_template)
                 session.commit()
             except Exception as ex:
                 print(ex)
-    
+    def get_template(name, value):
+        with open(f"{_project_dir}/ui/yaml/templates/{value}", "r") as f:
+            return f.read()
     def insert_roles(roles: list):
         for role in roles:
             m_role = models.RbacRole()
@@ -1444,7 +1455,7 @@ def write_yaml_file(source: str, file_name: str) -> any:
     return None
 
 
-def export_yaml_to_file(project_dir: str):
+def export_yaml_to_file(project_dir: str, yaml_file_row: dict = None):
     entities = read(models.Entity)
     attrs = read(models.EntityAttr)
     tabs = read(models.TabGroup)
@@ -1468,6 +1479,9 @@ def export_yaml_to_file(project_dir: str):
     lo = write_file(logic_output, file_name=logic_fn)
     yo = write_yaml_file(output, file_name=yaml_fn)
     so = write_file(security_output, file_name=security_fn)
+    if yaml_file_row and getattr(yaml_file_row,"file_path"):
+        yaml_fn = f"{getattr(yaml_file_row,"file_path")}/app_model.yaml"
+        write_yaml_file(output, file_name=yaml_fn)
     return yo, lo, so
 
 

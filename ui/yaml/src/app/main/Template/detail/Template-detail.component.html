@@ -9,13 +9,12 @@
 
               <div fxLayout="row" fxLayoutAlign="start center" class="gap">
                 <o-text-input attr="name" label=" Name*" editable="yes" required="yes"></o-text-input>
+                <o-text-input attr="file_name" label="File Name" editable="yes" required="none"></o-text-input>
               </div>
-
-              <div fxLayout="row" fxLayoutAlign="start center" class="gap">
-                <o-text-input attr="description" label="description" editable="yes" required="no"></o-text-input>
-              </div>
-
             </div>
+            </o-row>
+            <o-row attr="row1" layout-align="start stretch">
+                <o-textarea-input attr="description" label="description" editable="yes" required="no" fxFlex="85%"></o-textarea-input>
           </o-row>
 
           <mat-tab-group fxFill>

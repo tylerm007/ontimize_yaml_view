@@ -32,6 +32,7 @@ CREATE TABLE entity (
 
 CREATE TABLE template (
     name varchar(100) not null,
+    file_name varchar(100),
     description text,
     PRIMARY KEY (name)
 );
@@ -76,6 +77,7 @@ CREATE TABLE yaml_files(
     upload_flag BOOLEAN DEFAULT FALSE,
     download_flag    BOOLEAN DEFAULT FALSE, 
     size INT,
+    file_path VARCHAR(1000),
     downloaded text,
     rule_content TEXT,
     role_content TEXT,

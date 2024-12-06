@@ -349,7 +349,9 @@ resources:
       required: true
       search: true
       sort: true
+    - name: file_name
     - name: description
+      type: text
     tab_groups:
     - direction: tomany
       fks:
@@ -366,6 +368,7 @@ resources:
       search: true
       sort: true
     - name: content
+    - name: file_path
     - name: upload_flag
       type: Boolean
     - name: download_flag

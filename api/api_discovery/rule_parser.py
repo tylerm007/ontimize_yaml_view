@@ -155,14 +155,18 @@ def get_rules_from_content(content: str) -> list:
     for rule in rule_list:
         print(rule)
         _type = rule.split("Rule.")[1].split("(")[0]
-        if _type == "early_row_event_all_classes":
+        if _type in ["commit_event","early_row_event_all_classes"]:
             entity = "all"
         else:
-            entity = rule.split("Rule.")[1].split("(")[1].split(",")[0].split(".")[1]
-
-        row = {"type": _type, "entity": entity, "rule": rule, "attr": parse_rule_for_attr(rule, _type)}
-        
-        results.append(row)
+            print(rule)
+            entity = rule.split("Rule.")[1].split("(")[1].split(",")[0]
+            entity = entity.split(".")[1] if entity.startswith("models.") else entity.split("=")[1].split(".")[0]
+        try:
+            row = {"type": _type, "entity": entity, "rule": rule.strip(), "attr": parse_rule_for_attr(rule, _type)}
+            print(row)
+            results.append(row)
+        except Exception as e:
+            print("skip rule",rule, "error:", e)
         
     return results
 
@@ -171,7 +175,8 @@ def parse_rule_for_attr(rule: str, _type: str) -> str:
     if _type == "constraint" or _type.endswith("_event") or _type == "early_row_event_all_classes":
         return derive_column
     if rule.index("derive=") > 0:
-            derive_column = rule.split("derive=")[1].split(",")[0].split(".")[2]
+            s = rule.split("derive=")[1].split(",")[0].split(".")
+            derive_column = s[1] if len(s) == 2 else s[0]
     elif rule.index("models.") > 0:
         derive_column = rule.split("models.")[1].split(".")[1].split(",")[0] 
     return derive_column

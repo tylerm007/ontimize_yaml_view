@@ -175,6 +175,7 @@ class Template(SAFRSBaseX, Base):
     __bind_key__ = 'None'
 
     name = Column(String(100), primary_key=True)
+    file_name = Column(String(100))
     description = Column(Text)
     allow_client_generated_ids = True
 
@@ -237,6 +238,7 @@ class YamlFiles(SAFRSBaseX, Base):
     upload_flag = Column(Boolean, server_default=text("false"))
     download_flag = Column(Boolean, server_default=text("false"))
     size = Column(Integer)
+    file_path = Column(String(1000))
     downloaded = Column(Text)
     rule_content = Column(Text)
     role_content = Column(Text)

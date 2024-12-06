@@ -1,5 +1,5 @@
 import { Injector, ViewChild, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { OFormComponent, OntimizeService, OTableComponent, OTextareaInputComponent } from 'ontimize-web-ngx';
+import { OFormComponent, OntimizeService, OTableComponent, OTextareaInputComponent,  SnackBarService, OSnackBarConfig} from 'ontimize-web-ngx';
 import { DialogService } from 'ontimize-web-ngx';
 
 @Component({
@@ -13,13 +13,16 @@ export class DownloadYamlFilesDetailComponent implements OnInit {
   public content: string;
   public downloaded: string;
   public rule_content: string;
+  public role_content: string;
+  public snackBarService: SnackBarService;
+  public snackBarConfig: OSnackBarConfig;
 
   @ViewChild('yamlFile') yamlFile: OFormComponent;
   @ViewChild('downloadedFile') downloadedFile: OTextareaInputComponent;
   constructor(protected injector: Injector,
     protected dialogService: DialogService) {
     this.service = this.injector.get(OntimizeService);
-
+    this.snackBarService = this.injector.get(SnackBarService);
   }
 
   ngOnInit() {
@@ -38,6 +41,7 @@ export class DownloadYamlFilesDetailComponent implements OnInit {
     this.content = this.data.content;
     this.downloaded = this.data.downloaded;
     this.rule_content = this.data.rule_content;
+    this.role_content = this.data.role_content;
   }
   getContent(): string {
     //console.log("getValue " + this.content);
@@ -46,8 +50,8 @@ export class DownloadYamlFilesDetailComponent implements OnInit {
     }
     return this.content;
   }
-  getConverted(): string {
-    //console.log("getValue " + this.content);
+  getDownloaded(): string {
+    console.log("getDownloaded " + this.content);
     if (!this.downloaded) {
       return "";
     }
@@ -59,8 +63,22 @@ export class DownloadYamlFilesDetailComponent implements OnInit {
     }
     return this.rule_content;
   } 
+
+  getRoleContent(): string {  
+    if (!this.role_content) {
+      return "foo bar";
+    }
+    return this.role_content;
+  } 
   download_yaml() {
     console.log("download_yaml");
+    const configuration: OSnackBarConfig = {
+      action: 'Ok',
+      milliseconds: 7000,
+      icon: 'check_circle',
+      iconPosition: 'left'
+    }
+    this.snackBarService.open("Please wait, Processing files..", configuration);
     //this.service.update({ 'name': this.data.name }, { 'download_flag': true }, "YamlFiles").subscribe((resp) => {
       this.service.query({'name': this.data.name },
         [],

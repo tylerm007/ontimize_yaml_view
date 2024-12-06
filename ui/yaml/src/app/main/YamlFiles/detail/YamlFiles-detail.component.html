@@ -1,17 +1,18 @@
 <o-form #form attr="YamlFiles_form_edit" service="YamlFiles" entity="YamlFiles" fxLayout="column" show-header="yes"
   header-actions="R;U;D" columns="name;size;upload_flag;download_flag;content;rule_content" #oDetailForm keys="name"
   keys-sql-types="VARCHAR" after-update-mode="home" show-header-navigation="yes" (onDataLoaded)="onDataLoaded($event)">
-
-  <o-button o-grid-toolbar position="end" (click)="process_yaml()"
-    label="2. Process Yaml (loads all entities, attributes, relationships, & rules)" type="STROKED"
-    icon="upload_file"></o-button>
-    
+  <div fxLayout="row">
+  <o-button o-grid-toolbar position="end" (click)="process_yaml()" fxFlex="50%"
+    label="2. Process Yaml (loads all entities, attributes, relationships, & rules)" 
+    icon="upload_file" color="primary" type="raised"></o-button>
+  </div>  
   <o-row attr="row1" layout-align="start stretch">
     <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
 
       <o-text-input attr="name" label=" name*" enabled="no" required="yes" fxFlex="10%"
         class="form-field"></o-text-input>
       <o-text-input attr="size" label=" Size" enabled="no" required="no" fxFlex="10%" class="form-field"></o-text-input>
+      <o-text-input attr="file_path" label=" File Path" enabled="yes" required="no" fxFlex="40%" class="form-field"></o-text-input>
     </div>
   </o-row>
   <o-row attr="row1" layout-align="start stretch">

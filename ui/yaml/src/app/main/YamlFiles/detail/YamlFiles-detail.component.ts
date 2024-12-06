@@ -65,7 +65,7 @@ export class YamlFilesDetailComponent implements OnInit  {
     console.log("process_yaml");
     const configuration: OSnackBarConfig = {
       action: 'Ok',
-      milliseconds: 7000,
+      milliseconds: 4000,
       icon: 'check_circle',
       iconPosition: 'left'
     }

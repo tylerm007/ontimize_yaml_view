@@ -22,6 +22,11 @@ export class YamlFilesNewComponent {
     document.getElementById("folder")?.addEventListener("change", async (event: Event) => {
       const output = document.querySelector("ul");
       const {files} = event.target as HTMLInputElement;
+      const fullPath = (event.target as HTMLInputElement).files[0].webkitRelativePath;
+      const filePaths = Array.from(files).map(file => file.webkitRelativePath || file.name );
+      
+      console.log(filePaths);
+      console.log(fullPath);
       let declare_logic;
       let declare_security;
       let app_model;
