@@ -369,6 +369,9 @@ resources:
       sort: true
     - name: content
     - name: file_path
+    - name: is_active
+      type: Boolean
+    - name: app_name
     - name: upload_flag
       type: Boolean
     - name: download_flag

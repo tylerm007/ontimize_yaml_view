@@ -78,6 +78,8 @@ CREATE TABLE yaml_files(
     download_flag    BOOLEAN DEFAULT FALSE, 
     size INT,
     file_path VARCHAR(1000),
+    app_name VARCHAR(100),
+    is_active BOOLEAN default false,
     downloaded text,
     rule_content TEXT,
     role_content TEXT,

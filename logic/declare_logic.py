@@ -50,6 +50,11 @@ def declare_logic():
 
     Rule.early_row_event_all_classes(early_row_event_all_classes=handle_all)
 
+    def process_file_path(row: YamlFiles, old_row: YamlFiles, logic_row:LogicRow):
+        if logic_row.ins_upd_dlt in ["ins","upd"] and row.file_path:
+            s = row.file_path.split("/")
+            row.app_name = s[-1]    
+                
     def validate_yaml(row: YamlFiles, old_row: YamlFiles, logic_row:LogicRow):
         if logic_row.ins_upd_dlt in ["ins"] and (row.download_flag is None or row.download_flag == False):
             if row.content:
@@ -84,6 +89,7 @@ def declare_logic():
             row.downloaded = export_yaml_to_file(project_dir=project_dir)
                 
     Rule.row_event(YamlFiles, calling=export_yaml)
+    Rule.commit_row_event(YamlFiles, calling=process_file_path)
     Rule.constraint(YamlFiles, calling=validate_yaml, error_msg="Invalid app_model.yaml file")
     #Rule.row_event(on_class=models.RuleDerivation, calling=parse_derivation_rule)
     app_logger.debug("..logic/declare_logic.py (logic == rules + code)")

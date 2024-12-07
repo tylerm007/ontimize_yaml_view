@@ -239,6 +239,8 @@ class YamlFiles(SAFRSBaseX, Base):
     download_flag = Column(Boolean, server_default=text("false"))
     size = Column(Integer)
     file_path = Column(String(1000))
+    is_active = Column(Boolean, server_default=text("false"))
+    app_name = Column(String(100))
     downloaded = Column(Text)
     rule_content = Column(Text)
     role_content = Column(Text)

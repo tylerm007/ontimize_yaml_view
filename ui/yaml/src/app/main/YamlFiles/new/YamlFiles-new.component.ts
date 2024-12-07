@@ -26,7 +26,7 @@ export class YamlFilesNewComponent {
       const filePaths = Array.from(files).map(file => file.webkitRelativePath || file.name );
       
       console.log(filePaths);
-      console.log(fullPath);
+      //console.log(fullPath);
       let declare_logic;
       let declare_security;
       let app_model;

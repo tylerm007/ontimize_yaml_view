@@ -9,7 +9,7 @@
     <div fxLayout="row" fxLayoutAlign="start center" class="gap">
       <o-button o-grid-toolbar position="end" (click)="download_yaml()"
         label="4. Download Yaml (after 3. editing, the download content below can be merged into your app_model.yaml)"
-        icon="download_file" color="primary" type="raised" fxFlex="60%"></o-button>
+        icon="download_file" color="primary" type="raised" fxFlex="70%"></o-button>
     </div>
 
     <o-row attr="row1" layout-align="start stretch">
@@ -27,11 +27,11 @@
     <o-row attr="row1" layout-align="start stretch">
       <div fxLayout="no wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
         <o-textarea-input #downloaded attr="downloaded" label="app_model.yaml" [data]="getDownloaded()"
-          read-only="true" rows="30" content-align="left" fxFlex="30%" class="form-field"></o-textarea-input>
+          read-only="true" rows="40" content-align="left" fxFlex="30%" class="form-field"></o-textarea-input>
         <o-textarea-input #rule_content attr="rule_content" label="declare_logic.py" [data]="getRuleContent()"
-          read-only="true" rows="30" content-align="left" fxFlex="30%" class="form-field"></o-textarea-input>
+          read-only="true" rows="40" content-align="left" fxFlex="30%" class="form-field"></o-textarea-input>
         <o-textarea-input #role_content attr="role_content" label="declare_security.py" [data]="getRoleContent()"
-          read-only="true" rows="30" content-align="left" fxFlex="30%" class="form-field"></o-textarea-input>
+          read-only="true" rows="40" content-align="left" fxFlex="30%" class="form-field"></o-textarea-input>
       </div>
     </o-row>
 

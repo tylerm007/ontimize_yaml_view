@@ -1,5 +1,5 @@
 import { Injector, ViewChild, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { OTableVisibleColumnsDialogComponent, OButtonComponent, OFormComponent, OntimizeService, OListPickerComponent, OTableComponent, OColumn, OTableOptions, DialogService} from 'ontimize-web-ngx';
+import { OTableVisibleColumnsDialogComponent, OButtonComponent, OFormComponent, OntimizeService, OListPickerComponent, OTableComponent, OColumn, OTableOptions, DialogService, SnackBarService, OSnackBarConfig} from 'ontimize-web-ngx';
 import { environment } from 'src/environments/environment';
 //import { OTableVisibleColumnsDialogComponent } from './visible-columns/o-table-visible-columns-dialog.component';  // This import is missing in the original file  
 import { MatDialog } from '@angular/material/dialog';
@@ -14,6 +14,8 @@ export class EntityDetailComponent implements OnInit  {
   protected entity: any;
   protected dialogService: any;
   protected dialog: any
+  public snackBarService: SnackBarService;
+  public snackBarConfig: OSnackBarConfig;
   //protected cd: ChangeDetectorRef,
   
 
@@ -28,6 +30,7 @@ export class EntityDetailComponent implements OnInit  {
     this.service = this.injector.get(OntimizeService);
     this.dialogService = this.injector.get(DialogService);
     this.dialog = this.injector.get(MatDialog);
+    this.snackBarService = this.injector.get(SnackBarService);
   }
   ngOnInit() {
     //this.configureService();
@@ -43,6 +46,29 @@ export class EntityDetailComponent implements OnInit  {
   onDataLoaded(e: object) {
     console.log(JSON.stringify(e));
     this.entity = e;
+  }
+  rebuild(){
+    console.log("rebuild....")
+    const configuration: OSnackBarConfig = {
+      action: 'Ok',
+      milliseconds: 2000,
+      icon: 'check_circle',
+      iconPosition: 'left'
+    }
+    this.snackBarService.open("Please wait, Rebuilding..", configuration);
+    //this.service.update({ 'name': this.data.name }, { 'download_flag': true }, "YamlFiles").subscribe((resp) => {
+      this.service.query({'name': this.entity.name },
+        [],
+        'reload').subscribe((resp) => {
+      console.log("reload: " + JSON.stringify(resp.data));
+      if (resp.code === 0) {
+        //this.data.downloaded = JSON.stringify(resp.data);
+        //this.showDownloadInfo();
+        //this.yamlFile.reload();
+      } else {
+        console.error(resp);
+      }
+    });
   }
   
   showHideColumns() {

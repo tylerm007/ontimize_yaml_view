@@ -329,6 +329,33 @@ def add_service(
             result = sql_alchemy_row
 
         if method == "POST":
+            if clz_name == "Entity" and clz_type == "reload":
+                entity = request.json["filter"]["name"]
+                #TODO need to get the active yaml_files file_path
+                file_path = get_file_path(entity)
+                #file_path = '/Users/tylerband/ontimize/northwind-retool-jsonapi/ui/app'
+                if file_path:
+                    s = file_path.split("/")
+                    app_name = 'app' #parse from path s[-1]
+                    print(f'$als app-build --app={app_name} --api-endpoint={entity}')
+                    try:
+                        import subprocess
+                        venv_dir = '/Users/tylerband/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer'
+                        venv_path = os.path.join(venv_dir, 'venv', 'bin', 'activate') #Mac only
+                        command = f'source {venv_path} && sh {_project_dir}/rebuild_page.sh {file_path} {app_name} {entity}'
+                        output = subprocess.run(command, cwd=file_path, shell=True, capture_output=True, text=True, check=False)
+                        return jsonify(
+                            {
+                            "code": 0,
+                            "totalQueryRecordsNumber": 1,
+                            "startRecordIndex": 1,
+                            "message": f"Reload Page for --app={app_name} --api-endpoint={entity}",
+                            "data": output,
+                        }
+                    )
+                    except subprocess.CalledProcessError as e:
+                        return jsonify({"error": e.output.decode('utf-8')})
+
             if data != None:
                 # this is an insert
                 sql_alchemy_row = api_clz()
@@ -352,6 +379,15 @@ def add_service(
                         if filter and "name" in filter
                         else "app_model.yaml"
                     )
+                    active_files = (
+                        session.query(models.YamlFiles).all()
+                    )
+                    for active in active_files:
+                        state = active.name == str(key).strip().replace("'","",2)
+                        setattr(active, "is_active", state)
+                        session.add(active)
+                        session.commit()
+                        
                     key = key.replace("'", "", 2).strip()
                     key = key.replace('"', "", 2)
                     resp = (
@@ -368,6 +404,7 @@ def add_service(
                             setattr(resp, "download_flag", True)
                             setattr(resp, "rule_content", rule_content)
                             setattr(resp, "role_content", security_content)
+                            setattr(resp, "is_active", True)
                             session.add(resp)
                             session.commit()
                         except Exception as ex:
@@ -379,7 +416,6 @@ def add_service(
                                     "data": None,
                                 }
                             )
-
                     else:
                         yaml_content = (
                             resp.downloaded
@@ -395,6 +431,7 @@ def add_service(
                     data = {
                         "downloaded": yaml_content,
                         "rule_content": resp.rule_content,
+                        "role_content": resp.role_content,
                     }
                     return jsonify(
                         {
@@ -427,6 +464,16 @@ def add_service(
             {"code": 0, "message": f"{method}:True", "data": result, "sqlTypes": None}
         )  # {f"{method}":True})
 
+    def get_file_path(app_name: str) -> str:
+        resp = (
+            session.query(models.YamlFiles)
+            .filter(models.YamlFiles.is_active == True)
+            .one_or_none()
+            )
+        if resp:
+            fp = getattr(resp,"file_path")
+            return fp #TODO remove /ui
+        return None
     def find_model(clz_name: str) -> any:
         clz_members = getMetaData()
         resources = clz_members.get("resources")

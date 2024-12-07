@@ -54,7 +54,7 @@ export const MENU_CONFIG: MenuRootItem[] = [
     ,{ id: 'other', name: 'Global Settings', icon: 'remove_red_eye', opened: false,
         items: [        
             { id: 'GlobalSetting', name: 'Global Settings', icon: 'view_list', route: '/main/GlobalSetting' }
-            ,{ id: 'Template', name: 'TEMPLATE', icon: 'view_list', route: '/main/Template' }
+            ,{ id: 'Template', name: 'Input Components', icon: 'view_list', route: '/main/Template' }
             ]
     }, 
     { id: 'settings', name: 'Settings', icon: 'settings', route: '/main/settings'}
