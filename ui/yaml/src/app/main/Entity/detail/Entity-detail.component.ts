@@ -31,6 +31,7 @@ export class EntityDetailComponent implements OnInit  {
     this.dialogService = this.injector.get(DialogService);
     this.dialog = this.injector.get(MatDialog);
     this.snackBarService = this.injector.get(SnackBarService);
+   // this.table = this.injector.get(OTableComponent)
   }
   ngOnInit() {
     //this.configureService();
@@ -78,21 +79,40 @@ export class EntityDetailComponent implements OnInit  {
     //  attr: oCol.attr,
     //  title: oCol.label,
     //  visible: oCol.visible
+    this.service.query({'entity_name': this.entity.name },
+      [],
+      'getattributes').subscribe((resp) => {
+        console.log("getAttributes: " + JSON.stringify(resp.data));
+        if (resp.code === 0) {
+        
+        } else {
+          console.error(resp);
+        }
+    });
+  
     const columnVisibilityConfiguration = []
     const oCol: OColumn = new OColumn();
     oCol.attr = 'column1';
     oCol.title = 'Column 1';
     oCol.visible = true;
+    /*
     columnVisibilityConfiguration.push(oCol);
-    //this.table.oTableOptions.columns = columnVisibilityConfiguration;
-    //this.table.oTableOptions.visibleColumns = ["column1"];
-    //this.table.visibleColumns = "column1";
-    //this.table.columns = "column1"
-    //this.table.visibleColArray = ["column1"];
+    this.table.oTableOptions.columns = columnVisibilityConfiguration;
+    this.table.visibleColumns = ["column1"];
+    this.table.visibleColumns = "column1";
+    this.table.columns = "column1"
+    this.table.visibleColArray = ["column1"];
     console.log("Show/Hide VisibleColumns:", this.table.visibleColumns);
     console.log("Show/Hide Columns:", this.table.visibleColArray);
     console.log("Show/Hide TableOptions:", this.table.tableOptions);
-    
+    [Log] The dialog was closed (src_app_main_Entity_Entity_module_ts.js, line 265)
+
+      columnValueFiltersToRemove: [] (0)
+      columnsOrder: [] (0)
+      groupColumns: undefined
+      sortColumns: undefine
+      visibleColArray: [] (0)
+    */
     const dialogRef = this.dialog.open(OTableVisibleColumnsDialogComponent, {
       data: {
         table: this.table

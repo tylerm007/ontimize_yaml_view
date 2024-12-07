@@ -58,7 +58,11 @@
               <o-button #button attr="button" label="Show/Hide Attributes" icon="description" (onClick)="showHideColumns()" tooltip="Arrange columns and hide/show columns"></o-button>
           </div -->
           <div>
-            <o-button o-grid-toolbar position="end" (click)="rebuild()" label="Rebuild Page" tooltip="todo" icon="pages" color="primary"
+            <o-button (click)="rebuild()" label="Rebuild Page" tooltip="todo" icon="pages" color="primary"
+              type="raised">
+            </o-button>
+            <div>&nbsp;&nbsp;</div>
+            <o-button (click)="showHideColumns()" label="Reorder Attributes" tooltip="todo" icon="pages" color="primary"
               type="raised">
             </o-button>
           </div>
