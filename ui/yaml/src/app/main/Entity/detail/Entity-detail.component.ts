@@ -59,8 +59,8 @@ export class EntityDetailComponent implements OnInit  {
     //this.service.update({ 'name': this.data.name }, { 'download_flag': true }, "YamlFiles").subscribe((resp) => {
       this.service.query({'name': this.entity.name },
         [],
-        'reload').subscribe((resp) => {
-      console.log("reload: " + JSON.stringify(resp.data));
+        'rebuild').subscribe((resp) => {
+      console.log("rebuild: " + JSON.stringify(resp.data));
       if (resp.code === 0) {
         //this.data.downloaded = JSON.stringify(resp.data);
         //this.showDownloadInfo();

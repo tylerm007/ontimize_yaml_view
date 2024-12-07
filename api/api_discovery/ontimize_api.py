@@ -127,7 +127,37 @@ def add_service(
         attributes = resources["resources"][api_clz.__name__]["attributes"]
 
         return gen_report(api_clz, request, _project_dir, payload, attributes)
-
+    @app.route("/ontimizeweb/services/rest/Entity/rebuild/search", methods=["POST","OPTIONS"])
+    @cross_origin()
+    @admin_required()
+    def rebuild():
+        entity = request.json["filter"]["name"]
+        #TODO need to get the active yaml_files file_path
+        file_path = get_file_path(entity)
+        #file_path = '/Users/tylerband/ontimize/northwind-retool-jsonapi/ui/app'
+        if file_path:
+            s = file_path.split("/")
+            app_name = 'app' #parse from path s[-1]
+            print(f'$als app-build --app={app_name} --api-endpoint={entity}')
+            try:
+                import subprocess
+                venv_dir = '/Users/tylerband/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer'
+                venv_path = os.path.join(venv_dir, 'venv', 'bin', 'activate') #Mac only
+                command = f'source {venv_path} && sh {_project_dir}/rebuild_page.sh {file_path} {app_name} {entity}'
+                output = subprocess.run(command, cwd=file_path, shell=True, capture_output=True, text=True, check=False)
+                return jsonify(
+                    {
+                    "code": 0,
+                    "totalQueryRecordsNumber": 1,
+                    "startRecordIndex": 1,
+                    "message": f"Rebuild Page for --app={app_name} --api-endpoint={entity}",
+                    "data": output,
+                }
+            )
+            except subprocess.CalledProcessError as e:
+                return jsonify({"error": e.output.decode('utf-8')})
+    
+    
     @app.route("/api/export/csv", methods=["POST", "OPTIONS"])
     @app.route("/api/export/pdf", methods=["POST", "OPTIONS"])
     @app.route("/ontimizeweb/services/rest/export/pdf", methods=["POST", "OPTIONS"])
