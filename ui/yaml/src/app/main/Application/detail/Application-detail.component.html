@@ -13,12 +13,14 @@
           <o-text-input #app_short_name attr="app_short_name" label="app_short_name" enabled="yes" required="no"
             fxFlex="20%" class="form-field"></o-text-input>
 
-          <o-text-input #description attr="description" label="description" enabled="yes" required="no" fxFlex="20%"
+          <o-text-input #description attr="description" label="file_path" enabled="yes" required="no" fxFlex="40%"
             class="form-field"></o-text-input>
 
           <o-textarea-input #app_yaml attr="app_yaml" label="app_yaml" enabled="yes" required="no" fxFlex="60%"
             class="form-field"></o-textarea-input>
-
+          <o-button (click)="build()" label="Build App" tooltip="todo" icon="pages" color="primary"
+            type="raised">
+          </o-button>
         </div>
       </o-row>
 
