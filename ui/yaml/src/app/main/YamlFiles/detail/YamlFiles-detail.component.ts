@@ -90,8 +90,8 @@ export class YamlFilesDetailComponent implements OnInit  {
     showInfo() {
         //if (this.snackBarService) {this.snackBarService.dismiss();}
         if (this.dialogService) {
-        this.dialogService.info('Yaml Processing Complete',
-            'Entities, Attributes, Relationships and Rules have been created from the Yaml "original content"',);
+        this.dialogService.info('Processing Complete',
+            'Entities, Attributes, Relationships and Rules have been inserted from the Yaml "original content"',);
         }
     }
 }

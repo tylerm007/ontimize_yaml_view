@@ -16,3 +16,4 @@ DefaultRolePermission(to_role=Roles.customer, can_read=True, can_insert=False, c
 # Grants
 Grant(models.Customer, to_role=Roles.customer, can_read=False, can_insert=False, can_update=False, can_delete=False, filter=lambda: models.Customer.Id == Security.current_user().id,filter_debug="Id == Security.current_user().id",, filter_debug="Id == Security.current_user().id",)
 Grant(models.Customer, to_role=Roles.sales, can_read=False, can_insert=False, can_update=False, can_delete=False, filter=lambda: models.Customer.CreditLimit > 300,filter_debug="CreditLimit > 300",, filter_debug="CreditLimit > 300",)
+Grant(models.Customer, to_role=Roles.public, can_read=False, can_insert=False, can_update=False, can_delete=False, filter=lambda: models.Customer.Id != "ANATR",filter_debug="Customer.Id != ANATR",, filter_debug="Customer.Id != ANATR",)

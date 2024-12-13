@@ -21,9 +21,9 @@ import { YamlFilesCardComponent } from './YamlFiles-card/YamlFiles-card.componen
 
 export const MENU_CONFIG: MenuRootItem[] = [
     { id: 'home', name: 'HOME', icon: 'home', route: '/main/home' },
-    { id: 'New YamlFiles', name: '1. Import Yaml File', icon: 'upload', route: '/main//YamlFiles/new' },
-    { id: 'YamlFiles', name: '2. Process Yaml File', icon: 'upload_file', route: '/main/YamlFiles' },
-    { id: 'data', name: '3. Edit Yaml Data', icon: 'edit_square', opened: true,
+    { id: 'New YamlFiles', name: '1. Import Project', icon: 'upload', route: '/main//YamlFiles/new' },
+    { id: 'YamlFiles', name: '2. Select Working App', icon: 'upload_file', route: '/main/YamlFiles' },
+    { id: 'data', name: '3. Edit Data', icon: 'edit_square', opened: true,
     items: [
         { id: 'Entity', name: 'Entities', icon: 'view_list', route: '/main/Entity' , component: EntityCardComponent}
         ,{ id: 'EntityAttr', name: 'Attributes', icon: 'view_list', route: '/main/EntityAttr' , component: EntityAttrCardComponent}
@@ -50,7 +50,7 @@ export const MENU_CONFIG: MenuRootItem[] = [
         ,{ id: 'ApplicationEntity', name: 'Application Entities', icon: 'view_list', route: '/main/ApplicationEntity'}
     ]
     }
-    ,{ id: 'YamlFiles', name: '4. Download Yaml File', icon: 'download_file', route: '/main/DownloadYamlFiles' }
+    ,{ id: 'YamlFiles', name: '4. Download Model Files', icon: 'download_file', route: '/main/DownloadYamlFiles' }
     ,{ id: 'other', name: 'Global Settings', icon: 'remove_red_eye', opened: false,
         items: [        
             { id: 'GlobalSetting', name: 'Global Settings', icon: 'view_list', route: '/main/GlobalSetting' }

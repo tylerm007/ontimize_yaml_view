@@ -157,7 +157,7 @@ def add_service(
                     "data": data,
                 }
         )
-    @app.route("/ontimizeweb/services/rest/Entity/rebuild/search", methods=["POST","OPTIONS"])
+    @app.route("/ontimizeweb/services/rest/Entity/rebuild/search", methods=["POST","PUT","OPTIONS"])
     @cross_origin()
     @admin_required()
     def rebuild():
@@ -169,10 +169,14 @@ def add_service(
             print(f'$als app-build --app={app_name} --api-endpoint={entity}')
             try:
                 import subprocess
+                vscode_settings_path = Path(f'{_project_dir}/.vscode/settings.json')
+                with open(vscode_settings_path, "r") as file:
+                    settings = json.load(file)
+                python_interpreter_path = settings.get("python.defaultInterpreterPath", None).replace("/bin/python","")
+                print(f"Python Interpreter Path: {python_interpreter_path}")
                 #venv_dir = '/Users/tylerband/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer'#TODO - move to shell
                 #venv_path = os.path.join(venv_dir, 'venv', 'bin', 'activate') #Mac only
-                #command = f'source {venv_path} && 
-                command = f'sh {_project_dir}/rebuild_page.sh {file_path} {app_name} {entity}'
+                command = f'sh {_project_dir}/rebuild_page.sh  {python_interpreter_path} {file_path} {app_name} {entity}'
                 output = subprocess.run(command, cwd=file_path, shell=True, capture_output=True, text=True, check=False)
                 return jsonify(
                     {
@@ -389,8 +393,7 @@ def add_service(
 
         if method == "POST":
             if clz_name == "Entity" and clz_type == "reload":
-                rebuild()
-
+                rebuild(request)
             if data != None:
                 # this is an insert
                 sql_alchemy_row = api_clz()
@@ -437,13 +440,31 @@ def add_service(
                         try:
                             setattr(resp, "downloaded", yaml_content)
                             setattr(resp, "download_flag", True)
-                            setattr(resp, "rule_content", rule_content)
-                            setattr(resp, "role_content", security_content)
                             setattr(resp, "is_active", True)
                             session.add(resp)
                             session.commit()
                         except Exception as ex:
                             session.rollback()
+                            return jsonify(
+                                {
+                                    "code": 1,
+                                    "message": f"Yaml file {clz_type} error {ex}",
+                                    "data": None,
+                                }
+                            )
+                        try:
+                            resp = (
+                                session.query(models.YamlFiles)
+                                .filter(models.YamlFiles.name == str(key))
+                                .one()
+                            )
+                            setattr(resp, "rule_content", rule_content)
+                            setattr(resp, "role_content", security_content)
+                            session.add(resp)
+                            session.commit()
+                        except Exception as ex:
+                            #session.rollback()
+                            app_logger.debug(ex)
                             return jsonify(
                                 {
                                     "code": 1,
@@ -1189,6 +1210,10 @@ def add_service(
             # session.rollback()
 
     def insert_template():
+        #TODO - use the html name (fix) and load from file and allow edits/writes
+        '''
+        This is only for input templates on Attributes
+        '''
         templates = [
             ("checkbox", "o_checkbox.html"),
             {"check_circle", "check_circle.html"},
@@ -1422,6 +1447,30 @@ def add_service(
                         # session.rollback()
                         print(ex)
 
+    def insert_application():
+        try:
+            #SQL to get current yaml_files
+            active_files = (
+                        session.query(models.YamlFiles).filter(models.YamlFiles.is_active == True).one_or_none()
+                    )
+            
+            name = "New Application"
+            file_path = "/foo"
+            app_name = "app"
+            if active_files:
+                file_path = getattr(active_files,"file_path")
+                name = getattr(active_files,"name")
+                if file_path:
+                    s = file_path.split("/")
+                    app_name = getattr(active_files,s[-1])
+            app = models.ApplicationEntity()
+            setattr(app,"name",name)
+            setattr(app,"app_short_name",app_name)
+            setattr(app,"description",file_path)
+            session.add(app)
+            session.commit()
+        except Exception as ex:
+            print(ex)
     def get_value(obj: any, name: str, default: any = None):
         try:
             return obj[name]
@@ -1881,6 +1930,7 @@ def convert_list(key: str) -> list:
 def getMetaData(resource_name: str = None, include_attributes: bool = True) -> dict:
     import inspect
     import sys
+    import json
 
     resource_list = []  # array of attributes[], name (so, the name is last...)
     resource_objs = {}  # objects, named = resource_name

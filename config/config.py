@@ -163,7 +163,7 @@ class Config:
     KAFKA_CONSUMER = '{"bootstrap.servers": "localhost:9092", "group.id": "als-default-group1"}'
     KAFKA_CONSUMER = None  # comment out to enable Kafka consumer
 
-    OPT_LOCKING = "optional"
+    OPT_LOCKING = "ignore"
     if os.getenv('OPT_LOCKING'):  # e.g. export OPT_LOCKING=required
         opt_locking_export = os.getenv('OPT_LOCKING')  # type: ignore # type: str
         opt_locking = opt_locking_export.lower()  # type: ignore

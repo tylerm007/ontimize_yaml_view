@@ -22,16 +22,6 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Category Name* '
-      name: CategoryName
-      required: false
-      search: true
-      sort: false
-      template: text
-      type: text
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'Client Id '
       name: Client_id
       required: false
@@ -39,6 +29,16 @@ entities:
       sort: false
       template: integer
       type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Category Name* '
+      name: CategoryName
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: text
       visible: true
     - enabled: true
       exclude: false
@@ -85,20 +85,70 @@ entities:
       template: text
       type: VARCHAR(8000)
       visible: true
-    - derivation: 'Rule.sum(derive=Customer.Balance,        as_sum_of=Order.AmountTotal,where=lambda
-        row: row.ShippedDate is None and row.Ready == True)'
-      enabled: true
+    - enabled: true
       exclude: false
-      label: 'Balance '
-      name: Balance
+      label: 'Contacttitle '
+      name: ContactTitle
       required: false
       search: false
       sort: false
       template: text
-      type: DECIMAL
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Postalcode '
+      name: PostalCode
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Company Name* '
+      name: CompanyName
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - derivation: 'Rule.count(derive=Customer.UnpaidOrderCount,as_count_of=Order,where=lambda
+        row: row.ShippedDate is None)'
+      enabled: true
+      exclude: false
+      label: 'Unpaidordercount '
+      name: UnpaidOrderCount
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Address '
+      name: Address
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Country '
+      name: Country
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
       visible: true
     - derivation: Rule.count(derive=Customer.OrderCount, as_count_of=Order)
-      enabled: true
+      enabled: false
       exclude: false
       label: 'Ordercount '
       name: OrderCount
@@ -120,28 +170,8 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Contacttitle '
-      name: ContactTitle
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(8000)
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'City '
       name: City
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(8000)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Postalcode '
-      name: PostalCode
       required: false
       search: false
       sort: false
@@ -160,50 +190,8 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Company Name* '
-      name: CompanyName
-      required: false
-      search: true
-      sort: false
-      template: text
-      type: VARCHAR(8000)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Creditlimit '
-      name: CreditLimit
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: DECIMAL
-      visible: true
-    - derivation: 'Rule.count(derive=Customer.UnpaidOrderCount,as_count_of=Order,where=lambda
-        row: row.ShippedDate is None)'
-      enabled: true
-      exclude: false
-      label: 'Unpaidordercount '
-      name: UnpaidOrderCount
-      required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'Contactname '
       name: ContactName
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(8000)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Address '
-      name: Address
       required: false
       search: false
       sort: false
@@ -222,16 +210,6 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Country '
-      name: Country
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(8000)
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'Fax '
       name: Fax
       required: false
@@ -239,6 +217,28 @@ entities:
       sort: false
       template: text
       type: VARCHAR(8000)
+      visible: true
+    - enabled: false
+      exclude: false
+      label: 'Creditlimit '
+      name: CreditLimit
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL
+      visible: true
+    - derivation: 'Rule.sum(derive=Customer.Balance,        as_sum_of=Order.AmountTotal,where=lambda
+        row: row.ShippedDate is None and row.Ready == True)'
+      enabled: false
+      exclude: false
+      label: 'Balance '
+      name: Balance
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL
       visible: true
     detail_template: detail_template.html
     exclude: false
@@ -336,8 +336,8 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Id '
-      name: Id
+      label: 'Departmentid '
+      name: DepartmentId
       required: false
       search: false
       sort: false
@@ -346,8 +346,8 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Departmentid '
-      name: DepartmentId
+      label: 'Id '
+      name: Id
       required: false
       search: false
       sort: false
@@ -387,16 +387,16 @@ entities:
     - direction: tomany
       exclude: false
       fks:
-      - OnLoanDepartmentId
-      label: EmployeeList
-      name: EmployeeList
+      - WorksForDepartmentId
+      label: WorksForEmployeeList
+      name: WorksForEmployeeList
       resource: Employee
     - direction: tomany
       exclude: false
       fks:
-      - WorksForDepartmentId
-      label: WorksForEmployeeList
-      name: WorksForEmployeeList
+      - OnLoanDepartmentId
+      label: EmployeeList
+      name: EmployeeList
       resource: Employee
     - direction: toone
       exclude: false
@@ -421,28 +421,8 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Firstname '
-      name: FirstName
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(8000)
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'Title '
       name: Title
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(8000)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Birthdate '
-      name: BirthDate
       required: false
       search: false
       sort: false
@@ -461,28 +441,8 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Region '
-      name: Region
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(8000)
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'Country '
       name: Country
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(8000)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Extension '
-      name: Extension
       required: false
       search: false
       sort: false
@@ -501,48 +461,8 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Last Name* '
-      name: LastName
-      required: false
-      search: true
-      sort: false
-      template: text
-      type: VARCHAR(8000)
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'Worksfordepartmentid '
       name: WorksForDepartmentId
-      required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Propersalary '
-      name: ProperSalary
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: DECIMAL
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Dues '
-      name: Dues
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: DECIMAL
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Id '
-      name: Id
       required: false
       search: false
       sort: false
@@ -561,28 +481,8 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Hiredate '
-      name: HireDate
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(8000)
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'City '
       name: City
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(8000)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Postalcode '
-      name: PostalCode
       required: false
       search: false
       sort: false
@@ -601,8 +501,88 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Reportsto '
-      name: ReportsTo
+      label: 'Notes '
+      name: Notes
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: textarea
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Salary '
+      name: Salary
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Dues '
+      name: Dues
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Firstname '
+      name: FirstName
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Birthdate '
+      name: BirthDate
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Region '
+      name: Region
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Extension '
+      name: Extension
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Last Name* '
+      name: LastName
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Id '
+      name: Id
       required: false
       search: false
       sort: false
@@ -611,13 +591,33 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Notes '
-      name: Notes
+      label: 'Hiredate '
+      name: HireDate
       required: false
       search: false
       sort: false
       template: text
-      type: textarea
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Postalcode '
+      name: PostalCode
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Reportsto '
+      name: ReportsTo
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
       visible: true
     - enabled: true
       exclude: false
@@ -631,12 +631,12 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Salary '
-      name: Salary
+      label: 'Propersalary '
+      name: ProperSalary
       required: false
       search: false
       sort: false
-      template: text
+      template: currency
       type: DECIMAL
       visible: true
     detail_template: detail_template.html
@@ -680,23 +680,9 @@ entities:
       exclude: false
       fks:
       - EmployeeId
-      label: EmployeeTerritoryList
-      name: EmployeeTerritoryList
-      resource: EmployeeTerritory
-    - direction: tomany
-      exclude: false
-      fks:
-      - EmployeeId
       label: OrderList
       name: OrderList
       resource: Order
-    - direction: toone
-      exclude: false
-      fks:
-      - OnLoanDepartmentId
-      label: OnLoanDepartment
-      name: OnLoanDepartment
-      resource: Department
     - direction: toone
       exclude: false
       fks:
@@ -704,6 +690,20 @@ entities:
       label: Union
       name: Union
       resource: Union
+    - direction: tomany
+      exclude: false
+      fks:
+      - EmployeeId
+      label: EmployeeTerritoryList
+      name: EmployeeTerritoryList
+      resource: EmployeeTerritory
+    - direction: toone
+      exclude: false
+      fks:
+      - OnLoanDepartmentId
+      label: OnLoanDepartment
+      name: OnLoanDepartment
+      resource: Department
     - direction: toone
       exclude: false
       fks:
@@ -717,6 +717,56 @@ entities:
     columns:
     - enabled: true
       exclude: false
+      label: 'Updatedon '
+      name: UpdatedOn
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: TEXT
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Last Name* '
+      name: LastName
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Firstname '
+      name: FirstName
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Updatedby '
+      name: UpdatedBy
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: TEXT
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Salary '
+      name: Salary
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL
+      visible: true
+    - enabled: true
+      exclude: false
       label: 'Employeeid '
       name: EmployeeId
       required: false
@@ -727,28 +777,8 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Salary '
-      name: Salary
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: DECIMAL
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'Createdon '
       name: CreatedOn
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: TEXT
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Updatedon '
-      name: UpdatedOn
       required: false
       search: false
       sort: false
@@ -767,16 +797,6 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Last Name* '
-      name: LastName
-      required: false
-      search: true
-      sort: false
-      template: text
-      type: VARCHAR
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'Title '
       name: Title
       required: false
@@ -787,28 +807,8 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Firstname '
-      name: FirstName
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'Createdby '
       name: CreatedBy
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: TEXT
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Updatedby '
-      name: UpdatedBy
       required: false
       search: false
       sort: false
@@ -838,20 +838,20 @@ entities:
     columns:
     - enabled: true
       exclude: false
-      label: 'Territoryid '
-      name: TerritoryId
+      label: 'Id* '
+      name: Id
       required: false
-      search: false
+      search: true
       sort: false
       template: text
       type: VARCHAR(8000)
       visible: true
     - enabled: true
       exclude: false
-      label: 'Id* '
-      name: Id
+      label: 'Territoryid '
+      name: TerritoryId
       required: false
-      search: true
+      search: false
       sort: false
       template: text
       type: VARCHAR(8000)
@@ -879,17 +879,17 @@ entities:
     - direction: toone
       exclude: false
       fks:
-      - TerritoryId
-      label: Territory
-      name: Territory
-      resource: Territory
-    - direction: toone
-      exclude: false
-      fks:
       - EmployeeId
       label: Employee
       name: Employee
       resource: Employee
+    - direction: toone
+      exclude: false
+      fks:
+      - TerritoryId
+      label: Territory
+      name: Territory
+      resource: Territory
     title: EmployeeTerritory
     type: EmployeeTerritory
   Location:
@@ -906,16 +906,6 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Notes '
-      name: notes
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(256)
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'City '
       name: city
       required: true
@@ -923,6 +913,16 @@ entities:
       sort: false
       template: text
       type: VARCHAR(50)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Notes '
+      name: notes
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(256)
       visible: true
     detail_template: detail_template.html
     exclude: false
@@ -947,16 +947,6 @@ entities:
     type: Location
   Order:
     columns:
-    - enabled: true
-      exclude: false
-      label: 'Employeeid '
-      name: EmployeeId
-      required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
     - derivation: 'Rule.formula(derive=Order.OrderDate,as_expression=lambda row: datetime.datetime.now())'
       enabled: true
       exclude: false
@@ -967,16 +957,6 @@ entities:
       sort: false
       template: text
       type: DATE
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Ready '
-      name: Ready
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: Boolean
       visible: true
     - derivation: Rule.count(derive=Order.OrderDetailCount, as_count_of=OrderDetail)
       enabled: true
@@ -991,16 +971,6 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Country '
-      name: Country
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(50)
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'Requireddate '
       name: RequiredDate
       required: false
@@ -1011,28 +981,8 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Ship Name* '
-      name: ShipName
-      required: false
-      search: true
-      sort: false
-      template: text
-      type: VARCHAR(8000)
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'Shipaddress '
       name: ShipAddress
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(8000)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Shipregion '
-      name: ShipRegion
       required: false
       search: false
       sort: false
@@ -1051,16 +1001,6 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Id '
-      name: Id
-      required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'Shippeddate '
       name: ShippedDate
       required: false
@@ -1068,17 +1008,6 @@ entities:
       sort: false
       template: text
       type: VARCHAR(8000)
-      visible: true
-    - derivation: Rule.sum(derive=Order.AmountTotal,       as_sum_of=OrderDetail.Amount)
-      enabled: true
-      exclude: false
-      label: 'Amounttotal '
-      name: AmountTotal
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: DECIMAL
       visible: true
     - enabled: true
       exclude: false
@@ -1092,16 +1021,6 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Freight '
-      name: Freight
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: DECIMAL
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'City '
       name: City
       required: false
@@ -1109,16 +1028,6 @@ entities:
       sort: false
       template: text
       type: VARCHAR(50)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Customerid '
-      name: CustomerId
-      required: true
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(8000)
       visible: true
     - enabled: true
       exclude: false
@@ -1132,8 +1041,58 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Shipcity '
-      name: ShipCity
+      label: 'Shipzip '
+      name: ShipZip
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: text
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Employeeid '
+      name: EmployeeId
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Ready '
+      name: Ready
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: Boolean
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Country '
+      name: Country
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(50)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Ship Name* '
+      name: ShipName
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Shipregion '
+      name: ShipRegion
       required: false
       search: false
       sort: false
@@ -1142,13 +1101,54 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Shipzip '
-      name: ShipZip
+      label: 'Id '
+      name: Id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Customerid '
+      name: CustomerId
+      required: true
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Shipcity '
+      name: ShipCity
       required: false
       search: false
       sort: false
       template: text
-      type: text
+      type: VARCHAR(8000)
+      visible: true
+    - derivation: Rule.sum(derive=Order.AmountTotal,       as_sum_of=OrderDetail.Amount)
+      enabled: false
+      exclude: false
+      label: 'Amounttotal '
+      name: AmountTotal
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Freight '
+      name: Freight
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL
       visible: true
     detail_template: detail_template.html
     exclude: false
@@ -1192,18 +1192,18 @@ entities:
     - direction: toone
       exclude: false
       fks:
-      - CustomerId
-      label: Customer
-      name: Customer
-      resource: Customer
-    - direction: toone
-      exclude: false
-      fks:
       - Country
       - City
       label: Location
       name: Location
       resource: Location
+    - direction: toone
+      exclude: false
+      fks:
+      - CustomerId
+      label: Customer
+      name: Customer
+      resource: Customer
     - direction: toone
       exclude: false
       fks:
@@ -1215,37 +1215,6 @@ entities:
     type: Order
   OrderDetail:
     columns:
-    - enabled: true
-      exclude: false
-      label: 'Productid '
-      name: ProductId
-      required: true
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - derivation: Rule.copy(derive=OrderDetail.UnitPrice,  from_parent=Product.UnitPrice)
-      enabled: true
-      exclude: false
-      label: 'Unitprice '
-      name: UnitPrice
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: DECIMAL
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Discount '
-      name: Discount
-      required: false
-      search: false
-      sort: false
-      template: real
-      type: DOUBLE
-      visible: true
     - derivation: Rule.formula(derive=OrderDetail.ShippedDate,  as_exp="row.Order.ShippedDate")
       enabled: true
       exclude: false
@@ -1259,29 +1228,9 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Id* '
-      name: Id
-      required: false
-      search: true
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'Orderid '
       name: OrderId
       required: true
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Quantity '
-      name: Quantity
-      required: false
       search: false
       sort: false
       template: integer
@@ -1296,8 +1245,59 @@ entities:
       required: false
       search: false
       sort: false
-      template: text
+      template: currency
       type: DECIMAL
+      visible: true
+    - derivation: Rule.copy(derive=OrderDetail.UnitPrice,  from_parent=Product.UnitPrice)
+      enabled: false
+      exclude: false
+      label: 'Unitprice '
+      name: UnitPrice
+      required: false
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Productid '
+      name: ProductId
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Discount '
+      name: Discount
+      required: false
+      search: false
+      sort: false
+      template: real
+      type: DOUBLE
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Id* '
+      name: Id
+      required: false
+      search: true
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Quantity '
+      name: Quantity
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
       visible: true
     detail_template: detail_template.html
     exclude: false
@@ -1331,31 +1331,11 @@ entities:
     type: OrderDetail
   Product:
     columns:
-    - enabled: true
-      exclude: false
-      label: 'Quantityperunit '
-      name: QuantityPerUnit
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(8000)
-      visible: true
     - derivation: Rule.formula(derive=Product.UnitsInStock, calling=units_in_stock)
       enabled: true
       exclude: false
       label: 'Unitsinstock '
       name: UnitsInStock
-      required: true
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Reorderlevel '
-      name: ReorderLevel
       required: true
       search: false
       sort: false
@@ -1376,16 +1356,6 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Supplierid '
-      name: SupplierId
-      required: true
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'Product Name* '
       name: ProductName
       required: false
@@ -1396,28 +1366,8 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Unitprice '
-      name: UnitPrice
-      required: true
-      search: false
-      sort: false
-      template: text
-      type: DECIMAL
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'Unitsonorder '
       name: UnitsOnOrder
-      required: true
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Discontinued '
-      name: Discontinued
       required: true
       search: false
       sort: false
@@ -1436,6 +1386,46 @@ entities:
       visible: true
     - enabled: true
       exclude: false
+      label: 'Quantityperunit '
+      name: QuantityPerUnit
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Reorderlevel '
+      name: ReorderLevel
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Supplierid '
+      name: SupplierId
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Discontinued '
+      name: Discontinued
+      required: true
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
       label: 'Categoryid '
       name: CategoryId
       required: true
@@ -1443,6 +1433,16 @@ entities:
       sort: false
       template: integer
       type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Unitprice '
+      name: UnitPrice
+      required: true
+      search: false
+      sort: false
+      template: currency
+      type: DECIMAL
       visible: true
     detail_template: detail_template.html
     exclude: false
@@ -1510,16 +1510,6 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Id '
-      name: Id
-      required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'Phone '
       name: Phone
       required: false
@@ -1527,6 +1517,16 @@ entities:
       sort: false
       template: text
       type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Id '
+      name: Id
+      required: false
+      search: false
+      sort: false
+      template: integer
+      type: INTEGER
       visible: true
     detail_template: detail_template.html
     exclude: false
@@ -1543,28 +1543,8 @@ entities:
     columns:
     - enabled: true
       exclude: false
-      label: 'Contactname '
-      name: ContactName
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(8000)
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'Address '
       name: Address
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(8000)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Region '
-      name: Region
       required: false
       search: false
       sort: false
@@ -1583,16 +1563,6 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Fax '
-      name: Fax
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(8000)
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'Id '
       name: Id
       required: false
@@ -1603,28 +1573,8 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Company Name* '
-      name: CompanyName
-      required: false
-      search: true
-      sort: false
-      template: text
-      type: VARCHAR(8000)
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'Contacttitle '
       name: ContactTitle
-      required: false
-      search: false
-      sort: false
-      template: text
-      type: VARCHAR(8000)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'City '
-      name: City
       required: false
       search: false
       sort: false
@@ -1643,8 +1593,8 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Phone '
-      name: Phone
+      label: 'Homepage '
+      name: HomePage
       required: false
       search: false
       sort: false
@@ -1653,8 +1603,58 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Homepage '
-      name: HomePage
+      label: 'Contactname '
+      name: ContactName
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Region '
+      name: Region
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Fax '
+      name: Fax
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Company Name* '
+      name: CompanyName
+      required: false
+      search: true
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'City '
+      name: City
+      required: false
+      search: false
+      sort: false
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Phone '
+      name: Phone
       required: false
       search: false
       sort: false
@@ -1676,20 +1676,20 @@ entities:
     columns:
     - enabled: true
       exclude: false
-      label: 'Id '
-      name: Id
+      label: 'Territory Description* '
+      name: TerritoryDescription
       required: false
-      search: false
+      search: true
       sort: false
       template: text
       type: VARCHAR(8000)
       visible: true
     - enabled: true
       exclude: false
-      label: 'Territory Description* '
-      name: TerritoryDescription
+      label: 'Id '
+      name: Id
       required: false
-      search: true
+      search: false
       sort: false
       template: text
       type: VARCHAR(8000)
@@ -1773,6 +1773,13 @@ grants:
     filter: 'lambda: models.Customer.Id == Security.current_user().id,filter_debug="Id
       == Security.current_user().id",'
     filter_debug: '"Id == Security.current_user().id",'
+  Customer_public:
+    can_delete: false
+    can_insert: false
+    can_read: false
+    can_update: false
+    filter: 'lambda: models.Customer.Id != "ANATR",filter_debug="Customer.Id != ANATR",'
+    filter_debug: '"Customer.Id != ANATR",'
   Customer_sales:
     can_delete: false
     can_insert: false

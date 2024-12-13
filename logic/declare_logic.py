@@ -68,7 +68,10 @@ def declare_logic():
                     row.upload_flag = False
                     row.download_flag = False
                     row.content = yaml_content
+                    app_name = "app" #TODO
+                    row.file_path = f"{row.file_path}/ui/{app_name}"
                 except yaml.YAMLError as exc:
+                    app_logger.debug("The yaml file must be a valid app_model.yaml file")
                     row.content = None
                     return False
                 
@@ -79,16 +82,22 @@ def declare_logic():
             
         return True
     
+    def create_application(row: YamlFiles, old_row: YamlFiles, logic_row: LogicRow):
+        #from api.api_discovery.ontimize_api import insert_application
+        #if logic_row.is_updated and row.file_path != old_row.file_path: 
+        #    insert_application()
+        pass
     
     def export_yaml(row: YamlFiles, old_row: YamlFiles, logic_row:LogicRow):
         if logic_row.is_updated and row.download_flag and old_row.download_flag == False and row.content != None:
             from api.api_discovery.ontimize_api import export_yaml_to_file
             from pathlib import Path
-            running_at = Path(__file__)
+            running_at = Path(__file__) 
             project_dir = running_at.parent.parent
             row.downloaded = export_yaml_to_file(project_dir=project_dir)
                 
     Rule.row_event(YamlFiles, calling=export_yaml)
+    Rule.row_event(YamlFiles,calling=create_application)
     Rule.commit_row_event(YamlFiles, calling=process_file_path)
     Rule.constraint(YamlFiles, calling=validate_yaml, error_msg="Invalid app_model.yaml file")
     #Rule.row_event(on_class=models.RuleDerivation, calling=parse_derivation_rule)
