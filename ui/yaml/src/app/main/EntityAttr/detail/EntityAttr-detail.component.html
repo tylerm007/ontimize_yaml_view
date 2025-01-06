@@ -15,24 +15,25 @@
                 </o-list-picker>
 
                 <o-text-input attr="attr" label="Attribute" editable="no" enabled="no" required="yes"></o-text-input>
-
-                <o-list-picker attr="template_name" service="Template" entity="TemplateType" fxFlex="30"
-                  query-on-init="no" query-on-bind="yes" required="yes" enabled="yes" filter="yes" value-column="name"
-                  value-column-type="VARCHAR" keys="name" columns="name" title="template_name" visible-columns="name"
-                  separator=" - " width="400px">
-                </o-list-picker>
+                <o-text-input attr="thistype" label="DataType" editable="no"  enabled="no" required="no"></o-text-input>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="start start" fxFlex="60%" fxLayoutGap="14px">
+                  <o-list-picker attr="template_name" service="Template" entity="TemplateType" fxFlex="30"
+                    query-on-init="no" query-on-bind="yes" required="yes" enabled="yes" filter="yes" value-column="name"
+                    value-column-type="VARCHAR" keys="name" columns="name" title="template_name" visible-columns="name"
+                    separator=" - " width="400px">
+                  </o-list-picker>
               </div> 
-              <div fxLayout="row" fxLayoutAlign="start center" class="gap"> 
+              <div fxLayout="row" fxLayoutAlign="start start" class="gap" fxLayoutGap="14px"> 
                 <o-text-input attr="label" label="label" editable="yes" required="no"></o-text-input>
                 <o-text-input attr="default_value" label="Default Value" editable="yes" required="no"></o-text-input>
-                <o-text-input attr="thistype" label="DataType" editable="yes" required="yes"></o-text-input>
               </div>
               <br>
               <div fxLayout="row" fxLayoutAlign="start left" class="gap">
-                <o-textarea-input attr="tooltip" label="tooltip" enabled="true" read-only="false" width="680px"></o-textarea-input>
+                <o-textarea-input attr="tooltip" label="tooltip" rows="2" enabled="true" read-only="false" width="680px"></o-textarea-input>
               </div>
               <div fxLayout="row" fxLayoutAlign="start center" class="gap">
-                <o-textarea-input attr="derivation" label="Derivation Rule" enabled="true" read-only="false" tooltip="Use Rule.constraint(validate={model.EntityName} , as_condition={expression} | calling={function},error_msg={some message})" width="680px"></o-textarea-input>
+                <o-textarea-input attr="derivation" label="Derivation Rule" rows="2" enabled="true" read-only="false" tooltip="Use Rule.constraint(validate={model.EntityName} , as_condition={expression} | calling={function},error_msg={some message})" width="680px"></o-textarea-input>
               </div>
             </div>
           </o-row>

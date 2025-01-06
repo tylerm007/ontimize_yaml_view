@@ -22,7 +22,7 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Client Id '
+      label: 'Client Key '
       name: Client_id
       required: false
       search: false
@@ -160,16 +160,6 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Client Id '
-      name: Client_id
-      required: false
-      search: false
-      sort: false
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
       label: 'City '
       name: City
       required: false
@@ -217,6 +207,16 @@ entities:
       sort: false
       template: text
       type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Client Id '
+      name: Client_id
+      required: false
+      search: false
+      sort: false
+      template: nif
+      type: INTEGER
       visible: true
     - enabled: false
       exclude: false
@@ -312,7 +312,7 @@ entities:
       type: VARCHAR(8000)
       visible: true
     detail_template: detail_template.html
-    exclude: false
+    exclude: true
     favorite: Id
     group: data
     home_template: home_template.html
@@ -1813,7 +1813,7 @@ user_roles:
     can_delete: false
     can_insert: false
     can_read: true
-    can_update: false
+    can_update: true
   manager:
     can_delete: false
     can_insert: false

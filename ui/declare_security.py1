@@ -12,7 +12,7 @@ DefaultRolePermission(to_role=Roles.renter, can_read=True, can_insert=False, can
 DefaultRolePermission(to_role=Roles.manager, can_read=True, can_insert=False, can_update=False, can_delete=False)
 DefaultRolePermission(to_role=Roles.sales, can_read=True, can_insert=False, can_update=False, can_delete=False)
 DefaultRolePermission(to_role=Roles.public, can_read=True, can_insert=False, can_update=False, can_delete=False)
-DefaultRolePermission(to_role=Roles.customer, can_read=True, can_insert=False, can_update=False, can_delete=False)
+DefaultRolePermission(to_role=Roles.customer, can_read=True, can_insert=False, can_update=True, can_delete=False)
 # Grants
 Grant(models.Customer, to_role=Roles.customer, can_read=False, can_insert=False, can_update=False, can_delete=False, filter=lambda: models.Customer.Id == Security.current_user().id,filter_debug="Id == Security.current_user().id",, filter_debug="Id == Security.current_user().id",)
 Grant(models.Customer, to_role=Roles.sales, can_read=False, can_insert=False, can_update=False, can_delete=False, filter=lambda: models.Customer.CreditLimit > 300,filter_debug="CreditLimit > 300",, filter_debug="CreditLimit > 300",)

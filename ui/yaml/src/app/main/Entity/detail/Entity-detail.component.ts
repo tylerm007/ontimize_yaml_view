@@ -1,5 +1,5 @@
 import { Injector, ViewChild, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { OTableVisibleColumnsDialogComponent, OButtonComponent, OFormComponent, OntimizeService, OListPickerComponent, OTableComponent, OColumn, OTableOptions, DialogService, SnackBarService, OSnackBarConfig} from 'ontimize-web-ngx';
+import {OTableVisibleColumnsDialogComponent, OButtonComponent, OFormComponent, OntimizeService, OListPickerComponent, OTableComponent, OColumn, OTableOptions, DialogService, SnackBarService, OSnackBarConfig} from 'ontimize-web-ngx';
 import { environment } from 'src/environments/environment';
 //import { OTableVisibleColumnsDialogComponent } from './visible-columns/o-table-visible-columns-dialog.component';  // This import is missing in the original file  
 import { MatDialog } from '@angular/material/dialog';
@@ -31,7 +31,7 @@ export class EntityDetailComponent implements OnInit  {
     this.dialogService = this.injector.get(DialogService);
     this.dialog = this.injector.get(MatDialog);
     this.snackBarService = this.injector.get(SnackBarService);
-   // this.table = this.injector.get(OTableComponent)
+    //this.table = this.injector.get(OTableComponent)
   }
   ngOnInit() {
     //this.configureService();
@@ -79,22 +79,31 @@ export class EntityDetailComponent implements OnInit  {
     //  attr: oCol.attr,
     //  title: oCol.label,
     //  visible: oCol.visible
+  
     this.service.query({'entity_name': this.entity.name },
       [],
       'getattributes').subscribe((resp) => {
-        console.log("getAttributes: " + JSON.stringify(resp.data));
+        //console.log("getAttributes: " + JSON.stringify(resp.data));
         if (resp.code === 0) {
-        
+          this.showPopup(resp.data.data);
         } else {
           console.error(resp);
         }
     });
-  
-    const columnVisibilityConfiguration = []
-    const oCol: OColumn = new OColumn();
-    oCol.attr = 'column1';
-    oCol.title = 'Column 1';
-    oCol.visible = true;
+  }
+  showPopup(attributes: any) {
+    let columns = []
+    for (let i in attributes) { 
+      //console.log("Attribute: ", i, attributes[i]);
+      let a =  attributes[i]
+      let oCol: OColumn = new OColumn();
+      oCol.attr = a.attr;
+      oCol.title = a.attr;
+      oCol.visible = a.exclude;
+      columns.push(oCol);
+    }
+    //this.table.visibleColArray  = columns;
+    //this.table.oTableOptions.columns = columns;
     /*
     columnVisibilityConfiguration.push(oCol);
     this.table.oTableOptions.columns = columnVisibilityConfiguration;

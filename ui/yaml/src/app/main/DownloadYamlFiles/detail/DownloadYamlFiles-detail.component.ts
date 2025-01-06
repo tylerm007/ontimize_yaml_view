@@ -1,5 +1,5 @@
 import { Injector, ViewChild, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { OFormComponent, OntimizeService, OTableComponent, OTextareaInputComponent,  SnackBarService, OSnackBarConfig} from 'ontimize-web-ngx';
+import {OFormComponent, OntimizeService, OTableComponent, OTextareaInputComponent,  SnackBarService, OSnackBarConfig} from 'ontimize-web-ngx';
 import { DialogService } from 'ontimize-web-ngx';
 
 @Component({
@@ -72,6 +72,7 @@ export class DownloadYamlFilesDetailComponent implements OnInit {
   } 
   download_yaml() {
     console.log("download_yaml");
+
     const configuration: OSnackBarConfig = {
       action: 'Ok',
       milliseconds: 7000,
