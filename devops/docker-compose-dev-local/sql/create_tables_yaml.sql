@@ -52,6 +52,7 @@ CREATE TABLE entity_attr (
     exclude boolean default false,
     visible boolean default true, default_value VARCHAR(100),
     derivation VARCHAR(255),
+    create_date TIMESTAMP default now(),
     PRIMARY KEY (entity_name, attr),
     FOREIGN KEY (entity_name) REFERENCES entity(name),
     FOREIGN KEY (template_name) REFERENCES template(name)

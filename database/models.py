@@ -313,6 +313,7 @@ class EntityAttr(SAFRSBaseX, Base):
     visible = Column(Boolean, server_default=text("true"))
     default_value = Column(String(100))
     derivation = Column(String(255))
+    create_date = Column(TIMESTAMP,server_default=text("now()"))
     allow_client_generated_ids = True
 
     # parent relationships (access parent)

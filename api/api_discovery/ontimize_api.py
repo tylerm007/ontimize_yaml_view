@@ -481,13 +481,14 @@ def add_service(
                         # yaml_content = request.data.decode("utf-8")
                         valuesYaml = yaml.safe_load(yaml_content)
                         process_yaml(
-                            valuesYaml=valuesYaml, rule_content=resp.rule_content, role_content=resp.role_content
+                            valuesYaml=valuesYaml, rule_content=resp.rule_content, role_content=resp.role_content, local_storage=resp.local_storage
                         )
 
                     data = {
                         "downloaded": yaml_content,
                         "rule_content": resp.rule_content,
                         "role_content": resp.role_content,
+                        "local_storage": resp.local_storage,
                     }
                     return jsonify(
                         {
@@ -811,7 +812,7 @@ def add_service(
             ##if not data.content.startswith('b')
             ##else str(b64decode(data.content), encoding=encoding)
             rule_content = data and data.rule_content
-
+            
             if yaml_content:
                 try:
                     valuesYaml = yaml.safe_load(yaml_content)
@@ -823,6 +824,9 @@ def add_service(
                     return jsonify({"code": 1, "message": f"Error loading yaml: {exc}"})
             if rule_content:
                 merge_rules(rule_content)
+            if local_storage:
+                # TODO reorder the columns and visibility for each key
+                pass
         elif request.method == "POST":
             data = (
                 session.query(models.YamlFiles)
@@ -833,12 +837,14 @@ def add_service(
             rule_content = data and data.rule_content
             app_content = data and data.app_content
             rbac_content = data and data.rbac_content
+            local_storage = data and data.local_storage
             # yaml_content = request.data.decode("utf-8")
             valuesYaml = yaml.safe_load(yaml_content)
             process_yaml(
                 valuesYaml=valuesYaml,
                 rule_content=rule_content,
                 rbac_content=rbac_content,
+                local_storage=local_storage,
             )
             return jsonify({"code": 0, "message": "Yaml file loaded", "data": None})
 
@@ -1079,7 +1085,7 @@ def add_service(
 
     # Process the yaml file (load SQLite)
     def process_yaml(
-        valuesYaml: str, rule_content: str = None, role_content: str = None
+        valuesYaml: str, rule_content: str = None, role_content: str = None, local_storage: any = None
     ):
         # Clean the database out - this is destructive
 
@@ -1117,7 +1123,7 @@ def add_service(
             
         insert_template()
         insert_styles(valuesYaml)
-        insert_entities(valuesYaml, rules)
+        insert_entities(valuesYaml, rules, local_storage)
         insert_root(valuesYaml)
         
         if rule_content:
@@ -1143,7 +1149,7 @@ def add_service(
             db.session.rollback()
             raise ex
 
-    def insert_entities(valuesYaml, rules):
+    def insert_entities(valuesYaml, rules, local_storage: any = None):
         entities = valuesYaml["entities"]
         for entity in entities:
             m_entity = models.Entity()
@@ -1179,7 +1185,7 @@ def add_service(
         for entity in entities:
             each_entity_yaml = valuesYaml["entities"][entity]
             entity_type = entities[entity]["type"]
-            insert_entity_attrs(entity, entity_type, each_entity_yaml, rules)
+            insert_entity_attrs(entity, entity_type, each_entity_yaml, rules, local_storage)
 
         # Tab Groups
         for entity in entities:
@@ -1508,9 +1514,10 @@ def add_service(
                 session.rollback()
                 print(ex)
 
-    def insert_entity_attrs(entity, entity_type, each_entity_yaml, rules):
+    def insert_entity_attrs(entity, entity_type, each_entity_yaml, rules, local_storage: any = None):
         columns = []
-        for attr in each_entity_yaml["columns"]:
+        yaml_columns = sort_yaml_columns(entity, entity_type, each_entity_yaml["columns"], local_storage)
+        for attr in yaml_columns:
             if attr not in columns:
                 columns.append(attr)
                 m_entity_attr = models.EntityAttr()
@@ -1552,7 +1559,23 @@ def add_service(
                 # parse_derivation_rule(sql_alchemy_row)
                 # if rule['attr']:
                 #        update_entity_attr(rule["entity"], rule["rule"], rule['attr'])
-
+    def sort_yaml_columns(entity, entity_type, columns, local_storage):
+        #reorder the columns and visibility for each key in local_storage imported from settings
+        if local_storage:
+            ls = json.loads(local_storage)
+            for items in ls:
+                if items["key"] == f"{entity}Table_/main/{entity}":
+                    display_cols = items["oColumns-display"]
+                    sorted_cols = []
+                    for col in display_cols:
+                        #print(col["attr"], col["visible"])
+                        for c in columns:
+                            if c["name"] == col["attr"]:
+                                c["visible"] = col["visible"]
+                                sorted_cols.append(c)
+                    return sorted_cols
+            
+        return columns
     def insert_styles(valuesYaml):
         style_guide = valuesYaml["settings"]["style_guide"]
         print(f"style_guide: {style_guide}")

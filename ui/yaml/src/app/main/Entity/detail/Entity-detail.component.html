@@ -53,10 +53,10 @@
         <div layout-padding>
           <o-table attr="EntityAttrTable" service="EntityAttr" entity="EntityAttr" keys="entity_name;attr"
             parent-keys="entity_name:name"
-            columns="entity_name;template_name;attr;label;issearch;issort;thistype;tooltip;exclude;isrequired;isenabled;visible"
+            columns="entity_name;template_name;attr;label;issearch;issort;thistype;tooltip;exclude;isrequired;isenabled;visible;create_date"
             horizontal-scroll="yes" detail-form-route="EntityAttr" edit-form-route="EntityAttr"
             visible-columns="attr;template_name;label;issearch;issort;thistype;tooltip;exclude;isrequired;isenabled;visible"
-            sort-columns="entity_name" query-rows="25" quick-filter="yes" row-height="small" select-all-checkbox="true"
+            sort-columns="create_date" query-rows="25" quick-filter="yes" row-height="small" select-all-checkbox="true"
             pageable="yes" auto-adjust="true" virtual-scroll="yes" insert-button="yes" delete-button="yes"
             fixed-header="true" class="vertical-padding-8" edition-mode="click" horizontal-scroll="yes"
             class="fill-form">
