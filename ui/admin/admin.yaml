@@ -367,17 +367,17 @@ resources:
       required: true
       search: true
       sort: true
-    - name: content
     - name: file_path
     - name: is_active
-      type: Boolean
     - name: app_name
     - name: upload_flag
-      type: Boolean
     - name: download_flag
-      type: Boolean
-    - name: size
+    - name: content
+      type: image
     - name: rule_content
+    - name: role_content
+    - name: local_storage
+    - name: en_json
     - name: downloaded
     type: YamlFiles
     user_key: name

@@ -230,7 +230,7 @@ class RbacRole(SAFRSBaseX, Base):
 
 class YamlFiles(SAFRSBaseX, Base):
     __tablename__ = 'yaml_files'
-    _s_collection_name = 'YamlFile'  # type: ignore
+    _s_collection_name = 'YamlFiles'  # type: ignore
     __bind_key__ = 'None'
 
     name = Column(String(100), primary_key=True)
@@ -244,6 +244,8 @@ class YamlFiles(SAFRSBaseX, Base):
     downloaded = Column(Text)
     rule_content = Column(Text)
     role_content = Column(Text)
+    local_storage = Column(Text)
+    en_json = Column(Text)
     application_content = Column(Text)
     allow_client_generated_ids = True
 

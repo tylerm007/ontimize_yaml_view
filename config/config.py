@@ -163,7 +163,21 @@ class Config:
     KAFKA_CONSUMER = '{"bootstrap.servers": "localhost:9092", "group.id": "als-default-group1"}'
     KAFKA_CONSUMER = None  # comment out to enable Kafka consumer
 
-    OPT_LOCKING = "ignore"
+    # N8N Webhook Args (for testing)
+	# see https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.webhook/?utm_source=n8n_app&utm_medium=node_settings_modal-credential_link&utm_campaign=n8n-nodes-base.webhook#path
+    wh_scheme = "http"
+    wh_server = "localhost" # or cloud.n8n.io...
+    wh_port = 5678
+    wh_endpoint = "webhook-test"
+    wh_path = "002fa0e8-f7aa-4e04-b4e3-e81aa29c6e69"
+    token = "YWRtaW46cA=="
+    N8N_PRODUCER = {"authorization": f"Basic {token}", "n8n_url": f'"{wh_scheme}://{wh_server}:{wh_port}/{wh_endpoint}/{wh_path}"'} 
+    # Or enter the n8n_url directly:
+    N8N_PRODUCER = {"authorization": f"Basic {token}","n8n_url":"http://localhost:5678/webhook-test/002fa0e8-f7aa-4e04-b4e3-e81aa29c6e69"}  
+    N8N_PRODUCER = None # comment out to enable N8N producer
+    # Consumer under consideration
+
+    OPT_LOCKING = "optional"
     if os.getenv('OPT_LOCKING'):  # e.g. export OPT_LOCKING=required
         opt_locking_export = os.getenv('OPT_LOCKING')  # type: ignore # type: str
         opt_locking = opt_locking_export.lower()  # type: ignore
@@ -225,6 +239,7 @@ class Args():
         self.http_scheme = Config.CREATED_HTTP_SCHEME
         self.kafka_producer = Config.KAFKA_PRODUCER
         self.kafka_consumer = Config.KAFKA_CONSUMER
+        self.n8n_producer = Config.N8N_PRODUCER
         self.keycloak_base = Config.KEYCLOAK_BASE
         self.keycloak_realm = Config.KEYCLOAK_REALM
         self.keycloak_base_url = Config.KEYCLOAK_BASE_URL
@@ -476,6 +491,23 @@ class Args():
                f'.. | verbose: {self.verbose}, create_and_run: {self.create_and_run}'
         return rtn
 
+    @property
+    def n8n_producer(self) -> dict:
+        """ n8n connect string """
+        if "N8N_PRODUCER" in self.flask_app.config:
+            if self.flask_app.config["N8N_PRODUCER"] is not None:
+                value = self.flask_app.config["N8N_PRODUCER"]
+                if isinstance(value, dict):
+                    pass  # eg, from VSCode Run Config: "APILOGICPROJECT_N8N_PRODUCER": "{\"bootstrap.servers\": \"localhost:9092\"}",
+                else:
+                    value = json.loads(self.flask_app.config["N8N_PRODUCER"])
+                return value
+        return None
+    
+    @n8n_producer.setter
+    def n8n_producer(self, a: str):
+        self.flask_app.config["N8N_PRODUCER"] = a
+
 
     def get_cli_args(self, args: 'Args', dunder_name: str):
         """
@@ -582,7 +614,7 @@ class Args():
         use_codespace_defaulting = True  # experimental support to run default launch config
         if use_codespace_defaulting and os.getenv('CODESPACES') and args.swagger_host == 'localhost':
             app_logger.info('\n Applying Codespaces default port settings')
-            args.swagger_host = os.getenv('CODESPACE_NAME') + '-5656.githubpreview.dev'
+            args.swagger_host = os.getenv('CODESPACE_NAME') + '-5656.app.github.dev'  # CS 10/10/24:  .app, no longer preview
             args.swagger_port = 443
             args.http_scheme = 'https'
 

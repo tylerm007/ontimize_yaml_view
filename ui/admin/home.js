@@ -1,7 +1,7 @@
 const sla_doc =
     '<div class="MuiTypography-root jss4" style="color: rgba(0, 0, 0, 0.66)">' +
     '<div style="text-align:center">' +
-    '<h2>Welcome to API Logic Server - Yaml File Editor </h2>' +
+    '<h2>Welcome to API Logic Server - Sample</h2>' +
     '</div><br>' +
     '<h3><a class="custom" style="color: #3f51b5;"  rel="nofollow" href="https://apilogicserver.github.io/Docs/" target="_blank">API Logic Server</a> ' +
     'creates <i>customizable</i> model-driven systems, instantly from your ' +

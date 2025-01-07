@@ -83,6 +83,8 @@ CREATE TABLE yaml_files(
     downloaded text,
     rule_content TEXT,
     role_content TEXT,
+    local_storage TEXT,
+    en_json TEXT,
     application_content TEXT,
     PRIMARY KEY(name)
 );

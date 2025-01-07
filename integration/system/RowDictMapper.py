@@ -64,6 +64,7 @@ def json_to_entities(from_row: str | object, to_row):
                         child_from = from_row[each_attr_name]
                         for each_child_from in child_from:
                             child_class = each_attr.entity.class_
+                            # #als add child to parent list
                             # eachOrderDetail = OrderDetail(); order.OrderDetailList.append(eachOrderDetail)
                             child_to = child_class()  # instance of child (e.g., OrderDetail)
                             json_to_entities(each_child_from, child_to)
@@ -182,19 +183,23 @@ class RowDictMapper():
         if current_endpoint is not None:
             custom_endpoint = current_endpoint
         row_as_dict = {}
-        for each_field in custom_endpoint.fields:
-            if isinstance(each_field, tuple):
-                value = "unknown"
-                if isinstance(each_field[0], sqlalchemy.orm.attributes.InstrumentedAttribute):
-                    value = getattr(row, each_field[0].name)
+        if len(self.fields) == 0:
+            # logger.info(f'No fields defined for {self._model_class.__name__}')
+            row_as_dict = row.to_dict()
+        else:
+            for each_field in custom_endpoint.fields:
+                if isinstance(each_field, tuple):
+                    value = "unknown"
+                    if isinstance(each_field[0], sqlalchemy.orm.attributes.InstrumentedAttribute):
+                        value = getattr(row, each_field[0].name)
+                    else:
+                        value = each_field[0]
+                    row_as_dict[each_field[1]] = value
                 else:
-                    value = each_field[0]
-                row_as_dict[each_field[1]] = value
-            else:
-                if isinstance(each_field, str):
-                    logger.info("Coding error - you need to use TUPLE for attr/alias")
-                row_as_dict[each_field.name] = getattr(row, each_field.name)
-        
+                    if isinstance(each_field, str):
+                        logger.info("Coding error - you need to use TUPLE for attr/alias")
+                    row_as_dict[each_field.name] = getattr(row, each_field.name)
+            
         custom_endpoint_related_list = custom_endpoint.related
         if isinstance(custom_endpoint_related_list, list) is False:
             custom_endpoint_related_list = []

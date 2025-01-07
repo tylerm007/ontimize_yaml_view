@@ -1,5 +1,5 @@
 import { Component, Injector, ViewChild } from '@angular/core';
-import { NavigationService, OFormComponent, SnackBarService } from 'ontimize-web-ngx';
+import { NavigationService, OFormComponent, SnackBarService,  OSnackBarConfig} from 'ontimize-web-ngx';
 //import {MAT_SNACK_BAR_DATA} from '@angular/material/snack-bar';
 @Component({
   selector: 'YamlFiles-new',
@@ -9,13 +9,16 @@ import { NavigationService, OFormComponent, SnackBarService } from 'ontimize-web
 
 export class YamlFilesNewComponent {
   @ViewChild('YamlFilesForm') form: OFormComponent;
-  protected snackBarService: SnackBarService
+  public snackBarService: SnackBarService;
+  public snackBarConfig: OSnackBarConfig;
   constructor(protected injector: Injector) {
     this.injector.get(NavigationService).initialize();
+    this.snackBarService = this.injector.get(SnackBarService);
   }
   onInsertMode() {
     const default_values = { "name": "app_model.yaml" };
     this.form.setFieldValues(default_values);
+    this.form.setFieldValues({"app_name": "app"});
   }
 
   ngAfterViewInit() {
@@ -25,12 +28,15 @@ export class YamlFilesNewComponent {
       const fullPath = (event.target as HTMLInputElement).files[0].webkitRelativePath;
       const filePaths = Array.from(files).map(file => file.webkitRelativePath || file.name);
 
-      console.log(filePaths);
+      //console.log(filePaths[0]);
       //console.log(fullPath);
       let declare_logic;
       let declare_security;
+      let local_storage = [];
+      let en_json = [];
       let app_model = [];
       let app_model_raw = [];
+      let app_names = [];
       let project_name = "ApiLogicServer";
       if (files && output) {
 
@@ -57,18 +63,50 @@ export class YamlFilesNewComponent {
             let model = btoa(app_yaml)
             app_model_raw.push(app_yaml);
             app_model.push(model);
+            app_names.push(files[i].webkitRelativePath.split("/")[2]);
             let field = this.form.getFieldValue('content');
-            field.setValue(app_yaml);
+            if (field) {
+              field.setValue(app_yaml);
+            }
+            console.log("app_names", app_names);
+          }
+          if (files[i].type == "application/json" && files[i].name.startsWith("com.ontimize.web.ngx")) {
+            let ls = await files[i].text();
+            local_storage.push(ls);
+          }
+          if (files[i].type == "application/json" && files[i].name == "en.json") {
+            let en = await files[i].text();
+            en_json.push(en);
           }
         }
         if (app_model) {
+          // For each app_model.yaml project - create a new entry
           for (let i in app_model) {
             console.log(declare_logic, app_model);
             let encodedAppModel = app_model[i] //btoa(app_model);
             let encodedLogicModel = declare_logic ? btoa(declare_logic) : null;
             let encodedSecurityModel = declare_security ? btoa(declare_security) : null;
-            let app_name = "app" //TODO
-            this.form.setFieldValues({ "name": project_name + (i + 1), "content": encodedAppModel, "rule_content": encodedLogicModel, "role_content": encodedSecurityModel,"app_name": app_name });
+            let encodedLocalStorage = local_storage.length > 0 ? btoa(local_storage[i]) : null;
+            if (local_storage.length == 0) {
+              const localStorageElement = document.getElementById('local_storage');
+              if (localStorageElement) {
+                let ls = localStorageElement.textContent || '';
+                encodedLocalStorage = btoa(ls);
+              }
+            }
+            let file_path = this.form.getFieldValue('file_path');
+            let app_name = app_names[i]
+            this.form.setFieldValues({ 
+                "name": project_name + app_name + "_" + (i + 1), 
+                "app_name": app_name,
+                "download_flag": false,
+                "content": encodedAppModel, 
+                "rule_content": encodedLogicModel, 
+                "role_content": encodedSecurityModel,
+                "local_storage": encodedLocalStorage,
+                "en_json":en_json[i], 
+                "file_path": file_path || filePaths[i].split("/").pop()
+              });
             let field = this.form.getFieldValue('content');
             if (field && app_model_raw[0]) {
               console.log("app_model_raw[0]");
@@ -84,7 +122,18 @@ export class YamlFilesNewComponent {
               console.log("declare_security");
               //field3.setValue(declare_security);
             }
-            this.snackBarService.open('Uploading files...');
+            let field4 = this.form.getFieldValue('local_storage');
+            if (field4 && local_storage.length > 0 && local_storage[i]) {
+              console.log("local_storage", local_storage[i]);
+              //field3.setValue(local_storage);
+            }
+            const configuration: OSnackBarConfig = {
+              action: 'Ok',
+              milliseconds: 3000,
+              icon: 'check_circle',
+              iconPosition: 'left'
+            }
+            this.snackBarService.open('Uploading selected files...', configuration);
           }
         } else {
           alert("Please select a root ApiLogicServer project folder");

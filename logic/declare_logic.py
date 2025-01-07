@@ -48,15 +48,10 @@ def declare_logic():
         
         Grant.process_updates(logic_row=logic_row)
 
-    Rule.early_row_event_all_classes(early_row_event_all_classes=handle_all)
-
-    def process_file_path(row: YamlFiles, old_row: YamlFiles, logic_row:LogicRow):
-        if logic_row.ins_upd_dlt in ["ins","upd"] and row.file_path:
-            s = row.file_path.split("/")
-            row.app_name = s[-1]    
+    Rule.early_row_event_all_classes(early_row_event_all_classes=handle_all) 
                 
     def validate_yaml(row: YamlFiles, old_row: YamlFiles, logic_row:LogicRow):
-        if logic_row.ins_upd_dlt in ["ins"] and (row.download_flag is None or row.download_flag == False):
+        if logic_row.ins_upd_dlt in ["ins"]:# and (row.download_flag is None or row.download_flag == False):
             if row.content:
                 yaml_content = str(b64decode(row.content), encoding=encoding) if row.content else None 
                 try:
@@ -68,7 +63,7 @@ def declare_logic():
                     row.upload_flag = False
                     row.download_flag = False
                     row.content = yaml_content
-                    app_name = "app" #TODO
+                    app_name = row.app_name
                     row.file_path = f"{row.file_path}/ui/{app_name}"
                 except yaml.YAMLError as exc:
                     app_logger.debug("The yaml file must be a valid app_model.yaml file")
@@ -79,7 +74,8 @@ def declare_logic():
                 row.rule_content = str(b64decode(row.rule_content), encoding=encoding) if row.rule_content else None
             if row.role_content:
                 row.role_content = str(b64decode(row.role_content), encoding=encoding) if row.role_content else None    
-            
+            if row.local_storage:
+                row.local_storage = str(b64decode(row.local_storage), encoding=encoding) if row.local_storage else None    
         return True
     
     def create_application(row: YamlFiles, old_row: YamlFiles, logic_row: LogicRow):
@@ -97,8 +93,7 @@ def declare_logic():
             row.downloaded = export_yaml_to_file(project_dir=project_dir)
                 
     Rule.row_event(YamlFiles, calling=export_yaml)
-    Rule.row_event(YamlFiles,calling=create_application)
-    Rule.commit_row_event(YamlFiles, calling=process_file_path)
+    #Rule.row_event(YamlFiles,calling=create_application)
     Rule.constraint(YamlFiles, calling=validate_yaml, error_msg="Invalid app_model.yaml file")
     #Rule.row_event(on_class=models.RuleDerivation, calling=parse_derivation_rule)
     app_logger.debug("..logic/declare_logic.py (logic == rules + code)")
