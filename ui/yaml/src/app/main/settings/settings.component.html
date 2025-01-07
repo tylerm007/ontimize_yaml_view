@@ -1,22 +1,20 @@
-<o-form-layout-manager #MyForm attr="myForm" mode="TAB">
-  <div fxFill fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px">
-    <span>{{ 'SETTINGS' | oTranslate }}</span>
+<div fxLayout="column" fxFlex="60" class="settings-container">
+  <span>{{ 'SETTINGS' | oTranslate }}</span>
 
-    <o-column title="LANGUAGE" layout-align="center stretch" class="setting-column" layout-padding>
-      <mat-radio-group [value]="currentLang" (change)="changeLang($event)">
-        <mat-radio-button *ngFor="let lang of availableLangs" [value]="lang">{{ 'LANG_' + lang | oTranslate
-          }}</mat-radio-button>
-      </mat-radio-group>
-    </o-column>
+  <o-column title="LANGUAGE" layout-align="center stretch" class="setting-column" layout-padding>
+    <mat-radio-group [value]="currentLang" (change)="changeLang($event)">
+      <mat-radio-button *ngFor="let lang of availableLangs" [value]="lang">{{ 'LANG_' + lang | oTranslate
+        }}</mat-radio-button>
+    </mat-radio-group>
+  </o-column>
 
-    <o-column title="DARK_MODE" layout-align="center stretch" class="setting-column" layout-padding>
-      <mat-slide-toggle #toggleDark [(ngModel)]="darkDefaultMode" (change)="changeDarkMode($event)"></mat-slide-toggle>
-    </o-column>
-    <o-button (click)="getLocalStorageService()" label="Local Session Storage Download" icon="download_file"
-      color="primary" type="raised"></o-button>
-    <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
-      <o-textarea-input #downloaded attr="downloaded" label="local_storage.json" [data]="getDownloaded()"
-        read-only="false" rows="40" content-align="left" fxFlex="100%" selectAllOnClick="yes"></o-textarea-input>
-    </div>
+  <o-column title="DARK_MODE" layout-align="center stretch" class="setting-column" layout-padding>
+    <mat-slide-toggle #toggleDark [(ngModel)]="darkDefaultMode" (change)="changeDarkMode($event)"></mat-slide-toggle>
+  </o-column>
+  <o-button (click)="getLocalStorageService()" label="Local Session Storage Download" icon="download_file"
+    color="primary" type="raised"></o-button>
+  <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+    <o-textarea-input #downloaded attr="downloaded" label="local_storage.json" [data]="getDownloaded()"
+      read-only="false" rows="40" content-align="left" fxFlex="100%" selectAllOnClick="yes"></o-textarea-input>
   </div>
-</o-form-layout-manager>
+</div>

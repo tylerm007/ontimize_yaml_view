@@ -89,12 +89,13 @@ export class SettingsComponent {
     //console.log("LocalStorage: ", this.localStorage);
     const element = document.getElementById('downloaded');
     if (element) {
+      let { uuid } = this._appConfig.getConfiguration();
       element.innerText = JSON.stringify(this.localStorage);
       const blob = new Blob([JSON.stringify(this.localStorage, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'localstore.json';
+      a.download = uuid + '.json';
       a.click();
       URL.revokeObjectURL(url);
     }
