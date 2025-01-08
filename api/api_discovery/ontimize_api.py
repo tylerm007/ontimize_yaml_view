@@ -1361,6 +1361,7 @@ def add_service(
         entity_attr = (
             session.query(models.EntityAttr)
             .filter(models.EntityAttr.entity_name == entity)
+            .order_by(models.EntityAttr.create_date.desc())
             .all()
         )
         for attr in entity_attr:
@@ -1928,6 +1929,7 @@ def fixup(label) -> str:
     label = label.replace("_comment", " Comment")
     label = label.replace("_display", " Display")
     label = label.replace("_type", " Type")
+    label = label.replace("_dt", " Date")
     label = label.replace("_", " ")
     s = label.split(" ")
     result = ""
