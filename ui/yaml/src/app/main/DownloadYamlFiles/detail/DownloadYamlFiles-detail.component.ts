@@ -119,4 +119,16 @@ export class DownloadYamlFilesDetailComponent implements OnInit {
         'The Yaml "downloaded content" has been reprocessed (Reloaded Entities, Attributes, Relationships)',);
     }
   }
+  download_yaml_file(){
+    console.log("download_yaml_file");
+    const element = document.createElement('a');
+    const fileType = 'text/yaml';
+    const fileContent = this.getDownloaded();
+    const blob = new Blob([fileContent], { type: fileType });
+    element.href = URL.createObjectURL(blob);
+    element.download = 'app_model_merge.yaml';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
 }
