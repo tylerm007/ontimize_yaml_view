@@ -10,17 +10,18 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./Entity-detail.component.scss']
 })
 export class EntityDetailComponent implements OnInit  {
-  protected service: any;
+
   protected entity: any;
   protected dialogService: any;
   protected dialog: any
   public snackBarService: SnackBarService;
   public snackBarConfig: OSnackBarConfig;
   //protected cd: ChangeDetectorRef,
+  protected service: OntimizeService;
   
 
   @ViewChild('table', { static: true }) table: OTableComponent;
-
+  
   @ViewChild('button')
   protected button: OButtonComponent;
 
@@ -34,7 +35,7 @@ export class EntityDetailComponent implements OnInit  {
     //this.table = this.injector.get(OTableComponent)
   }
   ngOnInit() {
-    //this.configureService();
+    this.configureService();
   }
   ngAfterViewInit() {
    // this.showHideColumns();

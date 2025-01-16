@@ -1602,12 +1602,15 @@ def write_file(source: list, file_name: str) -> any:
 
 
 def write_yaml_file(source: str, file_name: str) -> any:
-    with open(file_name, "w") as file:
-        yaml.safe_dump(source, file, default_flow_style=False)
-        # file.write(source)
-    with open(file_name, "r") as file:
-        return file.read()
-    return None
+    try:
+        with open(file_name, "w") as file:
+            yaml.safe_dump(source, file, default_flow_style=False)
+            # file.write(source)
+        with open(file_name, "r") as file:
+            return file.read()
+    except Exception as ex:
+        print(f"Error writing yaml file {file_name} with exception: {ex}")
+    return source
 
 
 def export_yaml_to_file(project_dir: str, yaml_file_row: dict = None):

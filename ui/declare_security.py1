@@ -1,19 +1,20 @@
 from security.system.authorization import Grant, Security, Security, DefaultRolePermission, GlobalFilter
 class Roles():
+    sa = "sa"
     tenant = "tenant"
-    renter = "renter"
+    admin = "admin"
     manager = "manager"
-    sales = "sales"
-    public = "public"
+    teller = "teller"
     customer = "customer"
+    read_only = "read_only"
+    public = "public"
 # Roles
+DefaultRolePermission(to_role=Roles.sa, can_read=True, can_insert=True, can_update=True, can_delete=True)
 DefaultRolePermission(to_role=Roles.tenant, can_read=True, can_insert=False, can_update=False, can_delete=True)
-DefaultRolePermission(to_role=Roles.renter, can_read=True, can_insert=False, can_update=False, can_delete=False)
-DefaultRolePermission(to_role=Roles.manager, can_read=True, can_insert=False, can_update=False, can_delete=False)
-DefaultRolePermission(to_role=Roles.sales, can_read=True, can_insert=False, can_update=False, can_delete=False)
+DefaultRolePermission(to_role=Roles.admin, can_read=True, can_insert=True, can_update=True, can_delete=True)
+DefaultRolePermission(to_role=Roles.manager, can_read=True, can_insert=True, can_update=True, can_delete=False)
+DefaultRolePermission(to_role=Roles.teller, can_read=True, can_insert=True, can_update=True, can_delete=False)
+DefaultRolePermission(to_role=Roles.customer, can_read=True, can_insert=True, can_update=True, can_delete=False)
+DefaultRolePermission(to_role=Roles.read_only, can_read=True, can_insert=False, can_update=False, can_delete=False)
 DefaultRolePermission(to_role=Roles.public, can_read=True, can_insert=False, can_update=False, can_delete=False)
-DefaultRolePermission(to_role=Roles.customer, can_read=True, can_insert=False, can_update=True, can_delete=False)
 # Grants
-Grant(models.Customer, to_role=Roles.customer, can_read=False, can_insert=False, can_update=False, can_delete=False, filter=lambda: models.Customer.Id == Security.current_user().id,filter_debug="Id == Security.current_user().id",, filter_debug="Id == Security.current_user().id",)
-Grant(models.Customer, to_role=Roles.sales, can_read=False, can_insert=False, can_update=False, can_delete=False, filter=lambda: models.Customer.CreditLimit > 300,filter_debug="CreditLimit > 300",, filter_debug="CreditLimit > 300",)
-Grant(models.Customer, to_role=Roles.public, can_read=False, can_insert=False, can_update=False, can_delete=False, filter=lambda: models.Customer.Id != "ANATR",filter_debug="Customer.Id != ANATR",, filter_debug="Customer.Id != ANATR",)
