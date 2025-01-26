@@ -32,6 +32,7 @@ export class YamlFilesNewComponent {
       //console.log(fullPath);
       let declare_logic;
       let declare_security;
+      let wg_all_rules = null;
       let local_storage = [];
       let en_json = [];
       let app_model = [];
@@ -56,6 +57,9 @@ export class YamlFilesNewComponent {
           if (files[i].type == "text/x-python-script" && files[i].name == "declare_security.py") {
             declare_security = await files[i].text();
 
+          }
+          if (files[i].type == "text/x-python-script" && files[i].name == "wg_all_rules.py") {
+            wg_all_rules = await files[i].text();
           }
           // Send one or more files to the server
           if (files[i].type == "application/x-yaml" && files[i].name == "app_model.yaml") {
@@ -82,7 +86,10 @@ export class YamlFilesNewComponent {
         if (app_model) {
           // For each app_model.yaml project - create a new entry
           for (let i in app_model) {
-            console.log(declare_logic, app_model);
+            console.log(declare_logic, app_model, declare_logic, wg_all_rules);
+            if (wg_all_rules != null) {
+              declare_logic = wg_all_rules;
+            }
             let encodedAppModel = app_model[i] //btoa(app_model);
             let encodedLogicModel = declare_logic ? btoa(declare_logic) : null;
             let encodedSecurityModel = declare_security ? btoa(declare_security) : null;
