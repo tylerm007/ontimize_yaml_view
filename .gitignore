@@ -4,6 +4,8 @@
 **/__pycache__
 *.egg-info
 /devops/.npm/_logs
+/postgres-data/base
+/postgres-data/pgdata
 venv/
 test/api_logic_server_behave/scenario_logic_logs/
 devops/docker-compose-dev-local-nginx/www

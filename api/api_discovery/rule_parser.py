@@ -119,17 +119,31 @@ def get_rules(entity: str = None) -> dict:
 def get_rules_report(project_dir: str = None) -> any:
     rule_group = {}
     rule_type = {}
-    for rule in get_rules_from_file(project_dir):
-        entity = rule["entity"]
-        _type = rule["rule"].split("Rule.")[1].split("(")[0]
-        if entity not in rule_group:
-            rule_group[entity] = [rule["rule"]]
-        else:
-            rule_group[entity].append(rule["rule"])
-        if _type not in rule_type:
-            rule_type[_type] = [rule["rule"]]
-        else:
-            rule_type[_type].append(rule["rule"])
+    def search_files(directory: str, extension: str = ".py") -> list:
+        """
+        Search for files with a specific extension in a directory and its subdirectories.
+        """
+        files_list = []
+        for root, dirs, files in os.walk(directory):
+            for file in files:
+                if file.endswith(extension):
+                    files_list.append(os.path.join(root, file))
+        return files_list
+
+    files = search_files(project_dir)
+    rule_files = {"/logic/declare_logic.py": "/logic/wg_rules/wg_all_rules.py"}
+    for rule_file in rule_files:
+        for rule in get_rules_from_file(project_dir, rule_file):
+            entity = rule["entity"]
+            _type = rule["rule"].split("Rule.")[1].split("(")[0]
+            if entity not in rule_group:
+                rule_group[entity] = [rule["rule"]]
+            else:
+                rule_group[entity].append(rule["rule"])
+            if _type not in rule_type:
+                rule_type[_type] = [rule["rule"]]
+            else:
+                rule_type[_type].append(rule["rule"])
     return rule_group, rule_type
             
 def get_rules_from_content(content: str) -> list:
@@ -182,8 +196,8 @@ def parse_rule_for_attr(rule: str, _type: str) -> str:
     return derive_column
 
 
-def get_rules_from_file(project_dir: str = None) -> list:
-    rule_list = parse_rules(project_dir)
+def get_rules_from_file(project_dir: str = None, rule_file: str = None) -> list:
+    rule_list = parse_rules(project_dir, rule_file)
     results = []
     for rule in rule_list:
         print(rule)
@@ -217,11 +231,11 @@ def parse_derivation_rule(rule: str):
     except Exception as e:
         print(e)    
     return {"derive_column": derive_column, "expression": expression}
-def parse_rules(project_dir: str = None) -> list:
+def parse_rules(project_dir: str = None, rule_file: str = "/logic/declare_logic.py") -> list:
     result = []
     rule_line = ""
     count_left_parents, count_right_parents = 0, 0
-    with open(f'{project_dir}/logic/declare_logic.py', 'r') as f:
+    with open(f'{project_dir}{rule_file}', 'r') as f:
         start = False
         for line in f:
             this_line = clean(line)
