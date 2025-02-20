@@ -17,10 +17,11 @@ def discover_models():
                 spec = importlib.util.spec_from_file_location("module.name", models_path.joinpath(file))
                 if file.endswith("auto_discovery.py"):
                     pass
+                elif file.endswith('authentication_models.py'):  #tp - avoid double import??
+                    pass
                 else:
                     models.append(file)
                     each_model = importlib.util.module_from_spec(spec)
                     spec.loader.exec_module(each_model)  # runs "bare" module code (e.g., initialization)
-                    # FIXME each_service.add_service()  # invoke create function
     app_logger.info(f"..discovered models: {models}")
     return

@@ -38,9 +38,7 @@ app_logger = logging.getLogger(__name__)
 db = safrs.DB
 session = db.session
 _project_dir = None
-app_logger.debug("api/api_discovery/ontimize_api.py - services for ontimize")
-
-
+app_logger.debug("api/api_discovery/ontimize_api.py - services for ontimize") 
 class DotDict(dict):
     """dot.notation access to dictionary attributes"""
 
@@ -50,19 +48,18 @@ class DotDict(dict):
     __delattr__ = dict.__delitem__
 
 
-def add_service(
-    app, api, project_dir, swagger_host: str, PORT: str, method_decorators=[]
-):
-    # def expose_services(app, api, project_dir, swagger_host: str, PORT: str):
-    # sourcery skip: avoid-builtin-shadow
+def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_decorators = []):
+    
+    
     """Ontimize API - new end points for services
 
     Brief background: see readme_customize_api.md
 
     """
+    global _project_dir 
     _project_dir = project_dir
     pass
-
+    
     def admin_required():
         """
         Support option to bypass security (see cats, below).
@@ -255,67 +252,49 @@ def add_service(
 
         return jsonify({"code": 0, "message": "Merge Rules", "data": {}})
 
-    @app.route(
-        "/ontimizeweb/services/rest/YamlFiles/insertFile/<path:path>",
-        methods=["GET", "POST", "DELETE", "OPTIONS"],
-    )
-    @cross_origin()
-    @admin_required()
-    def insertFile(path):
-        method = request.method
-        if method == "OPTIONS":
-            return jsonify(success=True)
+    
+    def insertFile(content):
+        
+        data = content["data"]
+        if data and len(data) < 7:
+            raise Exception("Invalid file content")
+    
+        sql_alchemy_row = models.YamlFiles()
 
-        if "file" not in request.files:
-            return jsonify({"code": 1, "message": "No file part", "data": None})
-
-        file = request.files["file"]
-
-        if file.filename == "":
-            return jsonify({"code": 1, "message": "No selected file", "data": None})
-
-        if file:
-            from base64 import b64decode, b64encode
-
-            content = file.read()
-            yaml_content = content.decode("utf-8") if content else None
-            # yaml_content = str(b64encode(content), encoding='utf-8') if content else None
-            # filename = secure_filename(file.filename)
-            # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            # need to get the id from request
-            files = session.query(models.YamlFiles).all()
-            sql_alchemy_row = models.YamlFiles()
-
-            setattr(sql_alchemy_row, "content", yaml_content)
-            setattr(sql_alchemy_row, "id", len(files) + 1)
-            setattr(sql_alchemy_row, "size", len(content))
-            setattr(sql_alchemy_row, "name", file.filename)
-            session.add(sql_alchemy_row)
-            try:
-                session.commit()
-                session.flush()
-                valuesYaml = yaml.safe_load(yaml_content)
-                process_yaml(valuesYaml=valuesYaml)
-            except Exception as ex:
-                session.rollback()
-                return jsonify(
-                    {
-                        "code": 1,
-                        "message": f"{ex}",
-                        "data": [],
-                        "sqlTypes": None,
-                    }
-                )
-
+        setattr(sql_alchemy_row, "content", data[3])
+        setattr(sql_alchemy_row, "size", len(data))
+        setattr(sql_alchemy_row, "name", data[0])
+        setattr(sql_alchemy_row, "file_path", data[2])
+        setattr(sql_alchemy_row, "download_flag", False)
+        setattr(sql_alchemy_row, "upload_flag", False)
+        setattr(sql_alchemy_row, "is_active", False)  
+        setattr(sql_alchemy_row, "rule_content", data[4])
+        setattr(sql_alchemy_row, "role_content", data[5])
+        setattr(sql_alchemy_row, "local_storage", data[6])  
+        session.add(sql_alchemy_row)
+        try:
+            session.commit()
+            session.flush()
+        except Exception as ex:
+            session.rollback()
+            message = f"File upload error {ex}"
             return jsonify(
                 {
-                    "code": 0,
-                    "message": "File uploaded successfully",
-                    "data": file.filename,
+                    "code": 1,
+                    "message": f"{message}",
+                    "data": [],
+                    "sqlTypes": None,
                 }
             )
 
-        return jsonify({"code": 1, "message": "Invalid file type", "data": None})
+        return jsonify(
+            {
+                "code": 0,
+                "message": "File uploaded successfully",
+                "data": {},
+            }
+        )
+
 
     @app.route(
         "/ontimizeweb/services/rest/<path:path>",
@@ -377,7 +356,7 @@ def add_service(
                 request, api_clz, filter, orderBy, columns, pagesize, offset
             )
 
-        if method in ["PUT", "PATCH"]:
+        if method in ["PUT", "PATCH"] and data:
             sql_alchemy_row = session.query(api_clz).filter(text(filter)).one()
             for key in DotDict(data):
                 setattr(sql_alchemy_row, key, DotDict(data)[key])
@@ -407,7 +386,11 @@ def add_service(
                 # stmt = insert(api_clz).values(data)
 
             else:
-                if clz_name == "YamlFiles" and clz_type in [
+                if clz_name == "YamlFiles" and clz_type == "YamlFiles" \
+                    and not request.path.endswith("advancedsearch") \
+                    and not request.path.endswith("search"):
+                    insertFile(request.json)
+                elif clz_name == "YamlFiles" and clz_type in [
                     "importyaml",
                     "reloadyaml",
                     "downloadyaml",

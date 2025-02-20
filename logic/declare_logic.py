@@ -1,11 +1,14 @@
-import datetime
+import datetime, os
 from decimal import Decimal
 from logic_bank.exec_row_logic.logic_row import LogicRow
 from logic_bank.extensions.rule_extensions import RuleExtension
 from logic_bank.logic_bank import Rule
-from database import models
+from logic_bank.logic_bank import DeclareRule
+import database.models as models
 import api.system.opt_locking.opt_locking as opt_locking
 from security.system.authorization import Grant, Security
+from logic.load_verify_rules import load_verify_rules
+import integration.kafka.kafka_producer as kafka_producer
 import logging
 from base64 import b64decode
 from requests import get, post
@@ -24,9 +27,15 @@ def declare_logic():
     Your Code Goes Here - Use code completion (Rule.) to declare rules
     '''
 
-    from logic.logic_discovery.auto_discovery import discover_logic
-    discover_logic()
-    def handle_all(logic_row: LogicRow):  # OPTIMISTIC LOCKING, [TIME / DATE STAMPING]
+    if os.environ.get("WG_PROJECT"):
+        # Inside WG: Load rules from docs/expprt/export.json
+        load_verify_rules()
+    else:
+        # Outside WG: load declare_logic function
+        from logic.logic_discovery.auto_discovery import discover_logic
+        discover_logic()
+
+    def handle_all(logic_row: LogicRow):  # #als: TIME / DATE STAMPING, OPTIMISTIC LOCKING
         """
         This is generic - executed for all classes.
 

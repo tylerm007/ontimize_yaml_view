@@ -86,13 +86,18 @@ loggers:
         handlers: [console]
         propagate: no
 
+    integration.n8n:   
+        level: DEBUG
+        handlers: [console]
+        propagate: no
+
     security.system.authentication:   
 #        level: DEBUG
         handlers: [console]
         propagate: no
 
     security.system.authorization:   
-        level: INFO
+        level: WARNING
         handlers: [console]
         propagate: no
 

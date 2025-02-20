@@ -68,8 +68,10 @@ from typing import TypedDict
 import safrs  # fails without venv - see https://apilogicserver.github.io/Docs/Project-Env/
 from safrs import ValidationError, SAFRSBase, SAFRSAPI as _SAFRSAPI
 from logic_bank.logic_bank import LogicBank
+from logic_bank.exceptions import LBActivateException
 from logic_bank.exec_row_logic.logic_row import LogicRow
 from logic_bank.rule_type.constraint import Constraint
+from .activate_logicbank import activate_logicbank
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Session
 import socket
@@ -79,10 +81,11 @@ from flask_cors import CORS
 from safrs import ValidationError, SAFRSBase, SAFRSAPI
 import ui.admin.admin_loader as AdminLoader
 from security.system.authentication import configure_auth
-import database.multi_db as multi_db
+import database.bind_dbs as bind_dbs
 import oracledb
 import integration.kafka.kafka_producer as kafka_producer
 import integration.kafka.kafka_consumer as kafka_consumer
+import integration.n8n.n8n_producer as n8n_producer
 
 
 
@@ -264,7 +267,7 @@ def api_logic_server_setup(flask_app: Flask, args: Args):
             safrs_init_logger.setLevel(logging.WARN)
             authorization_logger.setLevel(logging.WARN)
 
-        multi_db.bind_dbs(flask_app)
+        bind_dbs.bind_dbs(flask_app)
 
         # https://stackoverflow.com/questions/34674029/sqlalchemy-query-raises-unnecessary-warning-about-sqlite-and-decimal-how-to-spe
         warnings.simplefilter("ignore", category=sa_exc.SAWarning)  # alert - disable for safety msgs
@@ -286,6 +289,7 @@ def api_logic_server_setup(flask_app: Flask, args: Args):
 
         db = SQLAlchemy()
         db.init_app(flask_app)
+        flask_app.db = db
         with flask_app.app_context():
 
             with open(Path(project_path).joinpath('security/system/custom_swagger.json')) as json_file:
@@ -310,31 +314,7 @@ def api_logic_server_setup(flask_app: Flask, args: Args):
             app_logger.info("Data Model Loaded, customizing...")
             from database import customize_models
 
-            from logic import declare_logic
-            declare_logic_message = declare_logic.declare_logic_message
-            logic_logger = logging.getLogger('logic_logger')
-            logic_logger_level = logic_logger.getEffectiveLevel()
-            if logic_logger_activate_debug == False:
-                logic_logger.setLevel(logging.INFO)
-            app_logger.info("")
-            disable_rules = False
-            if os.getenv('APILOGICPROJECT_DISABLE_RULES'):
-                disable_rules = os.getenv('APILOGICPROJECT_DISABLE_RULES').startswith("1") or \
-                                os.getenv('APILOGICPROJECT_DISABLE_RULES').startswith("T") or \
-                                os.getenv('APILOGICPROJECT_DISABLE_RULES').startswith("t") or \
-                                os.getenv('APILOGICPROJECT_DISABLE_RULES').startswith("Y") or \
-                                os.getenv('APILOGICPROJECT_DISABLE_RULES').startswith("y")   
-            if disable_rules:
-                app_logger.info("LogicBank rules disabled")  # db opened 1st access
-            else:  # genai may insert rules with no columns... WebG restarts with rules disabled
-                try:
-                    LogicBank.activate(session=session, activator=declare_logic.declare_logic, constraint_event=constraint_handler)
-                except Exception as e:
-                    app_logger.error("Logic Bank Activation Error: " + str(e))
-                    app_logger.exception(e)
-            logic_logger.setLevel(logic_logger_level)
-            app_logger.info("Declare   Logic complete - logic/declare_logic.py (rules + code)"
-                + f' -- {len(database.models.metadata.tables)} tables loaded\n')  # db opened 1st access
+            activate_logicbank(session, constraint_handler)
             
             method_decorators : list = []
             safrs_init_logger.setLevel(logging.WARN)
@@ -344,8 +324,6 @@ def api_logic_server_setup(flask_app: Flask, args: Args):
 
             if args.security_enabled:
                 configure_auth(flask_app, database, method_decorators)
-
-            multi_db.expose_db_apis(flask_app, session, safrs_api, method_decorators)
 
             if args.security_enabled:
                 from security import declare_security  # activate security
@@ -363,6 +341,8 @@ def api_logic_server_setup(flask_app: Flask, args: Args):
 
             kafka_producer.kafka_producer()
             kafka_consumer.kafka_consumer(safrs_api = safrs_api)
+
+            n8n_producer.n8n_producer()
 
             SAFRSBase._s_auto_commit = False
             session.close()
