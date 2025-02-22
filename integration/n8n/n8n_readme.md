@@ -44,5 +44,5 @@ in the workflow (e.g. SendGrid email)
             status = send_n8n_message(logic_row=logic_row)
             logic_row.debug(status)
 
-    Rule.after_flush_row_event(on_class=models.Customer, calling=call_n8n_workflow)
+    #Rule.after_flush_row_event(on_class=models.Customer, calling=call_n8n_workflow)
 ```

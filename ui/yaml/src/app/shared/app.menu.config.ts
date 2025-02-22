@@ -6,6 +6,11 @@ import { EntityAttrCardComponent } from './EntityAttr-card/EntityAttr-card.compo
 
 import { GlobalSettingCardComponent } from './GlobalSetting-card/GlobalSetting-card.component';
 
+import { MenuGroupCardComponent } from './MenuGroup-card/MenuGroup-card.component';
+
+import { MenuItemCardComponent } from './MenuItem-card/MenuItem-card.component';
+
+import { PageCardComponent } from './Page-card/Page-card.component';
 import { RuleConstraintCardComponent } from './RuleConstraint-card/RuleConstraint-card.component';
 
 import { RuleDerivationCardComponent } from './RuleDerivation-card/RuleDerivation-card.component';
@@ -47,7 +52,11 @@ export const MENU_CONFIG: MenuRootItem[] = [
     ,{ id: 'Application', name: 'Application', icon: 'view_list', route: '/main/Application', opened: false,
     items: [
         { id: 'Application', name: 'Applications', icon: 'view_list', route: '/main/Application'}
-        ,{ id: 'ApplicationEntity', name: 'Application Entities', icon: 'view_list', route: '/main/ApplicationEntity'}
+        ,{ id: 'MenuGroup', name: 'MENUGROUP', icon: 'view_list', route: '/main/MenuGroup' }
+    
+        ,{ id: 'MenuItem', name: 'MENUITEM', icon: 'view_list', route: '/main/MenuItem' }
+    
+        ,{ id: 'Page', name: 'PAGE', icon: 'view_list', route: '/main/Page' }
     ]
     }
     ,{ id: 'YamlFiles', name: '4. Download Model Files', icon: 'download_file', route: '/main/DownloadYamlFiles' }
@@ -64,11 +73,17 @@ export const MENU_CONFIG: MenuRootItem[] = [
 
 export const MENU_COMPONENTS = [
 
-    EntityCardComponent
+    ,EntityCardComponent
 
     ,EntityAttrCardComponent
 
     ,GlobalSettingCardComponent
+
+    ,MenuGroupCardComponent
+
+    ,MenuItemCardComponent
+
+    ,PageCardComponent
 
     ,RuleConstraintCardComponent
 

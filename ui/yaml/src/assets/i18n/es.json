@@ -26,7 +26,6 @@
   "app_short_name": "nombre_corto_app",
   "description": "descripción",
   "app_yaml": "app_yaml",
-  "ApplicationEntity": "ENTIDADAPLICACIÓN",
   "application_name": " nombre_de_aplicación*",
   "entity_name": "Nombre de la Entidad",
   "ENTITY": "Entidades",

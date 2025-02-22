@@ -13,15 +13,15 @@
 #
 #    You typically do not customize this file.
 #
-#    (v 14.03.10, February 12, 2025 08:56:12)
+#    (v 14.03.12, February 21, 2025 08:33:34)
 #
 #    See Main Code (at end).
 #        Use log messages to understand API and Logic activation.
 #
 ###############################################################################
 
-api_logic_server__version = '14.03.10'
-api_logic_server_created__on = 'February 12, 2025 08:56:12'
+api_logic_server__version = '14.03.12'
+api_logic_server_created__on = 'February 21, 2025 08:33:34'
 api_logic_server__host = 'localhost'
 api_logic_server__port = '5655'
 
@@ -66,10 +66,6 @@ from flask import Flask, redirect, send_from_directory, send_file
 from flask_cors import CORS
 import ui.admin.admin_loader as AdminLoader
 from security.system.authentication import configure_auth
-import database.multi_db as multi_db
-import oracledb
-import integration.kafka.kafka_producer as kafka_producer
-import integration.kafka.kafka_consumer as kafka_consumer
 
 
 app_logger = server_setup.logging_setup()
@@ -103,7 +99,7 @@ server_setup.api_logic_server_setup(flask_app, args)
 AdminLoader.admin_events(flask_app = flask_app, args = args, validation_error = ValidationError)
 
 if __name__ == "__main__":
-    msg = f'API Logic Project loaded (not WSGI), version {api_logic_server__version}\n'
+    msg = f'API Logic Project loaded (not WSGI), version: 14.03.12\n'
     msg += f'.. startup message: {start_up_message}\n'
     if server_setup.is_docker():
         msg += f' (running from docker container at flask_host: {args.flask_host} - may require refresh)\n'
@@ -136,7 +132,7 @@ if __name__ == "__main__":
 
     flask_app.run(host=args.flask_host, threaded=True, port=args.port)
 else:
-    msg = f'API Logic Project Loaded (WSGI), version 14.03.10\n'
+    msg = f'API Logic Project Loaded (WSGI), version 14.03.12\n'
     msg += f'.. startup message: {start_up_message}\n'
 
     if server_setup.is_docker():

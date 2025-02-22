@@ -15,14 +15,18 @@ export const routes: Routes = [
     
         { path: 'Application', loadChildren: () => import('./Application/Application.module').then(m => m.ApplicationModule) },
     
-        { path: 'ApplicationEntity', loadChildren: () => import('./ApplicationEntity/ApplicationEntity.module').then(m => m.ApplicationEntityModule) },
-    
         { path: 'Entity', loadChildren: () => import('./Entity/Entity.module').then(m => m.EntityModule) },
         { path: 'EntityAttr', loadChildren: () => import('./EntityAttr/EntityAttr.module').then(m => m.EntityAttrModule) },
         { path: 'TabGroup', loadChildren: () => import('./TabGroup/TabGroup.module').then(m => m.TabGroupModule) },
         { path: 'GlobalSetting', loadChildren: () => import('./GlobalSetting/GlobalSetting.module').then(m => m.GlobalSettingModule) },
     
         { path: 'GrantRole', loadChildren: () => import('./GrantRole/GrantRole.module').then(m => m.GrantRoleModule) },
+    
+        { path: 'MenuGroup', loadChildren: () => import('./MenuGroup/MenuGroup.module').then(m => m.MenuGroupModule) },
+    
+        { path: 'MenuItem', loadChildren: () => import('./MenuItem/MenuItem.module').then(m => m.MenuItemModule) },
+    
+        { path: 'Page', loadChildren: () => import('./Page/Page.module').then(m => m.PageModule) },
     
         { path: 'RbacRole', loadChildren: () => import('./RbacRole/RbacRole.module').then(m => m.RbacRoleModule) },
     

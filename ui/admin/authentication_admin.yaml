@@ -1,5 +1,5 @@
 about:
-  date: July 22, 2024 09:56:58
+  date: February 21, 2025 21:15:43
   recent_changes: works with modified safrs-react-admin
   version: 0.0.0
 api_root: '{http_type}://{swagger_host}:{port}/{api}'
@@ -7,6 +7,7 @@ authentication: '{system-default}'
 info:
   number_relationships: 2
   number_tables: 3
+info_toggle_checked: true
 resources:
   authentication-Role:
     attributes:
@@ -29,10 +30,10 @@ resources:
       name: name
       search: true
       sort: true
+    - name: notes
     - name: username
+    - name: email
     - name: password_hash
-    - name: region
-    - name: client_id
     - name: id
       required: true
     tab_groups:
@@ -69,26 +70,33 @@ resources:
     type: authentication-UserRole
     user_key: role_name
 settings:
-  HomeJS: http://localhost:5656/admin-app/home.js
+  HomeJS: /admin-app/home.js
   max_list_columns: 8
   style_guide:
+    applicationLocales:
+    - en
+    - es
     currency_symbol: $
     currency_symbol_position: left
     date_format: LL
-    decimal_max: '10000000'
+    decimal_max: '1000000000'
     decimal_min: '0'
     decimal_separator: .
     detail_mode: tab
     edit_on_mode: dblclick
+    exclude_listpicker: false
     include_translation: 'false'
     keycloak_client_id: alsclient
     keycloak_realm: kcals
     keycloak_url: http://localhost:8080
+    locale: en
     max_decimal_digits: '4'
     min_decimal_digits: '2'
     new_mode: dialog
     pick_style: list
     row_height: small,
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
     style: light
     thousand_separator: ','
     use_keycloak: 'false'

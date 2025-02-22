@@ -7,17 +7,17 @@ import { ApplicationDetailComponent } from './detail/Application-detail.componen
 const routes: Routes = [
   {path: '', component: ApplicationHomeComponent},
   { path: 'new', component: ApplicationNewComponent },
-  { path: ':name', component: ApplicationDetailComponent,
+  { path: ':id', component: ApplicationDetailComponent,
     data: {
       oPermission: {
         permissionId: 'Application-detail-permissions'
       }
     }
   },{
-    path: ':application_name/ApplicationEntity', loadChildren: () => import('../ApplicationEntity/ApplicationEntity.module').then(m => m.ApplicationEntityModule),
+    path: ':application_id/MenuGroup', loadChildren: () => import('../MenuGroup/MenuGroup.module').then(m => m.MenuGroupModule),
     data: {
         oPermission: {
-            permissionId: 'ApplicationEntity-detail-permissions'
+            permissionId: 'MenuGroup-detail-permissions'
         }
     }
 }

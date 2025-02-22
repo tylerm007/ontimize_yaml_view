@@ -1,0 +1,43 @@
+<o-form #MenuGroupForm attr="MenuGroup_form_insert" service="MenuGroup" entity="MenuGroup" 
+keys="id" fxLayout="column" show-header="yes" header-actions="I"
+horizontal-scroll="yes"
+after-insert-mode="new" class="standalone-form-container" (onInsertMode)="onInsertMode()">
+
+<o-row attr="row1" layout-align="start stretch">
+  <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+    
+        <o-text-input #menu_name attr="menu_name" label=" menu_name" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
+      
+        <o-list-picker 
+        attr="application_id"
+        service="Application" 
+        entity="ApplicationType"
+        fxFlex="30" 
+        query-on-init="no" 
+        query-on-bind="yes" 
+        required="yes" 
+        enabled="yes" 
+        filter="yes"
+        value-column="id" 
+        value-column-type="BIGINT"  
+        keys="id" 
+        columns="id;application_id;name" 
+        title="application_id"
+        visible-columns="id;name" 
+        separator=" - " width="680px" class="form-field">
+</o-list-picker>
+      
+        <o-text-input #icon attr="icon" label="icon" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
+      
+        <o-integer-input #id attr="id" label="id" type="integer" editable="no" required="yes" ></o-integer-input>
+      
+        <o-text-input #menu_id attr="menu_id" label="menu_id" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
+      
+        <o-checkbox #opened attr="opened" label="opened" read-only="no" enabled="yes"></o-checkbox>
+      
+</div>
+</o-row>
+
+<div layout-padding></div>
+
+</o-form>

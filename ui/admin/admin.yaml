@@ -1,12 +1,12 @@
 about:
-  date: November 18, 2024 11:37:41
+  date: February 21, 2025 21:15:03
   recent_changes: works with modified safrs-react-admin
   version: 0.0.0
 api_root: '{http_type}://{swagger_host}:{port}/{api}'
 authentication: '{system-default}'
 info:
-  number_relationships: 12
-  number_tables: 14
+  number_relationships: 14
+  number_tables: 16
 info_toggle_checked: true
 resources:
   Application:
@@ -18,35 +18,16 @@ resources:
       sort: true
     - name: app_short_name
     - name: description
-    - name: app_yaml
+    - name: id
+      required: true
     tab_groups:
     - direction: tomany
       fks:
-      - application_name
-      name: ApplicationEntityList
-      resource: ApplicationEntity
+      - application_id
+      name: MenuGroupList
+      resource: MenuGroup
     type: Application
     user_key: name
-  ApplicationEntity:
-    attributes:
-    - label: ' application_name*'
-      name: application_name
-      required: true
-      search: true
-      sort: true
-    tab_groups:
-    - direction: toone
-      fks:
-      - application_name
-      name: application
-      resource: Application
-    - direction: toone
-      fks:
-      - entity_name
-      name: entity
-      resource: Entity
-    type: ApplicationEntity
-    user_key: application_name
   Entity:
     attributes:
     - label: ' name*'
@@ -71,11 +52,6 @@ resources:
     - direction: tomany
       fks:
       - entity_name
-      name: ApplicationEntityList
-      resource: ApplicationEntity
-    - direction: tomany
-      fks:
-      - entity_name
       name: EntityAttrList
       resource: EntityAttr
     - direction: tomany
@@ -83,6 +59,11 @@ resources:
       - entity_name
       name: GrantRoleList
       resource: GrantRole
+    - direction: tomany
+      fks:
+      - entity_name
+      name: MenuItemList
+      resource: MenuItem
     - direction: tomany
       fks:
       - entity_name
@@ -141,6 +122,8 @@ resources:
       type: Boolean
     - name: default_value
     - name: derivation
+    - name: create_date
+      type: DATETIME
     - name: isrequired
       type: Boolean
     - name: isenabled
@@ -177,6 +160,8 @@ resources:
       required: true
       search: true
       sort: true
+    - name: entity_name
+      required: true
     - name: role_name
       required: true
     - name: can_insert
@@ -202,6 +187,94 @@ resources:
       resource: RbacRole
     type: GrantRole
     user_key: entity_name
+  MenuGroup:
+    attributes:
+    - label: ' menu_name*'
+      name: menu_name
+      search: true
+      sort: true
+    - name: application_id
+      required: true
+    - name: icon
+    - name: id
+      required: true
+    - name: menu_id
+      required: true
+    - name: opened
+      type: Boolean
+    tab_groups:
+    - direction: tomany
+      fks:
+      - menu_group_id
+      name: MenuItemList
+      resource: MenuItem
+    - direction: toone
+      fks:
+      - application_id
+      name: application
+      resource: Application
+    type: MenuGroup
+    user_key: menu_name
+  MenuItem:
+    attributes:
+    - label: ' entity_name*'
+      name: entity_name
+      required: true
+      search: true
+      sort: true
+    - name: entity_name
+      required: true
+    - name: menu_group_id
+      required: true
+    - name: menu_name
+      required: true
+    - name: template_name
+    - name: icon
+    - name: id
+      required: true
+    tab_groups:
+    - direction: tomany
+      fks:
+      - menu_item_id
+      name: PageList
+      resource: Page
+    - direction: toone
+      fks:
+      - entity_name
+      name: entity
+      resource: Entity
+    - direction: toone
+      fks:
+      - menu_group_id
+      name: menu_group
+      resource: MenuGroup
+    type: MenuItem
+    user_key: entity_name
+  Page:
+    attributes:
+    - label: ' page_name*'
+      name: page_name
+      required: true
+      search: true
+      sort: true
+    - name: menu_item_id
+      required: true
+    - name: title
+    - name: template_name
+    - name: columns
+    - name: visible_columns
+    - name: include_children
+      type: Boolean
+    - name: id
+      required: true
+    tab_groups:
+    - direction: toone
+      fks:
+      - menu_item_id
+      name: menu_item
+      resource: MenuItem
+    type: Page
+    user_key: page_name
   RbacRole:
     attributes:
     - label: ' name*'
@@ -351,7 +424,6 @@ resources:
       sort: true
     - name: file_name
     - name: description
-      type: text
     tab_groups:
     - direction: tomany
       fks:
@@ -360,26 +432,30 @@ resources:
       resource: EntityAttr
     type: Template
     user_key: name
-  YamlFiles:
+  YamlFile:
     attributes:
     - label: ' name*'
       name: name
       required: true
       search: true
       sort: true
-    - name: file_path
-    - name: is_active
-    - name: app_name
-    - name: upload_flag
-    - name: download_flag
     - name: content
-      type: image
+    - name: upload_flag
+      type: Boolean
+    - name: download_flag
+      type: Boolean
+    - name: size
+    - name: file_path
+    - name: app_name
+    - name: is_active
+      type: Boolean
     - name: rule_content
     - name: role_content
     - name: local_storage
     - name: en_json
+    - name: application_content
     - name: downloaded
-    type: YamlFiles
+    type: YamlFile
     user_key: name
 settings:
   HomeJS: /admin-app/home.js

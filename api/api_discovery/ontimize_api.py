@@ -1082,7 +1082,9 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         delete_sql(models.Root)
         delete_sql(models.GrantRole)
         delete_sql(models.RbacRole)
-        delete_sql(models.ApplicationEntity)
+        delete_sql(models.Page)
+        delete_sql(models.MenuGroup)
+        delete_sql(models.MenuItem)
         delete_sql(models.Application)
         delete_sql(models.Entity)
 
@@ -1120,7 +1122,9 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         else:
             insert_roles_from_yaml(valuesYaml)
             insert_grants_from_yaml(valuesYaml)
-
+        
+        insert_application(valuesYaml)
+        
         return jsonify(valuesYaml)
 
     def delete_sql(clz):
@@ -1437,30 +1441,63 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                         # session.rollback()
                         print(ex)
 
-    def insert_application():
+    def insert_application(valuesYaml: any):
         try:
-            #SQL to get current yaml_files
-            active_files = (
-                        session.query(models.YamlFiles).filter(models.YamlFiles.is_active == True).one_or_none()
-                    )
-            
+    
             name = "New Application"
             file_path = "/foo"
             app_name = "app"
-            if active_files:
-                file_path = getattr(active_files,"file_path")
-                name = getattr(active_files,"name")
-                if file_path:
-                    s = file_path.split("/")
-                    app_name = getattr(active_files,s[-1])
-            app = models.ApplicationEntity()
-            setattr(app,"name",name)
-            setattr(app,"app_short_name",app_name)
-            setattr(app,"description",file_path)
-            session.add(app)
+            application = models.Application()
+            setattr(application,"name",name)
+            setattr(application,"app_short_name",app_name)
+            #setattr(application,"description",file_path)
+            session.add(application)
             session.commit()
         except Exception as ex:
-            print(ex)
+            print(f"application error {ex}")
+        #insert_menu_group(application, valuesYaml)
+        menu_group = models.MenuGroup()
+        menu_group.application_id = application.id
+        menu_group.icon = "edit_square"
+        menu_group.menu_name = "data"
+        menu_group.menu_id = "data"
+        menu_group.opened = True
+        #menu_group.menu_title = ""
+        try:
+            session.add(menu_group)
+            session.commit()
+        except Exception as ex:
+            print(f"menu_group error {ex}")
+            
+        #insert_menu_item(app, valuesYaml)
+        entities = valuesYaml["entities"]
+        for entity in entities:
+            menu_item = models.MenuItem()
+            menu_item.menu_group_id = menu_group.id
+            menu_item.entity_name = entity
+            menu_item.menu_name = entity 
+            menu_item.template_name = "module.jinja"
+            menu_item.icon ="edit_square"
+            try:
+                session.add(menu_item)
+                session.commit()
+                col_list = []
+                for col in valuesYaml["entities"][entity]["columns"]:
+                    col_list.append(col["name"])
+                for page_name in ['new', 'home', 'detail']: 
+                    page = models.Page()
+                    page.menu_item_id = menu_item.id
+                    page.title = entity
+                    page.page_name = page_name
+                    page.template_name = f"{page_name}_template.html"
+                    page.columns = ",".join(col_list)   
+                    page.visible_columns = ",".join(col_list)  
+                    page.include_children = True
+                    session.add(page)
+                    session.commit()
+            except Exception as ex:
+                print(f"menu_item error {ex}")
+        
     def get_value(obj: any, name: str, default: any = None):
         try:
             return obj[name]

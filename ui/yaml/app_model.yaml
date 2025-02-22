@@ -1,5 +1,5 @@
 about:
-  date: November 18, 2024 11:43:39
+  date: February 21, 2025 08:33:34
   recent_changes: works with modified safrs-react-admin
   version: 0.0.0
 api_root: '{http_type}://{swagger_host}:{port}/{api}'
@@ -14,13 +14,11 @@ entities:
       sort: true
       template: text
       type: VARCHAR(100)
-    - name: app_short_name
+    - default: '''app''::character varying'
+      name: app_short_name
       template: text
       type: VARCHAR(100)
     - name: description
-      template: text
-      type: TEXT
-    - name: app_yaml
       template: text
       type: TEXT
     detail_template: detail_template.html
@@ -37,49 +35,9 @@ entities:
     - direction: tomany
       fks:
       - application_name
-      name: ApplicationEntityList
-      resource: ApplicationEntity
+      name: MenuGroupList
+      resource: MenuGroup
     type: Application
-  ApplicationEntity:
-    columns:
-    - label: ' application_name*'
-      name: application_name
-      required: true
-      search: true
-      sort: true
-      template: text
-      type: VARCHAR(100)
-    - name: application_name
-      required: true
-      template: text
-      type: VARCHAR(100)
-    - name: entity_name
-      required: true
-      template: text
-      type: VARCHAR(80)
-    detail_template: detail_template.html
-    exclude: 'false'
-    favorite: application_name
-    hidden: {}
-    home_template: home_template.html
-    label: ApplicationEntity
-    mode: tab
-    new_template: new_template.html
-    primary_key:
-    - application_name
-    - entity_name
-    tab_groups:
-    - direction: toone
-      fks:
-      - application_name
-      name: application
-      resource: Application
-    - direction: toone
-      fks:
-      - entity_name
-      name: entity
-      resource: Entity
-    type: ApplicationEntity
   Entity:
     columns:
     - label: ' name*'
@@ -137,11 +95,6 @@ entities:
     - direction: tomany
       fks:
       - entity_name
-      name: ApplicationEntityList
-      resource: ApplicationEntity
-    - direction: tomany
-      fks:
-      - entity_name
       name: EntityAttrList
       resource: EntityAttr
     - direction: tomany
@@ -149,6 +102,11 @@ entities:
       - entity_name
       name: GrantRoleList
       resource: GrantRole
+    - direction: tomany
+      fks:
+      - entity_name
+      name: MenuItemList
+      resource: MenuItem
     - direction: tomany
       fks:
       - entity_name
@@ -189,10 +147,6 @@ entities:
       sort: true
       template: text
       type: VARCHAR(80)
-    - name: entity_name
-      required: true
-      template: text
-      type: VARCHAR(80)
     - default: '''text''::character varying'
       name: template_name
       template: text
@@ -225,6 +179,8 @@ entities:
     - name: derivation
       template: text
       type: VARCHAR(255)
+    - name: create_date
+      type: DATETIME
     - name: isrequired
       type: Boolean
     - name: isenabled
@@ -288,10 +244,6 @@ entities:
       sort: true
       template: text
       type: VARCHAR(80)
-    - name: entity_name
-      required: true
-      template: text
-      type: VARCHAR(80)
     - name: role_name
       required: true
       template: text
@@ -333,6 +285,155 @@ entities:
       name: rbac_role
       resource: RbacRole
     type: GrantRole
+  MenuGroup:
+    columns:
+    - label: ' application_name*'
+      name: application_name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(100)
+    - default: '''data''::character varying'
+      name: menu_name
+      required: true
+      template: text
+      type: VARCHAR(100)
+    - default: '''edit_square''::character varying'
+      name: icon
+      template: text
+      type: VARCHAR(100)
+    - name: opened
+      type: Boolean
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: application_name
+    hidden: {}
+    home_template: home_template.html
+    label: MenuGroup
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - application_name
+    - menu_name
+    tab_groups:
+    - direction: tomany
+      fks:
+      - application_name
+      - menu_group_name
+      name: MenuItemList
+      resource: MenuItem
+    - direction: toone
+      fks:
+      - application_name
+      name: application
+      resource: Application
+    type: MenuGroup
+  MenuItem:
+    columns:
+    - label: ' application_name*'
+      name: application_name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(100)
+    - name: entity_name
+      required: true
+      template: text
+      type: VARCHAR(80)
+    - name: menu_group_name
+      required: true
+      template: text
+      type: VARCHAR(100)
+    - name: menu_name
+      required: true
+      template: text
+      type: VARCHAR(100)
+    - default: '''module.jinja''::character varying'
+      name: template_name
+      template: text
+      type: VARCHAR(100)
+    - default: '''edit_square''::character varying'
+      name: icon
+      template: text
+      type: VARCHAR(100)
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: application_name
+    hidden: {}
+    home_template: home_template.html
+    label: MenuItem
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - application_name
+    - menu_group_name
+    tab_groups:
+    - direction: tomany
+      fks:
+      - application_name
+      - menu_group_name
+      name: PageList
+      resource: Page
+    - direction: toone
+      fks:
+      - application_name
+      - menu_group_name
+      name: menu_group
+      resource: MenuGroup
+    - direction: toone
+      fks:
+      - entity_name
+      name: entity
+      resource: Entity
+    type: MenuItem
+  Page:
+    columns:
+    - label: ' application_name*'
+      name: application_name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(100)
+    - name: menu_group_name
+      required: true
+      template: text
+      type: VARCHAR(100)
+    - name: page_name
+      required: true
+      template: text
+      type: VARCHAR(10)
+    - name: template_name
+      template: text
+      type: VARCHAR(100)
+    - name: columns
+      template: text
+      type: VARCHAR(1000)
+    - name: visible_columns
+      template: text
+      type: VARCHAR(1000)
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: application_name
+    hidden: {}
+    home_template: home_template.html
+    label: Page
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - application_name
+    - menu_group_name
+    - page_name
+    tab_groups:
+    - direction: toone
+      fks:
+      - application_name
+      - menu_group_name
+      name: menu_item
+      resource: MenuItem
+    type: Page
   RbacRole:
     columns:
     - label: ' name*'
@@ -412,9 +513,6 @@ entities:
       sort: true
       template: text
       type: VARCHAR(80)
-    - name: entity_name
-      template: text
-      type: VARCHAR(80)
     - name: calling_fn
       template: text
       type: VARCHAR(255)
@@ -460,9 +558,6 @@ entities:
       template: text
       type: VARCHAR(80)
     - name: as_child_entity
-      template: text
-      type: VARCHAR(80)
-    - name: entity_name
       template: text
       type: VARCHAR(80)
     - name: derive_column
@@ -520,9 +615,6 @@ entities:
       name: entity_name
       search: true
       sort: true
-      template: text
-      type: VARCHAR(80)
-    - name: entity_name
       template: text
       type: VARCHAR(80)
     - name: event_type
@@ -620,6 +712,9 @@ entities:
       sort: true
       template: text
       type: VARCHAR(100)
+    - name: file_name
+      template: text
+      type: VARCHAR(100)
     - name: description
       template: text
       type: TEXT
@@ -659,7 +754,27 @@ entities:
     - name: size
       template: integer
       type: INTEGER
+    - name: file_path
+      template: text
+      type: VARCHAR(1000)
+    - name: app_name
+      template: text
+      type: VARCHAR(100)
+    - name: is_active
+      type: Boolean
     - name: rule_content
+      template: text
+      type: TEXT
+    - name: role_content
+      template: text
+      type: TEXT
+    - name: local_storage
+      template: text
+      type: TEXT
+    - name: en_json
+      template: text
+      type: TEXT
+    - name: application_content
       template: text
       type: TEXT
     - name: downloaded

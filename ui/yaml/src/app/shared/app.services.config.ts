@@ -1,9 +1,11 @@
 export const SERVICE_CONFIG: Object ={ 'Application': { 'path': '/Application' }
-,'ApplicationEntity': { 'path': '/ApplicationEntity' }
 ,'Entity': { 'path': '/Entity' }
 ,'EntityAttr': { 'path': '/EntityAttr' }
 ,'GlobalSetting': { 'path': '/GlobalSetting' }
 ,'GrantRole': { 'path': '/GrantRole' }
+,'MenuGroup': { 'path': '/MenuGroup' }
+,'MenuItem': { 'path': '/MenuItem' }
+,'Page': { 'path': '/Page' }
 ,'RbacRole': { 'path': '/RbacRole' }
 ,'Root': { 'path': '/Root' }
 ,'RuleConstraint': { 'path': '/RuleConstraint' }

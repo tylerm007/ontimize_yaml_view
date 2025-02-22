@@ -11,7 +11,6 @@ DROP TABLE IF EXISTS rule_event;
 DROP TABLE IF EXISTS rule_derivation;
 DROP TABLE IF EXISTS grant_role;
 DROP TABLE IF EXISTS rbac_role;
-DROP TABLE IF EXISTS application_entity;
 DROP TABLE IF EXISTS application;
 DROP TABLE IF EXISTS entity;
 CREATE TABLE entity (
@@ -169,16 +168,39 @@ CREATE TABLE grant_role (
 
 CREATE TABLE application (
     name VARCHAR(100) NOT NULL,
-    app_short_name VARCHAR(100),
+    app_short_name VARCHAR(100) DEFAULT 'app',
     description TEXT,
-    app_yaml TEXT,
     PRIMARY KEY(name)
 );
 
-CREATE TABLE application_entity (
+CREATE TABLE menu_group (
     application_name VARCHAR(100) NOT NULL,
-    entity_name VARCHAR(100) NOT NULL,
-    PRIMARY KEY(application_name, entity_name),
+    menu_name VARCHAR(100) NOT NULL DEFAULT 'data',
+    icon VARCHAR(100) DEFAULT 'edit_square',
+    opened BOOLEAN DEFAULT FALSE,
+    PRIMARY KEY(application_name, menu_name),
+    FOREIGN KEY (application_name) REFERENCES application(name) ON DELETE CASCADE
+);
+
+CREATE TABLE menu_item (
+    application_name VARCHAR(100) NOT NULL,
+    menu_group_name VARCHAR(100) NOT NULL,
+    entity_name VARCHAR(100) NOT NULL, -- API Entity Name
+    menu_name VARCHAR(100) NOT NULL,  -- Menu Item Name
+    template_name VARCHAR(100) DEFAULT 'module.jinja',
+    icon VARCHAR(100) DEFAULT 'edit_square',
+    PRIMARY KEY(application_name, menu_group_name),
     FOREIGN KEY (entity_name) REFERENCES entity(name),
-    FOREIGN KEY (application_name) REFERENCES application(name)
+    FOREIGN KEY (application_name, menu_group_name) REFERENCES menu_group(application_name,menu_name) ON DELETE CASCADE
+);
+
+CREATE TABLE page (
+    application_name VARCHAR(100) NOT NULL,
+    menu_group_name VARCHAR(100) NOT NULL,
+    page_name VARCHAR(10) NOT NULL, -- home, new, detail
+    template_name VARCHAR(100),
+    columns VARCHAR(1000),
+    visible_columns VARCHAR(1000),
+    PRIMARY KEY(application_name, menu_group_name, page_name),
+    FOREIGN KEY (application_name, menu_group_name) REFERENCES menu_item(application_name,menu_group_name) ON DELETE CASCADE
 );
