@@ -1644,10 +1644,14 @@ def export_yaml_to_file(project_dir: str, yaml_file_row: dict = None):
     rule_derivations = read(models.RuleDerivation)
     rbac_content = read(models.RbacRole)
     grant_content = read(models.GrantRole)
+    application = read(models.Application)
+    menu_group = read(models.MenuGroup)
+    menu_item = read(models.MenuItem)
+    page = read(models.Page)
     security_output = build_security_json(rbac_content, grant_content)
 
     output = build_json(
-        entities, attrs, tabs, settings, root, rule_events, rule_constraints, security_output
+        entities, attrs, tabs, settings, root, rule_events, rule_constraints, security_output, application, menu_group, menu_item, page
     )
     yaml_fn = f"{project_dir}/ui/app_model_merge.yaml"
     logic_fn = f"{project_dir}/ui/declare_logic_merge.py1"
@@ -1685,6 +1689,7 @@ def rows_to_dict(result: any) -> list:
                 row_as_dict[name] = each_row[value]
         else:
             row_as_dict = each_row.to_dict()  # safrs helper
+            row_as_dict["id"] = each_row.id if hasattr(each_row, "id") else getattr(each_row, "jsonapi_id")  # add id
         rows.append(row_as_dict)
     return rows
 
@@ -1807,6 +1812,10 @@ def build_json(
     rule_events: list,
     rule_constraints: list,
     security_output: dict,
+    application: dict,
+    menu_group: dict, 
+    menu_item: dict, 
+    pages: dict
 ) -> any:
     """
     Constructs a structured JSON representation of various application entities and their attributes.
@@ -1824,6 +1833,11 @@ def build_json(
         security_output (dict): A dictionary containing structured information about roles and grants, organized for API consumption.
             roles (list): A list of dictionaries representing role-based access control (RBAC) DefaultRolePermission definitions.
             grants (list): A list of dictionaries representing Grant definitions.
+        - application, menu_group, menu_item, page - used to generate each application 
+        application: dict - defines the application
+        menu_group: dict - defines the menu group (top level)
+        menu_item: dict - defines the menu item (second level)
+        pages: dict -   defines the page (new, home, detail)
     Returns:
         dict: A dictionary containing structured information about entities, settings, and rules, organized for API consumption.
     """
@@ -1937,7 +1951,59 @@ def build_json(
     
     output["settings"] = {}
     output["settings"]["style_guide"] = style_guide
-
+    
+    ## This is a new section used to define how to build an Ontimize app
+    a = {}
+    for app in application:
+        short_name = app["app_short_name"]
+        this_app = {
+            "name": app["name"],
+            "description": app["description"]
+            # this_app["template_dir"] = ... TODO
+        }
+        a[short_name] = this_app 
+        mg_list = {}
+        for mg in menu_group:
+            if mg["application_id"] == app["id"]:
+                this_menu_group = {
+                    "menu_name": mg["menu_name"],
+                    "icon": mg["icon"],
+                    "opened":  mg["opened"],
+                    "menu_title": mg["menu_name"]  # TODO add menu_title
+                    # "order: mg["order"]  # TODO
+                }
+                mg_list[mg["menu_name"]] = this_menu_group
+        this_app["menu_group"] = mg_list   
+        mi_list = {}
+        for mi in menu_item:
+            if mi["menu_group_id"] == mg["id"]:
+                this_menu_item = {
+                    #this_menu_item["entity_name"] = mi["entity_name"]
+                    "menu_name": mi["menu_name"],
+                    "template_name": mi["template_name"],
+                    "icon": mi["icon"]
+                }
+                #this_menu_item["order"] = mi["order"]
+                #this_menu_item["exclude"] = mi["exclude"]
+                #this_menu_item["visible"] = mi["visible"]
+                #this_menu_item["columns"] = mi["columns"]
+                #this_menu_item["include_children"] = mi["include_children"]
+                mi_list[mi["entity_name"]] = this_menu_item  
+                p = {}
+                for page in pages:
+                    if page["menu_item_id"] == mi["id"]:
+                        this_page = {
+                            "title": page["title"],
+                            "page_name": page["page_name"],
+                            "template_name": page["template_name"],
+                            "columns": page["columns"],
+                            "visible_columns": page["visible_columns"],
+                            "include_children": page["include_children"]
+                        }
+                        p[page["page_name"]] = this_page
+                this_menu_item["page"] = p
+            this_menu_group["menu_item"] = mi_list
+    output["application"] = a
     return output
 
 
