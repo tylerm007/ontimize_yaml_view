@@ -9,7 +9,7 @@ import { NavigationService, OFormComponent } from 'ontimize-web-ngx';
 export class PageNewComponent {
   @ViewChild("PageForm") form: OFormComponent;
   onInsertMode() {
-    const default_values = {'id': "nextval('page_id_seq'::regclass)"}
+    const default_values = {}
     this.form.setFieldValues(default_values);
   }
   constructor(protected injector: Injector) {

@@ -14,7 +14,7 @@ entities:
       sort: true
       template: text
       type: VARCHAR(100)
-    - default: '''app''::character varying'
+    - default: '''app'''
       name: app_short_name
       template: text
       type: VARCHAR(100)
@@ -74,7 +74,7 @@ entities:
     - name: detail_template
       template: text
       type: VARCHAR(80)
-    - default: '''tab''::character varying'
+    - default: '''tab'''
       name: mode
       template: text
       type: VARCHAR(10)
@@ -147,7 +147,7 @@ entities:
       sort: true
       template: text
       type: VARCHAR(80)
-    - default: '''text''::character varying'
+    - default: '''text'''
       name: template_name
       template: text
       type: VARCHAR(100)
@@ -294,12 +294,12 @@ entities:
       sort: true
       template: text
       type: VARCHAR(100)
-    - default: '''data''::character varying'
+    - default: '''data'''
       name: menu_name
       required: true
       template: text
       type: VARCHAR(100)
-    - default: '''edit_square''::character varying'
+    - default: '''edit_square'''
       name: icon
       template: text
       type: VARCHAR(100)
@@ -350,11 +350,11 @@ entities:
       required: true
       template: text
       type: VARCHAR(100)
-    - default: '''module.jinja''::character varying'
+    - default: '''module.jinja'''
       name: template_name
       template: text
       type: VARCHAR(100)
-    - default: '''edit_square''::character varying'
+    - default: '''edit_square'''
       name: icon
       template: text
       type: VARCHAR(100)

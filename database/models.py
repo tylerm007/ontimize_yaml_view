@@ -50,7 +50,7 @@ class Application(Base):  # type: ignore
 
     id = Column(BigInteger, Sequence('application_id_seq'), primary_key=True)
     name = Column(String(100), nullable=False)
-    app_short_name = Column(String(100), server_default=text("'app'::character varying"))
+    app_short_name = Column(String(100), server_default=text("app"))
     description = Column(Text)
 
     # parent relationships (access parent)
@@ -74,7 +74,7 @@ class Entity(Base):  # type: ignore
     new_template = Column(String(80))
     home_template = Column(String(80))
     detail_template = Column(String(80))
-    mode = Column(String(10), server_default=text("'tab'::character varying"))
+    mode = Column(String(10), server_default=text("tab"))
     menu_group = Column(String(25))
     allow_client_generated_ids = True
 
@@ -158,6 +158,8 @@ class Template(Base):  # type: ignore
 
     # child relationships (access children)
     EntityAttrList : Mapped[List["EntityAttr"]] = relationship(back_populates="template")
+    MenuItemList : Mapped[List["MenuItem"]] = relationship(back_populates="template")
+    PageList : Mapped[List["Page"]] = relationship(back_populates="template")
 
 
 
@@ -197,7 +199,7 @@ class EntityAttr(Base):  # type: ignore
     issearch = Column(Boolean, server_default=text("false"))
     issort = Column(Boolean, server_default=text("false"))
     thistype = Column(String(50), nullable=False)
-    template_name = Column(ForeignKey('template.name'), server_default=text("'text'::character varying"))
+    template_name = Column(ForeignKey('template.name'), server_default=text("text"))
     tooltip = Column(Text)
     isrequired = Column(Boolean, server_default=text("true"))
     isenabled = Column(Boolean, server_default=text("true"))
@@ -244,9 +246,10 @@ class MenuGroup(Base):  # type: ignore
 
     id = Column(BigInteger, Sequence('menu_group_id_seq'), primary_key=True)
     application_id = Column(ForeignKey('application.id', ondelete='CASCADE'), nullable=False)
-    menu_id = Column(String(100), server_default=text("'data'::character varying"), nullable=False)
-    menu_name = Column(String(100), server_default=text("'data'::character varying"))
-    icon = Column(String(100), server_default=text("'edit_square'::character varying"))
+    menu_name = Column(String(100), server_default=text("data"), nullable=False)
+    menu_id = Column(String(100), server_default=text("data"))
+    menu_title = Column(String(100))
+    icon = Column(String(100), server_default=text("edit_square"))
     opened = Column(Boolean, server_default=text("false"))
 
     # parent relationships (access parent)
@@ -342,16 +345,18 @@ class MenuItem(Base):  # type: ignore
     __tablename__ = 'menu_item'
     _s_collection_name = 'MenuItem'  # type: ignore
 
-    id = Column(BigInteger, Sequence('menu_item_id_seq'), primary_key=True)
+    id = Column(BigInteger, Sequence('menu_item_id_seq', start=100), primary_key=True)
     menu_group_id = Column(ForeignKey('menu_group.id', ondelete='CASCADE'), nullable=False)
     entity_name = Column(ForeignKey('entity.name'), nullable=False)
     menu_name = Column(String(100), nullable=False)
-    template_name = Column(String(100), server_default=text("'module.jinja'::character varying"))
-    icon = Column(String(100), server_default=text("'edit_square'::character varying"))
+    template_name = Column(ForeignKey('template.name'), server_default=text("module.jinja"))
+    icon = Column(String(100), server_default=text("edit_square"))
+    insert_page = Column("insert_pages", Boolean, server_default=text("true"))
 
     # parent relationships (access parent)
     entity : Mapped["Entity"] = relationship(back_populates=("MenuItemList"))
     menu_group : Mapped["MenuGroup"] = relationship(back_populates=("MenuItemList"))
+    template : Mapped["Template"] = relationship(back_populates=("MenuItemList"))
 
     # child relationships (access children)
     PageList : Mapped[List["Page"]] = relationship(back_populates="menu_item")
@@ -362,16 +367,19 @@ class Page(Base):  # type: ignore
     __tablename__ = 'page'
     _s_collection_name = 'Page'  # type: ignore
 
-    id = Column(BigInteger, Sequence('page_id_seq'), primary_key=True)
+    id = Column(BigInteger, Sequence('page_id_seq', start=100), primary_key=True)
     menu_item_id = Column(ForeignKey('menu_item.id', ondelete='CASCADE'), nullable=False)
     page_name = Column(String(10), nullable=False)
     title = Column(String(100))
-    template_name = Column(String(100))
-    columns = Column(String(1000))
-    visible_columns = Column(String(1000))
-    include_children = Column(Boolean, server_default=text("true"))
+    template_name = Column(ForeignKey('template.name'))
+    typescript_name = Column(String(100))
+    columns = Column(Text)
+    visible_columns = Column(Text)
+    include_children = Column(Boolean, server_default=text("true")) 
+
 
     # parent relationships (access parent)
     menu_item : Mapped["MenuItem"] = relationship(back_populates=("PageList"))
+    template : Mapped["Template"] = relationship(back_populates=("PageList"))
 
     # child relationships (access children)

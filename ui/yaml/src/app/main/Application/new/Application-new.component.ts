@@ -9,7 +9,7 @@ import { NavigationService, OFormComponent } from 'ontimize-web-ngx';
 export class ApplicationNewComponent {
   @ViewChild("ApplicationForm") form: OFormComponent;
   onInsertMode() {
-    const default_values = {'app_short_name': "'app'::character varying", 'id': "nextval('application_id_seq'::regclass)"}
+    const default_values = {'app_short_name': "app"}
     this.form.setFieldValues(default_values);
   }
   constructor(protected injector: Injector) {

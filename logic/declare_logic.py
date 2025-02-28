@@ -14,6 +14,7 @@ from base64 import b64decode
 from requests import get, post
 import yaml
 from database.models import YamlFiles
+from api.api_discovery.ontimize_api import insert_page
 
 app_logger = logging.getLogger(__name__)
 encoding = 'utf-8'
@@ -58,7 +59,17 @@ def declare_logic():
         Grant.process_updates(logic_row=logic_row)
 
     Rule.early_row_event_all_classes(early_row_event_all_classes=handle_all) 
+    def insert_pages(row: models.MenuItem, old_row: models.MenuItem, logic_row: LogicRow):
+        if logic_row.ins_upd_dlt == "ins" and  row.insert_page == True:
+            col_list = []
+            menu_item_id = row.id
+            attrs = logic_row._get_parent_logic_row('entity').row.EntityAttrList
+            for col in attrs:
+                col_list.append(col.attr)
+            for page_name in ['new', 'home', 'detail']: 
+                insert_page(page_name, col_list, row.entity_name, menu_item_id)
                 
+    Rule.after_flush_row_event(models.MenuItem, calling=insert_pages)          
     def validate_yaml(row: YamlFiles, old_row: YamlFiles, logic_row:LogicRow):
         if logic_row.ins_upd_dlt in ["ins"]:# and (row.download_flag is None or row.download_flag == False):
             if row.content:

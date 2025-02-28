@@ -14,7 +14,7 @@ DROP TABLE IF EXISTS rbac_role;
 DROP TABLE IF EXISTS page;
 DROP TABLE IF EXISTS menu_item;
 DROP TABLE IF EXISTS menu_group;
-sDROP TABLE IF EXISTS application;
+DROP TABLE IF EXISTS application;
 DROP TABLE IF EXISTS entity;
 CREATE TABLE entity (
     name varchar(80) not null,
@@ -182,6 +182,7 @@ CREATE TABLE menu_group (
     application_id BIGINT NOT NULL,
     menu_id VARCHAR(100) NOT NULL DEFAULT 'data',
     menu_name VARCHAR(100) DEFAULT 'data',
+    menu_title VARCHAR(100),
     icon VARCHAR(100) DEFAULT 'edit_square',
     opened BOOLEAN DEFAULT FALSE,
     PRIMARY KEY(id),
@@ -195,6 +196,7 @@ CREATE TABLE menu_item (
     menu_name VARCHAR(100) NOT NULL,  -- Menu Item Name
     template_name VARCHAR(100) DEFAULT 'module.jinja',
     icon VARCHAR(100) DEFAULT 'edit_square',
+    insert_pages BOOLEAN DEFAULT TRUE, -- internal used by rules
     PRIMARY KEY(id),
     FOREIGN KEY (entity_name) REFERENCES entity(name),
     FOREIGN KEY (menu_group_id) REFERENCES menu_group(id) ON DELETE CASCADE
@@ -206,6 +208,7 @@ CREATE TABLE page (
     page_name VARCHAR(10) NOT NULL, -- home, new, detail
     title VARCHAR(100),
     template_name VARCHAR(100),
+    typescript_name VARCHAR(100),
     columns VARCHAR(1000),
     visible_columns VARCHAR(1000),
     include_children BOOLEAN DEFAULT TRUE,

@@ -44,9 +44,26 @@ after-insert-mode="new" class="standalone-form-container" (onInsertMode)="onInse
         separator=" - " width="680px" class="form-field">
 </o-list-picker>
       
-        <o-text-input #menu_name attr="menu_name" label="menu_name" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
+        <o-list-picker 
+        attr="template_name"
+        service="Template" 
+        entity="TemplateType"
+        fxFlex="30" 
+        query-on-init="no" 
+        query-on-bind="yes" 
+        required="no" 
+        enabled="yes" 
+        filter="yes"
+        value-column="name" 
+        value-column-type="VARCHAR"  
+        keys="name" 
+        columns="name;template_name;name" 
+        title="template_name"
+        visible-columns="name;name" 
+        separator=" - " width="680px" class="form-field">
+</o-list-picker>
       
-        <o-text-input #template_name attr="template_name" label="template_name" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
+        <o-text-input #menu_name attr="menu_name" label="menu_name" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
       
         <o-text-input #icon attr="icon" label="icon" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
       

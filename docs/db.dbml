@@ -2,27 +2,192 @@
 // Or, https://databasediagram.com/app
 // Or, view in VSCode with extension: "DBML Live Preview"
 
-Table Role {
-    name VARCHAR(64) [primary key]
+Table Application {
+    id BIGINT [primary key]
+    name VARCHAR(100) 
+    app_short_name VARCHAR(100) 
+    description TEXT 
     }
 
-Table User {
-    name VARCHAR(128) 
-    notes TEXT 
-    id VARCHAR(64) [primary key]
-    username VARCHAR(128) 
-    email VARCHAR(128) 
-    password_hash VARCHAR(200) 
+Table Entity {
+    name VARCHAR(80) [primary key]
+    title VARCHAR(100) 
+    pkey VARCHAR(100) 
+    favorite VARCHAR(100) 
+    info_list TEXT 
+    info_show TEXT 
+    exclude BOOLEAN 
+    new_template VARCHAR(80) 
+    home_template VARCHAR(80) 
+    detail_template VARCHAR(80) 
+    mode VARCHAR(10) 
+    menu_group VARCHAR(25) 
     }
 
-Table UserRole {
-    user_id VARCHAR(64) [primary key]
-    notes TEXT 
-    role_name VARCHAR(64) 
+Table EntityAttr {
+    entity_name VARCHAR(80) [primary key]
+    attr VARCHAR(80) 
+    label VARCHAR(100) 
+    issearch BOOLEAN 
+    issort BOOLEAN 
+    thistype VARCHAR(50) 
+    template_name VARCHAR(100) 
+    tooltip TEXT 
+    isrequired BOOLEAN 
+    isenabled BOOLEAN 
+    exclude BOOLEAN 
+    visible BOOLEAN 
+    default_value VARCHAR(100) 
+    derivation VARCHAR(255) 
+    create_date DATETIME 
+    }
+
+Table Template {
+    name VARCHAR(100) [primary key]
+    file_name VARCHAR(100) 
+    description TEXT 
+    }
+
+Table GlobalSetting {
+    name VARCHAR(100) [primary key]
+    value VARCHAR(8000) 
+    description TEXT 
+    }
+
+Table GrantRole {
+    entity_name VARCHAR(80) [primary key]
+    role_name VARCHAR(80) 
+    can_read BOOLEAN 
+    can_insert BOOLEAN 
+    can_update BOOLEAN 
+    can_delete BOOLEAN 
+    filter TEXT 
+    filter_debug TEXT 
+    }
+
+Table RbacRole {
+    name VARCHAR(80) [primary key]
+    description TEXT 
+    can_read BOOLEAN 
+    can_insert BOOLEAN 
+    can_update BOOLEAN 
+    can_delete BOOLEAN 
+    }
+
+Table MenuGroup {
+    id BIGINT [primary key]
+    application_id BIGINT 
+    menu_name VARCHAR(100) 
+    menu_title VARCHAR(100) 
+    icon VARCHAR(100) 
+    opened BOOLEAN 
+    }
+
+Table MenuItem {
+    id BIGINT [primary key]
+    menu_group_id BIGINT 
+    entity_name VARCHAR(80) 
+    menu_name VARCHAR(100) 
+    template_name VARCHAR(100) 
+    icon VARCHAR(100) 
+    }
+
+Table Page {
+    id BIGINT [primary key]
+    menu_item_id BIGINT 
+    page_name VARCHAR(10) 
+    title VARCHAR(100) 
+    template_name VARCHAR(100) 
+    typescript_name VARCHAR(100) 
+    columns TEXT 
+    visible_columns TEXT 
+    include_children BOOLEAN 
+    }
+
+Table Root {
+    id INTEGER [primary key]
+    about_changes TEXT 
+    api_root VARCHAR(1000) 
+    api_auth_type VARCHAR(100) 
+    api_auth VARCHAR(1000) 
+    about_date VARCHAR(100) 
+    }
+
+Table RuleConstraint {
+    id INTEGER [primary key]
+    entity_name VARCHAR(80) 
+    calling_fn VARCHAR(255) 
+    as_condition VARCHAR(255) 
+    err_msg VARCHAR(255) 
+    error_attributes VARCHAR(80) 
+    rule VARCHAR(1000) 
+    }
+
+Table RuleDerivation {
+    id INTEGER [primary key]
+    entity_name VARCHAR(80) 
+    derive_column VARCHAR(80) 
+    expression VARCHAR(255) 
+    derivation_type VARCHAR(25) 
+    as_child_entity VARCHAR(80) 
+    child_role_name VARCHAR(80) 
+    calling_fn VARCHAR(80) 
+    where_clause VARCHAR(255) 
+    rule VARCHAR(1000) 
+    insert_parent BOOLEAN 
+    }
+
+Table RuleEvent {
+    id INTEGER [primary key]
+    entity_name VARCHAR(80) 
+    event_type VARCHAR(25) 
+    calling_fn VARCHAR(255) 
+    rule VARCHAR(1000) 
+    }
+
+Table TabGroup {
+    entity_name VARCHAR(80) [primary key]
+    tab_entity VARCHAR(80) 
+    direction VARCHAR(6) 
+    fkeys VARCHAR(80) 
+    name VARCHAR(80) 
+    label VARCHAR(80) 
+    exclude BOOLEAN 
+    }
+
+Table YamlFile {
+    name VARCHAR(100) [primary key]
+    content TEXT 
+    upload_flag BOOLEAN 
+    download_flag BOOLEAN 
+    size INTEGER 
+    file_path VARCHAR(1000) 
+    app_name VARCHAR(100) 
+    is_active BOOLEAN 
+    downloaded TEXT 
+    rule_content TEXT 
+    role_content TEXT 
+    local_storage TEXT 
+    en_json TEXT 
+    application_content TEXT 
     }
 
 
 
 // Relationships
-    Ref: UserRole.(role_name) < Role.(name)
-    Ref: UserRole.(user_id) < User.(id)
+    Ref: EntityAttr.(entity_name) < Entity.(name)
+    Ref: EntityAttr.(template_name) < Template.(name)
+    Ref: GrantRole.(entity_name) < Entity.(name)
+    Ref: GrantRole.(role_name) < RbacRole.(name)
+    Ref: MenuGroup.(application_id) < Application.(id)
+    Ref: MenuItem.(entity_name) < Entity.(name)
+    Ref: MenuItem.(menu_group_id) < MenuGroup.(id)
+    Ref: MenuItem.(template_name) < Template.(name)
+    Ref: Page.(menu_item_id) < MenuItem.(id)
+    Ref: Page.(template_name) < Template.(name)
+    Ref: RuleConstraint.(entity_name) < Entity.(name)
+    Ref: RuleDerivation.(as_child_entity) < Entity.(name)
+    Ref: RuleDerivation.(entity_name) < Entity.(name)
+    Ref: RuleEvent.(entity_name) < Entity.(name)
+    Ref: TabGroup.(entity_name) < Entity.(name)
+    Ref: TabGroup.(tab_entity) < Entity.(name)

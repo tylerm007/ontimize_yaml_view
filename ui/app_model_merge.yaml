@@ -9,218 +9,46 @@ application:
       data:
         icon: edit_square
         menu_item:
-          Client:
-            icon: edit_square
-            menu_name: Client
-            page:
-              detail:
-                columns: name,email,phone,total_hours,total_amount,budget_amount,is_over_budget,id
-                include_children: true
-                page_name: detail
-                template_name: detail_template.html
-                title: Client
-                visible_columns: name,email,phone,total_hours,total_amount,budget_amount,is_over_budget,id
-              home:
-                columns: name,email,phone,total_hours,total_amount,budget_amount,is_over_budget,id
-                include_children: true
-                page_name: home
-                template_name: home_template.html
-                title: Client
-                visible_columns: name,email,phone,total_hours,total_amount,budget_amount,is_over_budget,id
-              new:
-                columns: name,email,phone,total_hours,total_amount,budget_amount,is_over_budget,id
-                include_children: true
-                page_name: new
-                template_name: new_template.html
-                title: Client
-                visible_columns: name,email,phone,total_hours,total_amount,budget_amount,is_over_budget,id
-            template_name: module.jinja
-          Invoice:
-            icon: edit_square
-            menu_name: Invoice
-            page:
-              detail:
-                columns: id,project_id,invoice_date,invoice_amount,payment_total,invoice_balance,is_ready,task_count,completed_task_count,is_paid
-                include_children: true
-                page_name: detail
-                template_name: detail_template.html
-                title: Invoice
-                visible_columns: id,project_id,invoice_date,invoice_amount,payment_total,invoice_balance,is_ready,task_count,completed_task_count,is_paid
-              home:
-                columns: id,project_id,invoice_date,invoice_amount,payment_total,invoice_balance,is_ready,task_count,completed_task_count,is_paid
-                include_children: true
-                page_name: home
-                template_name: home_template.html
-                title: Invoice
-                visible_columns: id,project_id,invoice_date,invoice_amount,payment_total,invoice_balance,is_ready,task_count,completed_task_count,is_paid
-              new:
-                columns: id,project_id,invoice_date,invoice_amount,payment_total,invoice_balance,is_ready,task_count,completed_task_count,is_paid
-                include_children: true
-                page_name: new
-                template_name: new_template.html
-                title: Invoice
-                visible_columns: id,project_id,invoice_date,invoice_amount,payment_total,invoice_balance,is_ready,task_count,completed_task_count,is_paid
-            template_name: module.jinja
-          InvoiceItem:
-            icon: edit_square
-            menu_name: InvoiceItem
-            page:
-              detail:
-                columns: id,invoice_id,task_id,task_amount,is_completed
-                include_children: true
-                page_name: detail
-                template_name: detail_template.html
-                title: InvoiceItem
-                visible_columns: id,invoice_id,task_id,task_amount,is_completed
-              home:
-                columns: id,invoice_id,task_id,task_amount,is_completed
-                include_children: true
-                page_name: home
-                template_name: home_template.html
-                title: InvoiceItem
-                visible_columns: id,invoice_id,task_id,task_amount,is_completed
-              new:
-                columns: id,invoice_id,task_id,task_amount,is_completed
-                include_children: true
-                page_name: new
-                template_name: new_template.html
-                title: InvoiceItem
-                visible_columns: id,invoice_id,task_id,task_amount,is_completed
-            template_name: module.jinja
-          Payment:
-            icon: edit_square
-            menu_name: Payment
-            page:
-              detail:
-                columns: id,invoice_id,amount,payment_date,notes
-                include_children: true
-                page_name: detail
-                template_name: detail_template.html
-                title: Payment
-                visible_columns: id,invoice_id,amount,payment_date,notes
-              home:
-                columns: id,invoice_id,amount,payment_date,notes
-                include_children: true
-                page_name: home
-                template_name: home_template.html
-                title: Payment
-                visible_columns: id,invoice_id,amount,payment_date,notes
-              new:
-                columns: id,invoice_id,amount,payment_date,notes
-                include_children: true
-                page_name: new
-                template_name: new_template.html
-                title: Payment
-                visible_columns: id,invoice_id,amount,payment_date,notes
-            template_name: module.jinja
-          Person:
-            icon: edit_square
-            menu_name: Person
-            page:
-              detail:
-                columns: name,client_id,email,phone,billing_rate,id,total_hours_entered,total_amount_billed
-                include_children: true
-                page_name: detail
-                template_name: detail_template.html
-                title: Person
-                visible_columns: name,client_id,email,phone,billing_rate,id,total_hours_entered,total_amount_billed
-              home:
-                columns: name,client_id,email,phone,billing_rate,id,total_hours_entered,total_amount_billed
-                include_children: true
-                page_name: home
-                template_name: home_template.html
-                title: Person
-                visible_columns: name,client_id,email,phone,billing_rate,id,total_hours_entered,total_amount_billed
-              new:
-                columns: name,client_id,email,phone,billing_rate,id,total_hours_entered,total_amount_billed
-                include_children: true
-                page_name: new
-                template_name: new_template.html
-                title: Person
-                visible_columns: name,client_id,email,phone,billing_rate,id,total_hours_entered,total_amount_billed
-            template_name: module.jinja
-          Project:
-            icon: edit_square
-            menu_name: Project
-            page:
-              detail:
-                columns: name,client_id,total_project_hours,total_project_amount,project_budget_amount,is_over_budget,is_active,id
-                include_children: true
-                page_name: detail
-                template_name: detail_template.html
-                title: Project
-                visible_columns: name,client_id,total_project_hours,total_project_amount,project_budget_amount,is_over_budget,is_active,id
-              home:
-                columns: name,client_id,total_project_hours,total_project_amount,project_budget_amount,is_over_budget,is_active,id
-                include_children: true
-                page_name: home
-                template_name: home_template.html
-                title: Project
-                visible_columns: name,client_id,total_project_hours,total_project_amount,project_budget_amount,is_over_budget,is_active,id
-              new:
-                columns: name,client_id,total_project_hours,total_project_amount,project_budget_amount,is_over_budget,is_active,id
-                include_children: true
-                page_name: new
-                template_name: new_template.html
-                title: Project
-                visible_columns: name,client_id,total_project_hours,total_project_amount,project_budget_amount,is_over_budget,is_active,id
-            template_name: module.jinja
-          Task:
-            icon: edit_square
-            menu_name: Task
-            page:
-              detail:
-                columns: name,project_id,description,task_budget_hours,is_over_budget,id,total_task_hours_worked,total_task_amount_billed,is_completed
-                include_children: true
-                page_name: detail
-                template_name: detail_template.html
-                title: Task
-                visible_columns: name,project_id,description,task_budget_hours,is_over_budget,id,total_task_hours_worked,total_task_amount_billed,is_completed
-              home:
-                columns: name,project_id,description,task_budget_hours,is_over_budget,id,total_task_hours_worked,total_task_amount_billed,is_completed
-                include_children: true
-                page_name: home
-                template_name: home_template.html
-                title: Task
-                visible_columns: name,project_id,description,task_budget_hours,is_over_budget,id,total_task_hours_worked,total_task_amount_billed,is_completed
-              new:
-                columns: name,project_id,description,task_budget_hours,is_over_budget,id,total_task_hours_worked,total_task_amount_billed,is_completed
-                include_children: true
-                page_name: new
-                template_name: new_template.html
-                title: Task
-                visible_columns: name,project_id,description,task_budget_hours,is_over_budget,id,total_task_hours_worked,total_task_amount_billed,is_completed
-            template_name: module.jinja
           Timesheet:
             icon: edit_square
-            menu_name: Timesheet
+            menu_name: TimeSheet
             page:
-              detail:
-                columns: id,person_id,task_id,billing_rate,is_billable,date_worked,hours_worked,total_amount_billed
-                include_children: true
-                page_name: detail
-                template_name: detail_template.html
-                title: Timesheet
-                visible_columns: id,person_id,task_id,billing_rate,is_billable,date_worked,hours_worked,total_amount_billed
-              home:
-                columns: id,person_id,task_id,billing_rate,is_billable,date_worked,hours_worked,total_amount_billed
-                include_children: true
-                page_name: home
-                template_name: home_template.html
-                title: Timesheet
-                visible_columns: id,person_id,task_id,billing_rate,is_billable,date_worked,hours_worked,total_amount_billed
               new:
-                columns: id,person_id,task_id,billing_rate,is_billable,date_worked,hours_worked,total_amount_billed
-                include_children: true
+                columns: null
+                include_children: false
                 page_name: new
                 template_name: new_template.html
-                title: Timesheet
-                visible_columns: id,person_id,task_id,billing_rate,is_billable,date_worked,hours_worked,total_amount_billed
+                title: Enter Hours Worked
+                typescript_name: null
+                visible_columns: null
+            template_name: module.jinja
+        menu_name: data
+        menu_title: '''data'''
+        opened: true
+    name: New Application
+  app2:
+    description: test
+    menu_group:
+      data:
+        icon: edit_square'
+        menu_item:
+          Timesheet:
+            icon: edit_square
+            menu_name: TimeSheet
+            page:
+              new:
+                columns: null
+                include_children: false
+                page_name: new
+                template_name: new_template.html
+                title: Enter Hours Worked
+                typescript_name: null
+                visible_columns: null
             template_name: module.jinja
         menu_name: data
         menu_title: data
         opened: true
-    name: New Application
+    name: app2
 authentication:
   endpoint: '{system-default}'
 entities:

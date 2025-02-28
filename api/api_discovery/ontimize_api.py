@@ -1078,13 +1078,13 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         delete_sql(models.EntityAttr)
         delete_sql(models.RuleConstraint)
         delete_sql(models.RuleEvent)
-        delete_sql(models.Template)
         delete_sql(models.Root)
         delete_sql(models.GrantRole)
         delete_sql(models.RbacRole)
         delete_sql(models.Page)
         delete_sql(models.MenuGroup)
         delete_sql(models.MenuItem)
+        delete_sql(models.Template)
         delete_sql(models.Application)
         delete_sql(models.Entity)
 
@@ -1228,6 +1228,13 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
             ("time", "time_template.html"),
             ("timestamp", "timestamp_template.html"),
             ("toggle", "o_slide_toggle.html"),
+            ("module.jinja", "module.jinja"),
+            ("new_component.jinja", "new_component.jinja"),
+            ("detail_component.jinja", "detail_component.jinja"),
+            ("home_template.jinja", "home_template.jinja"),
+            ("new_template.html", "new_template.html"),
+            ("home_template.html", "home_template.html"),
+            ("detail_template.html", "detail_template.html"),
         ]
         for name, value in templates:
             m_template = models.Template()
@@ -1442,61 +1449,70 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                         print(ex)
 
     def insert_application(valuesYaml: any):
-        try:
-    
-            name = "New Application"
-            file_path = "/foo"
-            app_name = "app"
-            application = models.Application()
-            setattr(application,"name",name)
-            setattr(application,"app_short_name",app_name)
-            #setattr(application,"description",file_path)
-            session.add(application)
-            session.commit()
-        except Exception as ex:
-            print(f"application error {ex}")
-        #insert_menu_group(application, valuesYaml)
-        menu_group = models.MenuGroup()
-        menu_group.application_id = application.id
-        menu_group.icon = "edit_square"
-        menu_group.menu_name = "data"
-        menu_group.menu_id = "data"
-        menu_group.opened = True
-        #menu_group.menu_title = ""
-        try:
-            session.add(menu_group)
-            session.commit()
-        except Exception as ex:
-            print(f"menu_group error {ex}")
-            
-        #insert_menu_item(app, valuesYaml)
-        entities = valuesYaml["entities"]
-        for entity in entities:
-            menu_item = models.MenuItem()
-            menu_item.menu_group_id = menu_group.id
-            menu_item.entity_name = entity
-            menu_item.menu_name = entity 
-            menu_item.template_name = "module.jinja"
-            menu_item.icon ="edit_square"
-            try:
-                session.add(menu_item)
-                session.commit()
-                col_list = []
-                for col in valuesYaml["entities"][entity]["columns"]:
-                    col_list.append(col["name"])
-                for page_name in ['new', 'home', 'detail']: 
-                    page = models.Page()
-                    page.menu_item_id = menu_item.id
-                    page.title = entity
-                    page.page_name = page_name
-                    page.template_name = f"{page_name}_template.html"
-                    page.columns = ",".join(col_list)   
-                    page.visible_columns = ",".join(col_list)  
-                    page.include_children = True
-                    session.add(page)
+        
+            for a in valuesYaml["application"]:
+                app = valuesYaml["application"][a]
+                application = models.Application()
+                #name = "New Application"
+                application = models.Application()
+                setattr(application,"name",app["name"])
+                setattr(application,"app_short_name",app["name"])
+                setattr(application,"app_description",app["description"])
+                try:
+                    session.add(application)
                     session.commit()
-            except Exception as ex:
-                print(f"menu_item error {ex}")
+                except Exception as ex:
+                    print(f"application error {ex}")
+                
+                for m_grp in app["menu_group"]: 
+                    mg = app["menu_group"][m_grp] 
+                    #insert_menu_group(application, valuesYaml)
+                    menu_group = models.MenuGroup()
+                    setattr(menu_group, "application_id", application.id)
+                    setattr(menu_group, "icon", mg["icon"]) #"edit_square"
+                    setattr(menu_group, "menu_name", mg["menu_name"]) # "data"
+                    setattr(menu_group, "menu_title", mg["menu_title"].replace("'","",2))
+                    setattr(menu_group, "menu_id", m_grp)
+                    setattr(menu_group, "opened", mg["opened"]) #True
+                    try:
+                        session.add(menu_group)
+                        session.commit()
+                    except Exception as ex:
+                        print(f"menu_group error {ex}")
+                        
+                    for m in mg["menu_item"]:
+                        mi = mg["menu_item"][m]
+                        menu_item = models.MenuItem()
+                        setattr(menu_item,"menu_group_id", menu_group.id)
+                        setattr(menu_item,"entity_name", m)
+                        setattr(menu_item,"menu_name", m) 
+                        setattr(menu_item,"template_name", mi["template_name"]) # "module.jinja"
+                        setattr(menu_item,"icon", mi["icon"]) #"edit_square"
+                        setattr(menu_item,"insert_page", False) # bypass rule and use yaml
+                        try:
+                            session.add(menu_item)
+                            session.commit()
+                        except Exception as ex:
+                            print(f"menu_item error {ex}")
+                            
+                        # read pages and merge values?
+                        for p in mi["page"]:
+                            pg = mi["page"][p]
+                            page = models.Page()
+                            page.menu_item_id = menu_item.id
+                            page.title = pg["title"]
+                            page.page_name = p
+                            page.template_name = pg["template_name"]
+                            page.typescript_name = pg["typescript_name"]
+                            page.columns = pg["columns"]
+                            page.visible_columns = pg["visible_columns"]
+                            page.include_children = pg["include_children"]
+                            try:    
+                                session.add(page)
+                                session.commit()
+                            except Exception as ex:     
+                                print(f"page error {ex}")
+
         
     def get_value(obj: any, name: str, default: any = None):
         try:
@@ -1651,7 +1667,8 @@ def export_yaml_to_file(project_dir: str, yaml_file_row: dict = None):
     security_output = build_security_json(rbac_content, grant_content)
 
     output = build_json(
-        entities, attrs, tabs, settings, root, rule_events, rule_constraints, security_output, application, menu_group, menu_item, page
+        entities, attrs, tabs, settings, root, rule_events, rule_constraints, security_output, 
+        application, menu_group, menu_item, page
     )
     yaml_fn = f"{project_dir}/ui/app_model_merge.yaml"
     logic_fn = f"{project_dir}/ui/declare_logic_merge.py1"
@@ -1969,8 +1986,8 @@ def build_json(
                     "menu_name": mg["menu_name"],
                     "icon": mg["icon"],
                     "opened":  mg["opened"],
-                    "menu_title": mg["menu_name"]  # TODO add menu_title
-                    # "order: mg["order"]  # TODO
+                    "menu_title": mg["menu_title"]  
+                    # "order: mg["menu_order"]  # TODO
                 }
                 mg_list[mg["menu_name"]] = this_menu_group
         this_app["menu_group"] = mg_list   
@@ -1980,14 +1997,10 @@ def build_json(
                 this_menu_item = {
                     #this_menu_item["entity_name"] = mi["entity_name"]
                     "menu_name": mi["menu_name"],
+                    #"menu_title": mi["menu_title"],
                     "template_name": mi["template_name"],
                     "icon": mi["icon"]
                 }
-                #this_menu_item["order"] = mi["order"]
-                #this_menu_item["exclude"] = mi["exclude"]
-                #this_menu_item["visible"] = mi["visible"]
-                #this_menu_item["columns"] = mi["columns"]
-                #this_menu_item["include_children"] = mi["include_children"]
                 mi_list[mi["entity_name"]] = this_menu_item  
                 p = {}
                 for page in pages:
@@ -1996,6 +2009,7 @@ def build_json(
                             "title": page["title"],
                             "page_name": page["page_name"],
                             "template_name": page["template_name"],
+                            "typescript_name": page["typescript_name"],
                             "columns": page["columns"],
                             "visible_columns": page["visible_columns"],
                             "include_children": page["include_children"]
@@ -2086,3 +2100,21 @@ def getMetaData(resource_name: str = None, include_attributes: bool = True) -> d
     # return_result = {"resources": resource_list}
     return_result = {"resources": resource_objs}
     return return_result
+def insert_page(page_name: str, col_list: list, page_title: str, menu_item_id: int):
+    db = safrs.DB
+    session = db.session
+    ts_type = "template" if page_name == "home" else "component"
+    page = models.Page()
+    page.menu_item_id = menu_item_id
+    page.title = page_title
+    page.page_name = page_name
+    page.template_name = f"{page_name}_template.html"
+    page.typescript_name = f"{page_name}_{ts_type}.jinja"
+    page.columns = ",".join(col_list)   
+    page.visible_columns = ",".join(col_list)  
+    page.include_children = True
+    try:
+        session.add(page)
+        #session.commit()   
+    except Exception as ex:
+        print(f"page error {ex}")

@@ -68,12 +68,12 @@ class User(Base):  # type: ignore
     _s_collection_name = 'authentication-User'  # type: ignore
     __bind_key__ = 'authentication'
 
-    name = Column(String(128), server_default=text("NULL::character varying"))
+    name = Column(String(128), server_default=text("NULL"))
     notes = Column(Text)
     id = Column(String(64), primary_key=True)
-    username = Column(String(128), server_default=text("NULL::character varying"))
-    email = Column(String(128), server_default=text("NULL::character varying"))
-    password_hash = Column(String(200), server_default=text("NULL::character varying"))
+    username = Column(String(128), server_default=text("NULL"))
+    email = Column(String(128), server_default=text("NULL"))
+    password_hash = Column(String(200), server_default=text("NULL"))
     allow_client_generated_ids = True
 
     # parent relationships (access parent)

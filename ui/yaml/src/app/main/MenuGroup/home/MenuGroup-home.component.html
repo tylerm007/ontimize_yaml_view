@@ -6,9 +6,9 @@
             entity="MenuGroup" 
             title="MENUGROUP"
             keys="id"
-            columns="menu_name;application_id;icon;id;menu_id;opened" 
+            columns="menu_name;application_id;menu_title;icon;id;opened" 
             header-actions="R;D"
-            visible-columns="menu_name;application_id;icon;id;menu_id;opened"  
+            visible-columns="menu_name;application_id;menu_title;icon;id;opened"  
             sort-columns="menu_name" 
             query-rows="20" 
             quick-filter="yes"
@@ -22,7 +22,7 @@
             show-title="yes"
             export-button="yes">
             
-            <o-table-column #menu_name attr="menu_name" title=" menu_name" editable="no" required="no" content-align="left"></o-table-column>
+            <o-table-column #menu_name attr="menu_name" title=" menu_name" editable="no" required="yes" content-align="left"></o-table-column>
             
             <o-table-column attr="application_id" title="application_id">
     <o-table-cell-renderer-service attr="application_id" 
@@ -33,11 +33,11 @@
     </o-table-cell-renderer-service>
 </o-table-column>
             
+            <o-table-column #menu_title attr="menu_title" title="menu_title" editable="no" required="no" content-align="left"></o-table-column>
+            
             <o-table-column #icon attr="icon" title="icon" editable="no" required="no" content-align="left"></o-table-column>
             
             <o-table-column #id attr="id" title="id" type="integer" editable="no" required="yes" content-align="center"></o-table-column>
-            
-            <o-table-column #menu_id attr="menu_id" title="menu_id" editable="no" required="yes" content-align="left"></o-table-column>
             
             <o-table-column attr="opened" title="opened">
     <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"

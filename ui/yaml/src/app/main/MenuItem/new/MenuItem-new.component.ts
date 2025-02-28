@@ -9,7 +9,7 @@ import { NavigationService, OFormComponent } from 'ontimize-web-ngx';
 export class MenuItemNewComponent {
   @ViewChild("MenuItemForm") form: OFormComponent;
   onInsertMode() {
-    const default_values = {'template_name': "'module.jinja'::character varying", 'icon': "'edit_square'::character varying", 'id': "nextval('menu_item_id_seq'::regclass)"}
+    const default_values = {'template_name': "module.jinja", 'icon': "edit_square"}
     this.form.setFieldValues(default_values);
   }
   constructor(protected injector: Injector) {

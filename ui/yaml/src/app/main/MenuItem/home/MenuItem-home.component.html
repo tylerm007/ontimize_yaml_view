@@ -6,9 +6,9 @@
             entity="MenuItem" 
             title="MENUITEM"
             keys="id"
-            columns="entity_name;menu_group_id;menu_name;template_name;icon;id" 
+            columns="entity_name;menu_group_id;template_name;menu_name;icon;id" 
             header-actions="R;D"
-            visible-columns="entity_name;menu_group_id;menu_name;template_name;icon;id"  
+            visible-columns="entity_name;menu_group_id;template_name;menu_name;icon;id"  
             sort-columns="entity_name" 
             query-rows="20" 
             quick-filter="yes"
@@ -33,9 +33,9 @@
     </o-table-cell-renderer-service>
 </o-table-column>
             
-            <o-table-column #menu_name attr="menu_name" title="menu_name" editable="no" required="yes" content-align="left"></o-table-column>
-            
             <o-table-column #template_name attr="template_name" title="template_name" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column #menu_name attr="menu_name" title="menu_name" editable="no" required="yes" content-align="left"></o-table-column>
             
             <o-table-column #icon attr="icon" title="icon" editable="no" required="no" content-align="left"></o-table-column>
             

@@ -1,11 +1,11 @@
 about:
-  date: February 21, 2025 21:15:03
+  date: February 23, 2025 11:29:50
   recent_changes: works with modified safrs-react-admin
   version: 0.0.0
 api_root: '{http_type}://{swagger_host}:{port}/{api}'
 authentication: '{system-default}'
 info:
-  number_relationships: 14
+  number_relationships: 16
   number_tables: 16
 info_toggle_checked: true
 resources:
@@ -191,14 +191,14 @@ resources:
     attributes:
     - label: ' menu_name*'
       name: menu_name
+      required: true
       search: true
       sort: true
     - name: application_id
       required: true
+    - name: menu_title
     - name: icon
     - name: id
-      required: true
-    - name: menu_id
       required: true
     - name: opened
       type: Boolean
@@ -226,9 +226,9 @@ resources:
       required: true
     - name: menu_group_id
       required: true
+    - name: template_name
     - name: menu_name
       required: true
-    - name: template_name
     - name: icon
     - name: id
       required: true
@@ -248,6 +248,11 @@ resources:
       - menu_group_id
       name: menu_group
       resource: MenuGroup
+    - direction: toone
+      fks:
+      - template_name
+      name: template
+      resource: Template
     type: MenuItem
     user_key: entity_name
   Page:
@@ -259,8 +264,9 @@ resources:
       sort: true
     - name: menu_item_id
       required: true
-    - name: title
     - name: template_name
+    - name: title
+    - name: typescript_name
     - name: columns
     - name: visible_columns
     - name: include_children
@@ -273,6 +279,11 @@ resources:
       - menu_item_id
       name: menu_item
       resource: MenuItem
+    - direction: toone
+      fks:
+      - template_name
+      name: template
+      resource: Template
     type: Page
     user_key: page_name
   RbacRole:
@@ -430,6 +441,16 @@ resources:
       - template_name
       name: EntityAttrList
       resource: EntityAttr
+    - direction: tomany
+      fks:
+      - template_name
+      name: MenuItemList
+      resource: MenuItem
+    - direction: tomany
+      fks:
+      - template_name
+      name: PageList
+      resource: Page
     type: Template
     user_key: name
   YamlFile:

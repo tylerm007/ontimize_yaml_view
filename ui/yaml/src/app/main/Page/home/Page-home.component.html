@@ -6,9 +6,9 @@
             entity="Page" 
             title="PAGE"
             keys="id"
-            columns="page_name;menu_item_id;title;template_name;columns;visible_columns;include_children;id" 
+            columns="page_name;menu_item_id;template_name;title;typescript_name;columns;visible_columns;include_children;id" 
             header-actions="R;D"
-            visible-columns="page_name;menu_item_id;title;template_name;columns;visible_columns;include_children;id"  
+            visible-columns="page_name;menu_item_id;template_name;title;typescript_name;columns;visible_columns;include_children;id"  
             sort-columns="page_name" 
             query-rows="20" 
             quick-filter="yes"
@@ -33,9 +33,11 @@
     </o-table-cell-renderer-service>
 </o-table-column>
             
+            <o-table-column #template_name attr="template_name" title="template_name" editable="no" required="no" content-align="left"></o-table-column>
+            
             <o-table-column #title attr="title" title="title" editable="no" required="no" content-align="left"></o-table-column>
             
-            <o-table-column #template_name attr="template_name" title="template_name" editable="no" required="no" content-align="left"></o-table-column>
+            <o-table-column #typescript_name attr="typescript_name" title="typescript_name" editable="no" required="no" content-align="left"></o-table-column>
             
             <o-table-column #columns attr="columns" title="columns" editable="no" required="no" content-align="left"></o-table-column>
             
