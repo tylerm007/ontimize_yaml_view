@@ -1852,9 +1852,9 @@ def build_json(
             grants (list): A list of dictionaries representing Grant definitions.
         - application, menu_group, menu_item, page - used to generate each application 
         application: dict - defines the application
-        menu_group: dict - defines the menu group (top level)
-        menu_item: dict - defines the menu item (second level)
-        pages: dict -   defines the page (new, home, detail)
+            menu_group: dict - defines the menu group (top level)
+                menu_item: dict - defines the menu item (second level)
+                    pages: dict -   defines the page (new, home, detail)
     Returns:
         dict: A dictionary containing structured information about entities, settings, and rules, organized for API consumption.
     """
@@ -1990,32 +1990,32 @@ def build_json(
                     # "order: mg["menu_order"]  # TODO
                 }
                 mg_list[mg["menu_name"]] = this_menu_group
-        this_app["menu_group"] = mg_list   
-        mi_list = {}
-        for mi in menu_item:
-            if mi["menu_group_id"] == mg["id"]:
-                this_menu_item = {
-                    #this_menu_item["entity_name"] = mi["entity_name"]
-                    "menu_name": mi["menu_name"],
-                    #"menu_title": mi["menu_title"],
-                    "template_name": mi["template_name"],
-                    "icon": mi["icon"]
-                }
-                mi_list[mi["entity_name"]] = this_menu_item  
-                p = {}
-                for page in pages:
-                    if page["menu_item_id"] == mi["id"]:
-                        this_page = {
-                            "title": page["title"],
-                            "page_name": page["page_name"],
-                            "template_name": page["template_name"],
-                            "typescript_name": page["typescript_name"],
-                            "columns": page["columns"],
-                            "visible_columns": page["visible_columns"],
-                            "include_children": page["include_children"]
-                        }
-                        p[page["page_name"]] = this_page
-                this_menu_item["page"] = p
+            this_app["menu_group"] = mg_list   
+            mi_list = {}
+            for mi in menu_item:
+                if mi["menu_group_id"] == mg["id"]:
+                    this_menu_item = {
+                        #this_menu_item["entity_name"] = mi["entity_name"]
+                        "menu_name": mi["menu_name"],
+                        #"menu_title": mi["menu_title"],
+                        "template_name": mi["template_name"],
+                        "icon": mi["icon"]
+                    }
+                    mi_list[mi["entity_name"]] = this_menu_item  
+                    p = {}
+                    for page in pages:
+                        if page["menu_item_id"] == mi["id"]:
+                            this_page = {
+                                "title": page["title"],
+                                "page_name": page["page_name"],
+                                "template_name": page["template_name"],
+                                "typescript_name": page["typescript_name"],
+                                "columns": page["columns"],
+                                "visible_columns": page["visible_columns"],
+                                "include_children": page["include_children"]
+                            }
+                            p[page["page_name"]] = this_page
+                    this_menu_item["page"] = p
             this_menu_group["menu_item"] = mi_list
     output["application"] = a
     return output
