@@ -1,728 +1,449 @@
 about:
-  date: February 02, 2025 22:36:56
+  date: March 03, 2025 09:39:31
   recent_changes: works with modified safrs-react-admin
 api_root: '{http_type}://{swagger_host}:{port}/{api}'
 application:
-  app:
+  app1:
     description: null
     menu_group:
       data:
         icon: edit_square
         menu_item:
-          Timesheet:
+          Category:
             icon: edit_square
-            menu_name: TimeSheet
+            menu_name: Category
             page:
+              detail:
+                columns: CategoryName_ColumnName,Description,Id,Client_id
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: Category
+                typescript_name: detail_component.jinja
+                visible_columns: CategoryName_ColumnName,Description,Id,Client_id
+              home:
+                columns: CategoryName_ColumnName,Description,Id,Client_id
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: Category
+                typescript_name: home_template.jinja
+                visible_columns: CategoryName_ColumnName,Description,Id,Client_id
               new:
-                columns: null
-                include_children: false
+                columns: CategoryName_ColumnName,Description,Id,Client_id
+                include_children: true
                 page_name: new
                 template_name: new_template.html
-                title: Enter Hours Worked
-                typescript_name: null
-                visible_columns: null
+                title: Category
+                typescript_name: new_component.jinja
+                visible_columns: CategoryName_ColumnName,Description,Id,Client_id
             template_name: module.jinja
-        menu_name: data
-        menu_title: '''data'''
-        opened: true
-    name: New Application
-  app2:
-    description: test
-    menu_group:
-      data:
-        icon: edit_square'
-        menu_item:
-          Timesheet:
+          Customer:
             icon: edit_square
-            menu_name: TimeSheet
+            menu_name: Customer
             page:
+              detail:
+                columns: CompanyName,ContactName,ContactTitle,Address,City,Region,PostalCode,Country,Phone,Fax,Balance,CreditLimit,OrderCount,UnpaidOrderCount,Id,Client_id
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: Customer
+                typescript_name: detail_component.jinja
+                visible_columns: CompanyName,ContactName,ContactTitle,Address,City,Region,PostalCode,Country,Phone,Fax,Balance,CreditLimit,OrderCount,UnpaidOrderCount,Id,Client_id
+              home:
+                columns: CompanyName,ContactName,ContactTitle,Address,City,Region,PostalCode,Country,Phone,Fax,Balance,CreditLimit,OrderCount,UnpaidOrderCount,Id,Client_id
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: Customer
+                typescript_name: home_template.jinja
+                visible_columns: CompanyName,ContactName,ContactTitle,City,Region,PostalCode,Country,Id,Client_id
               new:
-                columns: null
-                include_children: false
+                columns: CompanyName,ContactName,ContactTitle,Address,City,Region,PostalCode,Country,Phone,Fax,Balance,CreditLimit,OrderCount,UnpaidOrderCount,Id,Client_id
+                include_children: true
                 page_name: new
                 template_name: new_template.html
-                title: Enter Hours Worked
-                typescript_name: null
-                visible_columns: null
+                title: Customer
+                typescript_name: new_component.jinja
+                visible_columns: CompanyName,ContactName,ContactTitle,Address,City,Region,PostalCode,Country,Phone,Fax,Balance,CreditLimit,OrderCount,UnpaidOrderCount,Id,Client_id
+            template_name: module.jinja
+          Department:
+            icon: edit_square
+            menu_name: Department
+            page:
+              detail:
+                columns: DepartmentName,DepartmentId,SecurityLevel,Id
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: Department
+                typescript_name: detail_component.jinja
+                visible_columns: DepartmentName,DepartmentId,SecurityLevel,Id
+              home:
+                columns: DepartmentName,DepartmentId,SecurityLevel,Id
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: Department
+                typescript_name: home_template.jinja
+                visible_columns: DepartmentName,DepartmentId,SecurityLevel,Id
+              new:
+                columns: DepartmentName,DepartmentId,SecurityLevel,Id
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: Department
+                typescript_name: new_component.jinja
+                visible_columns: DepartmentName,DepartmentId,SecurityLevel,Id
+            template_name: module.jinja
+          Employee:
+            icon: edit_square
+            menu_name: Employee
+            page:
+              detail:
+                columns: LastName,OnLoanDepartmentId,UnionId,WorksForDepartmentId,FirstName,Title,TitleOfCourtesy,BirthDate,HireDate,Address,City,Region,PostalCode,Country,HomePhone,Extension,Notes,ReportsTo,PhotoPath,EmployeeType,Salary,Dues,Email,Id
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: Employee
+                typescript_name: detail_component.jinja
+                visible_columns: LastName,OnLoanDepartmentId,UnionId,WorksForDepartmentId,FirstName,Title,TitleOfCourtesy,BirthDate,HireDate,Address,City,Region,PostalCode,Country,HomePhone,Extension,Notes,ReportsTo,PhotoPath,EmployeeType,Salary,Dues,Email,Id
+              home:
+                columns: LastName,OnLoanDepartmentId,UnionId,WorksForDepartmentId,FirstName,Title,TitleOfCourtesy,BirthDate,HireDate,Address,City,Region,PostalCode,Country,HomePhone,Extension,Notes,ReportsTo,PhotoPath,EmployeeType,Salary,Dues,Email,Id
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: Employee
+                typescript_name: home_template.jinja
+                visible_columns: LastName,OnLoanDepartmentId,UnionId,WorksForDepartmentId,FirstName,Title,TitleOfCourtesy,BirthDate,HireDate,Address,City,Region,PostalCode,Country,HomePhone,Extension,Notes,ReportsTo,PhotoPath,EmployeeType,Salary,Dues,Email,Id
+              new:
+                columns: LastName,OnLoanDepartmentId,UnionId,WorksForDepartmentId,FirstName,Title,TitleOfCourtesy,BirthDate,HireDate,Address,City,Region,PostalCode,Country,HomePhone,Extension,Notes,ReportsTo,PhotoPath,EmployeeType,Salary,Dues,Email,Id
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: Employee
+                typescript_name: new_component.jinja
+                visible_columns: LastName,OnLoanDepartmentId,UnionId,WorksForDepartmentId,FirstName,Title,TitleOfCourtesy,BirthDate,HireDate,Address,City,Region,PostalCode,Country,HomePhone,Extension,Notes,ReportsTo,PhotoPath,EmployeeType,Salary,Dues,Email,Id
+            template_name: module.jinja
+          Location:
+            icon: edit_square
+            menu_name: Location
+            page:
+              detail:
+                columns: country,city,notes
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: Location
+                typescript_name: detail_component.jinja
+                visible_columns: country,city,notes
+              home:
+                columns: country,city,notes
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: Location
+                typescript_name: home_template.jinja
+                visible_columns: country,city,notes
+              new:
+                columns: country,city,notes
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: Location
+                typescript_name: new_component.jinja
+                visible_columns: country,city,notes
+            template_name: module.jinja
+          Order:
+            icon: edit_square
+            menu_name: Order
+            page:
+              detail:
+                columns: ShipName,CloneFromOrder,City,CustomerId,EmployeeId,OrderDate,RequiredDate,ShippedDate,ShipVia,Freight,ShipAddress,ShipCity,ShipRegion,ShipPostalCode,ShipCountry,AmountTotal,Country,Ready,OrderDetailCount,Id
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: Order
+                typescript_name: detail_component.jinja
+                visible_columns: ShipName,CloneFromOrder,City,CustomerId,EmployeeId,OrderDate,RequiredDate,ShippedDate,ShipVia,Freight,ShipAddress,ShipCity,ShipRegion,ShipPostalCode,ShipCountry,AmountTotal,Country,Ready,OrderDetailCount,Id
+              home:
+                columns: ShipName,CloneFromOrder,City,CustomerId,EmployeeId,OrderDate,RequiredDate,ShippedDate,ShipVia,Freight,ShipAddress,ShipCity,ShipRegion,ShipPostalCode,ShipCountry,AmountTotal,Country,Ready,OrderDetailCount,Id
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: Order
+                typescript_name: home_template.jinja
+                visible_columns: ShipName,CloneFromOrder,City,CustomerId,EmployeeId,OrderDate,RequiredDate,ShippedDate,ShipVia,Freight,ShipAddress,ShipCity,ShipRegion,ShipPostalCode,ShipCountry,AmountTotal,Country,Ready,OrderDetailCount,Id
+              new:
+                columns: ShipName,CloneFromOrder,City,CustomerId,EmployeeId,OrderDate,RequiredDate,ShippedDate,ShipVia,Freight,ShipAddress,ShipCity,ShipRegion,ShipPostalCode,ShipCountry,AmountTotal,Country,Ready,OrderDetailCount,Id
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: Order
+                typescript_name: new_component.jinja
+                visible_columns: ShipName,CloneFromOrder,City,CustomerId,EmployeeId,OrderDate,RequiredDate,ShippedDate,ShipVia,Freight,ShipAddress,ShipCity,ShipRegion,ShipPostalCode,ShipCountry,AmountTotal,Country,Ready,OrderDetailCount,Id
+            template_name: module.jinja
+          OrderDetail:
+            icon: edit_square
+            menu_name: OrderDetail
+            page:
+              detail:
+                columns: Id,OrderId,ProductId,UnitPrice,Quantity,Discount,Amount,ShippedDate
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: OrderDetail
+                typescript_name: detail_component.jinja
+                visible_columns: Id,OrderId,ProductId,UnitPrice,Quantity,Discount,Amount,ShippedDate
+              home:
+                columns: Id,OrderId,ProductId,UnitPrice,Quantity,Discount,Amount,ShippedDate
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: OrderDetail
+                typescript_name: home_template.jinja
+                visible_columns: Id,OrderId,ProductId,UnitPrice,Quantity,Discount,Amount,ShippedDate
+              new:
+                columns: Id,OrderId,ProductId,UnitPrice,Quantity,Discount,Amount,ShippedDate
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: OrderDetail
+                typescript_name: new_component.jinja
+                visible_columns: Id,OrderId,ProductId,UnitPrice,Quantity,Discount,Amount,ShippedDate
+            template_name: module.jinja
+          Product:
+            icon: edit_square
+            menu_name: Product
+            page:
+              detail:
+                columns: ProductName,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,Id,SupplierId,CategoryId,Discontinued,UnitsShipped
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: Product
+                typescript_name: detail_component.jinja
+                visible_columns: ProductName,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,Id,SupplierId,CategoryId,Discontinued,UnitsShipped
+              home:
+                columns: ProductName,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,Id,SupplierId,CategoryId,Discontinued,UnitsShipped
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: Product
+                typescript_name: home_template.jinja
+                visible_columns: ProductName,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,Id,SupplierId,CategoryId,Discontinued,UnitsShipped
+              new:
+                columns: ProductName,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,Id,SupplierId,CategoryId,Discontinued,UnitsShipped
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: Product
+                typescript_name: new_component.jinja
+                visible_columns: ProductName,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,Id,SupplierId,CategoryId,Discontinued,UnitsShipped
+            template_name: module.jinja
+          Region:
+            icon: edit_square
+            menu_name: Region
+            page:
+              detail:
+                columns: RegionDescription,Id
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: Region
+                typescript_name: detail_component.jinja
+                visible_columns: RegionDescription,Id
+              home:
+                columns: RegionDescription,Id
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: Region
+                typescript_name: home_template.jinja
+                visible_columns: RegionDescription,Id
+              new:
+                columns: RegionDescription,Id
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: Region
+                typescript_name: new_component.jinja
+                visible_columns: RegionDescription,Id
+            template_name: module.jinja
+          Supplier:
+            icon: edit_square
+            menu_name: Supplier
+            page:
+              detail:
+                columns: CompanyName,ContactName,ContactTitle,Address,City,Region,PostalCode,Country,Phone,Fax,HomePage,Id
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: Supplier
+                typescript_name: detail_component.jinja
+                visible_columns: CompanyName,ContactName,ContactTitle,Address,City,Region,PostalCode,Country,Phone,Fax,HomePage,Id
+              home:
+                columns: CompanyName,ContactName,ContactTitle,Address,City,Region,PostalCode,Country,Phone,Fax,HomePage,Id
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: Supplier
+                typescript_name: home_template.jinja
+                visible_columns: CompanyName,ContactName,ContactTitle,Address,City,Region,PostalCode,Country,Phone,Fax,HomePage,Id
+              new:
+                columns: CompanyName,ContactName,ContactTitle,Address,City,Region,PostalCode,Country,Phone,Fax,HomePage,Id
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: Supplier
+                typescript_name: new_component.jinja
+                visible_columns: CompanyName,ContactName,ContactTitle,Address,City,Region,PostalCode,Country,Phone,Fax,HomePage,Id
             template_name: module.jinja
         menu_name: data
         menu_title: data
         opened: true
-    name: app2
+      other:
+        icon: edit_square
+        menu_item:
+          SampleDBVersion:
+            icon: edit_square
+            menu_name: SampleDBVersion
+            page:
+              detail:
+                columns: Id,Notes
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: SampleDBVersion
+                typescript_name: detail_component.jinja
+                visible_columns: Id,Notes
+              home:
+                columns: Id,Notes
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: SampleDBVersion
+                typescript_name: home_template.jinja
+                visible_columns: Id,Notes
+              new:
+                columns: Id,Notes
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: SampleDBVersion
+                typescript_name: new_component.jinja
+                visible_columns: Id,Notes
+            template_name: module.jinja
+          Shipper:
+            icon: edit_square
+            menu_name: Shipper
+            page:
+              detail:
+                columns: CompanyName,Phone,Id
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: Shipper
+                typescript_name: detail_component.jinja
+                visible_columns: CompanyName,Phone,Id
+              home:
+                columns: CompanyName,Phone,Id
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: Shipper
+                typescript_name: home_template.jinja
+                visible_columns: CompanyName,Phone,Id
+              new:
+                columns: CompanyName,Phone,Id
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: Shipper
+                typescript_name: new_component.jinja
+                visible_columns: CompanyName,Phone,Id
+            template_name: module.jinja
+          Territory:
+            icon: edit_square
+            menu_name: Territory
+            page:
+              detail:
+                columns: TerritoryDescription,Id,RegionId
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: Territory
+                typescript_name: detail_component.jinja
+                visible_columns: TerritoryDescription,Id,RegionId
+              home:
+                columns: TerritoryDescription,Id,RegionId
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: Territory
+                typescript_name: home_template.jinja
+                visible_columns: TerritoryDescription,Id,RegionId
+              new:
+                columns: TerritoryDescription,Id,RegionId
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: Territory
+                typescript_name: new_component.jinja
+                visible_columns: TerritoryDescription,Id,RegionId
+            template_name: module.jinja
+          Union:
+            icon: edit_square
+            menu_name: Union
+            page:
+              detail:
+                columns: Name,Id
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: Union
+                typescript_name: detail_component.jinja
+                visible_columns: Name,Id
+              home:
+                columns: Name,Id
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: Union
+                typescript_name: home_template.jinja
+                visible_columns: Name,Id
+              new:
+                columns: Name,Id
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: Union
+                typescript_name: new_component.jinja
+                visible_columns: Name,Id
+            template_name: module.jinja
+        menu_name: other
+        menu_title: Other Stuff
+        opened: false
+    name: app1
 authentication:
   endpoint: '{system-default}'
 entities:
-  Client:
+  Category:
     columns:
     - enabled: true
       exclude: false
-      label: 'Name* '
-      name: name
+      label: 'Category Name Column Name* '
+      name: CategoryName_ColumnName
       required: false
       search: true
       sort: true
       template: text
-      type: VARCHAR
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Email '
-      name: email
-      required: false
-      search: false
-      sort: true
-      template: text
-      type: VARCHAR
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Phone '
-      name: phone
-      required: false
-      search: false
-      sort: true
-      template: text
-      type: VARCHAR
-      visible: true
-    - derivation: Rule.sum(derive=Client.total_hours, as_sum_of=Project.total_project_hours)
-      enabled: true
-      exclude: false
-      label: 'Total Hours '
-      name: total_hours
-      required: false
-      search: false
-      sort: true
-      template: real
-      type: DECIMAL(10, 2)
-      visible: true
-    - derivation: Rule.sum(derive=Client.total_amount, as_sum_of=Project.total_project_amount)
-      enabled: true
-      exclude: false
-      label: 'Total Amount '
-      name: total_amount
-      required: false
-      search: false
-      sort: true
-      template: real
-      type: DECIMAL(10, 2)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Budget Amount '
-      name: budget_amount
-      required: false
-      search: false
-      sort: true
-      template: real
-      type: DECIMAL(10, 2)
-      visible: true
-    - derivation: 'Rule.formula(derive=Client.is_over_budget, as_expression=lambda
-        row: row.total_amount > row.budget_amount)'
-      enabled: true
-      exclude: false
-      label: 'Is Over Budget '
-      name: is_over_budget
-      required: false
-      search: false
-      sort: true
-      template: text
-      type: Boolean
+      type: VARCHAR(8000)
       visible: true
     - enabled: true
       exclude: false
       label: 'Id '
-      name: id
-      required: false
-      search: false
-      sort: true
-      template: integer
-      type: INTEGER
-      visible: true
-    detail_template: detail_template.html
-    exclude: false
-    favorite: name
-    group: data
-    home_template: home_template.html
-    info_list: Model representing a Client with budget tracking
-    mode: tab
-    new_template: new_template.html
-    primary_key:
-    - id
-    tab_groups:
-    - direction: tomany
-      exclude: false
-      fks:
-      - client_id
-      label: PersonList
-      name: PersonList
-      resource: Person
-    - direction: tomany
-      exclude: false
-      fks:
-      - client_id
-      label: ProjectList
-      name: ProjectList
-      resource: Project
-    title: Client
-    type: Client
-  Invoice:
-    columns:
-    - enabled: true
-      exclude: false
-      label: 'Id* '
-      name: id
-      required: false
-      search: true
-      sort: true
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Project Id '
-      name: project_id
-      required: false
-      search: false
-      sort: true
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Invoice Date '
-      name: invoice_date
-      required: false
-      search: false
-      sort: true
-      template: text
-      type: DATETIME
-      visible: true
-    - derivation: Rule.sum(derive=Invoice.invoice_amount, as_sum_of=InvoiceItem.task_amount)
-      enabled: true
-      exclude: false
-      label: 'Invoice Amount '
-      name: invoice_amount
-      required: false
-      search: false
-      sort: true
-      template: real
-      type: DECIMAL(10, 2)
-      visible: true
-    - derivation: Rule.sum(derive=Invoice.payment_total, as_sum_of=Payment.amount)
-      enabled: true
-      exclude: false
-      label: 'Payment Total '
-      name: payment_total
-      required: false
-      search: false
-      sort: true
-      template: real
-      type: DECIMAL(10, 2)
-      visible: true
-    - derivation: 'Rule.formula(derive=Invoice.invoice_balance, as_expression=lambda
-        row: row.invoice_amount - row.payment_total)'
-      enabled: true
-      exclude: false
-      label: 'Invoice Balance '
-      name: invoice_balance
-      required: false
-      search: false
-      sort: true
-      template: real
-      type: DECIMAL(10, 2)
-      visible: true
-    - derivation: 'Rule.formula(derive=Invoice.is_ready, as_expression=lambda row:
-        row.task_count == row.completed_task_count)'
-      enabled: true
-      exclude: false
-      label: 'Is Ready '
-      name: is_ready
-      required: false
-      search: false
-      sort: true
-      template: text
-      type: Boolean
-      visible: true
-    - derivation: Rule.count(derive=Invoice.task_count, as_count_of=InvoiceItem)
-      enabled: true
-      exclude: false
-      label: 'Task Count '
-      name: task_count
-      required: false
-      search: false
-      sort: true
-      template: integer
-      type: INTEGER
-      visible: true
-    - derivation: 'Rule.count(derive=Invoice.completed_task_count, as_count_of=InvoiceItem,
-        where=lambda row: row.is_completed == True)'
-      enabled: true
-      exclude: false
-      label: 'Completed Task Count '
-      name: completed_task_count
-      required: false
-      search: false
-      sort: true
-      template: integer
-      type: INTEGER
-      visible: true
-    - derivation: 'Rule.formula(derive=Invoice.is_paid, as_expression=lambda row:
-        row.invoice_balance <= 0)'
-      enabled: true
-      exclude: false
-      label: 'Is Paid '
-      name: is_paid
-      required: false
-      search: false
-      sort: true
-      template: text
-      type: Boolean
-      visible: true
-    detail_template: detail_template.html
-    exclude: false
-    favorite: id
-    group: data
-    home_template: home_template.html
-    info_list: Model representing an Invoice with financial and status tracking
-    mode: tab
-    new_template: new_template.html
-    primary_key:
-    - id
-    rules:
-      contraints: []
-      events:
-      - 'Rule.after_flush_row_event(on_class=Invoice, calling=kafka_producer.send_row_to_kafka,
-        if_condition=lambda row: row.is_ready, with_args={''topic'': ''invoice_ready''})'
-    tab_groups:
-    - direction: tomany
-      exclude: false
-      fks:
-      - invoice_id
-      label: InvoiceItemList
-      name: InvoiceItemList
-      resource: InvoiceItem
-    - direction: tomany
-      exclude: false
-      fks:
-      - invoice_id
-      label: PaymentList
-      name: PaymentList
-      resource: Payment
-    - direction: toone
-      exclude: false
-      fks:
-      - project_id
-      label: project
-      name: project
-      resource: Project
-    title: Invoice
-    type: Invoice
-  InvoiceItem:
-    columns:
-    - enabled: true
-      exclude: false
-      label: 'Id* '
-      name: id
-      required: false
-      search: true
-      sort: true
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Invoice Id '
-      name: invoice_id
-      required: false
-      search: false
-      sort: true
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Task Id '
-      name: task_id
-      required: false
-      search: false
-      sort: true
-      template: integer
-      type: INTEGER
-      visible: true
-    - derivation: Rule.copy(derive=InvoiceItem.task_amount, from_parent=Task.total_task_amount_billed)
-      enabled: true
-      exclude: false
-      label: 'Task Amount '
-      name: task_amount
-      required: false
-      search: false
-      sort: true
-      template: real
-      type: DECIMAL(10, 2)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Is Completed '
-      name: is_completed
-      required: false
-      search: false
-      sort: true
-      template: text
-      type: Boolean
-      visible: true
-    detail_template: detail_template.html
-    exclude: false
-    favorite: id
-    group: data
-    home_template: home_template.html
-    info_list: Model representing an InvoiceItem tracking task amounts and completion
-      status
-    mode: tab
-    new_template: new_template.html
-    primary_key:
-    - id
-    tab_groups:
-    - direction: toone
-      exclude: false
-      fks:
-      - invoice_id
-      label: invoice
-      name: invoice
-      resource: Invoice
-    - direction: toone
-      exclude: false
-      fks:
-      - task_id
-      label: task
-      name: task
-      resource: Task
-    title: InvoiceItem
-    type: InvoiceItem
-  Payment:
-    columns:
-    - enabled: true
-      exclude: false
-      label: 'Id* '
-      name: id
-      required: false
-      search: true
-      sort: true
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Invoice Id '
-      name: invoice_id
-      required: false
-      search: false
-      sort: true
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Amount '
-      name: amount
-      required: false
-      search: false
-      sort: true
-      template: real
-      type: DECIMAL(10, 2)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Payment Date '
-      name: payment_date
-      required: false
-      search: false
-      sort: true
-      template: text
-      type: DATETIME
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Notes '
-      name: notes
-      required: false
-      search: false
-      sort: true
-      template: text
-      type: VARCHAR
-      visible: true
-    detail_template: detail_template.html
-    exclude: false
-    favorite: id
-    group: data
-    home_template: home_template.html
-    info_list: Model representing a Payment with related invoices and financial information
-    mode: tab
-    new_template: new_template.html
-    primary_key:
-    - id
-    tab_groups:
-    - direction: toone
-      exclude: false
-      fks:
-      - invoice_id
-      label: invoice
-      name: invoice
-      resource: Invoice
-    title: Payment
-    type: Payment
-  Person:
-    columns:
-    - enabled: true
-      exclude: false
-      label: 'Name* '
-      name: name
-      required: false
-      search: true
-      sort: true
-      template: text
-      type: VARCHAR
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Client Id '
-      name: client_id
-      required: false
-      search: false
-      sort: true
-      template: integer
-      type: INTEGER
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Email '
-      name: email
-      required: false
-      search: false
-      sort: true
-      template: text
-      type: VARCHAR
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Phone '
-      name: phone
-      required: false
-      search: false
-      sort: true
-      template: text
-      type: VARCHAR
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Billing Rate '
-      name: billing_rate
-      required: false
-      search: false
-      sort: true
-      template: real
-      type: DECIMAL(10, 2)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Id '
-      name: id
-      required: false
-      search: false
-      sort: true
-      template: integer
-      type: INTEGER
-      visible: true
-    - derivation: Rule.sum(derive=Person.total_hours_entered, as_sum_of=Timesheet.hours_worked)
-      enabled: true
-      exclude: false
-      label: 'Total Hours Entered '
-      name: total_hours_entered
-      required: false
-      search: false
-      sort: true
-      template: real
-      type: DECIMAL(10, 2)
-      visible: true
-    - derivation: 'Rule.formula(derive=Person.total_amount_billed, as_expression=lambda
-        row: row.total_hours_entered * row.billing_rate)'
-      enabled: true
-      exclude: false
-      label: 'Total Amount Billed '
-      name: total_amount_billed
-      required: false
-      search: false
-      sort: true
-      template: real
-      type: DECIMAL(10, 2)
-      visible: true
-    detail_template: detail_template.html
-    exclude: false
-    favorite: name
-    group: data
-    home_template: home_template.html
-    info_list: Model representing a Person with billing and time-tracking
-    mode: tab
-    new_template: new_template.html
-    primary_key:
-    - id
-    rules:
-      contraints:
-      - 'Rule.constraint(validate=Person, as_condition=lambda row: 0 < row.billing_rate
-        < 200, error_msg=''Billing rate must be between 0 and 200'')'
-      events: []
-    tab_groups:
-    - direction: tomany
-      exclude: false
-      fks:
-      - person_id
-      label: TimesheetList
-      name: TimesheetList
-      resource: Timesheet
-    - direction: toone
-      exclude: false
-      fks:
-      - client_id
-      label: client
-      name: client
-      resource: Client
-    title: Person
-    type: Person
-  Project:
-    columns:
-    - enabled: true
-      exclude: false
-      label: 'Name* '
-      name: name
-      required: false
-      search: true
-      sort: true
-      template: text
-      type: VARCHAR
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Client Id '
-      name: client_id
-      required: false
-      search: false
-      sort: true
-      template: integer
-      type: INTEGER
-      visible: true
-    - derivation: Rule.sum(derive=Project.total_project_hours, as_sum_of=Task.total_task_hours_worked)
-      enabled: true
-      exclude: false
-      label: 'Total Project Hours '
-      name: total_project_hours
-      required: false
-      search: false
-      sort: true
-      template: real
-      type: DECIMAL(10, 2)
-      visible: true
-    - derivation: Rule.sum(derive=Project.total_project_amount, as_sum_of=Task.total_task_amount_billed)
-      enabled: true
-      exclude: false
-      label: 'Total Project Amount '
-      name: total_project_amount
-      required: false
-      search: false
-      sort: true
-      template: real
-      type: DECIMAL(10, 2)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Project Budget Amount '
-      name: project_budget_amount
-      required: false
-      search: false
-      sort: true
-      template: real
-      type: DECIMAL(10, 2)
-      visible: true
-    - derivation: 'Rule.formula(derive=Project.is_over_budget, as_expression=lambda
-        row: row.total_project_amount > row.project_budget_amount)'
-      enabled: true
-      exclude: false
-      label: 'Is Over Budget '
-      name: is_over_budget
-      required: false
-      search: false
-      sort: true
-      template: text
-      type: Boolean
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Is Active '
-      name: is_active
-      required: false
-      search: false
-      sort: true
-      template: text
-      type: Boolean
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Id '
-      name: id
-      required: false
-      search: false
-      sort: true
-      template: integer
-      type: INTEGER
-      visible: true
-    detail_template: detail_template.html
-    exclude: false
-    favorite: name
-    group: data
-    home_template: home_template.html
-    info_list: Model representing a Project with budget and active status tracking
-    mode: tab
-    new_template: new_template.html
-    primary_key:
-    - id
-    tab_groups:
-    - direction: tomany
-      exclude: false
-      fks:
-      - project_id
-      label: InvoiceList
-      name: InvoiceList
-      resource: Invoice
-    - direction: tomany
-      exclude: false
-      fks:
-      - project_id
-      label: TaskList
-      name: TaskList
-      resource: Task
-    - direction: toone
-      exclude: false
-      fks:
-      - client_id
-      label: client
-      name: client
-      resource: Client
-    title: Project
-    type: Project
-  Task:
-    columns:
-    - enabled: true
-      exclude: false
-      label: 'Name* '
-      name: name
-      required: false
-      search: true
-      sort: true
-      template: text
-      type: VARCHAR
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Project Id '
-      name: project_id
+      name: Id
       required: false
       search: false
       sort: true
@@ -732,7 +453,642 @@ entities:
     - enabled: true
       exclude: false
       label: 'Description '
-      name: description
+      name: Description
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Client Id '
+      name: Client_id
+      required: false
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: CategoryName_ColumnName
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - Id
+    title: Category
+    type: Category
+  Customer:
+    columns:
+    - enabled: true
+      exclude: false
+      label: 'Company Name* '
+      name: CompanyName
+      required: false
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Contacttitle '
+      name: ContactTitle
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'City '
+      name: City
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Postalcode '
+      name: PostalCode
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Phone '
+      name: Phone
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Balance '
+      name: Balance
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: DECIMAL
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Ordercount '
+      name: OrderCount
+      required: false
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Id '
+      name: Id
+      required: true
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Contactname '
+      name: ContactName
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Address '
+      name: Address
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Region '
+      name: Region
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Country '
+      name: Country
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Fax '
+      name: Fax
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Creditlimit '
+      name: CreditLimit
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: DECIMAL
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Unpaidordercount '
+      name: UnpaidOrderCount
+      required: false
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Client Id '
+      name: Client_id
+      required: false
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: CompanyName
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - Id
+    tab_groups:
+    - direction: tomany
+      exclude: false
+      fks:
+      - CustomerId
+      label: OrderList
+      name: OrderList
+      resource: Order
+    title: Customer
+    type: Customer
+  CustomerDemographic:
+    columns:
+    - enabled: true
+      exclude: false
+      label: 'Id* '
+      name: Id
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Customerdesc '
+      name: CustomerDesc
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: Id
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - Id
+    title: CustomerDemographic
+    type: CustomerDemographic
+  Department:
+    columns:
+    - enabled: true
+      exclude: false
+      label: 'Department Name* '
+      name: DepartmentName
+      required: false
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(100)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Securitylevel '
+      name: SecurityLevel
+      required: false
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Departmentid '
+      name: DepartmentId
+      required: false
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Id '
+      name: Id
+      required: false
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: DepartmentName
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - Id
+    tab_groups:
+    - direction: tomany
+      exclude: false
+      fks:
+      - DepartmentId
+      label: DepartmentList
+      name: DepartmentList
+      resource: Department
+    - direction: tomany
+      exclude: false
+      fks:
+      - OnLoanDepartmentId
+      label: EmployeeList
+      name: EmployeeList
+      resource: Employee
+    - direction: tomany
+      exclude: false
+      fks:
+      - WorksForDepartmentId
+      label: WorksForEmployeeList
+      name: WorksForEmployeeList
+      resource: Employee
+    - direction: toone
+      exclude: false
+      fks:
+      - DepartmentId
+      label: Department
+      name: Department
+      resource: Department
+    title: Department
+    type: Department
+  Employee:
+    columns:
+    - enabled: true
+      exclude: false
+      label: 'Last Name* '
+      name: LastName
+      required: false
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Unionid '
+      name: UnionId
+      required: false
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Firstname '
+      name: FirstName
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Titleofcourtesy '
+      name: TitleOfCourtesy
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Hiredate '
+      name: HireDate
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'City '
+      name: City
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Postalcode '
+      name: PostalCode
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Homephone '
+      name: HomePhone
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Notes '
+      name: Notes
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Photopath '
+      name: PhotoPath
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Salary '
+      name: Salary
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: DECIMAL
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Email '
+      name: Email
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: TEXT
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Onloandepartmentid '
+      name: OnLoanDepartmentId
+      required: false
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Worksfordepartmentid '
+      name: WorksForDepartmentId
+      required: false
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Title '
+      name: Title
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Birthdate '
+      name: BirthDate
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Address '
+      name: Address
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Region '
+      name: Region
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Country '
+      name: Country
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Extension '
+      name: Extension
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Reportsto '
+      name: ReportsTo
+      required: false
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Employeetype '
+      name: EmployeeType
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(16)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Dues '
+      name: Dues
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: DECIMAL
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Id '
+      name: Id
+      required: false
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: LastName
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - Id
+    tab_groups:
+    - direction: tomany
+      exclude: false
+      fks:
+      - EmployeeId
+      label: EmployeeAuditList
+      name: EmployeeAuditList
+      resource: EmployeeAudit
+    - direction: tomany
+      exclude: false
+      fks:
+      - EmployeeId
+      label: EmployeeTerritoryList
+      name: EmployeeTerritoryList
+      resource: EmployeeTerritory
+    - direction: tomany
+      exclude: false
+      fks:
+      - EmployeeId
+      label: OrderList
+      name: OrderList
+      resource: Order
+    - direction: toone
+      exclude: false
+      fks:
+      - OnLoanDepartmentId
+      label: OnLoanDepartment
+      name: OnLoanDepartment
+      resource: Department
+    - direction: toone
+      exclude: false
+      fks:
+      - UnionId
+      label: Union
+      name: Union
+      resource: Union
+    - direction: toone
+      exclude: false
+      fks:
+      - WorksForDepartmentId
+      label: WorksForDepartment
+      name: WorksForDepartment
+      resource: Department
+    title: Employee
+    type: Employee
+  EmployeeAudit:
+    columns:
+    - enabled: true
+      exclude: false
+      label: 'Last Name* '
+      name: LastName
+      required: false
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Title '
+      name: Title
       required: false
       search: false
       sort: true
@@ -741,20 +1097,400 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Task Budget Hours '
-      name: task_budget_hours
+      label: 'Firstname '
+      name: FirstName
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Updatedon '
+      name: UpdatedOn
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: TEXT
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Updatedby '
+      name: UpdatedBy
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: TEXT
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Employeeid '
+      name: EmployeeId
+      required: false
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Salary '
+      name: Salary
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: DECIMAL
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Createdon '
+      name: CreatedOn
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: TEXT
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Createdby '
+      name: CreatedBy
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: TEXT
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Id '
+      name: Id
+      required: false
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: LastName
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - Id
+    tab_groups:
+    - direction: toone
+      exclude: false
+      fks:
+      - EmployeeId
+      label: Employee
+      name: Employee
+      resource: Employee
+    title: EmployeeAudit
+    type: EmployeeAudit
+  EmployeeTerritory:
+    columns:
+    - enabled: true
+      exclude: false
+      label: 'Id* '
+      name: Id
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Territoryid '
+      name: TerritoryId
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Employeeid '
+      name: EmployeeId
+      required: true
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: Id
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - Id
+    tab_groups:
+    - direction: toone
+      exclude: false
+      fks:
+      - EmployeeId
+      label: Employee
+      name: Employee
+      resource: Employee
+    - direction: toone
+      exclude: false
+      fks:
+      - TerritoryId
+      label: Territory
+      name: Territory
+      resource: Territory
+    title: EmployeeTerritory
+    type: EmployeeTerritory
+  Location:
+    columns:
+    - enabled: true
+      exclude: false
+      label: 'City '
+      name: city
+      required: true
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(50)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Country* '
+      name: country
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(50)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Notes '
+      name: notes
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(256)
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: country
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - country
+    - city
+    tab_groups:
+    - direction: tomany
+      exclude: false
+      fks:
+      - City
+      - Country
+      label: OrderList
+      name: OrderList
+      resource: Order
+    title: Location
+    type: Location
+  Order:
+    columns:
+    - enabled: true
+      exclude: false
+      label: 'Ship Name* '
+      name: ShipName
+      required: false
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'City '
+      name: City
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(50)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Employeeid '
+      name: EmployeeId
+      required: true
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Requireddate '
+      name: RequiredDate
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: DATE
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Shipvia '
+      name: ShipVia
+      required: false
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Shipaddress '
+      name: ShipAddress
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Shipregion '
+      name: ShipRegion
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Shipcountry '
+      name: ShipCountry
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Country '
+      name: Country
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(50)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Orderdetailcount '
+      name: OrderDetailCount
+      required: false
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Clonefromorder '
+      name: CloneFromOrder
+      required: false
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Customerid '
+      name: CustomerId
+      required: true
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Orderdate '
+      name: OrderDate
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Shippeddate '
+      name: ShippedDate
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Freight '
+      name: Freight
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: DECIMAL
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Shipcity '
+      name: ShipCity
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Shippostalcode '
+      name: ShipPostalCode
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Amounttotal '
+      name: AmountTotal
       required: false
       search: false
       sort: true
       template: real
       type: DECIMAL(10, 2)
       visible: true
-    - derivation: 'Rule.formula(derive=Task.is_over_budget, as_expression=lambda row:
-        row.total_task_hours_worked > row.task_budget_hours)'
-      enabled: true
+    - enabled: true
       exclude: false
-      label: 'Is Over Budget '
-      name: is_over_budget
+      label: 'Ready '
+      name: Ready
       required: false
       search: false
       sort: true
@@ -764,85 +1500,74 @@ entities:
     - enabled: true
       exclude: false
       label: 'Id '
-      name: id
+      name: Id
       required: false
       search: false
       sort: true
       template: integer
       type: INTEGER
       visible: true
-    - derivation: Rule.sum(derive=Task.total_task_hours_worked, as_sum_of=Timesheet.hours_worked)
-      enabled: true
-      exclude: false
-      label: 'Total Task Hours Worked '
-      name: total_task_hours_worked
-      required: false
-      search: false
-      sort: true
-      template: real
-      type: DECIMAL(10, 2)
-      visible: true
-    - derivation: Rule.sum(derive=Task.total_task_amount_billed, as_sum_of=Timesheet.total_amount_billed)
-      enabled: true
-      exclude: false
-      label: 'Total Task Amount Billed '
-      name: total_task_amount_billed
-      required: false
-      search: false
-      sort: true
-      template: real
-      type: DECIMAL(10, 2)
-      visible: true
-    - enabled: true
-      exclude: false
-      label: 'Is Completed '
-      name: is_completed
-      required: false
-      search: false
-      sort: true
-      template: text
-      type: Boolean
-      visible: true
     detail_template: detail_template.html
     exclude: false
-    favorite: name
+    favorite: ShipName
     group: data
     home_template: home_template.html
-    info_list: Model representing a Task with budget, completion, and financial tracking
     mode: tab
     new_template: new_template.html
     primary_key:
-    - id
+    - Id
     tab_groups:
     - direction: tomany
       exclude: false
       fks:
-      - task_id
-      label: InvoiceItemList
-      name: InvoiceItemList
-      resource: InvoiceItem
+      - CloneFromOrder
+      label: OrderList
+      name: OrderList
+      resource: Order
     - direction: tomany
       exclude: false
       fks:
-      - task_id
-      label: TimesheetList
-      name: TimesheetList
-      resource: Timesheet
+      - OrderId
+      label: OrderDetailList
+      name: OrderDetailList
+      resource: OrderDetail
     - direction: toone
       exclude: false
       fks:
-      - project_id
-      label: project
-      name: project
-      resource: Project
-    title: Task
-    type: Task
-  Timesheet:
+      - CloneFromOrder
+      label: Order
+      name: Order
+      resource: Order
+    - direction: toone
+      exclude: false
+      fks:
+      - City
+      - Country
+      label: Location
+      name: Location
+      resource: Location
+    - direction: toone
+      exclude: false
+      fks:
+      - CustomerId
+      label: Customer
+      name: Customer
+      resource: Customer
+    - direction: toone
+      exclude: false
+      fks:
+      - EmployeeId
+      label: Employee
+      name: Employee
+      resource: Employee
+    title: Order
+    type: Order
+  OrderDetail:
     columns:
     - enabled: true
       exclude: false
       label: 'Id* '
-      name: id
+      name: Id
       required: false
       search: true
       sort: true
@@ -851,9 +1576,9 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Person Id '
-      name: person_id
-      required: false
+      label: 'Productid '
+      name: ProductId
+      required: true
       search: false
       sort: true
       template: integer
@@ -861,100 +1586,555 @@ entities:
       visible: true
     - enabled: true
       exclude: false
-      label: 'Task Id '
-      name: task_id
-      required: false
+      label: 'Quantity '
+      name: Quantity
+      required: true
       search: false
       sort: true
       template: integer
       type: INTEGER
       visible: true
-    - derivation: Rule.copy(derive=Timesheet.billing_rate, from_parent=Person.billing_rate)
-      enabled: true
-      exclude: false
-      label: 'Billing Rate '
-      name: billing_rate
-      required: false
-      search: false
-      sort: true
-      template: real
-      type: DECIMAL(10, 2)
-      visible: true
     - enabled: true
       exclude: false
-      label: 'Is Billable '
-      name: is_billable
+      label: 'Amount '
+      name: Amount
       required: false
       search: false
       sort: true
       template: text
-      type: Boolean
+      type: DECIMAL
       visible: true
     - enabled: true
       exclude: false
-      label: 'Date Worked '
-      name: date_worked
+      label: 'Orderid '
+      name: OrderId
+      required: true
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Unitprice '
+      name: UnitPrice
       required: false
       search: false
       sort: true
       template: text
-      type: DATETIME
+      type: DECIMAL
       visible: true
     - enabled: true
       exclude: false
-      label: 'Hours Worked '
-      name: hours_worked
+      label: 'Discount '
+      name: Discount
       required: false
       search: false
       sort: true
       template: real
-      type: DECIMAL(10, 2)
+      type: DOUBLE
       visible: true
-    - derivation: 'Rule.formula(derive=Timesheet.total_amount_billed, as_expression=lambda
-        row: row.billing_rate * row.hours_worked if row.is_billable else 0)'
-      enabled: true
+    - enabled: true
       exclude: false
-      label: 'Total Amount Billed '
-      name: total_amount_billed
+      label: 'Shippeddate '
+      name: ShippedDate
       required: false
       search: false
       sort: true
-      template: real
-      type: DECIMAL(10, 2)
+      template: text
+      type: VARCHAR(8000)
       visible: true
     detail_template: detail_template.html
     exclude: false
-    favorite: id
+    favorite: Id
     group: data
     home_template: home_template.html
-    info_list: Model representing a Timesheet logging hours worked and related billing
-      info
     mode: tab
     new_template: new_template.html
     primary_key:
-    - id
-    rules:
-      contraints:
-      - 'Rule.constraint(validate=Timesheet, as_condition=lambda row: 0 < row.hours_worked
-        < 15, error_msg=''Hours worked must be between 0 and 15'')'
-      events: []
+    - Id
     tab_groups:
     - direction: toone
       exclude: false
       fks:
-      - person_id
-      label: person
-      name: person
-      resource: Person
+      - OrderId
+      label: Order
+      name: Order
+      resource: Order
     - direction: toone
       exclude: false
       fks:
-      - task_id
-      label: task
-      name: task
-      resource: Task
-    title: Timesheet
-    type: Timesheet
+      - ProductId
+      label: Product
+      name: Product
+      resource: Product
+    title: OrderDetail
+    type: OrderDetail
+  Product:
+    columns:
+    - enabled: true
+      exclude: false
+      label: 'Product Name* '
+      name: ProductName
+      required: false
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Unitprice '
+      name: UnitPrice
+      required: true
+      search: false
+      sort: true
+      template: text
+      type: DECIMAL
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Unitsonorder '
+      name: UnitsOnOrder
+      required: true
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Id '
+      name: Id
+      required: false
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Categoryid '
+      name: CategoryId
+      required: true
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Unitsshipped '
+      name: UnitsShipped
+      required: false
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Quantityperunit '
+      name: QuantityPerUnit
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Unitsinstock '
+      name: UnitsInStock
+      required: true
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Reorderlevel '
+      name: ReorderLevel
+      required: true
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Supplierid '
+      name: SupplierId
+      required: true
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Discontinued '
+      name: Discontinued
+      required: true
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: ProductName
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - Id
+    tab_groups:
+    - direction: tomany
+      exclude: false
+      fks:
+      - ProductId
+      label: OrderDetailList
+      name: OrderDetailList
+      resource: OrderDetail
+    title: Product
+    type: Product
+  Region:
+    columns:
+    - enabled: true
+      exclude: false
+      label: 'Id '
+      name: Id
+      required: false
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Region Description* '
+      name: RegionDescription
+      required: false
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: RegionDescription
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - Id
+    title: Region
+    type: Region
+  SampleDBVersion:
+    columns:
+    - enabled: true
+      exclude: false
+      label: 'Notes '
+      name: Notes
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(800)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Id* '
+      name: Id
+      required: false
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: Id
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - Id
+    title: SampleDBVersion
+    type: SampleDBVersion
+  Shipper:
+    columns:
+    - enabled: true
+      exclude: false
+      label: 'Phone '
+      name: Phone
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Company Name* '
+      name: CompanyName
+      required: false
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Id '
+      name: Id
+      required: false
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: CompanyName
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - Id
+    title: Shipper
+    type: Shipper
+  Supplier:
+    columns:
+    - enabled: true
+      exclude: false
+      label: 'Company Name* '
+      name: CompanyName
+      required: false
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Contacttitle '
+      name: ContactTitle
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'City '
+      name: City
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Postalcode '
+      name: PostalCode
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Phone '
+      name: Phone
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Homepage '
+      name: HomePage
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Contactname '
+      name: ContactName
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Address '
+      name: Address
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Region '
+      name: Region
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Country '
+      name: Country
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Fax '
+      name: Fax
+      required: false
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Id '
+      name: Id
+      required: false
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: CompanyName
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - Id
+    title: Supplier
+    type: Supplier
+  Territory:
+    columns:
+    - enabled: true
+      exclude: false
+      label: 'Territory Description* '
+      name: TerritoryDescription
+      required: false
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Regionid '
+      name: RegionId
+      required: true
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Id '
+      name: Id
+      required: true
+      search: false
+      sort: true
+      template: text
+      type: VARCHAR(8000)
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: TerritoryDescription
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - Id
+    tab_groups:
+    - direction: tomany
+      exclude: false
+      fks:
+      - TerritoryId
+      label: EmployeeTerritoryList
+      name: EmployeeTerritoryList
+      resource: EmployeeTerritory
+    title: Territory
+    type: Territory
+  Union:
+    columns:
+    - enabled: true
+      exclude: false
+      label: 'Id '
+      name: Id
+      required: false
+      search: false
+      sort: true
+      template: integer
+      type: INTEGER
+      visible: true
+    - enabled: true
+      exclude: false
+      label: 'Name* '
+      name: Name
+      required: false
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR(80)
+      visible: true
+    detail_template: detail_template.html
+    exclude: false
+    favorite: Name
+    group: data
+    home_template: home_template.html
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - Id
+    tab_groups:
+    - direction: tomany
+      exclude: false
+      fks:
+      - UnionId
+      label: EmployeeList
+      name: EmployeeList
+      resource: Employee
+    title: Union
+    type: Union
 grants: {}
 settings:
   style_guide:
@@ -982,36 +2162,26 @@ settings:
     thousand_separator: ','
     use_keycloak: false
 user_roles:
-  admin:
-    can_delete: true
-    can_insert: true
-    can_read: true
-    can_update: true
-  customer:
-    can_delete: false
-    can_insert: true
-    can_read: true
-    can_update: true
   manager:
     can_delete: false
-    can_insert: true
+    can_insert: false
     can_read: true
-    can_update: true
+    can_update: false
   public:
     can_delete: false
     can_insert: false
     can_read: true
     can_update: false
-  read_only:
+  renter:
     can_delete: false
     can_insert: false
     can_read: true
     can_update: false
-  teller:
+  sales:
     can_delete: false
-    can_insert: true
+    can_insert: false
     can_read: true
-    can_update: true
+    can_update: false
   tenant:
     can_delete: true
     can_insert: false
