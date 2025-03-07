@@ -15,7 +15,7 @@ from sqlalchemy.ext.declarative import declarative_base
 #
 # mypy: ignore-errors
 ########################################################################################################################
- 
+
 from database.system.SAFRSBaseX import SAFRSBaseX, TestBase
 from flask_login import UserMixin
 import safrs, flask_sqlalchemy, os
@@ -36,14 +36,8 @@ metadata = Base.metadata
 
 from sqlalchemy.dialects.postgresql import *
 
-if os.getenv('APILOGICPROJECT_NO_FLASK') is None or os.getenv('APILOGICPROJECT_NO_FLASK') == 'None':
-    Base = SAFRSBaseX   # enables rules to be used outside of Flask, e.g., test data loading
-else:
-    Base = TestBase     # ensure proper types, so rules work for data loading
-    print('*** Models.py Using TestBase ***')
 
-
-
+Base = SAFRSBaseX 
 class Application(Base):  # type: ignore
     __tablename__ = 'application'
     _s_collection_name = 'Application'  # type: ignore

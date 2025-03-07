@@ -79,7 +79,7 @@
                 "OPT_LOCKING": "optional",
                 "APILOGICPROJECT_VERBOSE": "True"},
             "justMyCode": false,
-            "args": ["--flask_host=localhost", "--port=5656", "--swagger_port=5656", "--swagger_host=localhost", "--verbose=False"],
+            "args": ["--flask_host=localhost", "--port=5655", "--swagger_port=5655", "--swagger_host=localhost", "--verbose=False"],
             "console": "internalConsole",
             "internalConsoleOptions": "openOnSessionStart"
         },

@@ -75,9 +75,10 @@ Once you have completed your edits - select Process Yaml Files - select the impo
 
 ![](ui/templates/ProcessDownload.png)
 
-### Download using curl file back to disk (ui/app_model_merge.yaml)
-This will write back the modified SQL back to disk as yaml.  Use compare files to merge or replace the merge file for the new ui/app_model_merge.yaml in your application.
+### Download Model
+The Download will write 3 files to the local disk (app_model_merge.yml, declare_logic.py1, and declare_security.py1) these can be used to merge back into the original system.  There is a download button on the screen that will download to your local file system.
 ```
+# Use the exportyaml and project name to export the yaml model
 curl "http://localhost:5655/exportyaml/Northwind" > app_model_merge.yaml
 ```
 ## Entity
@@ -159,6 +160,41 @@ ApiLogicServer uses role based access control - you may define one or more roles
 Grants are applied to roles for a specific entity.  The can be used to add CRUD settings to a role or apply row level filters.
 ![](ui/templates/Grants.png)
 
+# Applications
+Building applications follows the same pattern.  Give it a name and add your menu items and pages (new, detail, home). Pages contain the Entity and Attributes and optionally the relationships used to navigate between pages.
+
+## Menu Group
+The menu group is used to collect menu items under a menu heading. This only groups items under a title.
+|field|Description|
+:------|:---------------|
+|menu_name|Default is data|
+|menu_title|The title of the group|
+|icon|The material icon to display (edit_square)|
+|opened|is the group open by default (True)|
+
+## Menu Item
+The menu item is linked to an Entity (which creates the module) used by the pages. A menu item is constructed from a template and contains the routing definitions used by the pages.
+
+|field|Description|
+:------|:---------------|
+|menu_name|Default is data|
+|entity_name|The Entity (API) for this module|
+|icon|The material icon to display (edit_square)|
+|template_name|Name of template (module.jinja)|
+
+
+## Page
+The Ontimize page is either New (insert), detail (update), or Home (grid) which are built from templates (and typescript) components. The user can select both columns and visible columns to change the order of layout.
+
+|field|Description|
+:------|:---------------|
+|page_name|new - home - detail|
+|title|The Entity name|
+|template_name|Name of template for page|
+|typescript_name|Name of typescript template for page|
+|columns|The Entity Attributes|
+|visible_columns|The Entity Attributes to show on home only|
+|include_children|For detail page and navigation (default True)|
 
 # Quick Start
 

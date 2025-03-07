@@ -1,6 +1,7 @@
 from flask import request, jsonify
 import logging
 
+
 app_logger = logging.getLogger("api_logic_server_app")
 
 def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_decorators = []):
