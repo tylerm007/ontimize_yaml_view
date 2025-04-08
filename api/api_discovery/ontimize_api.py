@@ -1568,7 +1568,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 m_entity_attr.issearch = get_boolean(attr, "search", False)
                 m_entity_attr.isort = get_boolean(attr, "sort", False)
                 m_entity_attr.isenabled = get_boolean(attr, "enabled", True)
-                m_entity_attr.exclude = get_boolean(attr, "exclude", False)
+                m_entity_attr.exclude = get_boolean(attr, "exclude", True)
                 m_entity_attr.tooltip = get_value(
                     attr, "tooltip", f'Insert {attr["name"]}'
                 )

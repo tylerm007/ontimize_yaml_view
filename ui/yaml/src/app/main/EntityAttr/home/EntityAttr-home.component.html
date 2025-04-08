@@ -6,9 +6,9 @@
             entity="EntityAttr" 
             title="Attributes"
             keys="entity_name;attr"
-            columns="entity_name;attr;template_name;label;issearch;issort;thistype;tooltip;isrequired;visible;isenabled;exclude;derivation" 
+            columns="entity_name;attr;template_name;label;issearch;issort;thistype;tooltip;isrequired;visible;isenabled;derivation" 
             header-actions="R;D"
-            visible-columns="entity_name;attr;template_name;label;thistype;issearch;issort;isrequired;isenabled;exclude;visible"  
+            visible-columns="entity_name;attr;template_name;label;thistype;issearch;issort;isrequired;isenabled;visible"  
             sort-columns="entity_name" 
             query-rows="200" 
             quick-filter="yes"
@@ -53,10 +53,10 @@
                 render-type="icon" boolean-type="boolean" true-value="true" false-value="false"></o-table-cell-renderer-boolean>
             </o-table-column>
 
-            <o-table-column attr="exclude" title="Excluded">
+            <!-- o-table-column attr="exclude" title="Exclude">
                 <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
                 render-type="icon" boolean-type="boolean" true-value="true" false-value="false"></o-table-cell-renderer-boolean>
-            </o-table-column>
+            </o-table-column -->
             
             <o-table-column attr="visible" title="Visible">
                 <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"

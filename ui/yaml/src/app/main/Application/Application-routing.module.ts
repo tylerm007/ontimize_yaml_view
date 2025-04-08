@@ -5,7 +5,8 @@ import { ApplicationNewComponent } from './new/Application-new.component';
 import { ApplicationDetailComponent } from './detail/Application-detail.component';
 
 const routes: Routes = [
-  {path: '', component: ApplicationHomeComponent},
+  {
+    path: '', component: ApplicationHomeComponent, children: [
   { path: 'new', component: ApplicationNewComponent },
   { path: ':id', component: ApplicationDetailComponent,
     data: {
@@ -21,6 +22,8 @@ const routes: Routes = [
         }
     }
 }
+    ]
+  }
 ];
 
 export const APPLICATION_MODULE_DECLARATIONS = [

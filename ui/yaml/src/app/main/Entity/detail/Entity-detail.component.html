@@ -12,9 +12,9 @@
           <o-text-input attr="title" label="Title" editable="yes" required="no"></o-text-input>
           <o-text-input attr="favorite" label="favorite" editable="yes" required="no"
             tooltip="Use this column for lookup pick lists"></o-text-input>
-          <o-text-input attr="menu_group" label="Menu Group" editable="yes" required="no"></o-text-input>
+          <!-- o-text-input attr="menu_group" label="Menu Group" editable="yes" required="no"></o-text-input -->
         </div>
-        <div fxLayout="row" fxLayoutAlign="start center" class="gap" fxLayoutGap="14px">
+        <!-- div fxLayout="row" fxLayoutAlign="start center" class="gap" fxLayoutGap="14px">
           <o-text-input attr="mode" label="mode" editable="yes" tooltip="tab or dialog style"
             required="no"></o-text-input>
           <o-text-input attr="detail_template" label="Detail Template" editable="yes" tooltip="Detail template"
@@ -26,7 +26,7 @@
             <o-checkbox attr="exclude" label="exclude"
             tooltip="Skip this entity in page generation (if already generated - remove manually)" read-only="no"
             enabled="yes"></o-checkbox>
-        </div>
+        </div -->
         <o-row attr="row1" layout-align="start stretch">
             <o-textarea-input attr="info_list" label="info_list" enabled="true" rows="3" fxFlex="60%"
               read-only="false"></o-textarea-input>
@@ -41,8 +41,8 @@
               <o-button #button attr="button" label="Show/Hide Attributes" icon="description" (onClick)="showHideColumns()" tooltip="Arrange columns and hide/show columns"></o-button>
           </div -->
         <div>
-          <o-button (click)="rebuild()" label="Rebuild Page" tooltip="todo" icon="pages" color="primary" type="raised">
-          </o-button>
+          <!-- o-button (click)="rebuild()" label="Rebuild Page" tooltip="todo" icon="pages" color="primary" type="raised">
+          </o-button -->
           <div>&nbsp;&nbsp;</div>
           <!-- o-button (click)="showHideColumns()" label="Reorder Attributes" tooltip="todo" icon="pages" color="primary"
               type="raised">
@@ -58,7 +58,7 @@
             parent-keys="entity_name:name"
             columns="entity_name;template_name;attr;label;issearch;issort;thistype;tooltip;exclude;isrequired;isenabled;visible;create_date"
             horizontal-scroll="yes" detail-form-route="EntityAttr" edit-form-route="EntityAttr"
-            visible-columns="attr;template_name;label;issearch;issort;thistype;tooltip;exclude;isrequired;isenabled;visible"
+            visible-columns="attr;template_name;label;issearch;issort;thistype;tooltip;isrequired;isenabled;visible"
             sort-columns="create_date" query-rows="25" quick-filter="yes" row-height="small" select-all-checkbox="true"
             pageable="yes" auto-adjust="true" virtual-scroll="yes" insert-button="yes" delete-button="yes"
             fixed-header="true" class="vertical-padding-8" edition-mode="click" horizontal-scroll="yes"
@@ -86,12 +86,11 @@
                 false-value="false"></o-table-cell-renderer-boolean>
             </o-table-column>
 
-            <o-table-column attr="exclude" title="Excluded">
-              <!-- auto-commit="false" -->
+            <!-- o-table-column attr="exclude" title="Excluded">
               <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
                 render-type="icon" boolean-type="boolean" true-value="true"
                 false-value="false"></o-table-cell-renderer-boolean>
-            </o-table-column>
+            </o-table-column -->
 
             <o-table-column attr="isrequired" title="Required" editable="no" required="no" content-align="left">
               <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"

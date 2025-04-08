@@ -5,7 +5,7 @@
         entity="Page" 
         fxLayout="column" 
         show-header="yes" 
-        header-actions="R;I;U;D"
+        header-actions="R;U;D"
         #oDetailForm keys="id" 
         keys-sql-types="INTEGER" 
         show-header-navigation="yes"
@@ -57,17 +57,19 @@
       <o-text-input #title attr="title" label="title" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
       
       <o-text-input #typescript_name attr="typescript_name" label="typescript_name" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
-      
-      <o-text-input #columns attr="columns" label="columns" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
-      
-      <o-text-input #visible_columns attr="visible_columns" label="visible_columns" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
-      
-      <o-checkbox #include_children attr="include_children" label="include_children" read-only="no" enabled="yes"></o-checkbox>
-      
-      <o-integer-input #id attr="id" label="id" type="integer" editable="no" required="yes" ></o-integer-input>
-      
     </div>
   </o-row>
+      <o-row attr="row2" layout-align="center center">
+        <o-textarea-input #columns attr="columns" label="columns" enabled="no" required="no" fxFlex="100%" class="form-field"></o-textarea-input>
+      </o-row>
+      <o-row attr="row3" layout-align="center center">
+        <o-textarea-input #visible_columns attr="visible_columns" label="visible_columns" enabled="yes" required="no" fxFlex="100%" class="form-field"></o-textarea-input>
+      </o-row>
+      <o-checkbox #include_children attr="include_children" label="include_children" read-only="no" enabled="yes"></o-checkbox>
+      
+      <!-- o-integer-input #id attr="id" label="id" type="integer" editable="no" required="yes" visible="no"></o-integer-input -->
+      
+
       
       <mat-tab-group fxFill>
         
