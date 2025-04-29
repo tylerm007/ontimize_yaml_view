@@ -436,11 +436,12 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                                 }
                             )
                         try:
-                            resp = (
-                                session.query(models.YamlFiles)
-                                .filter(models.YamlFiles.name == str(key))
-                                .one()
-                            )
+                            #resp = (
+                            #    session.query(models.YamlFiles)
+                            #    .filter(models.YamlFiles.name == str(key))
+                            #    .one()
+                            #)
+                            setattr(resp, "downloaded", yaml_content)
                             setattr(resp, "rule_content", rule_content)
                             setattr(resp, "role_content", security_content)
                             session.add(resp)
