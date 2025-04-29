@@ -8,6 +8,7 @@
 # docker tag tylerm007/yaml_editor tylerm007/yaml_editor:latest
 # docker push tylerm007/yaml_editor:latest  
 
+
 # curl -X POST http://192.168.80.1:5655/ontimizeweb/services/rest/users/login -H 'Authorization: Basic YWRtaW46cA=='
 #  curl -X POST http://localhost:5655/ontimizeweb/services/rest/users/login -H 'Authorization: Basic YWRtaW46cA=='
 #  curl -X POST http://apilogicserver:5655/ontimizeweb/services/rest/users/login -H 'Authorization: Basic YWRtaW46cA=='

@@ -1240,14 +1240,16 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
             m_template = models.Template()
             m_template.name = name
             m_template.file_name = value
-            m_template.description = get_template(name, value)
             try:
+                m_template.description = get_template(name, value)
                 session.add(m_template)
                 session.commit()
             except Exception as ex:
                 print(ex)
     def get_template(name, value):
-        with open(f"{_project_dir}/ui/yaml/templates/{value}", "r") as f:
+        filepath = f"{_project_dir}/ui/yaml/templates/{value}"
+        app_logger.debug(f"get_template {filepath}")
+        with open(filepath, "r") as f:
             return f.read()
     def insert_roles(roles: list):
         for role in roles:

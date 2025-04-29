@@ -355,10 +355,12 @@ class CustomEndpoint():
                     qry = qry.filter(text(filter_by))
                 rows = qry.limit(limit).offset(offset).all()
             else:
-                if filter_by is not None:
+                if filter_by is not None and filter_by != '':
                     resource_logger.debug(
                     f"Adding filter_by: {filter_by}")
-                    session_qry = session_qry.filter(text(filter_by))
+                    s = filter_by.split("=")
+                    if len(s) > 1 and s[1] != 'None':
+                        session_qry = session_qry.filter(text(filter_by))
                 
                 if order_by:
                     if isinstance(order_by, list) and len(order_by) > 0:

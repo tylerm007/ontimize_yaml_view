@@ -6,11 +6,10 @@
         entity="Application" 
         fxLayout="column" 
         show-header="yes" 
-        header-actions="R;I;U;D"
+        header-actions="R;U;D"
         #oDetailForm keys="id" 
         keys-sql-types="INTEGER" 
-        show-header-navigation="yes"
-        (onDataLoaded)="onDataLoaded($event)">
+        show-header-navigation="yes">
 
   <o-row attr="row1" layout-align="start stretch">
     <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
@@ -36,11 +35,11 @@
         entity="MenuGroup" 
         keys="id"
         parent-keys="application_id:id"
-        columns="menu_name;application_id;menu_title;icon;id;opened"  
+        columns="menu_name;application_id;menu_title;icon;id;menu_id;opened"  
         horizontal-scroll="yes"
         detail-form-route="MenuGroup" 
         edit-form-route="MenuGroup"
-        visible-columns="menu_name;application_id;menu_title;icon;id;opened"  
+        visible-columns="menu_name;application_id;menu_title;icon;id;menu_id;opened"  
         sort-columns="menu_name" 
         query-rows="25" 
         quick-filter="yes"
@@ -72,6 +71,8 @@
           <o-table-column #icon attr="icon" title="icon" editable="no" required="no" content-align="left"></o-table-column>
         
           <o-table-column #id attr="id" title="id" type="integer" editable="no" required="yes" content-align="center"></o-table-column>
+        
+          <o-table-column #menu_id attr="menu_id" title="menu_id" editable="no" required="yes" content-align="left"></o-table-column>
         
           <o-table-column attr="opened" title="opened">
     <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"

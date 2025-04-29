@@ -375,9 +375,9 @@ For information on Managing API Logic Projects, [click here](https://apilogicser
 
 | About                    | Info                               |
 |:-------------------------|:-----------------------------------|
-| Created                  | October 25, 2024 10:07:34                      |
-| API Logic Server Version | 12.00.03           |
-| Created in directory     | ontimize |
+| Created                  | April 29, 2025 09:24:32                      |
+| API Logic Server Version | 14.04.00           |
+| Created in directory     | ame14 |
 | API Name                 | api          |
 | Execution begins with    | `api_logic_server_run.py`          |
 

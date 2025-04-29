@@ -9,6 +9,24 @@
 #
 ###############################################################################
 
+"""
+Operation:
+    1. api_logic_server_run.py - imports config
+        1. captures args
+    2. api_logic_server_run.py - imports server_setup
+        1. server_setup#logging_setup()
+    3. api_logic_server_run.py - server_setup.api_logic_server_setup
+On error, NOT CALLED: constraint_handler or ValidationErrorExt (!)
+
++ Operation:
+    1. api_logic_server_run.py - imports config
+        1. captures args
+        1. config#logging_setup()
+    2. api_logic_server_run.py - imports server_setup
+    3. api_logic_server_run.py - server_setup.api_logic_server_setup
+
+"""
+
 start_up_message = "normal start"
 
 import traceback
@@ -25,6 +43,8 @@ except:
 from flask_sqlalchemy import SQLAlchemy
 import json
 from pathlib import Path
+if os.getenv("EXPERIMENT") == '+':
+    import config
 from config.config import Args
 
 
@@ -87,6 +107,9 @@ import integration.kafka.kafka_producer as kafka_producer
 import integration.kafka.kafka_consumer as kafka_consumer
 import integration.n8n.n8n_producer as n8n_producer
 
+
+if os.getenv("EXPERIMENT") == '+':
+    app_logger = logging.getLogger("api_logic_server_app")
 
 
 class SAFRSAPI(_SAFRSAPI):
@@ -351,4 +374,12 @@ def api_logic_server_setup(flask_app: Flask, args: Args):
         db_logger.setLevel(db_log_level)
         authorization_logger.setLevel(authorization_log_level)
 
+        if os.getenv('APILOGICPROJECT_DEBUG'):  # temp debug since logging in config is not happening
+            KAFKA_SERVER = os.getenv('KAFKA_SERVER')
+            is_empty = False
+            if KAFKA_SERVER is not None:
+                is_empty = KAFKA_SERVER == ""
+            is_none = KAFKA_SERVER is None
+            app_logger.debug(f'\nDEBUG KAFKA_SERVER: [{KAFKA_SERVER}] (is_empty: {is_empty}) (is_none: {is_none}) \n')
+            app_logger.debug(f'... Args.instance.kafka_producer: {Args.instance.kafka_producer}\n')
 

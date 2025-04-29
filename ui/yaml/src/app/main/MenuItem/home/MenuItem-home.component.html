@@ -1,48 +1,8 @@
-<o-form-layout-manager attr="MenuItem" mode="tab" title="MENUITEM">
-    <div fxFill fxLayout="column" fxLayoutAlign="start">
-        <o-table 
-            attr="MenuItemTable" 
-            service="MenuItem" 
-            entity="MenuItem" 
-            title="MENUITEM"
-            keys="id"
-            columns="entity_name;menu_group_id;template_name;menu_name;icon;id" 
-            header-actions="R;D"
-            visible-columns="entity_name;menu_group_id;template_name;menu_name;icon;id"  
-            sort-columns="entity_name" 
-            query-rows="20" 
-            quick-filter="yes"
-            row-height="medium" 
-            select-all-checkbox="true" 
-            pageable="yes"  
-            auto-adjust="true" 
-            virtual-scroll="yes" 
-            edition-mode="dblclick"
-            horizontal-scroll="yes"
-            show-title="yes"
-            export-button="yes">
-            
-            <o-table-column #entity_name attr="entity_name" title=" entity_name" editable="no" required="yes" content-align="left"></o-table-column>
-            
-            <o-table-column attr="menu_group_id" title="menu_group_id">
-    <o-table-cell-renderer-service attr="menu_group_id" 
-        service="MenuGroup" entity="MenuGroupType" columns="id;menu_name"
-        parent-keys="id:menu_group_id"
-        value-column="menu_name" keys="menu_group_id"
-        visible-columns="menu_name" separator=" - " width="680px">
-    </o-table-cell-renderer-service>
-</o-table-column>
-            
-            <o-table-column #template_name attr="template_name" title="template_name" editable="no" required="no" content-align="left"></o-table-column>
-            
-            <o-table-column #menu_name attr="menu_name" title="menu_name" editable="no" required="yes" content-align="left"></o-table-column>
-            
-            <o-table-column #icon attr="icon" title="icon" editable="no" required="no" content-align="left"></o-table-column>
-            
-            <o-table-column #id attr="id" title="id" type="integer" editable="no" required="yes" content-align="center"></o-table-column>
-            
-            <o-table-context-menu></o-table-context-menu>
-            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
-        </o-table>
+<div fxLayout="row" fxLayoutAlign="center start" fxFlexFill class="container">>
+    <o-tree #tree service="MenuItem" entity="MenuItem" keys="id" root-title="Menu Item"
+        columns="menu_name;id" visible-columns="menu_name" route=":id"  fxFlex="15">
+    </o-tree>
+    <div fxLayout="column" fxLayoutAlign="center stretch" fxFlex="85">
+        <router-outlet></router-outlet>
     </div>
-</o-form-layout-manager>
+</div>

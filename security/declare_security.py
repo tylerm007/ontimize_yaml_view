@@ -31,6 +31,8 @@ class Roles():
     admin = "CS_ADMIN"
     public="public"             # p1/p (no roles, but gets public)
     sa="sa"
+    default_roles_kcals = "default-roles-kcals"
+    uma_authorization = "uma_authorization"
     
 DefaultRolePermission(to_role=Roles.sa, can_read=True, can_update=True, can_insert=True, can_delete=True)
 DefaultRolePermission(to_role=Roles.tenant, can_read=True, can_delete=True)
@@ -40,5 +42,5 @@ DefaultRolePermission(to_role=Roles.teller, can_read=True, can_insert=True,can_u
 DefaultRolePermission(to_role=Roles.customer, can_read=True, can_insert=True,can_update=True, can_delete=False)
 DefaultRolePermission(to_role=Roles.read_only, can_read=True, can_insert=False,can_update=False, can_delete=False)
 DefaultRolePermission(to_role=Roles.public, can_read=True, can_insert=False,can_update=False, can_delete=False)
-
-#Grant(role=Roles.sa, entity=models.Application, can_read=True, can_update=True, can_insert=True, can_delete=True, filter=GlobalFilter())
+DefaultRolePermission(to_role=Roles.default_roles_kcals, can_read=True, can_insert=True,can_update=True, can_delete=False)
+DefaultRolePermission(to_role=Roles.uma_authorization, can_read=True, can_insert=True,can_update=True, can_delete=False)

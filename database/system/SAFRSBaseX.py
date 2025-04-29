@@ -32,7 +32,7 @@ def jsonapi_filter(cls):
 
 class SAFRSBaseX(SAFRSBase, safrs.DB.Model):
     __abstract__ = True
-    if do_enable_ont_advanced_filters := False:
+    if do_enable_ont_advanced_filters := True:
         jsonapi_filter = jsonapi_filter
         
     def _s_parse_attr_value(self, attr_name: str, attr_val: any):

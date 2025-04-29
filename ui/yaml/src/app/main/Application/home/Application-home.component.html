@@ -1,14 +1,37 @@
-<div fxLayout="row" fxLayoutAlign="center start" fxFlexFill class="container">>
-    <o-tree #tree service="Application" entity="Application" keys="name" root-title="Application"
-        columns="id;name" visible-columns="name" route=":id"  fxFlex="20">
-
-        <!-- o-tree-node root-title="Menu Group" show-root="no" service-type="MenuGroup" service="MenuGroup" entity="MenuGroup"
-            columns="menu_name;application_id;id" description-columns="menu_name" keys="id" parent-keys="application_id"
-            route="application_id/MenuGroup">
-        </o-tree-nod -->
-
-    </o-tree>
-    <div fxLayout="column" fxLayoutAlign="center stretch" fxFlex="80">
-        <router-outlet></router-outlet>
+<o-form-layout-manager attr="Application" mode="tab" title="APPLICATION">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="ApplicationTable" 
+            service="Application" 
+            entity="Application" 
+            title="APPLICATION"
+            keys="id"
+            columns="name;app_short_name;description;id" 
+            header-actions="R;D"
+            visible-columns="name;app_short_name;description;id"  
+            sort-columns="name" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #name attr="name" title=" name" editable="no" required="yes" content-align="left"></o-table-column>
+            
+            <o-table-column #app_short_name attr="app_short_name" title="app_short_name" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column #description attr="description" title="description" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column #id attr="id" title="id" type="integer" editable="no" required="yes" content-align="center"></o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
     </div>
-</div>
+</o-form-layout-manager>

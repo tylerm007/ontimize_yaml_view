@@ -3,6 +3,497 @@ about:
   recent_changes: works with modified safrs-react-admin
   version: 0.0.0
 api_root: '{http_type}://{swagger_host}:{port}/{api}'
+application:
+  app:
+    description: generated Ontimize application
+    menu_group:
+      data:
+        icon: edit_square
+        menu_item:
+          Application:
+            icon: edit_square
+            menu_name: Application
+            menu_title: Application
+            page:
+              detail:
+                columns: name,app_short_name,description,id
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: Application
+                typescript_name: detail_component.jinja
+                visible_columns: name,app_short_name,description,id
+              home:
+                columns: name,app_short_name,description,id
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: Application
+                typescript_name: home_template.jinja
+                visible_columns: name,app_short_name,description,id
+              new:
+                columns: name,app_short_name,description,id
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: Application
+                typescript_name: new_component.jinja
+                visible_columns: name,app_short_name,description,id
+            template_name: module.jinja
+          Entity:
+            icon: edit_square
+            menu_name: Entity
+            menu_title: Entity
+            page:
+              detail:
+                columns: name,title,pkey,favorite,info_list,info_show,exclude,new_template,home_template,detail_template,mode,menu_group
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: Entity
+                typescript_name: detail_component.jinja
+                visible_columns: name,title,pkey,favorite,info_list,info_show,exclude,new_template,home_template,detail_template,mode,menu_group
+              home:
+                columns: name,title,pkey,favorite,info_list,info_show,exclude,new_template,home_template,detail_template,mode,menu_group
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: Entity
+                typescript_name: home_template.jinja
+                visible_columns: name,title,pkey,favorite,info_list,info_show,exclude,new_template,home_template,detail_template,mode,menu_group
+              new:
+                columns: name,title,pkey,favorite,info_list,info_show,exclude,new_template,home_template,detail_template,mode,menu_group
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: Entity
+                typescript_name: new_component.jinja
+                visible_columns: name,title,pkey,favorite,info_list,info_show,exclude,new_template,home_template,detail_template,mode,menu_group
+            template_name: module.jinja
+          EntityAttr:
+            icon: edit_square
+            menu_name: EntityAttr
+            menu_title: EntityAttr
+            page:
+              detail:
+                columns: entity_name,template_name,attr,label,issearch,issort,thistype,tooltip,exclude,visible,default_value,derivation,create_date,isrequired,isenabled
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: EntityAttr
+                typescript_name: detail_component.jinja
+                visible_columns: entity_name,template_name,attr,label,issearch,issort,thistype,tooltip,exclude,visible,default_value,derivation,create_date,isrequired,isenabled
+              home:
+                columns: entity_name,template_name,attr,label,issearch,issort,thistype,tooltip,exclude,visible,default_value,derivation,create_date,isrequired,isenabled
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: EntityAttr
+                typescript_name: home_template.jinja
+                visible_columns: entity_name,template_name,attr,label,issearch,issort,thistype,tooltip,exclude,visible,default_value,derivation,create_date,isrequired,isenabled
+              new:
+                columns: entity_name,template_name,attr,label,issearch,issort,thistype,tooltip,exclude,visible,default_value,derivation,create_date,isrequired,isenabled
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: EntityAttr
+                typescript_name: new_component.jinja
+                visible_columns: entity_name,template_name,attr,label,issearch,issort,thistype,tooltip,exclude,visible,default_value,derivation,create_date,isrequired,isenabled
+            template_name: module.jinja
+          GlobalSetting:
+            icon: edit_square
+            menu_name: GlobalSetting
+            menu_title: GlobalSetting
+            page:
+              detail:
+                columns: name,value,description
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: GlobalSetting
+                typescript_name: detail_component.jinja
+                visible_columns: name,value,description
+              home:
+                columns: name,value,description
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: GlobalSetting
+                typescript_name: home_template.jinja
+                visible_columns: name,value,description
+              new:
+                columns: name,value,description
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: GlobalSetting
+                typescript_name: new_component.jinja
+                visible_columns: name,value,description
+            template_name: module.jinja
+          GrantRole:
+            icon: edit_square
+            menu_name: GrantRole
+            menu_title: GrantRole
+            page:
+              detail:
+                columns: entity_name,role_name,can_insert,can_update,can_delete,filter,filter_debug,can_read
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: GrantRole
+                typescript_name: detail_component.jinja
+                visible_columns: entity_name,role_name,can_insert,can_update,can_delete,filter,filter_debug,can_read
+              home:
+                columns: entity_name,role_name,can_insert,can_update,can_delete,filter,filter_debug,can_read
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: GrantRole
+                typescript_name: home_template.jinja
+                visible_columns: entity_name,role_name,can_insert,can_update,can_delete,filter,filter_debug,can_read
+              new:
+                columns: entity_name,role_name,can_insert,can_update,can_delete,filter,filter_debug,can_read
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: GrantRole
+                typescript_name: new_component.jinja
+                visible_columns: entity_name,role_name,can_insert,can_update,can_delete,filter,filter_debug,can_read
+            template_name: module.jinja
+          MenuGroup:
+            icon: edit_square
+            menu_name: MenuGroup
+            menu_title: MenuGroup
+            page:
+              detail:
+                columns: menu_name,application_id,menu_title,icon,id,menu_id,opened
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: MenuGroup
+                typescript_name: detail_component.jinja
+                visible_columns: menu_name,application_id,menu_title,icon,id,menu_id,opened
+              home:
+                columns: menu_name,application_id,menu_title,icon,id,menu_id,opened
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: MenuGroup
+                typescript_name: home_template.jinja
+                visible_columns: menu_name,application_id,menu_title,icon,id,menu_id,opened
+              new:
+                columns: menu_name,application_id,menu_title,icon,id,menu_id,opened
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: MenuGroup
+                typescript_name: new_component.jinja
+                visible_columns: menu_name,application_id,menu_title,icon,id,menu_id,opened
+            template_name: module.jinja
+          MenuItem:
+            icon: edit_square
+            menu_name: MenuItem
+            menu_title: MenuItem
+            page:
+              detail:
+                columns: entity_name,menu_group_id,menu_name,template_name,icon,insert_pages,id
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: MenuItem
+                typescript_name: detail_component.jinja
+                visible_columns: entity_name,menu_group_id,menu_name,template_name,icon,insert_pages,id
+              home:
+                columns: entity_name,menu_group_id,menu_name,template_name,icon,insert_pages,id
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: MenuItem
+                typescript_name: home_template.jinja
+                visible_columns: entity_name,menu_group_id,menu_name,template_name,icon,insert_pages,id
+              new:
+                columns: entity_name,menu_group_id,menu_name,template_name,icon,insert_pages,id
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: MenuItem
+                typescript_name: new_component.jinja
+                visible_columns: entity_name,menu_group_id,menu_name,template_name,icon,insert_pages,id
+            template_name: module.jinja
+          Page:
+            icon: edit_square
+            menu_name: Page
+            menu_title: Page
+            page:
+              detail:
+                columns: page_name,menu_item_id,title,template_name,typescript_name,columns,visible_columns,include_children,id
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: Page
+                typescript_name: detail_component.jinja
+                visible_columns: page_name,menu_item_id,title,template_name,typescript_name,columns,visible_columns,include_children,id
+              home:
+                columns: page_name,menu_item_id,title,template_name,typescript_name,columns,visible_columns,include_children,id
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: Page
+                typescript_name: home_template.jinja
+                visible_columns: page_name,menu_item_id,title,template_name,typescript_name,columns,visible_columns,include_children,id
+              new:
+                columns: page_name,menu_item_id,title,template_name,typescript_name,columns,visible_columns,include_children,id
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: Page
+                typescript_name: new_component.jinja
+                visible_columns: page_name,menu_item_id,title,template_name,typescript_name,columns,visible_columns,include_children,id
+            template_name: module.jinja
+          RbacRole:
+            icon: edit_square
+            menu_name: RbacRole
+            menu_title: RbacRole
+            page:
+              detail:
+                columns: name,description,can_insert,can_update,can_delete,can_read
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: RbacRole
+                typescript_name: detail_component.jinja
+                visible_columns: name,description,can_insert,can_update,can_delete,can_read
+              home:
+                columns: name,description,can_insert,can_update,can_delete,can_read
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: RbacRole
+                typescript_name: home_template.jinja
+                visible_columns: name,description,can_insert,can_update,can_delete,can_read
+              new:
+                columns: name,description,can_insert,can_update,can_delete,can_read
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: RbacRole
+                typescript_name: new_component.jinja
+                visible_columns: name,description,can_insert,can_update,can_delete,can_read
+            template_name: module.jinja
+          Root:
+            icon: edit_square
+            menu_name: Root
+            menu_title: Root
+            page:
+              detail:
+                columns: id,about_changes,api_root,api_auth_type,api_auth,about_date
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: Root
+                typescript_name: detail_component.jinja
+                visible_columns: id,about_changes,api_root,api_auth_type,api_auth,about_date
+              home:
+                columns: id,about_changes,api_root,api_auth_type,api_auth,about_date
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: Root
+                typescript_name: home_template.jinja
+                visible_columns: id,about_changes,api_root,api_auth_type,api_auth,about_date
+              new:
+                columns: id,about_changes,api_root,api_auth_type,api_auth,about_date
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: Root
+                typescript_name: new_component.jinja
+                visible_columns: id,about_changes,api_root,api_auth_type,api_auth,about_date
+            template_name: module.jinja
+          RuleConstraint:
+            icon: edit_square
+            menu_name: RuleConstraint
+            menu_title: RuleConstraint
+            page:
+              detail:
+                columns: entity_name,calling_fn,as_condition,err_msg,error_attributes,rule,id
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: RuleConstraint
+                typescript_name: detail_component.jinja
+                visible_columns: entity_name,calling_fn,as_condition,err_msg,error_attributes,rule,id
+              home:
+                columns: entity_name,calling_fn,as_condition,err_msg,error_attributes,rule,id
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: RuleConstraint
+                typescript_name: home_template.jinja
+                visible_columns: entity_name,calling_fn,as_condition,err_msg,error_attributes,rule,id
+              new:
+                columns: entity_name,calling_fn,as_condition,err_msg,error_attributes,rule,id
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: RuleConstraint
+                typescript_name: new_component.jinja
+                visible_columns: entity_name,calling_fn,as_condition,err_msg,error_attributes,rule,id
+            template_name: module.jinja
+          RuleDerivation:
+            icon: edit_square
+            menu_name: RuleDerivation
+            menu_title: RuleDerivation
+            page:
+              detail:
+                columns: entity_name,as_child_entity,derive_column,expression,derivation_type,child_role_name,calling_fn,where_clause,rule,insert_parent,id
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: RuleDerivation
+                typescript_name: detail_component.jinja
+                visible_columns: entity_name,as_child_entity,derive_column,expression,derivation_type,child_role_name,calling_fn,where_clause,rule,insert_parent,id
+              home:
+                columns: entity_name,as_child_entity,derive_column,expression,derivation_type,child_role_name,calling_fn,where_clause,rule,insert_parent,id
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: RuleDerivation
+                typescript_name: home_template.jinja
+                visible_columns: entity_name,as_child_entity,derive_column,expression,derivation_type,child_role_name,calling_fn,where_clause,rule,insert_parent,id
+              new:
+                columns: entity_name,as_child_entity,derive_column,expression,derivation_type,child_role_name,calling_fn,where_clause,rule,insert_parent,id
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: RuleDerivation
+                typescript_name: new_component.jinja
+                visible_columns: entity_name,as_child_entity,derive_column,expression,derivation_type,child_role_name,calling_fn,where_clause,rule,insert_parent,id
+            template_name: module.jinja
+          RuleEvent:
+            icon: edit_square
+            menu_name: RuleEvent
+            menu_title: RuleEvent
+            page:
+              detail:
+                columns: entity_name,event_type,calling_fn,rule,id
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: RuleEvent
+                typescript_name: detail_component.jinja
+                visible_columns: entity_name,event_type,calling_fn,rule,id
+              home:
+                columns: entity_name,event_type,calling_fn,rule,id
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: RuleEvent
+                typescript_name: home_template.jinja
+                visible_columns: entity_name,event_type,calling_fn,rule,id
+              new:
+                columns: entity_name,event_type,calling_fn,rule,id
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: RuleEvent
+                typescript_name: new_component.jinja
+                visible_columns: entity_name,event_type,calling_fn,rule,id
+            template_name: module.jinja
+          TabGroup:
+            icon: edit_square
+            menu_name: TabGroup
+            menu_title: TabGroup
+            page:
+              detail:
+                columns: name,entity_name,tab_entity,direction,fkeys,label,exclude
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: TabGroup
+                typescript_name: detail_component.jinja
+                visible_columns: name,entity_name,tab_entity,direction,fkeys,label,exclude
+              home:
+                columns: name,entity_name,tab_entity,direction,fkeys,label,exclude
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: TabGroup
+                typescript_name: home_template.jinja
+                visible_columns: name,entity_name,tab_entity,direction,fkeys,label,exclude
+              new:
+                columns: name,entity_name,tab_entity,direction,fkeys,label,exclude
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: TabGroup
+                typescript_name: new_component.jinja
+                visible_columns: name,entity_name,tab_entity,direction,fkeys,label,exclude
+            template_name: module.jinja
+          Template:
+            icon: edit_square
+            menu_name: Template
+            menu_title: Template
+            page:
+              detail:
+                columns: name,file_name,description
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: Template
+                typescript_name: detail_component.jinja
+                visible_columns: name,file_name,description
+              home:
+                columns: name,file_name,description
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: Template
+                typescript_name: home_template.jinja
+                visible_columns: name,file_name,description
+              new:
+                columns: name,file_name,description
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: Template
+                typescript_name: new_component.jinja
+                visible_columns: name,file_name,description
+            template_name: module.jinja
+          YamlFile:
+            icon: edit_square
+            menu_name: YamlFile
+            menu_title: YamlFile
+            page:
+              detail:
+                columns: name,content,upload_flag,download_flag,size,file_path,app_name,is_active,rule_content,role_content,local_storage,en_json,application_content,downloaded
+                include_children: true
+                page_name: detail
+                template_name: detail_template.html
+                title: YamlFile
+                typescript_name: detail_component.jinja
+                visible_columns: name,content,upload_flag,download_flag,size,file_path,app_name,is_active,rule_content,role_content,local_storage,en_json,application_content,downloaded
+              home:
+                columns: name,content,upload_flag,download_flag,size,file_path,app_name,is_active,rule_content,role_content,local_storage,en_json,application_content,downloaded
+                include_children: true
+                page_name: home
+                template_name: home_template.html
+                title: YamlFile
+                typescript_name: home_template.jinja
+                visible_columns: name,content,upload_flag,download_flag,size,file_path,app_name,is_active,rule_content,role_content,local_storage,en_json,application_content,downloaded
+              new:
+                columns: name,content,upload_flag,download_flag,size,file_path,app_name,is_active,rule_content,role_content,local_storage,en_json,application_content,downloaded
+                include_children: true
+                page_name: new
+                template_name: new_template.html
+                title: YamlFile
+                typescript_name: new_component.jinja
+                visible_columns: name,content,upload_flag,download_flag,size,file_path,app_name,is_active,rule_content,role_content,local_storage,en_json,application_content,downloaded
+            template_name: module.jinja
+        menu_name: data
+        menu_title: data
+        opened: true
+    name: app
 authentication: '{system-default}'
 entities:
   Application:
