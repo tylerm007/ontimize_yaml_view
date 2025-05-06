@@ -65,12 +65,12 @@
       <o-row attr="row3" layout-align="center center">
         <o-textarea-input #visible_columns attr="visible_columns" label="visible_columns" enabled="yes" required="no" fxFlex="100%" class="form-field"></o-textarea-input>
       </o-row>
-      <o-checkbox #include_children attr="include_children" label="include_children" read-only="no" enabled="yes"></o-checkbox>
       
       <!-- o-integer-input #id attr="id" label="id" type="integer" editable="no" required="yes" visible="no"></o-integer-input -->
       
-
-      
+      <o-button attr="reorder_button" label="Reorder Visible Columns" type="raised" fxFlex="20%" color="primary" (click)="openReorderDialog()"></o-button>
+      <o-checkbox #include_children attr="include_children" label="include_children" read-only="no" enabled="yes"></o-checkbox>
+     
       <mat-tab-group fxFill>
         
       </mat-tab-group>

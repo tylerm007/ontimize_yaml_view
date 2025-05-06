@@ -1,0 +1,294 @@
+// Step 1: Install required dependencies
+// Run these commands in your project:
+// npm install @angular/cdk @angular/material
+
+// Step 2: Import required modules in app.module.ts
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
+import { AppComponent } from './app.component';
+import { ListReorderDialogComponent } from './list-reorder-dialog/list-reorder-dialog.component';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    ListReorderDialogComponent
+  ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    DragDropModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatIconModule,
+    MatInputModule,
+    MatFormFieldModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+// Step 3: Create the ListReorderDialogComponent
+// list-reorder-dialog.component.ts
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+
+export interface ListItem {
+  value: string;
+  visible: boolean;
+}
+
+export interface DialogData {
+  commaSeparatedList: string;
+}
+
+@Component({
+  selector: 'app-list-reorder-dialog',
+  templateUrl: './list-reorder-dialog.component.html',
+  styleUrls: ['./list-reorder-dialog.component.scss']
+})
+export class ListReorderDialogComponent implements OnInit {
+  items: ListItem[] = [];
+
+  constructor(
+    public dialogRef: MatDialogRef<ListReorderDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData
+  ) {}
+
+  ngOnInit(): void {
+    // Convert comma-separated string to array of items
+    if (this.data.commaSeparatedList) {
+      this.items = this.data.commaSeparatedList
+        .split(',')
+        .map(item => item.trim())
+        .filter(item => item !== '')
+        .map(value => ({ value, visible: true }));
+    }
+  }
+
+  drop(event: CdkDragDrop<ListItem[]>): void {
+    moveItemInArray(this.items, event.previousIndex, event.currentIndex);
+  }
+
+  toggleVisibility(item: ListItem): void {
+    item.visible = !item.visible;
+  }
+
+  onCancel(): void {
+    this.dialogRef.close();
+  }
+
+  onSave(): void {
+    // Convert items back to comma-separated string
+    const result = {
+      commaSeparatedList: this.items.map(item => item.value).join(', '),
+      items: this.items // Return the full item objects with visibility info
+    };
+    this.dialogRef.close(result);
+  }
+
+  addItem(): void {
+    this.items.push({ value: '', visible: true });
+  }
+
+  removeItem(index: number): void {
+    this.items.splice(index, 1);
+  }
+}
+
+// Step 4: Create the template
+// list-reorder-dialog.component.html
+<h2 mat-dialog-title>Reorder List Items</h2>
+<mat-dialog-content>
+  <div class="list-container">
+    <div 
+      cdkDropList 
+      class="item-list"
+      (cdkDropListDropped)="drop($event)">
+      <div 
+        *ngFor="let item of items; let i = index" 
+        cdkDrag 
+        class="item-box">
+        <div class="drag-handle">
+          <mat-icon>drag_indicator</mat-icon>
+        </div>
+        <mat-form-field appearance="outline" class="item-input">
+          <input matInput [(ngModel)]="item.value" placeholder="Item value">
+        </mat-form-field>
+        <button 
+          mat-icon-button 
+          type="button" 
+          (click)="toggleVisibility(item)" 
+          [attr.aria-label]="item.visible ? 'Hide item' : 'Show item'">
+          <mat-icon>{{ item.visible ? 'visibility' : 'visibility_off' }}</mat-icon>
+        </button>
+        <button 
+          mat-icon-button 
+          type="button" 
+          (click)="removeItem(i)" 
+          aria-label="Remove item">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+    <button 
+      mat-stroked-button 
+      type="button" 
+      (click)="addItem()" 
+      class="add-item-button">
+      <mat-icon>add</mat-icon> Add Item
+    </button>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" type="button" (click)="onSave()">Save</button>
+</mat-dialog-actions>
+
+// Step 5: Add styling
+// list-reorder-dialog.component.scss
+.list-container {
+  width: 100%;
+  min-width: 350px;
+  max-width: 100%;
+  min-height: 200px;
+  max-height: 60vh;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+.item-list {
+  border: solid 1px #ccc;
+  border-radius: 4px;
+  min-height: 60px;
+  display: block;
+  background: white;
+  overflow: hidden;
+}
+
+.item-box {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border-bottom: solid 1px #ccc;
+  color: rgba(0, 0, 0, 0.87);
+  box-sizing: border-box;
+  background: white;
+  font-size: 14px;
+}
+
+.item-box:last-child {
+  border-bottom: none;
+}
+
+.drag-handle {
+  cursor: move;
+  color: #757575;
+  margin-right: 8px;
+}
+
+.item-input {
+  flex: 1;
+  margin: 0 8px;
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.item-list.cdk-drop-list-dragging .item-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.add-item-button {
+  margin-top: 16px;
+  width: 100%;
+}
+
+// Step 6: Usage example in a component
+// app.component.ts
+import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ListReorderDialogComponent } from './list-reorder-dialog/list-reorder-dialog.component';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <div class="container">
+      <h1>List Reorder Example</h1>
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Items (comma-separated)</mat-label>
+          <input matInput [(ngModel)]="commaSeparatedList" placeholder="e.g. apple, banana, orange">
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="openReorderDialog()">Reorder</button>
+      </div>
+      <div *ngIf="visibilityStatus.length > 0">
+        <h3>Visibility Status:</h3>
+        <ul>
+          <li *ngFor="let item of visibilityStatus">
+            {{ item.value }}: {{ item.visible ? 'Visible' : 'Hidden' }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  `,
+  styles: [`
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+    .form-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .full-width {
+      flex: 1;
+    }
+  `]
+})
+export class AppComponent {
+  commaSeparatedList = 'apple, banana, orange, grape, melon';
+  visibilityStatus: Array<{value: string, visible: boolean}> = [];
+
+  constructor(public dialog: MatDialog) {}
+
+  openReorderDialog(): void {
+    const dialogRef = this.dialog.open(ListReorderDialogComponent, {
+      width: '500px',
+      data: { commaSeparatedList: this.commaSeparatedList }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.commaSeparatedList = result.commaSeparatedList;
+        this.visibilityStatus = result.items;
+      }
+    });
+  }
+}

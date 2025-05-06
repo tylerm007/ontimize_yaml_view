@@ -1,5 +1,5 @@
 export const environment = {
-  apiEndpoint: "http://localhost:5655/ontimizeweb/services/rest",
+  apiEndpoint: "http://ec2-3-94-186-7.compute-1.amazonaws.com:5655/ontimizeweb/services/rest",
   production: true,
   versions: {
     core: '15.6.0-next.2',
