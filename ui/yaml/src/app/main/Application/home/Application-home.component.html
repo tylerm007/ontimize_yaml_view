@@ -1,37 +1,28 @@
-<o-form-layout-manager attr="Application" mode="tab" title="APPLICATION">
-    <div fxFill fxLayout="column" fxLayoutAlign="start">
-        <o-table 
-            attr="ApplicationTable" 
-            service="Application" 
-            entity="Application" 
-            title="APPLICATION"
-            keys="id"
-            columns="name;app_short_name;description;id" 
-            header-actions="R;D"
-            visible-columns="name;app_short_name;description;id"  
-            sort-columns="name" 
-            query-rows="20" 
-            quick-filter="yes"
-            row-height="medium" 
-            select-all-checkbox="true" 
-            pageable="yes"  
-            auto-adjust="true" 
-            virtual-scroll="yes" 
-            edition-mode="dblclick"
-            horizontal-scroll="yes"
-            show-title="yes"
-            export-button="yes">
+<o-form-layout-manager mode="tab" title="Ontimize Applications" label-columns="name">
+    <o-grid #grid attr="ApplicationTable" service="Application" entity="Application"
+    columns="name;yaml_name;api_root;description;id"
+    quick-filter-columns="name;yaml_name;api_root;description;id" keys="id" sort-columns="name"
+    pageable="yes" query-rows="16" fixed-header="yes" refresh-button="no" gutter-size="18px" detail-mode="none"
+    insert-button="yes">
+    <o-grid-item *ngFor="let item of grid.dataArray">
+        <div (click)="openDetail(item)" fxLayout="column" fxLayoutAlign="space-evenly center" class="Application-item mat-elevation-z1" style="border: 1px solid #ccc; padding: 10px; margin: 5px; border-radius: 5px;">
+            <div fxLayout="row" fxLayoutAlign="space-between end" class="image-container">
+            <mat-divider fxFlex></mat-divider>
+            <div class="image">
+                <img [src]="getImageSrc(item.name)">
+            </div>
+            <mat-divider fxFlex></mat-divider>
+            </div>
+        
+            <div fxLayout="column" fxLayoutAlign="start center" class="Application-data">
+            <span>Name: {{item.yaml_name}}</span>
+            <span>App: {{item.name}}</span>
+            <span>URL: {{item.api_root}}</span>
+            <span>Description: {{item.description}}</span>
             
-            <o-table-column #name attr="name" title=" name" editable="no" required="yes" content-align="left"></o-table-column>
-            
-            <o-table-column #app_short_name attr="app_short_name" title="app_short_name" editable="no" required="no" content-align="left"></o-table-column>
-            
-            <o-table-column #description attr="description" title="description" editable="no" required="no" content-align="left"></o-table-column>
-            
-            <o-table-column #id attr="id" title="id" type="integer" editable="no" required="yes" content-align="center"></o-table-column>
-            
-            <o-table-context-menu></o-table-context-menu>
-            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
-        </o-table>
-    </div>
+            </div>
+
+        </div>
+        </o-grid-item>
+</o-grid>
 </o-form-layout-manager>

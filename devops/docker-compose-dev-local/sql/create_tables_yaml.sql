@@ -5,7 +5,6 @@ DROP TABLE IF EXISTS tab_group;
 DROP TABLE IF EXISTS global_settings;
 DROP TABLE IF EXISTS template;
 DROP TABLE IF EXISTS root;
-DROP TABLE IF EXISTS yaml_files;
 DROP TABLE IF EXISTS rule_constraint;
 DROP TABLE IF EXISTS rule_event;
 DROP TABLE IF EXISTS rule_derivation;
@@ -16,6 +15,8 @@ DROP TABLE IF EXISTS menu_item;
 DROP TABLE IF EXISTS menu_group;
 DROP TABLE IF EXISTS application;
 DROP TABLE IF EXISTS entity;
+DROP TABLE IF EXISTS yaml_files;
+
 CREATE TABLE entity (
     name varchar(80) not null,
     title varchar(100) not null,
@@ -128,6 +129,7 @@ CREATE TABLE rule_event (
     rule VARCHAR(1000),
     FOREIGN KEY (entity_name) REFERENCES entity(name)
 );
+
 CREATE TABLE rule_derivation (  
     id SERIAL PRIMARY KEY,
     entity_name VARCHAR(80),
@@ -173,7 +175,10 @@ CREATE TABLE application (
     id SERIAL8 NOT NULL,
     name VARCHAR(100) NOT NULL,
     app_short_name VARCHAR(100) DEFAULT 'app',
+    api_root VARCHAR(1000) NOT NULL DEFAULT 'http://localhost:5656/api',
     description TEXT,
+    yaml_name VARCHAR(100) NOT NULL,
+    FOREIGN KEY (yaml_name) REFERENCES yaml_files(name),
     PRIMARY KEY(id)
 );
 
@@ -215,3 +220,5 @@ CREATE TABLE page (
     PRIMARY KEY(id),
     FOREIGN KEY (menu_item_id) REFERENCES menu_item(id) ON DELETE CASCADE
 );
+
+-- select file_path from yaml_files

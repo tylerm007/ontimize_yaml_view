@@ -1,5 +1,6 @@
 import { Component, Injector, ViewChild } from '@angular/core';
 import { NavigationService, OFormComponent, SnackBarService,  OSnackBarConfig} from 'ontimize-web-ngx';
+import { v4 as uuidv4 } from 'uuid';
 //import {MAT_SNACK_BAR_DATA} from '@angular/material/snack-bar';
 @Component({
   selector: 'YamlFiles-new',
@@ -19,17 +20,18 @@ export class YamlFilesNewComponent {
     const default_values = { "name": "app_model.yaml" };
     this.form.setFieldValues(default_values);
     this.form.setFieldValues({"app_name": "app"});
+    let uuid = ""+uuidv4();
+    this.form.setFieldValues({"file_path": uuid});
   }
 
   ngAfterViewInit() {
     document.getElementById("folder")?.addEventListener("change", async (event: Event) => {
       const output = document.querySelector("ul");
       const { files } = event.target as HTMLInputElement;
-      const fullPath = (event.target as HTMLInputElement).files[0].webkitRelativePath;
+      
       const filePaths = Array.from(files).map(file => file.webkitRelativePath || file.name);
 
-      //console.log(filePaths[0]);
-      //console.log(fullPath);
+  ;
       let declare_logic;
       let declare_security;
       let wg_all_rules;
@@ -98,14 +100,7 @@ export class YamlFilesNewComponent {
             let encodedAppModel = app_model[i] //btoa(app_model);
             let encodedLogicModel = declare_logic ? btoa(declare_logic) : null;
             let encodedSecurityModel = declare_security ? btoa(declare_security) : null;
-            let encodedLocalStorage = local_storage.length > 0 ? btoa(local_storage[i]) : null;
-            if (local_storage.length == 0) {
-              const localStorageElement = document.getElementById('local_storage');
-              if (localStorageElement) {
-                let ls = localStorageElement.textContent || '';
-                encodedLocalStorage = btoa(ls);
-              }
-            }
+          
             let file_path = this.form.getFieldValue('file_path');
             let app_name = app_names[i]
             this.form.setFieldValues({ 
@@ -115,9 +110,9 @@ export class YamlFilesNewComponent {
                 "content": encodedAppModel, 
                 "rule_content": encodedLogicModel, 
                 "role_content": encodedSecurityModel,
-                "local_storage": encodedLocalStorage,
+                "local_storage": null,
                 "en_json":en_json[i], 
-                "file_path": file_path || filePaths[i].split("/").pop()
+                "file_path": file_path
               });
             let field = this.form.getFieldValue('content');
             if (field && app_model_raw[0]) {
@@ -134,11 +129,7 @@ export class YamlFilesNewComponent {
               console.log("declare_security");
               //field3.setValue(declare_security);
             }
-            let field4 = this.form.getFieldValue('local_storage');
-            if (field4 && local_storage.length > 0 && local_storage[i]) {
-              console.log("local_storage", local_storage[i]);
-              //field3.setValue(local_storage);
-            }
+          
             const configuration: OSnackBarConfig = {
               action: 'Ok',
               milliseconds: 3000,

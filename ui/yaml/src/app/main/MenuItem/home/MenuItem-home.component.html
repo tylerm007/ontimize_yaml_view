@@ -1,8 +1,8 @@
-<div fxLayout="row" fxLayoutAlign="center start" fxFlexFill class="container">>
+<div fxLayout="row" fxLayoutAlign="center start" fxFlexFill class="container" insert-button="yes">
     <o-tree #tree service="MenuItem" entity="MenuItem" keys="id" root-title="Menu Item"
-        columns="menu_name;id" visible-columns="menu_name" route=":id"  fxFlex="15">
+        columns="menu_name;id" visible-columns="menu_name" route=":id"  fxFlex="20">
     </o-tree>
-    <div fxLayout="column" fxLayoutAlign="center stretch" fxFlex="85">
+    <div fxLayout="column" fxLayoutAlign="center stretch" fxFlex="80">
         <router-outlet></router-outlet>
     </div>
 </div>

@@ -9,7 +9,7 @@ import { OFormComponent, OntimizeService, OListPickerComponent, OTableComponent,
 })
 export class MenuItemDetailComponent implements OnInit  {
   protected service: OntimizeService;
-
+  protected data : any;
   @ViewChild('oDetailForm') form: OFormComponent;
   
   constructor(protected injector: Injector) {
@@ -27,6 +27,20 @@ export class MenuItemDetailComponent implements OnInit  {
   }
   onDataLoaded(e: object) {
     console.log(JSON.stringify(e));
+    this.data = e;
   }
-
+  rebuildMenuItem() {
+    
+    console.log('MenuItem has been rebuilt.');
+    // app_name = 'app' // TODO get from parent
+    this.service.update({'id': this.data.id },{'rebuild': true,"app_name":"app","api_endpoint": this.data.entity_name}, 'MenuItem').subscribe((response) => {
+      console.log('MenuItem rebuild response:', response);
+      //snackbar
+    }
+    , (error) => {
+      console.error('Error rebuilding MenuItem:', error);
+      // Handle the error if needed
+    }
+    );  
+  } 
 }

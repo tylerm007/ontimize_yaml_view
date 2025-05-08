@@ -357,6 +357,13 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
             )
 
         if method in ["PUT", "PATCH"] and data:
+            if clz_name == "MenuItem" and "rebuild" in data:
+                    return rebuild_menu_item(request, data)
+            if clz_name == "Application" and "rebuild_flag" in data:
+                    return rebuild_application(request, data)
+            if clz_name == "Application" and "reload_flag" in data:
+                    return reload_application(request, data)
+                
             sql_alchemy_row = session.query(api_clz).filter(text(filter)).one()
             for key in DotDict(data):
                 setattr(sql_alchemy_row, key, DotDict(data)[key])
@@ -465,7 +472,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                         # yaml_content = request.data.decode("utf-8")
                         valuesYaml = yaml.safe_load(yaml_content)
                         process_yaml(
-                            valuesYaml=valuesYaml, rule_content=resp.rule_content, role_content=resp.role_content, local_storage=resp.local_storage
+                            valuesYaml=valuesYaml, rule_content=resp.rule_content, role_content=resp.role_content
                         )
 
                     data = {
@@ -773,6 +780,67 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         app_logger.debug(f"Rule content written to ui/declare_logic_merge.py1")
         return {"downloaded": yaml_file, "rule_content": rule_content}
 
+    def reload_application(request: any, data: any):
+        #app_name = data["file_path"]
+        '''
+        Reload the entities, attributes, relationships, and application from yaml_files.content
+        '''
+        filter: dict = request.json["filter"]
+        application = session.query(models.Application).filter(
+            models.Application.id == filter["id"]).one_or_none()
+        file_path = application.yaml_files.file_path
+        # Read the app_model.yaml file from the given file path
+        try:
+            with open(f"ui/{file_path}/app_model.yaml", "rt") as f:
+                valuesYaml = yaml.safe_load(f.read())
+                f.close()
+        except FileNotFoundError:
+            app_logger.error({"code": 1, "message": f"File app_model.yaml not found: {file_path}"})
+            valuesYaml = yaml.safe_load(application.yaml_files.content)
+            
+        process_yaml(valuesYaml=valuesYaml)
+
+        return {"reload": True}
+    def rebuild_application(request: any, data: any):
+        #app_name = data["file_path"]
+        filter: dict = request.json["filter"]
+        application = session.query(models.Application).filter(
+            models.Application.id == filter["id"]).one_or_none()
+        file_path = application.yaml_files.file_path
+        exec = f'als app-build --app={file_path}'
+        from os import path
+        import subprocess
+        #subprocess.run(exec, shell=True)
+        return {"exec": exec}
+        
+    def rebuild_menu_item(request: any, data: any):
+        """call subprocess 
+            exec = f'als app-build --app={app_name} --api-endpoint={entity}'
+            TODO - Need full path to project from import
+        Args:
+            request (any): _description_
+        """
+        # TODO DOWNLOAD THE YAML FILE First and Copy to the project path
+        # cp from src to target (backup target first) - if src does not exist - return error
+        filter: dict = request.json["filter"]
+        menuitem = session.query(models.MenuItem).filter(
+            models.MenuItem.id == filter["id"]).one_or_none()
+        path = menuitem.menu_group.application.file_path or data["file_path"]
+        api_endpoint = data["api_endpoint"]
+
+        command = f'sh rebuild.sh {path} {api_endpoint}'
+        import subprocess
+        env = os.environ.copy()
+        env["PYTHONPATH"] = f"{_project_dir}"
+        try:
+            result = subprocess.run(command, cwd=_project_dir, shell=True, env=env, capture_output=True, text=True)
+            if result.returncode != 0:
+                print(f"Process Error: {result.stderr}")
+            else:
+                print(f"Process Output: {result.stdout}")
+        except subprocess.CalledProcessError as e:
+            print(f"Command failed with error: {e}")
+        return {}        
     @app.route("/importyaml/<key>", methods=["GET", "POST", "OPTIONS"])
     def load_yaml(key: str = "app_model.yaml"):
         """
@@ -883,9 +951,6 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         if clz_type == "importyaml":
             return load_yaml()
 
-        # if clz_type == "exportyaml":
-        #    return dump_yaml()
-
         if clz_type == "upload":
             # TODO get full path and filename from request or store locally and read file
             file_name = f"{_project_dir}/ui/app_model.yaml"
@@ -900,6 +965,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         filter, columns, sqltypes, offset, pagesize, orderBy, data = parsePayload(
             payload
         )
+    
         result = {}
         if method in ["PUT", "PATCH"]:
             sql_alchemy_row = session.query(api_clz).filter(text(filter)).one()
@@ -1069,7 +1135,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
 
     # Process the yaml file (load SQLite)
     def process_yaml(
-        valuesYaml: str, rule_content: str = None, role_content: str = None, local_storage: any = None
+        valuesYaml: any, rule_content: str = None, role_content: str = None, local_storage: any = None
     ):
         # Clean the database out - this is destructive
 
@@ -1452,15 +1518,15 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                         print(ex)
 
     def insert_application(valuesYaml: any):
-        
+            yaml_name = valuesYaml["project_name"]
             for a in valuesYaml["application"]:
                 app = valuesYaml["application"][a]
-                application = models.Application()
-                #name = "New Application"
                 application = models.Application()
                 setattr(application,"name",app["name"])
                 setattr(application,"app_short_name",app["name"])
                 setattr(application,"app_description",app["description"])
+                setattr(application,"yaml_name", yaml_name)
+                setattr(application,"api_root",valuesYaml["api_root"])
                 try:
                     session.add(application)
                     session.commit()
@@ -1673,17 +1739,21 @@ def export_yaml_to_file(project_dir: str, yaml_file_row: dict = None):
         entities, attrs, tabs, settings, root, rule_events, rule_constraints, security_output, 
         application, menu_group, menu_item, page
     )
-    yaml_fn = f"{project_dir}/ui/app_model_merge.yaml"
-    logic_fn = f"{project_dir}/ui/declare_logic_merge.py1"
-    security_fn = f"{project_dir}/ui/declare_security.py1"
+    uuid = getattr(yaml_file_row,"file_path")
+    project_path = Path(f"{_project_dir}/ui/{uuid}")
+    project_path.mkdir(parents=True, exist_ok=True)
+    yaml_fn = f"{project_path}/app_model.yaml"
+    logic_fn = f"{project_path}/declare_logic_merge.py1"
+    security_fn = f"{project_path}/declare_security.py1"
     logic_output = build_logic(attrs, rule_constraints, rule_events, rule_derivations)
     security_output = build_security(output["user_roles"], output["grants"])
     lo = write_file(logic_output, file_name=logic_fn)
     yo = write_yaml_file(output, file_name=yaml_fn)
     so = write_file(security_output, file_name=security_fn)
     if yaml_file_row and getattr(yaml_file_row,"file_path"):
-        yaml_fn = f"{getattr(yaml_file_row,"file_path")}/app_model.yaml"
         write_yaml_file(output, file_name=yaml_fn)
+        #call shell script to copy node_modules
+        print(f"als app-build --app=app at {yaml_fn}")
     return yo, lo, so
 
 
@@ -2062,6 +2132,7 @@ def getMetaData(resource_name: str = None, include_attributes: bool = True) -> d
     import inspect
     import sys
     import json
+    import yaml
 
     resource_list = []  # array of attributes[], name (so, the name is last...)
     resource_objs = {}  # objects, named = resource_name

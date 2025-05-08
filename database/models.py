@@ -43,7 +43,6 @@ else:
     print('*** Models.py Using TestBase ***')
 
 
-
 class Application(Base):  # type: ignore
     __tablename__ = 'application'
     _s_collection_name = 'Application'  # type: ignore
@@ -51,9 +50,12 @@ class Application(Base):  # type: ignore
     id = Column(BigInteger, Sequence('application_id_seq'), primary_key=True)
     name = Column(String(100), nullable=False)
     app_short_name = Column(String(100), server_default=text("app"))
+    api_root = Column(String(1000),server_default=text('http://localhost:5656/api'))
     description = Column(Text)
+    yaml_name = Column(ForeignKey('yaml_files.name'), nullable=False)
 
     # parent relationships (access parent)
+    yaml_files : Mapped["YamlFiles"] = relationship(back_populates=("ApplicationList"))
 
     # child relationships (access children)
     MenuGroupList : Mapped[List["MenuGroup"]] = relationship(back_populates="application")
@@ -186,6 +188,7 @@ class YamlFiles(Base):  # type: ignore
     # parent relationships (access parent)
 
     # child relationships (access children)
+    ApplicationList : Mapped[List["Application"]] = relationship(back_populates="yaml_files")
 
 
 

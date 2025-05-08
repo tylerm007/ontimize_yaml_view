@@ -14,12 +14,12 @@
   </o-row>
   <o-row attr="row1" layout-align="start stretch">
     <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
-      <o-text-input attr="file_path" label=" File Path" enabled="yes" required="no" fxFlex="50%" class="form-field"
-        tooltip="Enter the full path to your root project"></o-text-input>
+      <o-text-input attr="file_path" label=" UUID for Ontimize project" enabled="no" required="no" fxFlex="50%" class="form-field"
+        tooltip="UUID is project location for Ontimize rebuilding (als app-build)"></o-text-input>
     </div>
 
   </o-row>
-  <div layout-padding align="left">
+  <div style="border: 1px solid black; padding: 10px; margin: 10px; width: 50%;" layout-padding align="left">
 
     <label for="folder">Select ApilogicServer project (root folder):</label>
     <input type="file" id="folder" webkitdirectory multiple />
@@ -28,26 +28,26 @@
   <div align="center">&nbsp;</div>
   <o-row attr="row1" layout-align="start stretch">
 
-    <o-image attr="content" type="image" label="Select ${file_path}/ui/{app}/app_model.yaml" sql-type="TEXT"
+    <o-image attr="content" type="image" label="Select /ui/{app}/app_model.yaml" sql-type="TEXT"
       auto-fit="true" enabled="true" read-only="false" show-controls="true"
       tooltip="Select an /ui/{app}/app_model.yaml file from your ApiLogicServer project." full-screen-button="false"
       accept-file-type="*.yaml" empty-image="./assets/images/no-image.png">
     </o-image>
-    <o-image attr="rule_content" type="image" label="select $[file_path}/logic/declare_logic.py" sql-type="TEXT"
+    <o-image attr="rule_content" type="image" label="select /logic/declare_logic.py" sql-type="TEXT"
       auto-fit="true" enabled="true" read-only="false" show-controls="true"
       tooltip="Select an /logic/declare_logic.py file from your ApiLogicServer project." full-screen-button="false"
       accept-file-type="*.py" empty-image="./assets/images/no-image.png">
     </o-image>
-    <o-image attr="role_content" type="image" label="select $[file_path}/security/declare_security.py" sql-type="TEXT"
+    <o-image attr="role_content" type="image" label="select /security/declare_security.py" sql-type="TEXT"
       auto-fit="true" enabled="true" read-only="false" show-controls="true"
       tooltip="Select an /security/declare_security.py file from your ApiLogicServer project."
       full-screen-button="false" accept-file-type="*.py" empty-image="./assets/images/no-image.png">
     </o-image>
-    <o-image attr="local_storage" type="image" label="select $[file_path}/downloads/com.ontimize.web.*.json"
+    <!-- o-image attr="local_storage" type="image" label="select $[file_path}/downloads/com.ontimize.web.*.json"
       sql-type="TEXT" auto-fit="true" enabled="true" read-only="false" show-controls="true"
       tooltip="Select an /downloads/com.ontimize.web.ngx.*.json file from your Downloads export settings project."
       full-screen-button="false" accept-file-type="*.json" empty-image="./assets/images/no-image.png">
-    </o-image>
+    </o-image -->
   </o-row>
 
 </o-form>

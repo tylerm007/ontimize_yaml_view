@@ -1,91 +1,80 @@
 <div class="container">
-  <div>&nbsp;</div>
-<o-form-container breadcrumb="yes" breadcrumb-label-columns="name" breadcrumb-separator=", " class="fill-form">
-      <o-form #form attr="Application_form_edit" 
-        service="Application" 
-        entity="Application" 
-        fxLayout="column" 
-        show-header="yes" 
-        header-actions="R;U;D"
-        #oDetailForm keys="id" 
-        keys-sql-types="INTEGER" 
-        show-header-navigation="yes">
+  <o-form-container breadcrumb="yes" breadcrumb-label-columns="name" breadcrumb-separator=", " class="fill-form">
+    <o-form #form attr="Application_form_edit" service="Application" entity="Application" fxLayout="column"
+      show-header="yes" header-actions="R;U;D" #oDetailForm keys="id" keys-sql-types="INTEGER"
+      show-header-navigation="yes" (onDataLoaded)="onDataLoaded($event)">
 
-  <o-row attr="row1" layout-align="start stretch">
-    <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
-      
-      <o-text-input #name attr="name" label=" name" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
-      
-      <o-text-input #app_short_name attr="app_short_name" label="app_short_name" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
-      
-      <o-text-input #description attr="description" label="description" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
-      
-      <o-integer-input #id attr="id" label="id" type="integer" editable="no" required="yes" ></o-integer-input>
-      
-    </div>
-  </o-row>
-      
+      <o-row attr="row1" layout-align="start stretch">
+        <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+
+          <o-text-input #name attr="name" label=" name" enabled="yes" required="yes" fxFlex="20%"
+            class="form-field"></o-text-input>
+
+          <o-text-input #app_short_name attr="app_short_name" label="app_short_name" enabled="yes" required="no"
+            fxFlex="20%" class="form-field"></o-text-input>
+
+
+          <o-text-input #api_root attr="api_root" label="API Root" enabled="yes" required="yes"
+            fxFlex="20%" class="form-field"></o-text-input>
+
+          <o-text-input #description attr="description" label="description" enabled="yes" required="no" fxFlex="20%"
+            class="form-field"></o-text-input>
+
+          <o-integer-input #id attr="id" label="id" type="integer" editable="no" required="yes"></o-integer-input>
+          <o-button #rebuild_app label="Rebuild Application" type="raised" fxFlex="20%" color="primary"
+            (click)="rebuildApplication()"></o-button>
+            <o-button #reload_app label="Reload Application" type="raised" fxFlex="20%" color="primary"
+            (click)="reloadApplication()"></o-button>
+        </div>
+      </o-row>
+
       <mat-tab-group fxFill>
-        
+
         <mat-tab label="MENUGROUP-application_id">
-    <div layout-padding>
-      <o-table 
-        attr="MenuGroupTable" 
-        service="MenuGroup" 
-        entity="MenuGroup" 
-        keys="id"
-        parent-keys="application_id:id"
-        columns="menu_name;application_id;menu_title;icon;id;menu_id;opened"  
-        horizontal-scroll="yes"
-        detail-form-route="MenuGroup" 
-        edit-form-route="MenuGroup"
-        visible-columns="menu_name;application_id;menu_title;icon;id;menu_id;opened"  
-        sort-columns="menu_name" 
-        query-rows="25" 
-        quick-filter="yes"
-        row-height="medium" 
-        select-all-checkbox="true" 
-        pageable="yes"  
-        auto-adjust="true" 
-        virtual-scroll="yes" 
-        insert-button="yes" 
-        delete-button="yes" 
-        fixed-header="true" 
-        class="vertical-padding-8"
-        edition-mode="dblclick" 
-        horizontal-scroll="yes" class="fill-form">
-        
-          <o-table-column #menu_name attr="menu_name" title=" menu_name" editable="no" required="yes" content-align="left"></o-table-column>
-        
-          <o-table-column attr="application_id" title="application_id">
-    <o-table-cell-renderer-service attr="application_id" 
-        service="Application" entity="ApplicationType" columns="id;name"
-        parent-keys="id:application_id"
-        value-column="name" keys="application_id"
-        visible-columns="name" separator=" - " width="680px">
-    </o-table-cell-renderer-service>
-</o-table-column>
-        
-          <o-table-column #menu_title attr="menu_title" title="menu_title" editable="no" required="no" content-align="left"></o-table-column>
-        
-          <o-table-column #icon attr="icon" title="icon" editable="no" required="no" content-align="left"></o-table-column>
-        
-          <o-table-column #id attr="id" title="id" type="integer" editable="no" required="yes" content-align="center"></o-table-column>
-        
-          <o-table-column #menu_id attr="menu_id" title="menu_id" editable="no" required="yes" content-align="left"></o-table-column>
-        
-          <o-table-column attr="opened" title="opened">
-    <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
-        render-type="icon" boolean-type="boolean" true-value="true" false-value="false"></o-table-cell-renderer-boolean>
-</o-table-column>
-        
-        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
-      </o-table>
-    </div>
-</mat-tab>
-        
+          <div layout-padding>
+            <o-table attr="MenuGroupTable" service="MenuGroup" entity="MenuGroup" keys="id"
+              parent-keys="application_id:id" columns="menu_name;application_id;menu_title;icon;id;menu_id;opened"
+              horizontal-scroll="yes" detail-form-route="MenuGroup" edit-form-route="MenuGroup"
+              visible-columns="menu_name;application_id;menu_title;icon;id;menu_id;opened" sort-columns="menu_name"
+              query-rows="25" quick-filter="yes" row-height="medium" select-all-checkbox="true" pageable="yes"
+              auto-adjust="true" virtual-scroll="yes" insert-button="yes" delete-button="yes" fixed-header="true"
+              class="vertical-padding-8" edition-mode="dblclick" horizontal-scroll="yes" class="fill-form">
+
+              <o-table-column #menu_name attr="menu_name" title=" menu_name" editable="no" required="yes"
+                content-align="left"></o-table-column>
+
+              <o-table-column attr="application_id" title="application_id">
+                <o-table-cell-renderer-service attr="application_id" service="Application" entity="ApplicationType"
+                  columns="id;name" parent-keys="id:application_id" value-column="name" keys="application_id"
+                  visible-columns="name" separator=" - " width="680px">
+                </o-table-cell-renderer-service>
+              </o-table-column>
+
+              <o-table-column #menu_title attr="menu_title" title="menu_title" editable="no" required="no"
+                content-align="left"></o-table-column>
+
+              <o-table-column #icon attr="icon" title="icon" editable="no" required="no"
+                content-align="left"></o-table-column>
+
+              <o-table-column #id attr="id" title="id" type="integer" editable="no" required="yes"
+                content-align="center"></o-table-column>
+
+              <o-table-column #menu_id attr="menu_id" title="menu_id" editable="no" required="yes"
+                content-align="left"></o-table-column>
+
+              <o-table-column attr="opened" title="opened">
+                <o-table-cell-renderer-boolean render-true-value="check_circle" render-false-value="highlight_off"
+                  render-type="icon" boolean-type="boolean" true-value="true"
+                  false-value="false"></o-table-cell-renderer-boolean>
+              </o-table-column>
+
+              <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+            </o-table>
+          </div>
+        </mat-tab>
+
       </mat-tab-group>
-      
+
     </o-form>
   </o-form-container>
 </div>

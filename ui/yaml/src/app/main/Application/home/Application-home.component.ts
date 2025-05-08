@@ -1,7 +1,6 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { OTableButtonComponent, OTableComponent } from 'ontimize-web-ngx';
-import { OChartModule } from 'ontimize-web-ngx-charts';
-import {OReportModule,OReportStoreService} from 'ontimize-web-ngx-report'
+import { ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { OGridComponent } from 'ontimize-web-ngx';
 
 @Component({
@@ -9,15 +8,20 @@ import { OGridComponent } from 'ontimize-web-ngx';
   templateUrl: './Application-home.component.html',
   styleUrls: ['./Application-home.component.scss']
 })
-export class ApplicationHomeComponent implements AfterViewInit {
+export class ApplicationHomeComponent {
 
-  @ViewChild('table', { static: true }) table: OTableComponent;
+  @ViewChild('grid') grid: OGridComponent;
+  constructor(
+    protected sanitizer: DomSanitizer,
+  ) { }
 
-  @ViewChild('button')
-  protected button: OTableButtonComponent;
+  public openDetail( data: any): void {
+    this.grid.viewDetail(data);
+  }
 
-  ngAfterViewInit() {
-  
+
+  public getImageSrc(imgValue: string): any {
+    return './assets/images/ontimize_web_log.png';
   }
 
 }

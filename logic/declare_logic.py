@@ -79,12 +79,11 @@ def declare_logic():
                     if ont_yaml.get('entities') is None:
                         app_logger.debug("The yaml file must be a valid app_model.yaml file")
                         return False
-                    row.size = len(yaml_content)
+                    ont_yaml['project_name'] = row.name
+                    row.size = len(ont_yaml)
                     row.upload_flag = False
                     row.download_flag = False
-                    row.content = yaml_content
-                    app_name = row.app_name
-                    row.file_path = f"{row.file_path}/ui/{app_name}"
+                    row.content = yaml.safe_dump(ont_yaml, default_flow_style=True, sort_keys=False)
                 except yaml.YAMLError as exc:
                     app_logger.debug("The yaml file must be a valid app_model.yaml file")
                     row.content = None

@@ -1,5 +1,7 @@
 import { MenuRootItem } from 'ontimize-web-ngx';
 
+import { ApplicationCardComponent } from './Application-card/Application-card.component';
+
 import { EntityCardComponent } from './Entity-card/Entity-card.component';
 
 import { EntityAttrCardComponent } from './EntityAttr-card/EntityAttr-card.component';
@@ -33,9 +35,19 @@ export const MENU_CONFIG: MenuRootItem[] = [
         { id: 'Entity', name: 'Entities', icon: 'view_list', route: '/main/Entity' , component: EntityCardComponent}
         ,{ id: 'EntityAttr', name: 'Attributes', icon: 'view_list', route: '/main/EntityAttr' , component: EntityAttrCardComponent}
         ,{ id: 'TabGroup', name: 'Relationships', icon: 'view_list', route: '/main/TabGroup', component: TabGroupCardComponent}
-    
+        , { id: 'Application', name: 'Applications', icon: 'view_list', route: '/main/Application' , component: ApplicationCardComponent}
         ] 
     }
+    ,{ id: 'Application', name: 'Application', icon: 'view_list', route: '/main/Application', opened: true,
+        items: [
+            { id: 'Application', name: 'Applications', icon: 'view_list', route: '/main/Application'}
+            ,{ id: 'MenuGroup', name: 'Menu Groups', icon: 'view_list', route: '/main/MenuGroup' }
+        
+            ,{ id: 'MenuItem', name: 'Menu Items', icon: 'view_list', route: '/main/MenuItem' }
+        
+            ,{ id: 'Page', name: 'Pages', icon: 'view_list', route: '/main/Page' }
+        ]
+        }
     ,{id: 'rules', name: 'Rules', icon: 'edit_square', opened: false,
     items: [
         { id: 'RuleConstraint', name: 'Constraints', icon: 'view_list', route: '/main/RuleConstraint' }
@@ -49,16 +61,7 @@ export const MENU_CONFIG: MenuRootItem[] = [
             ,{ id: 'GrantRole', name: 'Grants', icon: 'view_list', route: '/main/GrantRole' }
         ]
     }
-    ,{ id: 'Application', name: 'Application', icon: 'view_list', route: '/main/Application', opened: false,
-    items: [
-        { id: 'Application', name: 'Applications', icon: 'view_list', route: '/main/Application'}
-        ,{ id: 'MenuGroup', name: 'MENUGROUP', icon: 'view_list', route: '/main/MenuGroup' }
-    
-        ,{ id: 'MenuItem', name: 'MENUITEM', icon: 'view_list', route: '/main/MenuItem' }
-    
-        ,{ id: 'Page', name: 'PAGE', icon: 'view_list', route: '/main/Page' }
-    ]
-    }
+
     ,{ id: 'YamlFiles', name: '4. Download Model Files', icon: 'download_file', route: '/main/DownloadYamlFiles' }
     ,{ id: 'other', name: 'Global Settings', icon: 'remove_red_eye', opened: false,
         items: [        
@@ -72,6 +75,8 @@ export const MENU_CONFIG: MenuRootItem[] = [
 ];
 
 export const MENU_COMPONENTS = [
+
+    ApplicationCardComponent
 
     ,EntityCardComponent
 

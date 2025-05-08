@@ -9,7 +9,7 @@ import { OFormComponent, OntimizeService, OListPickerComponent, OTableComponent,
 })
 export class ApplicationDetailComponent implements OnInit  {
   protected service: OntimizeService;
-
+  protected data : any;
   @ViewChild('oDetailForm') form: OFormComponent;
   
   constructor(protected injector: Injector) {
@@ -27,6 +27,31 @@ export class ApplicationDetailComponent implements OnInit  {
   }
   onDataLoaded(e: object) {
     console.log(JSON.stringify(e));
+    this.data = e;
   }
-
+  rebuildApplication() {
+    
+    console.log('Application has been rebuilt.', JSON.stringify(this.data));
+    this.service.update({'id': this.data.id },{'rebuild_flag': true,'file_path': this.data.file_path}, 'Application').subscribe((response) => {
+      console.log('Application rebuild response:', response);
+      //snackbar
+    }
+    , (error) => {
+      console.error('Error rebuilding Application:', error);
+      // Handle the error if needed
+    }
+    );  
+  } 
+  reloadApplication() {
+    console.log('Application has been reloaded.', JSON.stringify(this.data));
+    this.service.update({'id': this.data.id },{'reload_flag': true,'file_path': this.data.file_path}, 'Application').subscribe((response) => {
+      console.log('Application reload response:', response);
+      //snackbar
+    }
+    , (error) => {
+      console.error('Error reloading Application:', error);
+      // Handle the error if needed
+    }
+    );  
+  }
 }
