@@ -7,12 +7,13 @@
 
 function copy_seed() {
     # Copy the seed directory to the new app directory
-    if [ -d "node_modules" ]; then
+    if [ -d "ui/$dest_dir/node_modules" ]; then
         echo "Usage: node_modules already installed"
         return 1
     fi
     echo "Copying seed directory to ui/$dest_dir"
     cp -r ui/seed/* ui/$dest_dir/
+    npm install --legacy-peer-deps
 }
 function check_yaml_file() {
     # Check if the app_model.yaml file exists
@@ -34,18 +35,23 @@ function rebuild_app_with_api() {
     echo "Building Ontimize Application als app-build --app=$app_name --api-endpoint=$api_endpoint"
     als app-build --app=$app_name --api-endpoint=$api_endpoint
 }
+
+################################
+
+
 if [ -z "$1" ]; then
     echo "Usage: ./rebuild.sh app_name [api_endpoint (optional)]"
     exit 1
 fi
-# Create the "$1" directory if it doesn't exist
-if [ ! -d "ui/$1" ]; then
-    mkdir $1
-fi
-
-echo als --version
+als welcome
 export app_name=$1
 export dest_dir=$1
+
+# Create the "$1" directory if it doesn't exist
+if [ ! -d "ui/$dest_dir" ]; then
+    mkdir -p "ui/$dest_dir" 
+fi
+
 copy_seed $1
 
 if [ -z "$2" ]; then

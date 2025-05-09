@@ -109,7 +109,7 @@ def declare_logic():
             from pathlib import Path
             running_at = Path(__file__) 
             project_dir = running_at.parent.parent
-            row.downloaded = export_yaml_to_file(project_dir=project_dir)
+            #row.downloaded = export_yaml_to_file(project_dir=project_dir)
                 
     Rule.row_event(YamlFiles, calling=export_yaml)
     #Rule.row_event(YamlFiles,calling=create_application)
