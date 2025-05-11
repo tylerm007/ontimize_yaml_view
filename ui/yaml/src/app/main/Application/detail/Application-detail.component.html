@@ -11,20 +11,30 @@
             class="form-field"></o-text-input>
 
           <o-text-input #app_short_name attr="app_short_name" label="app_short_name" enabled="yes" required="no"
-            fxFlex="20%" class="form-field"></o-text-input>
+            fxFlex="15%" class="form-field"></o-text-input>
 
+            <o-text-input #api_root attr="api_root" label="API Root" enabled="yes" required="yes"
+            fxFlex="25%" class="form-field"></o-text-input>
 
-          <o-text-input #api_root attr="api_root" label="API Root" enabled="yes" required="yes"
-            fxFlex="20%" class="form-field"></o-text-input>
+          <o-text-input #project_uuid attr="project_uuid" label="Project UUID" enabled="no" required="no"
+            fxFlex="25%" class="form-field"></o-text-input>
 
-          <o-text-input #description attr="description" label="description" enabled="yes" required="no" fxFlex="20%"
-            class="form-field"></o-text-input>
+          <o-textarea-input #description attr="description" label="description" enabled="yes" required="no" fxFlex="50%"
+            class="form-field"></o-textarea-input>
 
           <o-integer-input #id attr="id" label="id" type="integer" editable="no" required="yes"></o-integer-input>
-          <o-button #rebuild_app label="Rebuild Application" type="raised" fxFlex="20%" color="primary"
-            (click)="rebuildApplication()"></o-button>
-            <o-button #reload_app label="Reload Application" type="raised" fxFlex="20%" color="primary"
-            (click)="reloadApplication()"></o-button>
+        </div>
+        </o-row>
+        <o-row attr="row1" layout-align="start stretch">
+          <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+            <o-button #rebuild_app label="Rebuild Application" type="raised" fxFlex="15%" color="primary"
+              (click)="rebuildApplication()"></o-button>
+              <!-- o-button #reload_app label="Reload Application" type="raised" fxFlex="15%" color="primary"
+              (click)="reloadApplication()"></o-button -->
+              
+              <o-button #start_app label="Start App" color="primary" (click)="startApp()" fxFlex="10%" color="primary"></o-button>
+              <o-button #stop_app label="Stop App" color="primary" (click)="stopApp()" fxFlex="10%" color="primary"></o-button>
+          
         </div>
       </o-row>
 

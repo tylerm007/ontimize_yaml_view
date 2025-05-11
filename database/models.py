@@ -51,6 +51,7 @@ class Application(Base):  # type: ignore
     name = Column(String(100), nullable=False)
     app_short_name = Column(String(100), server_default=text("app"))
     api_root = Column(String(1000),server_default=text('http://localhost:5656/api'))
+    project_uuid = Column(String(100))
     description = Column(Text)
     yaml_name = Column(ForeignKey('yaml_files.name'), nullable=False)
 

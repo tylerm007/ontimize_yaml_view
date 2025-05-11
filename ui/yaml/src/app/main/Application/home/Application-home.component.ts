@@ -23,5 +23,10 @@ export class ApplicationHomeComponent {
   public getImageSrc(imgValue: string): any {
     return './assets/images/ontimize_web_log.png';
   }
-
+  startApp(): void {
+    console.log('startApp');
+  }
+  stopApp(): void {
+    console.log('stopApp');
+  }
 }

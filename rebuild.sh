@@ -1,19 +1,19 @@
 #/bin/bash
 
-# This script is used to rebuild the project
-# It will remove the old build directory and create a new one
-# Usage: ./rebuild.sh  app_name api_endpoint (optional)
+# This script is used to rebuild the Ontimize project
+# Usage: ./rebuild.sh  app_name [api_endpoint (optional)]
 #TODO - download the app_model.yaml files first to ui/$1
 
 function copy_seed() {
     # Copy the seed directory to the new app directory
-    if [ -d "ui/$dest_dir/node_modules" ]; then
-        echo "Usage: node_modules already installed"
-        return 1
-    fi
     echo "Copying seed directory to ui/$dest_dir"
     cp -r ui/seed/* ui/$dest_dir/
-    npm install --legacy-peer-deps
+    if [ -d "ui/$dest_dir/node_modules" ]; then
+        echo " node_modules already installed"
+    else
+        echo "Installing node modules in ui/$dest_dir using npm install --force"
+        npm install --legacy-peer-deps
+    fi
 }
 function check_yaml_file() {
     # Check if the app_model.yaml file exists
@@ -36,13 +36,14 @@ function rebuild_app_with_api() {
     als app-build --app=$app_name --api-endpoint=$api_endpoint
 }
 
-################################
+################################main code#####################################
 
 
 if [ -z "$1" ]; then
     echo "Usage: ./rebuild.sh app_name [api_endpoint (optional)]"
     exit 1
 fi
+source $VIRTUAL_ENV/bin/activate
 als welcome
 export app_name=$1
 export dest_dir=$1
@@ -50,9 +51,13 @@ export dest_dir=$1
 # Create the "$1" directory if it doesn't exist
 if [ ! -d "ui/$dest_dir" ]; then
     mkdir -p "ui/$dest_dir" 
+else
+    # remove the existing application pages
+    echo "Removing existing application in ui/$dest_dir/src/app"
+    rm -rf ui/$dest_dir/src/app
 fi
 
-copy_seed $1
+#copy_seed $1
 
 if [ -z "$2" ]; then
     echo "Building Ontimize Application ui/$1 "

@@ -15,6 +15,7 @@ from requests import get, post
 import yaml
 from database.models import YamlFiles
 from api.api_discovery.ontimize_api import insert_page
+from uuid import uuid4
 
 app_logger = logging.getLogger(__name__)
 encoding = 'utf-8'
@@ -97,6 +98,14 @@ def declare_logic():
                 row.local_storage = str(b64decode(row.local_storage), encoding=encoding) if row.local_storage else None    
         return True
     
+    def initialize_new_project(row: YamlFiles, old_row: YamlFiles, logic_row: LogicRow):
+        from pathlib import Path            
+        running_at = Path(__file__) 
+        project_dir = running_at.parent.parent
+        from api.api_discovery.ontimize_api import initialize_new_project
+        if logic_row.ins_upd_dlt == "ins":
+            initialize_new_project(project_dir, row.file_path, row.content, row.rule_content, row.role_content)
+            
     def create_application(row: YamlFiles, old_row: YamlFiles, logic_row: LogicRow):
         #from api.api_discovery.ontimize_api import insert_application
         #if logic_row.is_updated and row.file_path != old_row.file_path: 
@@ -115,5 +124,8 @@ def declare_logic():
     #Rule.row_event(YamlFiles,calling=create_application)
     Rule.constraint(YamlFiles, calling=validate_yaml, error_msg="Invalid app_model.yaml file")
     #Rule.row_event(on_class=models.RuleDerivation, calling=parse_derivation_rule)
+
+    Rule.formula(models.Application.project_uuid, as_expression=lambda row: str(row.project_uuid) if row.project_uuid else str(uuid4()))
+    Rule.after_flush_row_event(models.YamlFiles, calling=initialize_new_project)
     app_logger.debug("..logic/declare_logic.py (logic == rules + code)")
 

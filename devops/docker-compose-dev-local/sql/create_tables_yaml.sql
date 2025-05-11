@@ -178,6 +178,7 @@ CREATE TABLE application (
     api_root VARCHAR(1000) NOT NULL DEFAULT 'http://localhost:5656/api',
     description TEXT,
     yaml_name VARCHAR(100) NOT NULL,
+    project_uuid VARCHAR0(100),
     FOREIGN KEY (yaml_name) REFERENCES yaml_files(name),
     PRIMARY KEY(id)
 );

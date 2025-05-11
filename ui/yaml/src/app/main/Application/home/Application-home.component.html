@@ -1,10 +1,12 @@
 <o-form-layout-manager mode="tab" title="Ontimize Applications" label-columns="name">
     <o-grid #grid attr="ApplicationTable" service="Application" entity="Application"
-    columns="name;yaml_name;api_root;description;id"
-    quick-filter-columns="name;yaml_name;api_root;description;id" keys="id" sort-columns="name"
-    pageable="yes" query-rows="16" fixed-header="yes" refresh-button="no" gutter-size="18px" detail-mode="none"
+    columns="name;yaml_name;api_root;description;project_uuid;id"
+    quick-filter-columns="name;yaml_name;api_root;description;project_uuid;id" keys="id" sort-columns="name"
+    pageable="yes" query-rows="10" fixed-header="yes" refresh-button="yes" gutter-size="18px" detail-mode="none"
     insert-button="yes">
+   
     <o-grid-item *ngFor="let item of grid.dataArray">
+       
         <div (click)="openDetail(item)" fxLayout="column" fxLayoutAlign="space-evenly center" class="Application-item mat-elevation-z1" style="border: 1px solid #ccc; padding: 10px; margin: 5px; border-radius: 5px;">
             <div fxLayout="row" fxLayoutAlign="space-between end" class="image-container">
             <mat-divider fxFlex></mat-divider>
@@ -16,6 +18,7 @@
         
             <div fxLayout="column" fxLayoutAlign="start center" class="Application-data">
             <span>Name: {{item.yaml_name}}</span>
+            <span>Project: {{item.project_uuid}}</span>
             <span>App: {{item.name}}</span>
             <span>URL: {{item.api_root}}</span>
             <span>Description: {{item.description}}</span>

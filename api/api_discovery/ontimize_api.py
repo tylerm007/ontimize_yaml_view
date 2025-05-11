@@ -363,6 +363,8 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                     return rebuild_application(request, data)
             if clz_name == "Application" and "reload_flag" in data:
                     return reload_application(request, data)
+            if clz_name == "Application" and "start_flag" in data:
+                    return start_application(request, data)
                 
             sql_alchemy_row = session.query(api_clz).filter(text(filter)).one()
             for key in DotDict(data):
@@ -780,6 +782,29 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         app_logger.debug(f"Rule content written to ui/declare_logic_merge.py1")
         return {"downloaded": yaml_file, "rule_content": rule_content}
 
+    def start_application(request: any, data: any):
+        filter: dict = request.json["filter"]
+        application = session.query(models.Application).filter(
+            models.Application.id == filter["id"]).one_or_none()
+        file_path = application.yaml_files.file_path
+        command = f'cd {_project_dir}/ui/{file_path} && npm install --legacy-peer-deps && npm start'
+        import subprocess
+        env = os.environ.copy()
+        env["PYTHONPATH"] = f"{_project_dir}"
+        venv_path = sys.prefix  # Get the current virtual environment path
+        env["VIRTUAL_ENV"] = venv_path  # Pass the virtual environment to the subprocess
+        #env["PYTHONPATH"] = venv_path
+        try:
+            result = subprocess.run(command, cwd=_project_dir, shell=True, env=env, capture_output=True, text=True)
+            if result.returncode != 0:
+                print(f"start_application Process Error: {result.stderr}")
+            else:
+                print(f"start_application Process Output: {result.stdout}")
+        except subprocess.CalledProcessError as e:
+            print(f"Command failed with error: {e}")
+        return {"exec": command, "returncode": result.returncode, "stdout": result.stdout, "stderr": result.stderr}
+        
+    
     def reload_application(request: any, data: any):
         #app_name = data["file_path"]
         '''
@@ -807,11 +832,27 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         application = session.query(models.Application).filter(
             models.Application.id == filter["id"]).one_or_none()
         file_path = application.yaml_files.file_path
-        exec = f'als app-build --app={file_path}'
-        from os import path
+        apiEndpoint = application.api_root
+        yaml_content =  application.yaml_files
+        #yml = yaml.safe_dump(yaml_content, default_flow_style=False)
+        export_yaml_to_file(f"{_project_dir}/ui/{file_path}", yaml_content)
+        # .style_guild.api_endpoint=apiEndpoint
+        command = f'sh rebuild.sh {file_path}'
         import subprocess
-        #subprocess.run(exec, shell=True)
-        return {"exec": exec}
+        env = os.environ.copy()
+        env["PYTHONPATH"] = f"{_project_dir}"
+        venv_path = sys.prefix  # Get the current virtual environment path
+        env["VIRTUAL_ENV"] = venv_path  # Pass the virtual environment to the subprocess
+        #env["PYTHONPATH"] = venv_path
+        try:
+            result = subprocess.run(command, cwd=_project_dir, shell=True, env=env, capture_output=True, text=True)
+            if result.returncode != 0:
+                print(f"rebuild_application Process Error: {result.stderr}")
+            else:
+                print(f"rebuild_application Process Output: {result.stdout}")
+        except subprocess.CalledProcessError as e:
+            print(f"Command failed with error: {e}")
+        return {"exec": command, "returncode": result.returncode, "stdout": result.stdout, "stderr": result.stderr}
         
     def rebuild_menu_item(request: any, data: any):
         """call subprocess 
@@ -825,13 +866,16 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         filter: dict = request.json["filter"]
         menuitem = session.query(models.MenuItem).filter(
             models.MenuItem.id == filter["id"]).one_or_none()
-        path = menuitem.menu_group.application.file_path or data["file_path"]
+        path = menuitem.menu_group.application.yaml_files.file_path or data["file_path"]
         api_endpoint = data["api_endpoint"]
 
         command = f'sh rebuild.sh {path} {api_endpoint}'
         import subprocess
         env = os.environ.copy()
         env["PYTHONPATH"] = f"{_project_dir}"
+        venv_path = sys.prefix  # Get the current virtual environment path
+        env["VIRTUAL_ENV"] = venv_path  # Pass the virtual environment to the subprocess
+        #env["PYTHONPATH"] = venv_path
         try:
             result = subprocess.run(command, cwd=_project_dir, shell=True, env=env, capture_output=True, text=True)
             if result.returncode != 0:
@@ -840,7 +884,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 print(f"Process Output: {result.stdout}")
         except subprocess.CalledProcessError as e:
             print(f"Command failed with error: {e}")
-        return {}        
+        return {"exec": command, "returncode": result.returncode, "stdout": result.stdout, "stderr": result.stderr}        
     @app.route("/importyaml/<key>", methods=["GET", "POST", "OPTIONS"])
     def load_yaml(key: str = "app_model.yaml"):
         """
@@ -1139,6 +1183,10 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
     ):
         # Clean the database out - this is destructive
 
+        # The above code is deleting records from various tables/models in a database. It is using a
+        # function `delete_sql` to delete records from the following models: `TabGroup`, `GlobalSetting`,
+        # `RuleDerivation`, `EntityAttr`, `RuleConstraint`, `RuleEvent`, `Root`, `GrantRole`, `RbacRole`,
+        # `Page`, `MenuGroup`, `MenuItem`, `Template`, `Application`, and `Entity`.
         delete_sql(models.TabGroup)
         delete_sql(models.GlobalSetting)
         delete_sql(models.RuleDerivation)
@@ -1438,6 +1486,8 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                     print(f"Error adding derivations rule {attr} {ex}")
 
     def insert_roles_from_yaml(valuesYaml: dict):
+        if "roles" not in valuesYaml:
+            return
         for role in valuesYaml["roles"]:
             m_role = models.RbacRole()
             setattr(m_role,"name" , role["to_role"])
@@ -1451,6 +1501,8 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
             except Exception as ex:
                 print(ex)
     def insert_grants_from_yaml(valuesYaml: dict):
+        if "grants" not in valuesYaml:
+            return
         for role in valuesYaml["grants"]:
             m_role = models.GrantRole()
             setattr(m_role,"entity_name" , role["on_entity"])
@@ -2192,3 +2244,50 @@ def insert_page(page_name: str, col_list: list, page_title: str, menu_item_id: i
         #session.commit()   
     except Exception as ex:
         print(f"page error {ex}")
+        
+def  initialize_new_project(project_dir: str, file_path: str, yaml_content: str, logic_content: str, security_content: str):
+        # create a local directory ui/{file_path}
+        # cp -r ui/seed ui/{file_path}
+        # write the row.content to this directory as app_model.yaml
+        # write the row.rule_content to this directory as declare_logic.py
+        # write the row.role_content to this directory as declare_security.py
+        # npm install # background task
+        
+        project_path = Path(f"{project_dir}/ui/{file_path}")
+        project_path.mkdir(parents=True, exist_ok=True)
+        
+        yaml_fn = f"{project_path}/app_model.yaml"
+        logic_fn = f"{project_path}/declare_logic.py"
+        security_fn = f"{project_path}/declare_security.py"
+        
+        seed_path = Path(f"{project_dir}/ui/seed")
+        target_path = Path(f"{project_dir}/ui/{file_path}")
+        from shutil import copytree
+        try:
+            copytree(seed_path, target_path, dirs_exist_ok=True)
+            print(f"Copied {project_dir}/ui/seed to {project_dir}/ui/{file_path}")
+        except Exception as e:
+            print(f"Error copying seed directory: {e}")
+            
+        # The above code is writing the content of the variable `logic_content` to a file with the
+        # name specified by the variable `logic_fn`.
+        write_file(logic_content, file_name=logic_fn)
+        write_file(security_content, file_name=security_fn)
+        write_yaml_file(yaml_content, file_name=yaml_fn)
+        
+        command = f'cd {project_dir}/ui/{file_path} && npm install --legacy-peer-deps'
+        import subprocess
+        env = os.environ.copy()
+        env["PYTHONPATH"] = f"{project_dir}"
+        venv_path = sys.prefix  # Get the current virtual environment path
+        env["VIRTUAL_ENV"] = venv_path  # Pass the virtual environment to the subprocess
+    
+        try:
+            result = subprocess.Popen(command, cwd=_project_dir, shell=True, env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            if result.returncode != 0:
+                print(f"initialize_new_project Process Error: {result.stderr}")
+            else:
+                print(f"initialize_new_project Process Output: {result.stdout}")
+        except subprocess.CalledProcessError as e:
+            print(f"Command failed with error: {e}")
+        print(f"initialize_new_project {project_dir}/ui/{file_path} initialized")

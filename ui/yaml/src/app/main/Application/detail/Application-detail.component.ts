@@ -54,4 +54,21 @@ export class ApplicationDetailComponent implements OnInit  {
     }
     );  
   }
+
+  startApp(): void {
+    console.log('startApp');
+    console.log('Application has been started.', JSON.stringify(this.data));
+    this.service.update({'id': this.data.id },{'start_flag': true,'file_path': this.data.file_path}, 'Application').subscribe((response) => {
+      console.log('Application start response:', response);
+      //snackbar
+    }
+    , (error) => {
+      console.error('Error start Application:', error);
+      // Handle the error if needed
+    }
+    );  
+  }
+  stopApp(): void {
+    console.log('stopApp');
+  }
 }
