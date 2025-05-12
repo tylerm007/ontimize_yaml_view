@@ -70,5 +70,15 @@ export class ApplicationDetailComponent implements OnInit  {
   }
   stopApp(): void {
     console.log('stopApp');
+    console.log('Application has been stopped.', JSON.stringify(this.data));
+    this.service.update({'id': this.data.id },{'stop_flag': true,'file_path': this.data.file_path}, 'Application').subscribe((response) => {
+      console.log('Application stop response:', response);
+      //snackbar
+    }
+    , (error) => {
+      console.error('Error stop Application:', error);
+      // Handle the error if needed
+    }
+    );  
   }
 }

@@ -84,7 +84,7 @@ def declare_logic():
                     row.size = len(ont_yaml)
                     row.upload_flag = False
                     row.download_flag = False
-                    row.content = yaml.safe_dump(ont_yaml, default_flow_style=True, sort_keys=False)
+                    row.content = yaml.safe_dump(ont_yaml, default_flow_style=True, sort_keys=True)
                 except yaml.YAMLError as exc:
                     app_logger.debug("The yaml file must be a valid app_model.yaml file")
                     row.content = None
@@ -102,9 +102,9 @@ def declare_logic():
         from pathlib import Path            
         running_at = Path(__file__) 
         project_dir = running_at.parent.parent
-        from api.api_discovery.ontimize_api import initialize_new_project
+        from api.api_discovery.ontimize_api import initialize_project
         if logic_row.ins_upd_dlt == "ins":
-            initialize_new_project(project_dir, row.file_path, row.content, row.rule_content, row.role_content)
+            initialize_project(project_dir, row.file_path, row.content, row.rule_content, row.role_content)
             
     def create_application(row: YamlFiles, old_row: YamlFiles, logic_row: LogicRow):
         #from api.api_discovery.ontimize_api import insert_application
@@ -125,7 +125,7 @@ def declare_logic():
     Rule.constraint(YamlFiles, calling=validate_yaml, error_msg="Invalid app_model.yaml file")
     #Rule.row_event(on_class=models.RuleDerivation, calling=parse_derivation_rule)
 
-    Rule.formula(models.Application.project_uuid, as_expression=lambda row: str(row.project_uuid) if row.project_uuid else str(uuid4()))
+    Rule.formula(models.Application.project_uuid, as_expression=lambda row: str(row.yaml_files.file_path) if row.yaml_files.file_path else str(uuid4()))
     Rule.after_flush_row_event(models.YamlFiles, calling=initialize_new_project)
     app_logger.debug("..logic/declare_logic.py (logic == rules + code)")
 
