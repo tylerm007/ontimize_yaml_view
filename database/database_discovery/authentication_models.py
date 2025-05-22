@@ -22,7 +22,6 @@ from flask_jwt_extended import create_access_token
 ########################################################################################################################
  
 from database.system.SAFRSBaseX import SAFRSBaseX, TestBase
-from flask_login import UserMixin
 import safrs, flask_sqlalchemy, os
 from safrs import jsonapi_attr
 from flask_sqlalchemy import SQLAlchemy

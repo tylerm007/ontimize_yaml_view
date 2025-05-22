@@ -78,7 +78,7 @@ settings:
     - es
     currency_symbol: $
     currency_symbol_position: left
-    date_format: LL
+    date_format: YYYY-MM-DD
     decimal_max: '1000000000'
     decimal_min: '0'
     decimal_separator: .
@@ -95,7 +95,7 @@ settings:
     new_mode: dialog
     pick_style: list
     row_height: small,
-    serviceType: OntimizeEE
+    serviceType: JSONAPI
     startSessionPath: /auth/login
     style: light
     thousand_separator: ','

@@ -801,11 +801,11 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         try:
             result = subprocess.run(command, cwd=_project_dir, shell=True, env=env, capture_output=True, text=True)
             if result.returncode != 0:
-                print(f"start_application Process Error: {result.stderr}")
+                print(f"start_stop application Process Error: {result.stderr}")
             else:
-                print(f"start_application Process Output: {result.stdout}")
+                print(f"start_stop application Process Output: {result.stdout}")
         except subprocess.CalledProcessError as e:
-            print(f"Command failed with error: {e}")
+            print(f"start stop Command failed with error: {e}")
         return {"exec": command, "returncode": result.returncode, "stdout": result.stdout, "stderr": result.stderr}
         
     
@@ -2079,14 +2079,15 @@ def build_json(
     output_yaml = {}
     output_yaml["entities"] = output
     style_guide = {}
+    api_endpoint = application[0]["api_root"] or "http://localhost:5656/api" 
     for s in settings:
         sg = {}
-
         name = s["name"]
         if name in ["use_keycloak", "include_translation"]:
             sg[name] = s["value"] == "1"
         else:
             sg[name] = s["value"]
+
         style_guide.update(sg)
         
     output["user_roles"] = {}
@@ -2096,6 +2097,7 @@ def build_json(
     output["grants"] = security_output["grants"]
     
     output["settings"] = {}
+    style_guide['apiEndpoint'] = api_endpoint
     output["settings"]["style_guide"] = style_guide
     
     ## This is a new section used to define how to build an Ontimize app
@@ -2258,29 +2260,19 @@ def  initialize_project(project_dir: str, file_path: str, yaml_content: str, log
         # npm install # background task
         
         project_path = Path(f"{project_dir}/ui/{file_path}")
-        project_path.mkdir(parents=True, exist_ok=True)
         
         yaml_fn = f"{project_path}/app_model.yaml"
         logic_fn = f"{project_path}/declare_logic.py"
         security_fn = f"{project_path}/declare_security.py"
         
-        seed_path = Path(f"{project_dir}/ui/seed")
-        target_path = Path(f"{project_dir}/ui/{file_path}")
-        from shutil import copytree
-        try:
-            #copytree(seed_path, target_path, dirs_exist_ok=True)
-            print(f"Copied {project_dir}/ui/seed to {project_dir}/ui/{file_path}")
-        except Exception as e:
-            print(f"Error copying seed directory: {e}")
             
         # The above code is writing the content of the variable `logic_content` to a file with the
         # name specified by the variable `logic_fn`.
-        write_file(logic_content, file_name=logic_fn)
-        write_file(security_content, file_name=security_fn)
-        yaml_file = yaml.safe_load(yaml_content)
-        write_yaml_file(yaml_file, file_name=yaml_fn)
+        #write_file(logic_content, file_name=logic_fn)
+        #write_file(security_content, file_name=security_fn)
         
-        command = f'cd {project_dir} && als app-create --app={file_path} && npm install --legacy-peer-deps &'
+        print(f'cd {project_dir} && als app-create --app={file_path} && npm install')
+        command = f'{project_dir}/init_ont.sh {project_dir} {file_path}'
         import subprocess
         env = os.environ.copy()
         env["PYTHONPATH"] = f"{project_dir}"
@@ -2288,11 +2280,23 @@ def  initialize_project(project_dir: str, file_path: str, yaml_content: str, log
         env["VIRTUAL_ENV"] = venv_path  # Pass the virtual environment to the subprocess
     
         try:
-            result = subprocess.run(command, cwd=_project_dir, shell=True, env=env, capture_output=True, text=True)
+            result = subprocess.run(command, cwd=f'{project_dir}', shell=True, env=env, capture_output=True, text=True)
             if result.returncode != 0:
-                print(f"initialize_new_project Process Error: {result.stderr}")
+                print(f"initialize_new_project init_ont.sh Process Error: {result.stderr}")
+                seed_path = Path(f"{project_dir}/ui/seed")
+                target_path = Path(f"{project_dir}/ui/{file_path}")
+                from shutil import copytree
+                try:
+                    project_path.mkdir(parents=True, exist_ok=True)
+                    copytree(seed_path, target_path, dirs_exist_ok=True)
+                    print(f"Copied {project_dir}/ui/seed to {project_dir}/ui/{file_path}")
+                except Exception as e:
+                    print(f"Error copying seed directory: {e}")
             else:
                 print(f"initialize_new_project Process Output: {result.stdout}")
         except subprocess.CalledProcessError as e:
             print(f"Command failed with error: {e}")
+            
+        yaml_file = yaml.safe_load(yaml_content)
+        write_yaml_file(yaml_file, file_name=yaml_fn)
         print(f"initialize_new_project {project_dir}/ui/{file_path} initialized")

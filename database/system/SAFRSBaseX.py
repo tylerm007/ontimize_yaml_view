@@ -1,7 +1,6 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, DECIMAL, Date, ForeignKey, Integer, String
 from safrs import SAFRSBase
-from flask_login import UserMixin
 import safrs, flask_sqlalchemy
 from safrs import jsonapi_attr
 from flask_sqlalchemy import SQLAlchemy

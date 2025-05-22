@@ -1,11 +1,11 @@
 about:
-  date: February 23, 2025 11:29:50
+  date: May 07, 2025 16:32:51
   recent_changes: works with modified safrs-react-admin
   version: 0.0.0
 api_root: '{http_type}://{swagger_host}:{port}/{api}'
 authentication: '{system-default}'
 info:
-  number_relationships: 16
+  number_relationships: 15
   number_tables: 16
 info_toggle_checked: true
 resources:
@@ -16,6 +16,8 @@ resources:
       required: true
       search: true
       sort: true
+    - name: yaml_name
+      required: true
     - name: app_short_name
     - name: description
     - name: id
@@ -26,6 +28,11 @@ resources:
       - application_id
       name: MenuGroupList
       resource: MenuGroup
+    - direction: toone
+      fks:
+      - yaml_name
+      name: yaml_file
+      resource: YamlFile
     type: Application
     user_key: name
   Entity:
@@ -191,7 +198,6 @@ resources:
     attributes:
     - label: ' menu_name*'
       name: menu_name
-      required: true
       search: true
       sort: true
     - name: application_id
@@ -199,6 +205,8 @@ resources:
     - name: menu_title
     - name: icon
     - name: id
+      required: true
+    - name: menu_id
       required: true
     - name: opened
       type: Boolean
@@ -226,10 +234,12 @@ resources:
       required: true
     - name: menu_group_id
       required: true
-    - name: template_name
     - name: menu_name
       required: true
+    - name: template_name
     - name: icon
+    - name: insert_pages
+      type: Boolean
     - name: id
       required: true
     tab_groups:
@@ -248,11 +258,6 @@ resources:
       - menu_group_id
       name: menu_group
       resource: MenuGroup
-    - direction: toone
-      fks:
-      - template_name
-      name: template
-      resource: Template
     type: MenuItem
     user_key: entity_name
   Page:
@@ -264,8 +269,8 @@ resources:
       sort: true
     - name: menu_item_id
       required: true
-    - name: template_name
     - name: title
+    - name: template_name
     - name: typescript_name
     - name: columns
     - name: visible_columns
@@ -279,11 +284,6 @@ resources:
       - menu_item_id
       name: menu_item
       resource: MenuItem
-    - direction: toone
-      fks:
-      - template_name
-      name: template
-      resource: Template
     type: Page
     user_key: page_name
   RbacRole:
@@ -441,16 +441,6 @@ resources:
       - template_name
       name: EntityAttrList
       resource: EntityAttr
-    - direction: tomany
-      fks:
-      - template_name
-      name: MenuItemList
-      resource: MenuItem
-    - direction: tomany
-      fks:
-      - template_name
-      name: PageList
-      resource: Page
     type: Template
     user_key: name
   YamlFile:
@@ -476,6 +466,12 @@ resources:
     - name: en_json
     - name: application_content
     - name: downloaded
+    tab_groups:
+    - direction: tomany
+      fks:
+      - yaml_name
+      name: ApplicationList
+      resource: Application
     type: YamlFile
     user_key: name
 settings:
@@ -489,7 +485,7 @@ settings:
     currency_symbol_position: left
     date_format: LL
     decimal_max: '1000000000'
-    decimal_min: '0'
+    decimal_min: '2'
     decimal_separator: .
     detail_mode: tab
     edit_on_mode: dblclick
@@ -504,7 +500,7 @@ settings:
     new_mode: dialog
     pick_style: list
     row_height: small,
-    serviceType: OntimizeEE
+    serviceType: JSONAPI
     startSessionPath: /auth/login
     style: light
     thousand_separator: ','

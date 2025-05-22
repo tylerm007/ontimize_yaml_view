@@ -8,8 +8,8 @@ if [ "$#" -ne 4 ]; then
 fi
 
 echo "Project Directory: $1"
-echo "File Path: $2"
-echo "Port: $3"
+echo "ui/File Path: $2"
+echo "Stop Ontiimize on Port: $3"
 echo "Start Flag: $4"
 # Check if the project port is running
 process_id=$(lsof -ti :$3)
@@ -23,7 +23,7 @@ echo "changing directory to $1/ui/$2"
 cd $1/ui/$2
 if [ "$4" = "true" ]; then
     echo "Starting npm in the background..."
-    npm install moment --force
+    #npm install moment --force
     npm start &
     echo "Background process ID: $!"
 fi

@@ -1,7 +1,7 @@
 <div class="container">
   <o-form-container breadcrumb="yes" breadcrumb-label-columns="name" breadcrumb-separator=", "  class="fill-form">
         <o-form #form attr="Template_form_edit" service="Template" entity="Template" fxLayout="column" show-header="yes"
-          header-actions="R;I;U;D" #oDetailForm keys="name" keys-sql-types="VARCHAR" show-header-navigation="yes"
+          header-actions="R;U;D" #oDetailForm keys="name" keys-sql-types="VARCHAR" show-header-navigation="yes"
           (onDataLoaded)="onDataLoaded($event)">
 
           <o-row attr="row1" layout-align="start stretch">
@@ -14,7 +14,7 @@
             </div>
             </o-row>
             <o-row attr="row1" layout-align="start stretch">
-                <o-textarea-input attr="description" label="description" editable="yes" required="no" fxFlex="85%"></o-textarea-input>
+                <o-textarea-input attr="description" label="description" editable="yes" required="no" fxFlex="85%" rows="10"></o-textarea-input>
           </o-row>
 
           <mat-tab-group fxFill>

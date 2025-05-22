@@ -84,7 +84,7 @@ def declare_logic():
                     row.size = len(ont_yaml)
                     row.upload_flag = False
                     row.download_flag = False
-                    row.content = yaml.safe_dump(ont_yaml, default_flow_style=True, sort_keys=True)
+                    row.content = yaml.safe_dump(ont_yaml, default_flow_style=False, sort_keys=True)
                 except yaml.YAMLError as exc:
                     app_logger.debug("The yaml file must be a valid app_model.yaml file")
                     row.content = None

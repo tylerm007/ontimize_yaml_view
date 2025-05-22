@@ -3,7 +3,7 @@
 # This script is used to rebuild the Ontimize project
 # Usage: ./rebuild.sh  app_name [api_endpoint (optional)]
 #TODO - download the app_model.yaml files first to ui/$1
-
+set -e
 function copy_seed() {
     # Copy the seed directory to the new app directory
     echo "Copying seed directory to ui/$dest_dir"
@@ -54,7 +54,7 @@ if [ ! -d "ui/$dest_dir" ]; then
 else
     # remove the existing application pages
     echo "Removing existing application in ui/$dest_dir/src/app"
-    rm -rf ui/$dest_dir/src/app
+    #rm -rf ui/$dest_dir/src/app/main
 fi
 
 #copy_seed $1
