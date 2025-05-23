@@ -32,7 +32,7 @@ export const CONFIG: Config = {
 
   appMenuConfiguration: MENU_CONFIG,
 
-  applicationLocales: ['en', 'es'],
+  applicationLocales: ['en', 'es', 'fr'], // 'de', 'it', 'pt', 'zh', 'ja', 'ko'],
 
   exportConfiguration: {
     path: '/export'

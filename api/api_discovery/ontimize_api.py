@@ -1574,69 +1574,72 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                         print(ex)
 
     def insert_application(valuesYaml: any):
-            yaml_name = valuesYaml["project_name"]
-            for a in valuesYaml["application"]:
-                app = valuesYaml["application"][a]
-                application = models.Application()
-                setattr(application,"name",app["name"])
-                setattr(application,"app_short_name",app["name"])
-                setattr(application,"app_description",app["description"])
-                setattr(application,"yaml_name", yaml_name)
-                setattr(application,"api_root","http://localhost:5656/api")
+        if "application" not in valuesYaml:
+            # if legacy yaml does not have application section
+            valuesYaml["application"] = build_application(valuesYaml['entities'])
+        yaml_name = valuesYaml["project_name"] if "project_name" in valuesYaml else "app_model.yaml"
+        for a in valuesYaml["application"]:
+            app = valuesYaml["application"][a]
+            application = models.Application()
+            setattr(application,"name",app["name"])
+            setattr(application,"app_short_name",app["name"])
+            setattr(application,"app_description",app["description"])
+            setattr(application,"yaml_name", yaml_name)
+            setattr(application,"api_root","http://localhost:5656/api")
+            try:
+                session.add(application)
+                session.commit()
+            except Exception as ex:
+                print(f"application error {ex}")
+            
+            for m_grp in app["menu_group"]: 
+                mg = app["menu_group"][m_grp] 
+                #insert_menu_group(application, valuesYaml)
+                menu_group = models.MenuGroup()
+                setattr(menu_group, "application_id", application.id)
+                setattr(menu_group, "icon", mg["icon"]) #"edit_square"
+                setattr(menu_group, "menu_name", mg["menu_name"]) # "data"
+                setattr(menu_group, "menu_title", mg["menu_title"].replace("'","",2))
+                setattr(menu_group, "menu_id", m_grp)
+                setattr(menu_group, "opened", mg["opened"]) #True
                 try:
-                    session.add(application)
+                    session.add(menu_group)
                     session.commit()
                 except Exception as ex:
-                    print(f"application error {ex}")
-                
-                for m_grp in app["menu_group"]: 
-                    mg = app["menu_group"][m_grp] 
-                    #insert_menu_group(application, valuesYaml)
-                    menu_group = models.MenuGroup()
-                    setattr(menu_group, "application_id", application.id)
-                    setattr(menu_group, "icon", mg["icon"]) #"edit_square"
-                    setattr(menu_group, "menu_name", mg["menu_name"]) # "data"
-                    setattr(menu_group, "menu_title", mg["menu_title"].replace("'","",2))
-                    setattr(menu_group, "menu_id", m_grp)
-                    setattr(menu_group, "opened", mg["opened"]) #True
+                    print(f"menu_group error {ex}")
+                    
+                for m in mg["menu_item"]:
+                    mi = mg["menu_item"][m]
+                    menu_item = models.MenuItem()
+                    setattr(menu_item,"menu_group_id", menu_group.id)
+                    setattr(menu_item,"entity_name", m)
+                    setattr(menu_item,"menu_name", m) 
+                    setattr(menu_item,"template_name", mi["template_name"]) # "module.jinja"
+                    setattr(menu_item,"icon", mi["icon"]) #"edit_square"
+                    setattr(menu_item,"insert_page", False) # bypass rule and use yaml
                     try:
-                        session.add(menu_group)
+                        session.add(menu_item)
                         session.commit()
                     except Exception as ex:
-                        print(f"menu_group error {ex}")
+                        print(f"menu_item error {ex}")
                         
-                    for m in mg["menu_item"]:
-                        mi = mg["menu_item"][m]
-                        menu_item = models.MenuItem()
-                        setattr(menu_item,"menu_group_id", menu_group.id)
-                        setattr(menu_item,"entity_name", m)
-                        setattr(menu_item,"menu_name", m) 
-                        setattr(menu_item,"template_name", mi["template_name"]) # "module.jinja"
-                        setattr(menu_item,"icon", mi["icon"]) #"edit_square"
-                        setattr(menu_item,"insert_page", False) # bypass rule and use yaml
-                        try:
-                            session.add(menu_item)
+                    # read pages and merge values?
+                    for p in mi["page"]:
+                        pg = mi["page"][p]
+                        page = models.Page()
+                        page.menu_item_id = menu_item.id
+                        page.title = pg["title"]
+                        page.page_name = p
+                        page.template_name = pg["template_name"]
+                        page.typescript_name = pg["typescript_name"]
+                        page.columns = pg["columns"]
+                        page.visible_columns = pg["visible_columns"]
+                        page.include_children = pg["include_children"]
+                        try:    
+                            session.add(page)
                             session.commit()
-                        except Exception as ex:
-                            print(f"menu_item error {ex}")
-                            
-                        # read pages and merge values?
-                        for p in mi["page"]:
-                            pg = mi["page"][p]
-                            page = models.Page()
-                            page.menu_item_id = menu_item.id
-                            page.title = pg["title"]
-                            page.page_name = p
-                            page.template_name = pg["template_name"]
-                            page.typescript_name = pg["typescript_name"]
-                            page.columns = pg["columns"]
-                            page.visible_columns = pg["visible_columns"]
-                            page.include_children = pg["include_children"]
-                            try:    
-                                session.add(page)
-                                session.commit()
-                            except Exception as ex:     
-                                print(f"page error {ex}")
+                        except Exception as ex:     
+                            print(f"page error {ex}")
 
         
     def get_value(obj: any, name: str, default: any = None):
@@ -2079,7 +2082,12 @@ def build_json(
     output_yaml = {}
     output_yaml["entities"] = output
     style_guide = {}
-    api_endpoint = application[0]["api_root"] or "http://localhost:5656/api" 
+
+    api_endpoint = (
+        application[0]["api_root"] 
+        if len(application) > 0 
+        else "http://localhost:5656/api" 
+    )
     for s in settings:
         sg = {}
         name = s["name"]
@@ -2151,7 +2159,59 @@ def build_json(
     output["application"] = a
     return output
 
-
+def build_application(entities: dict):
+        '''
+            Each Application has a MenuGroup, which has MenuItems, which have Pages 
+            Pages are New, Home, Detail (used by app-build)
+            This function builds the app_model_out.yaml
+        '''
+        this_app = {
+            "name": "app",
+            "description": "generated Ontimize application"
+            # this_app["template_dir"] = f"{self.app}/templates"
+        }
+        a = {"app": this_app }
+        # MENU GROUP
+        mg_list = {}
+        this_menu_group = {
+            "menu_name": "data",
+            "icon": "edit_square",
+            "opened":  True,
+            "menu_title": "data"  
+            # "order: mg["menu_order"]  # TODO
+        }
+        mg_list = {"data": this_menu_group}
+        this_app["menu_group"] = mg_list
+        # MENU ITEM
+        mi_list = {}
+        for entity in entities:
+            cols = []
+            cols.extend(column["name"] for column in entities[entity]["columns"])
+            columns = ",".join(cols)
+            this_menu_item = {
+                "menu_name": entity,
+                "menu_title": entity,
+                "template_name": "module.jinja",
+                "icon": "edit_square",
+            }
+            mi_list[entity] = this_menu_item  
+            # PAGE (new, home, detail)
+            p = {}
+            for page_name in ["new", "home", "detail"]:
+                ts_type = "template" if page_name == "home" else "component"
+                this_page = {
+                    "title": entity,
+                    "page_name": page_name,
+                    "template_name": f"{page_name}_template.html",
+                    "typescript_name": f"{page_name}_{ts_type}.jinja",
+                    "columns": columns,
+                    "visible_columns": columns,
+                    "include_children": True
+                }
+                p[page_name] = this_page
+            this_menu_item["page"] = p
+            this_menu_group["menu_item"] = mi_list
+        return a
 def fixup(label) -> str:
     label = label.replace("dlr_", "Dealer ")
     label = label.replace("img_", "Image ")
