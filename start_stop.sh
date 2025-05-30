@@ -18,12 +18,22 @@ if [ -n "$process_id" ]; then
     echo "Port $3 is already in use. Killing process..."
     kill -9 $process_id
 fi
-
+function install_node_modules() {
+    # Install node modules
+    echo "Installing node modules in $project_dir/ui/$app_name using npm install --force"
+    cd  $project_dir/ui/$app_name
+    if [ -d "node_modules" ]; then
+        echo " node_modules already installed"
+    else
+        echo " starting node_modules installation"
+        npm install --legacy-peer-deps 
+    fi
+}
 echo "changing directory to $1/ui/$2"
 cd $1/ui/$2
 if [ "$4" = "true" ]; then
     echo "Starting npm in the background..."
-    #npm install moment --force
+    install_node_modules
     npm start &
     echo "Background process ID: $!"
 fi

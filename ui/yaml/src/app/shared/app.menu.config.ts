@@ -13,6 +13,7 @@ import { MenuGroupCardComponent } from './MenuGroup-card/MenuGroup-card.componen
 import { MenuItemCardComponent } from './MenuItem-card/MenuItem-card.component';
 
 import { PageCardComponent } from './Page-card/Page-card.component';
+import { PagePropertyCardComponent } from './PageProperty-card/PageProperty-card.component';
 import { RuleConstraintCardComponent } from './RuleConstraint-card/RuleConstraint-card.component';
 
 import { RuleDerivationCardComponent } from './RuleDerivation-card/RuleDerivation-card.component';
@@ -32,10 +33,11 @@ export const MENU_CONFIG: MenuRootItem[] = [
     { id: 'YamlFiles', name: '2. Select Working App', icon: 'upload_file', route: '/main/YamlFiles' },
     { id: 'data', name: '3. Edit Data', icon: 'edit_square', opened: true,
     items: [
-        { id: 'Entity', name: 'Entities', icon: 'view_list', route: '/main/Entity' , component: EntityCardComponent}
+        { id: 'Application', name: 'Applications', icon: 'view_list', route: '/main/Application' , component: ApplicationCardComponent}
+        , { id: 'Entity', name: 'Entities', icon: 'view_list', route: '/main/Entity' , component: EntityCardComponent}
         ,{ id: 'EntityAttr', name: 'Attributes', icon: 'view_list', route: '/main/EntityAttr' , component: EntityAttrCardComponent}
         ,{ id: 'TabGroup', name: 'Relationships', icon: 'view_list', route: '/main/TabGroup', component: TabGroupCardComponent}
-        , { id: 'Application', name: 'Applications', icon: 'view_list', route: '/main/Application' , component: ApplicationCardComponent}
+        
         ] 
     }
     ,{ id: 'Application', name: 'Application', icon: 'view_list', route: '/main/Application', opened: true,
@@ -46,6 +48,8 @@ export const MENU_CONFIG: MenuRootItem[] = [
             ,{ id: 'MenuItem', name: 'Menu Items', icon: 'view_list', route: '/main/MenuItem' }
         
             ,{ id: 'Page', name: 'Pages', icon: 'view_list', route: '/main/Page' }
+	    
+	     ,{ id: 'PageProperty', name: 'Page Property', icon: 'view_list', route: '/main/PageProperty' }
         ]
         }
     ,{id: 'rules', name: 'Rules', icon: 'edit_square', opened: false,
@@ -90,6 +94,7 @@ export const MENU_COMPONENTS = [
 
     ,PageCardComponent
 
+    ,PagePropertyCardComponent
     ,RuleConstraintCardComponent
 
     ,RuleDerivationCardComponent

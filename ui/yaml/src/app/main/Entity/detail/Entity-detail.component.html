@@ -13,6 +13,18 @@
           <o-text-input attr="favorite" label="favorite" editable="yes" required="no"
             tooltip="Use this column for lookup pick lists"></o-text-input>
           <!-- o-text-input attr="menu_group" label="Menu Group" editable="yes" required="no"></o-text-input -->
+
+      <mat-card style="padding: 12px; min-width: 220px; border: 1px solid #ccc;">
+        <mat-card-title style="font-size: 16px; margin-bottom: 8px;">MCP Options</mat-card-title>
+        <div fxLayout="row" fxLayoutGap="6px">
+          <o-checkbox #mcp_enabled attr="mcp_enabled" label="MCP Enabled" read-only="no" enabled="yes"></o-checkbox>
+          <o-checkbox #mcp_get attr="mcp_get" label=" Get" read-only="no" enabled="yes"></o-checkbox>
+          <o-checkbox #mcp_post attr="mcp_post" label=" Post" read-only="no" enabled="yes"></o-checkbox>
+          <o-checkbox #mcp_patch attr="mcp_patch" label=" Patch" read-only="no" enabled="yes"></o-checkbox>
+          <o-checkbox #mcp_delete attr="mcp_delete" label=" Delete" read-only="no" enabled="yes"></o-checkbox>
+        </div>
+      </mat-card>
+      
         </div>
         <!-- div fxLayout="row" fxLayoutAlign="start center" class="gap" fxLayoutGap="14px">
           <o-text-input attr="mode" label="mode" editable="yes" tooltip="tab or dialog style"
@@ -28,14 +40,14 @@
             enabled="yes"></o-checkbox>
         </div -->
         <o-row attr="row1" layout-align="start stretch">
-            <o-textarea-input attr="info_list" label="info_list" enabled="true" rows="3" fxFlex="60%"
+            <o-textarea-input attr="info_list" label="Info" enabled="true" rows="3" fxFlex="60%"
               read-only="false"></o-textarea-input>
         </o-row>
 
-        <div fxLayout="row" fxLayoutAlign="start start" class="gap">
+        <!-- div fxLayout="row" fxLayoutAlign="start start" class="gap">
           <o-textarea-input attr="info_show" label="info_show" enabled="true" rows="3" fxFlex="60%"
             read-only="false"></o-textarea-input>
-        </div>
+        </div -->
     
         <!-- div fxLayout="row" fxLayoutAlign="start center">
               <o-button #button attr="button" label="Show/Hide Attributes" icon="description" (onClick)="showHideColumns()" tooltip="Arrange columns and hide/show columns"></o-button>

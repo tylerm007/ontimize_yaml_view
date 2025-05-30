@@ -6,6 +6,7 @@ export const SERVICE_CONFIG ={ 'Application': { 'path': '/Application' }
 ,'MenuGroup': { 'path': '/MenuGroup' }
 ,'MenuItem': { 'path': '/MenuItem' }
 ,'Page': { 'path': '/Page' }
+,'PageProperty': { 'path': '/PageProperty' }
 ,'RbacRole': { 'path': '/RbacRole' }
 ,'Root': { 'path': '/Root' }
 ,'RuleConstraint': { 'path': '/RuleConstraint' }

@@ -13,7 +13,14 @@ const routes: Routes = [
         permissionId: 'Page-detail-permissions'
       }
     }
-  }
+  },{
+    path: ':page_id/PageProperty', loadChildren: () => import('../PageProperty/PageProperty.module').then(m => m.PagePropertyModule),
+    data: {
+        oPermission: {
+            permissionId: 'PageProperty-detail-permissions'
+        }
+    }
+}
 ];
 
 export const PAGE_MODULE_DECLARATIONS = [

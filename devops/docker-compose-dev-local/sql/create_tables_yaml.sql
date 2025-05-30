@@ -10,6 +10,7 @@ DROP TABLE IF EXISTS rule_event;
 DROP TABLE IF EXISTS rule_derivation;
 DROP TABLE IF EXISTS grant_role;
 DROP TABLE IF EXISTS rbac_role;
+DROP TABLE IF EXISTS page_properties;
 DROP TABLE IF EXISTS page;
 DROP TABLE IF EXISTS menu_item;
 DROP TABLE IF EXISTS menu_group;
@@ -25,9 +26,14 @@ CREATE TABLE entity (
     info_list text,
     info_show text,
     exclude boolean default false,
-    new_template VARCHAR(80), 
-    home_template VARCHAR(80), 
-    detail_template VARCHAR(80), 
+    -- new_template VARCHAR(80), 
+    -- home_template VARCHAR(80), 
+    -- detail_template VARCHAR(80), 
+    mcp_enabled boolean default true,
+    mcp_get boolean default true,
+    mcp_post boolean default true,
+    mcp_delete boolean default false,
+    mcp_patch boolean default false,
     mode  VARCHAR(10) DEFAULT 'tab', menu_group VARCHAR(25), 
     PRIMARY KEY (name)
 );
@@ -61,6 +67,7 @@ CREATE TABLE entity_attr (
     FOREIGN KEY (template_name) REFERENCES template(name)
 );
 
+-- Relationship between parent and child entities
 CREATE TABLE tab_group (
     entity_name varchar(80) not null,
     tab_entity varchar(80) not null,
@@ -74,7 +81,7 @@ CREATE TABLE tab_group (
     FOREIGN KEY (tab_entity) REFERENCES entity(name)
     
 );
-
+-- moving away from storing contents and pushing to local directory
 CREATE TABLE yaml_files( 
     name VARCHAR(100) NOT NULL,    
     content TEXT,
@@ -117,7 +124,7 @@ CREATE TABLE rule_constraint (
     as_condition VARCHAR(255),
     err_msg VARCHAR(255),
     error_attributes VARCHAR(80),
-    rule VARCHAR(1000),
+    rule TEXT,
     FOREIGN KEY (entity_name) REFERENCES entity(name)
 );
 
@@ -126,7 +133,7 @@ CREATE TABLE rule_event (
     entity_name VARCHAR(80),
     event_type VARCHAR(25),
     calling_fn VARCHAR(255),
-    rule VARCHAR(1000),
+    rule TEXT,
     FOREIGN KEY (entity_name) REFERENCES entity(name)
 );
 
@@ -140,7 +147,7 @@ CREATE TABLE rule_derivation (
     child_role_name VARCHAR(80),
     calling_fn VARCHAR(80),
     where_clause VARCHAR(255),
-    rule VARCHAR(1000),
+    rule TEXT,
     insert_parent BOOLEAN,
     FOREIGN KEY (entity_name) REFERENCES entity(name),
     FOREIGN KEY (as_child_entity) REFERENCES entity(name)
@@ -178,7 +185,7 @@ CREATE TABLE application (
     api_root VARCHAR(1000) NOT NULL DEFAULT 'http://localhost:5656/api',
     description TEXT,
     yaml_name VARCHAR(100) NOT NULL,
-    project_uuid VARCHAR0(100),
+    project_uuid VARCHAR(100),
     FOREIGN KEY (yaml_name) REFERENCES yaml_files(name),
     PRIMARY KEY(id)
 );
@@ -222,4 +229,12 @@ CREATE TABLE page (
     FOREIGN KEY (menu_item_id) REFERENCES menu_item(id) ON DELETE CASCADE
 );
 
--- select file_path from yaml_files
+CREATE TABLE page_properties (
+    id SERIAL8 NOT NULL,
+    page_id BIGINT NOT NULL,
+    property_name VARCHAR(100) NOT NULL,
+    property_value VARCHAR(1000),
+    property_type VARCHAR(100),  --string, number, boolean, date
+    PRIMARY KEY(id),
+    FOREIGN KEY (page_id) REFERENCES page(id) ON DELETE CASCADE
+);

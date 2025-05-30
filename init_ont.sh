@@ -41,4 +41,4 @@ export project_dir=$1
 export app_name=$2
 
 init_ont || echo "Warning: init_ont encountered an error but continuing..."
-install_node_modules
+#install_node_modules

@@ -89,6 +89,9 @@ def declare_logic():
                     app_logger.debug("The yaml file must be a valid app_model.yaml file")
                     row.content = None
                     return False
+            else:
+                app_logger.debug("There is no content in the yaml file")
+                return False
                 
             if row.rule_content:  
                 row.rule_content = str(b64decode(row.rule_content), encoding=encoding) if row.rule_content else None
@@ -128,4 +131,4 @@ def declare_logic():
     Rule.formula(models.Application.project_uuid, as_expression=lambda row: str(row.yaml_files.file_path) if row.yaml_files.file_path else str(uuid4()))
     Rule.after_flush_row_event(models.YamlFiles, calling=initialize_new_project)
     app_logger.debug("..logic/declare_logic.py (logic == rules + code)")
-
+  

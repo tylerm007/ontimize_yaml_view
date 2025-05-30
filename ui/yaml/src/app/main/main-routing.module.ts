@@ -28,6 +28,8 @@ export const routes: Routes = [
     
         { path: 'Page', loadChildren: () => import('./Page/Page.module').then(m => m.PageModule) },
     
+        { path: 'PageProperty', loadChildren: () => import('./PageProperty/PageProperty.module').then(m => m.PagePropertyModule) },
+    
         { path: 'RbacRole', loadChildren: () => import('./RbacRole/RbacRole.module').then(m => m.RbacRoleModule) },
     
         { path: 'RuleConstraint', loadChildren: () => import('./RuleConstraint/RuleConstraint.module').then(m => m.RuleConstraintModule) },

@@ -19,10 +19,10 @@
           <o-text-input #project_uuid attr="project_uuid" label="Project UUID" enabled="no" required="no"
             fxFlex="25%" class="form-field"></o-text-input>
 
-          <o-textarea-input #description attr="description" label="description" enabled="yes" required="no" fxFlex="50%"
+          <o-textarea-input #description attr="description" label="description" rows="1" editable="yes" required="no" fxFlex="50%"
             class="form-field"></o-textarea-input>
 
-          <o-integer-input #id attr="id" label="id" type="integer" editable="no" required="yes"></o-integer-input>
+          <o-integer-input #id attr="id" label="id" type="integer" editable="no" enabled="no" required="yes"></o-integer-input>
         </div>
         </o-row>
         <o-row attr="row1" layout-align="start stretch">
@@ -37,8 +37,10 @@
           
         </div>
       </o-row>
-      <div style="width:100%; height:600px; margin-top:20px; border: 1px solid #ccc; box-sizing: border-box;">
-        <iframe src="http://localhost:4299" width="100%" height="100%" frameborder="0" style="border:0;" sandbox="allow-scripts allow-same-origin"></iframe>
+      <div style="width:100%; height:600px; margin-top:20px; border: 1px solid #827d7d; box-sizing: border-box;">
+        <iframe src="http://localhost:4299" width="100%" height="100%" frameborder="0" style="border:0;" 
+        allow="popup; window-management"
+        sandbox="allow-scripts allow-popups allow-forms allow-same-origin"></iframe>
       </div>
       
       <!-- mat-tab-group fxFill>

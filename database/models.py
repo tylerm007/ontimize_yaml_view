@@ -73,9 +73,14 @@ class Entity(Base):  # type: ignore
     info_list = Column(Text)
     info_show = Column(Text)
     exclude = Column(Boolean, server_default=text("false"))
-    new_template = Column(String(80))
-    home_template = Column(String(80))
-    detail_template = Column(String(80))
+    #new_template = Column(String(80))
+    #home_template = Column(String(80))
+    #detail_template = Column(String(80))
+    mcp_enabled = Column(Boolean, server_default=text("true"))
+    mcp_get = Column(Boolean, server_default=text("true"))
+    mcp_post = Column(Boolean, server_default=text("true"))
+    mcp_delete = Column(Boolean, server_default=text("false"))
+    mcp_patch = Column(Boolean, server_default=text("false"))
     mode = Column(String(10), server_default=text("tab"))
     menu_group = Column(String(25))
     allow_client_generated_ids = True
@@ -384,5 +389,22 @@ class Page(Base):  # type: ignore
     # parent relationships (access parent)
     menu_item : Mapped["MenuItem"] = relationship(back_populates=("PageList"))
     template : Mapped["Template"] = relationship(back_populates=("PageList"))
+
+    # child relationships (access children)
+    PagePropertyList : Mapped[List["PageProperty"]] = relationship(back_populates="page")
+
+
+class PageProperty(Base):  # type: ignore
+    __tablename__ = 'page_properties'
+    _s_collection_name = 'PageProperty'  # type: ignore
+
+    id = Column(BigInteger, Sequence('page_properties_id_seq'), primary_key=True)
+    page_id = Column(ForeignKey('page.id', ondelete='CASCADE'), nullable=False)
+    property_name = Column(String(100), nullable=False)
+    property_value = Column(String(1000))
+    property_type = Column(String(100))
+
+    # parent relationships (access parent)
+    page : Mapped["Page"] = relationship(back_populates=("PagePropertyList"))
 
     # child relationships (access children)

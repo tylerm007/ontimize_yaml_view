@@ -9,10 +9,10 @@
                 <mat-form-field appearance="outline" class="item-input">
                     <input matInput [(ngModel)]="item.value" placeholder="Item value">
                 </mat-form-field>
-                <button mat-icon-button type="button" (click)="toggleVisibility(item)"
+                <!-- button mat-icon-button type="button" (click)="toggleVisibility(item)"
                     [attr.aria-label]="item.visible ? 'Hide item' : 'Show item'">
                     <mat-icon>{{ item.visible ? 'visibility' : 'visibility_off' }}</mat-icon>
-                </button>
+                </button -->
                 <button mat-icon-button type="button" (click)="removeItem(i)" aria-label="Remove item">
                     <mat-icon>delete</mat-icon>
                 </button>

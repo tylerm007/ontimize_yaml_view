@@ -50,11 +50,19 @@ resources:
     - name: info_show
     - name: exclude
       type: Boolean
-    - name: new_template
-    - name: home_template
-    - name: detail_template
+
     - name: mode
     - name: menu_group
+    - name: mcp_get
+      type: Boolean
+    - name: mcp_post
+      type: Boolean
+    - name: mcp_delete
+      type: Boolean
+    - name: mcp_patch
+      type: Boolean
+    - name: mcp_enabled
+      type: Boolean
     tab_groups:
     - direction: tomany
       fks:
@@ -284,8 +292,34 @@ resources:
       - menu_item_id
       name: menu_item
       resource: MenuItem
+    - direction: tomany
+      fks:
+      - page_id
+      name: PagePropertyList
+      resource: PageProperty
     type: Page
     user_key: page_name
+  PageProperty:
+    attributes:
+    - label: ' property_name*'
+      name: property_name
+      required: true
+      search: true
+      sort: true
+    - name: page_id
+      required: true
+    - name: property_value
+    - name: property_type
+    - name: id
+      required: true
+    tab_groups:
+    - direction: toone
+      fks:
+      - page_id
+      name: page
+      resource: Page
+    type: PageProperty
+    user_key: property_name
   RbacRole:
     attributes:
     - label: ' name*'

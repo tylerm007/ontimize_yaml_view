@@ -833,13 +833,12 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
     def rebuild_application(request: any, data: any):
         #app_name = data["file_path"]
         filter: dict = request.json["filter"]
+        app_id = filter["id"]
         application = session.query(models.Application).filter(
             models.Application.id == filter["id"]).one_or_none()
         file_path = application.yaml_files.file_path
         apiEndpoint = application.api_root
-        #yaml_content =  application.yaml_files
-        #yml = yaml.safe_dump(yaml_content, default_flow_style=False)
-        #export_yaml_to_file(f"{_project_dir}/ui/{file_path}", yaml_content)
+        update_export_yaml_file(request, app_id, apiEndpoint)
         # .style_guild.api_endpoint=apiEndpoint
         command = f'sh rebuild.sh {file_path}'
         import subprocess
@@ -870,10 +869,11 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
         filter: dict = request.json["filter"]
         menuitem = session.query(models.MenuItem).filter(
             models.MenuItem.id == filter["id"]).one_or_none()
-        path = menuitem.menu_group.application.yaml_files.file_path or data["file_path"]
+        file_path = menuitem.menu_group.application.yaml_files.file_path or data["file_path"]
+        app_id = menuitem.menu_group.application.id
         api_endpoint = data["api_endpoint"]
-
-        command = f'sh rebuild.sh {path} {api_endpoint}'
+        update_export_yaml_file(request, app_id, api_endpoint)
+        command = f'sh rebuild.sh {file_path} {api_endpoint}'
         import subprocess
         env = os.environ.copy()
         env["PYTHONPATH"] = f"{_project_dir}"
@@ -888,7 +888,22 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 print(f"Process Output: {result.stdout}")
         except subprocess.CalledProcessError as e:
             print(f"Command failed with error: {e}")
-        return {"exec": command, "returncode": result.returncode, "stdout": result.stdout, "stderr": result.stderr}        
+        return {"exec": command, "returncode": result.returncode, "stdout": result.stdout, "stderr": result.stderr}  
+    
+    def update_export_yaml_file(request: any, app_id: str, apiEndpoint: str):
+        application = session.query(models.Application).filter(
+            models.Application.id == app_id).one_or_none()
+        if application is None:
+            app_logger.error(f"unable to load Application for id: {app_id}")
+            return
+        file_path = application.yaml_files.file_path
+        apiEndpoint = application.api_root
+        content =  yaml.safe_load(application.yaml_files.content)
+        content["file_path"] = file_path
+        content["settings"]["style_guide"]["api_endpoint"] = apiEndpoint
+        #yaml_content = yaml.safe_dump(content, default_flow_style=False)
+        export_yaml_to_file(_project_dir, DotDict(content))
+        
     @app.route("/importyaml/<key>", methods=["GET", "POST", "OPTIONS"])
     def load_yaml(key: str = "app_model.yaml"):
         """
@@ -946,6 +961,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
                 rbac_content=rbac_content,
                 local_storage=local_storage,
             )
+            
             return jsonify({"code": 0, "message": "Yaml file loaded", "data": None})
 
     def _gen_report(request) -> any:
@@ -1243,7 +1259,7 @@ def add_service(app, api, project_dir, swagger_host: str, PORT: str, method_deco
             insert_grants_from_yaml(valuesYaml)
         
         insert_application(valuesYaml)
-        
+
         return jsonify(valuesYaml)
 
     def delete_sql(clz):
@@ -2083,7 +2099,7 @@ def build_json(
     output_yaml["entities"] = output
     style_guide = {}
 
-    api_endpoint = (
+    apiEndpoint = (
         application[0]["api_root"] 
         if len(application) > 0 
         else "http://localhost:5656/api" 
@@ -2105,7 +2121,7 @@ def build_json(
     output["grants"] = security_output["grants"]
     
     output["settings"] = {}
-    style_guide['apiEndpoint'] = api_endpoint
+    style_guide['api_endpoint'] = apiEndpoint
     output["settings"]["style_guide"] = style_guide
     
     ## This is a new section used to define how to build an Ontimize app

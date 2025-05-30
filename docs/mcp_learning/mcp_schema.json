@@ -1,0 +1,70 @@
+{
+    "tool_type": "json-api",
+    "schema_version": "1.0",
+    "base_url": "http://localhost:5656/api",
+    "description": "API Logic Project: ame27",
+    "resources": [
+        {
+            "name": "Role",
+            "path": "/Role",
+            "methods": [
+                "GET",
+                "PATCH",
+                "POST",
+                "DELETE"
+            ],
+            "fields": [
+                "name"
+            ],
+            "filterable": [
+                "name"
+            ]
+        },
+        {
+            "name": "User",
+            "path": "/User",
+            "methods": [
+                "GET",
+                "PATCH",
+                "POST",
+                "DELETE"
+            ],
+            "fields": [
+                "name",
+                "notes",
+                "id",
+                "username",
+                "email",
+                "password_hash"
+            ],
+            "filterable": [
+                "name",
+                "notes",
+                "id",
+                "username",
+                "email",
+                "password_hash"
+            ]
+        },
+        {
+            "name": "UserRole",
+            "path": "/UserRole",
+            "methods": [
+                "GET",
+                "PATCH",
+                "POST",
+                "DELETE"
+            ],
+            "fields": [
+                "user_id",
+                "notes",
+                "role_name"
+            ],
+            "filterable": [
+                "user_id",
+                "notes",
+                "role_name"
+            ]
+        }
+    ]
+}

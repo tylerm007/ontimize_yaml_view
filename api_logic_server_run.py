@@ -20,8 +20,8 @@
 #
 ###############################################################################
 
-api_logic_server__version = '14.03.12'
-api_logic_server_created__on = 'February 21, 2025 08:33:34'
+api_logic_server__version = '14.05.16'
+api_logic_server_created__on = 'May 28, 2025 11:37:05'
 api_logic_server__host = 'localhost'
 api_logic_server__port = '5655'
 
@@ -132,7 +132,7 @@ if __name__ == "__main__":
 
     flask_app.run(host=args.flask_host, threaded=True, port=args.port)
 else:
-    msg = f'API Logic Project Loaded (WSGI), version 14.03.12\n'
+    msg = f'API Logic Project Loaded (WSGI), version 14.05.16\n'
     msg += f'.. startup message: {start_up_message}\n'
 
     if server_setup.is_docker():

@@ -1,0 +1,33 @@
+<o-form #PagePropertyForm attr="PageProperty_form_insert" service="PageProperty" entity="PageProperty" keys="id"
+        fxLayout="column" show-header="yes" header-actions="I" horizontal-scroll="yes" after-insert-mode="new"
+        class="standalone-form-container">
+
+        <o-row attr="row1" layout-align="start stretch">
+                <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+
+                        <o-text-input #property_name attr="property_name" label=" property_name" enabled="yes"
+                                required="yes" fxFlex="20%" class="form-field"></o-text-input>
+
+
+                        <o-text-input #property_value attr="property_value" label="property_value" enabled="yes"
+                                required="no" fxFlex="20%" class="form-field"></o-text-input>
+
+                        <o-text-input #property_type attr="property_type" label="property_type" enabled="yes"
+                                required="no" fxFlex="20%" class="form-field"></o-text-input>
+
+
+                        <o-list-picker attr="page_id" service="Page" entity="PageType" fxFlex="30" query-on-init="no"
+                                query-on-bind="yes" required="yes" enabled="yes" filter="yes" value-column="id"
+                                value-column-type="BIGINT" keys="id" columns="id;page_id;page_name;title" title="page_id"
+                                visible-columns="page_name;title" separator=" - " width="680px" class="form-field">
+                        </o-list-picker>
+
+                        <o-integer-input #id attr="id" label="id" type="integer" editable="no"
+                                required="no"></o-integer-input>
+
+                </div>
+        </o-row>
+
+        <div layout-padding></div>
+
+</o-form>

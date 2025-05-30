@@ -1,0 +1,33 @@
+<o-form-layout-manager attr="PageProperty" mode="tab" title="Page Property Management">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table attr="PagePropertyTable" service="PageProperty" entity="PageProperty" title="Page Property" keys="id"
+            columns="property_name;page_id;property_value;property_type;id" header-actions="R;D"
+            visible-columns="page_id;property_name;property_value;property_type" sort-columns="property_name"
+            query-rows="20" quick-filter="yes" row-height="medium" select-all-checkbox="true" pageable="yes"
+            auto-adjust="true" virtual-scroll="yes" edition-mode="dblclick" horizontal-scroll="yes" show-title="yes"
+            export-button="yes">
+
+            <o-table-column attr="page_id" title="page_id">
+                <o-table-cell-renderer-service attr="page_id" service="Page" entity="PageType" columns="id;page_name"
+                    parent-keys="id:page_id" value-column="page_name" keys="page_id" visible-columns="page_name"
+                    separator=" - " width="680px">
+                </o-table-cell-renderer-service>
+            </o-table-column>
+
+            <o-table-column #property_name attr="property_name" title=" property_name" editable="no" required="yes"
+                content-align="left"></o-table-column>
+
+            <o-table-column #property_value attr="property_value" title="property_value" editable="no" required="no"
+                content-align="left"></o-table-column>
+
+            <o-table-column #property_type attr="property_type" title="property_type" editable="no" required="no"
+                content-align="left"></o-table-column>
+
+            <!-- o-table-column #id attr="id" title="id" type="integer" editable="no" required="yes"
+                content-align="center"></o-table-column -->
+
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>
