@@ -1,5 +1,5 @@
-# Ontimize Yaml editor
-The YAML editor was built using ApiLogicServer and Ontimize [see docs](https://apilogicserver.github.io/Docs/App-Custom-Ontimize-Overview/) - a local SQLite database is used to store the Ontimize created app_model.yaml files.  The model was created using ApiLogicServer (app-create and app-build) feature to generate the complete application from the app_model.yaml file(s) created by ApiLogicServer/Ontimize. This editor can edit the yaml attributes, apply column templates and labels used in the Ontimize application generation. 
+ # Application Model (AME) editor
+The AME editor was built using ApiLogicServer and Ontimize [see docs](https://apilogicserver.github.io/Docs/App-Custom-Ontimize-Overview/) - a local SQL database is used to store the Ontimize created app_model.yaml files.  The model was created using ApiLogicServer (app-create and app-build) feature to generate the complete application from the app_model.yaml file(s) created by ApiLogicServer/Ontimize. This editor can edit the model attributes, apply column templates and labels used in the yaml Ontimize application generation. 
 ![](ui/templates/Home.png)
 ## Ontimize Seed
 The Ontimize application is loaded in ui/yaml directory. The react-admin is in the ui/admin directory.
@@ -54,7 +54,7 @@ After you install and start the ApiLogicServer (f5) and (cd ui/yaml) npm install
 http://localhost:4298 (user: admin password: p)
 ```
 ## 1. Import Yaml File 
-The Import will allow you to select an Ontimize/ApiLogicServer app_model.yaml file to upload.  You can import different projects into the editor, but only 1 project can be processed for editing Entities, Attributes, and Relationships. If you select the project root folder - the files for app, security, and logic will be parsed.
+The Import will allow you to select an ApiLogicServer project to upload.  You can import different projects into the editor, but only 1 project can be processed for editing Applications, Entities, Attributes, and Relationships. If you select the project root folder - the files for app, security, and logic will be parsed.
 
 ![](ui/templates/UploadYaml.png)
 
@@ -68,7 +68,7 @@ Use the Home page and select the row and click [2. Process Yaml] - this will loa
 
 
 ## 3. Edit Yaml Data
-Once your yaml file has been imported and processed you can now edit Entities, Attributes, Relationships, Rules, and Security. This is the same as manually editing the yaml file directly. See the valid field values below for each object. When you have finished editing - step 4 - will create files that can be manually merged back into your existing project.
+Once your yaml file has been imported and processed you can now edit Applications, Entities, Attributes, Relationships, Rules, and Security. This is the same as manually editing the yaml file directly. See the valid field values below for each object. When you have finished editing - step 4 - will create files that can be manually merged back into your existing project.
 
 ## 4. Download Yaml File
 Once you have completed your edits - select Process Yaml Files - select the imported row from the list and click the button 'Download Yaml' it will write to disk and display in the 'downloaded content' window reflecting all the new edits to your yaml.  Copy this to your app_model.yaml in your project. (you may need to press refresh a couple of times).  The security and logic are also exported which can be manually edited back into your existing project. 
@@ -114,7 +114,7 @@ Use the Ontimize editor to change the label, tooltip, exclude selected attribute
 |DataType|the internal datatype|
 |Tooltip|hover value for attribute|
 |Default Value|value to show on new page|
-
+![](ui/templates/EditAttrs.png)
 ## Relationships (TabGroup)
 Use the Ontimize editor to exclude tab on detail page (tomany) or change the tile used to display.
 ![](ui/templates/Relationship.png)
@@ -128,7 +128,7 @@ Use the Ontimize editor to exclude tab on detail page (tomany) or change the til
 |label|Tab Display name|
 |Exclude|skip this relationship for all tabs and lookups|
 |Foreign Keys|array of values|
-
+![](ui/templates/EditReln.png)
 ## Global Settings
 These values are injected into the various entity and attribute to provide and set global values.  New values can be added for new templates.
 
@@ -161,8 +161,8 @@ Grants are applied to roles for a specific entity.  The can be used to add CRUD 
 ![](ui/templates/Grants.png)
 
 # Applications
-Building applications follows the same pattern.  Give it a name and add your menu items and pages (new, detail, home). Pages contain the Entity and Attributes and optionally the relationships used to navigate between pages.
-
+Building applications follows the same pattern.  Give it a name and add your menu items and pages (new, detail, home). Pages contain the Entity and Attributes and optionally the relationships used to navigate between pages. The preview editor will display the application (use start/stop and rebuild).  NOTE: Rebuild will overwrite ALL hand changes.
+![](ui/templates/Apps.png)
 ## Menu Group
 The menu group is used to collect menu items under a menu heading. This only groups items under a title.
 |field|Description|
@@ -182,9 +182,9 @@ The menu item is linked to an Entity (which creates the module) used by the page
 |icon|The material icon to display (edit_square)|
 |template_name|Name of template (module.jinja)|
 
-
+![](ui/templates/MenuGroup.png)
 ## Page
-The Ontimize page is either New (insert), detail (update), or Home (grid) which are built from templates (and typescript) components. The user can select both columns and visible columns to change the order of layout.
+The Ontimize page is either New (insert), detail (update), or Home (grid) which are built from templates (and typescript) components. The visible column order can be changed using drag and drop and delete. NOTE: DO not delete primary key fields - place them on the end of the row.
 
 |field|Description|
 :------|:---------------|
@@ -195,6 +195,8 @@ The Ontimize page is either New (insert), detail (update), or Home (grid) which 
 |columns|The Entity Attributes|
 |visible_columns|The Entity Attributes to show on home only|
 |include_children|For detail page and navigation (default True)|
+![](ui/templates/Page.png)
+![](ui/templates/ColumnOrder.png)
 
 # Quick Start
 
